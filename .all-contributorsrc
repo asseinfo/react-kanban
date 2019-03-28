@@ -1,0 +1,28 @@
+{
+  "projectName": "react-kanban",
+  "projectOwner": "lourenci",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "lourenci",
+      "name": "Leandro Lourenci",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/2339362?v=4",
+      "profile": "https://blog.lourenci.com/",
+      "contributions": [
+        "question",
+        "bug",
+        "code",
+        "doc",
+        "example",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
