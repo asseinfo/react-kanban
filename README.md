@@ -12,6 +12,20 @@ Yet another Kanban/Trello board like lib for React.
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
 
+## Contributing
+
+PRs are welcome. Just fork this project, setup it:
+  ```bash
+  $ yarn
+  $ yarn start
+  ```
+and open the PR.
+
+### Guidelines for contributing
+  * You need to test your change.
+  * Try to be clean on your change. CodeClimate will keep an eye on you.
+  * It has to pass on CI.
+
 ## Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
