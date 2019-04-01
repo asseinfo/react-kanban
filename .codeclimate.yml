@@ -1,0 +1,11 @@
+plugins:
+  eslint:
+    enabled: true
+    channel: "eslint-5"
+  fixme:
+    enabled: true
+exclude_patterns:
+- "**"
+- "!src/**/*.js"
+- "**/*.spec.js"
+- "src/index.js"
