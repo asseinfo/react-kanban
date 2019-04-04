@@ -15,7 +15,7 @@ before_script:
 script:
   - npm run lint
   - npm run test
-  - npm run forever start -c "yarn server"
+  - npm run forever start -c "npm run server"
   - npm run cypress run --record --key 09e5da75-8d57-48bd-98f5-c806298396d7
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
