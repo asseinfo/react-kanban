@@ -46,7 +46,8 @@
     "test": "jest",
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "server": "webpack-dev-server --config webpack.dev.js"
+    "server": "webpack-dev-server --config webpack.dev.js",
+    "forever": "forever"
   },
   "dependencies": {
     "react-beautiful-dnd": "^10.1.1"
