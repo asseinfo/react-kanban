@@ -13,6 +13,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
+  - npm ci
   - npm run lint
   - npm run test
   - npm run forever start -c "npm run server"
