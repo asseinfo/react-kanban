@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Droppable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 
 const StyledLane = styled.div`
@@ -18,10 +19,18 @@ const LaneTitle = styled.div`
 
 function Lane ({ children }) {
   return (
-    <StyledLane>
-      <LaneTitle>{children.title}</LaneTitle>
-      {children.cards.map(card => (<Card key={card.id}>{card}</Card>))}
-    </StyledLane>
+    <Droppable droppableId={String(children.id)}>
+      {provided => (
+        <StyledLane
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+        >
+          <LaneTitle>{children.title}</LaneTitle>
+          {children.cards.map((card, idx) => (<Card key={card.id} index={idx}>{card}</Card>))}
+          {provided.placeholder}
+        </StyledLane>
+      )}
+    </Droppable>
   )
 }
 
