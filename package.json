@@ -27,7 +27,6 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-standard": "^4.0.0",
-    "forever": "^1.0.0",
     "html-webpack-plugin": "^3.2.0",
     "jest": "^24.5.0",
     "jest-dom": "^3.1.3",
@@ -43,10 +42,10 @@
   "scripts": {
     "lint": "eslint 'src/**/*.js'",
     "build": "webpack --config webpack.prod.js",
+    "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "server": "forever start -c 'webpack-dev-server --config webpack.dev.js'",
     "cypress": "cypress"
   },
   "dependencies": {
