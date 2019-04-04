@@ -1,5 +1,5 @@
 {
-  "extends": ["standard", "standard-react", "plugin:cypress/recommended"],
+  "extends": ["standard", "standard-react"],
   "plugins": ["react-hooks", "cypress"],
   "env": {
     "jest": true,
@@ -8,6 +8,8 @@
   "rules": {
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "cypress/no-unnecessary-waiting": "error",
+    "cypress/no-assigning-return-values": "error"
   }
 }
