@@ -1,0 +1,1 @@
+beforeEach(() => { cy.visit('/') })

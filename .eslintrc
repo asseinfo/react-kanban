@@ -1,8 +1,9 @@
 {
-  "extends": ["standard", "standard-react"],
-  "plugins": ["react-hooks"],
+  "extends": ["standard", "standard-react", "plugin:cypress/recommended"],
+  "plugins": ["react-hooks", "cypress"],
   "env": {
-    "jest": true
+    "jest": true,
+    "cypress/globals": true
   },
   "rules": {
     "react/prop-types": "off",

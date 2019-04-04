@@ -5,6 +5,9 @@ env:
   global:
     - CC_TEST_REPORTER_ID=0c013a7ad123ef27b331e29e37b4730c03971c54ddaf75a34023c8103a126c12
     - NODE_ENV=test
+cache:
+  directories:
+    - ~/.cache
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
@@ -12,5 +15,7 @@ before_script:
 script:
   - npm run lint
   - npm run test
+  - npm run forever start -c "yarn server"
+  - npm run cypress run --record --key 09e5da75-8d57-48bd-98f5-c806298396d7
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
