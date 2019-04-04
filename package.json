@@ -46,7 +46,8 @@
     "test": "jest",
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
-    "server": "forever start -c 'webpack-dev-server --config webpack.dev.js'"
+    "server": "forever start -c 'webpack-dev-server --config webpack.dev.js'",
+    "cypress": "cypress"
   },
   "dependencies": {
     "react-beautiful-dnd": "^10.1.1"
