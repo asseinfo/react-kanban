@@ -14,11 +14,13 @@
     "@babel/core": "7.4.3",
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
+    "cypress": "^3.2.0",
     "all-contributors-cli": "6.2.0",
     "babel-loader": "8.0.5",
     "eslint": "5.16.0",
     "eslint-config-standard": "12.0.0",
     "eslint-config-standard-react": "7.0.2",
+    "eslint-plugin-cypress": "^2.2.1",
     "eslint-plugin-import": "2.16.0",
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.1.1",
@@ -39,8 +41,10 @@
   "scripts": {
     "lint": "eslint 'src/**/*.js'",
     "build": "webpack --config webpack.prod.js",
+    "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "contributors:add": "all-contributors add",
-    "start": "webpack-dev-server --open --config webpack.dev.js"
+    "start": "webpack-dev-server --open --config webpack.dev.js",
+    "cypress": "cypress"
   }
 }
