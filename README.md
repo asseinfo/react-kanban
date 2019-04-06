@@ -5,6 +5,8 @@
 
 Yet another Kanban/Trello board like lib for React.
 
+🚨 **NOT USABLE YET** 🚨
+
 ## ❓ Why?
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
