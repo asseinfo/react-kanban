@@ -13,19 +13,19 @@ const StyledBoard = styled.div`
   overflow-y: hidden;
 `
 
-function Board ({ children }) {
+function Board ({ children, onCardDragEnd }) {
   const [board, setBoard] = useState(children)
 
-  /* istanbul ignore next https://github.com/atlassian/react-beautiful-dnd/issues/1215; It's on Cypress. */
-  function onDragEnd ({ source, destination }) {
-    console.log(source, destination)
-    if (destination === null) return
+  function onDragEnd (event) {
+    if (event.destination === null) return
 
-    setBoard(reorderBoard(
-      board,
-      { laneId: parseInt(source.droppableId), index: source.index },
-      { laneId: parseInt(destination.droppableId), index: destination.index }
-    ))
+    const source = { laneId: parseInt(event.source.droppableId), index: event.source.index }
+    const destination = { laneId: parseInt(event.destination.droppableId), index: event.destination.index }
+
+    const reorderedBoard = reorderBoard(board, source, destination)
+
+    onCardDragEnd(reorderedBoard, source, destination)
+    setBoard(reorderedBoard)
   }
 
   return (

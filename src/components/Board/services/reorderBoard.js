@@ -13,22 +13,25 @@ function reorderBoard (board, source, destination) {
 
   const sourceLane = board.lanes.find(lane => lane.id === source.laneId)
   const destinationLane = board.lanes.find(lane => lane.id === destination.laneId)
+  const reorderLanes = reorderLanesOnBoard.bind(null, board)
+  const reorderCardsOnSourceLane = reorderCardsOnLane.bind(null, sourceLane)
+  const reorderCardsOnDestinationLane = reorderCardsOnLane.bind(null, destinationLane)
 
   if (sourceLane.id === destinationLane.id) {
-    const reorderedLane = reorderCardsOnLane(sourceLane, cards => {
+    const reorderedCardsOnLane = reorderCardsOnSourceLane(cards => {
       return changeElementOfPositionInArray(cards, source.index, destination.index)
     })
-    reorderedBoard = reorderLanesOnBoard(board, lane => lane.id === sourceLane.id ? reorderedLane : lane)
+    reorderedBoard = reorderLanes(lane => lane.id === sourceLane.id ? reorderedCardsOnLane : lane)
   } else {
-    const reorderedSourceLane = reorderCardsOnLane(sourceLane, cards => {
+    const reorderedCardsOnSourceLane = reorderCardsOnSourceLane(cards => {
       return removeFromArrayAtPosition(cards, source.index)
     })
-    const reorderedDestinationLane = reorderCardsOnLane(destinationLane, cards => {
+    const reorderedCardsOnDestinationLane = reorderCardsOnDestinationLane(cards => {
       return addInArrayAtPosition(cards, sourceLane.cards[source.index], destination.index)
     })
-    reorderedBoard = reorderLanesOnBoard(board, lane => {
-      if (lane.id === sourceLane.id) return reorderedSourceLane
-      if (lane.id === destinationLane.id) return reorderedDestinationLane
+    reorderedBoard = reorderLanes(lane => {
+      if (lane.id === sourceLane.id) return reorderedCardsOnSourceLane
+      if (lane.id === destinationLane.id) return reorderedCardsOnDestinationLane
       return lane
     })
   }

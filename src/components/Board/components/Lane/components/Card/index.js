@@ -2,7 +2,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
-export const StyledCard = styled.div`
+const StyledCard = styled.div`
   border-radius: 3px;
   background-color: #fff;
   padding: 10px;
