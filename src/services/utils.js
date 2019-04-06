@@ -1,0 +1,26 @@
+function compose (...fns) {
+  return arg => fns.reduce((acc, fn) => fn(acc), arg)
+}
+
+function partialRight (fn, ...args) {
+  return (...leftArgs) => fn(...leftArgs, ...args)
+}
+
+function addInArrayAtPosition (array, element, position) {
+  const arrayCopy = [...array]
+  arrayCopy.splice(position, 0, element)
+  return arrayCopy
+}
+
+function removeFromArrayAtPosition (array, position) {
+  return array.reduce((acc, value, idx) => idx === position ? acc : [...acc, value], [])
+}
+
+function changeElementOfPositionInArray (array, from, to) {
+  const removeFromArrayAtPositionFrom = partialRight(removeFromArrayAtPosition, from)
+  const addInArrayAtPositionTo = partialRight(addInArrayAtPosition, array[from], to)
+
+  return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
+}
+
+export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray }

@@ -1,11 +1,12 @@
 import React from 'react'
-import { render, within } from 'react-testing-library'
+import { render, within, act } from 'react-testing-library'
 import Board from './'
+import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
-  let subject
+  let subject, onCardDragEnd
 
-  beforeEach(() => {
+  function mount (props) {
     const board = {
       lanes: [
         {
@@ -35,26 +36,86 @@ describe('<Board />', () => {
             }
           ]
         }
-
       ]
     }
-
-    subject = render(<Board>{board}</Board>)
-  })
-  afterEach(() => { subject = undefined })
+    subject = render(<Board {...props}>{board}</Board>)
+    return subject
+  }
+  afterEach(() => { subject = onCardDragEnd = undefined })
 
   it('renders a board', () => {
-    expect(subject.container).toBeInTheDocument()
+    expect(mount().container).toBeInTheDocument()
   })
 
   it('renders the specified lanes in the board ordered by its specified position', () => {
-    const lanes = subject.queryAllByText(/^Lane/)
+    const lanes = mount().queryAllByText(/^Lane/)
     expect(lanes).toHaveLength(2)
     expect(lanes[0]).toHaveTextContent(/^Lane Backlog$/)
     expect(lanes[1]).toHaveTextContent(/^Lane Doing$/)
   })
 
   it('renders the specified cards in their lanes', () => {
-    expect(within(subject.queryByText(/^Lane Backlog$/).parentNode).queryAllByText(/^Card title$/)).toHaveLength(2)
+    expect(within(mount().queryByText(/^Lane Backlog$/).parentNode).queryAllByText(/^Card title$/)).toHaveLength(2)
+  })
+
+  describe('about the card moving', () => {
+    describe('when the component receives "onCardDragEnd" callback', () => {
+      beforeEach(() => {
+        onCardDragEnd = jest.fn()
+        mount({ onCardDragEnd })
+      })
+
+      describe('when the user cancels the card moving', () => {
+        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null }) })
+
+        it('does not call onCardDragEnd callback', () => {
+          expect(onCardDragEnd).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when the user moves a card to another position', () => {
+        beforeEach(() => {
+          act(() => {
+            callbacks.onDragEnd({ source: { droppableId: '1', index: 0 }, destination: { droppableId: '1', index: 1 } })
+          })
+        })
+
+        it('calls the onCardDragEnd callback passing the modified board and the card move coordinates', () => {
+          const expectedBoard = {
+            lanes: [
+              {
+                id: 1,
+                title: 'Lane Backlog',
+                cards: [
+                  {
+                    id: 2,
+                    title: 'Card title',
+                    description: 'Card content'
+                  },
+                  {
+                    id: 1,
+                    title: 'Card title',
+                    description: 'Card content'
+                  }
+                ]
+              },
+              {
+                id: 2,
+                title: 'Lane Doing',
+                cards: [
+                  {
+                    id: 3,
+                    title: 'Card title',
+                    description: 'Card content'
+                  }
+                ]
+              }
+            ]
+          }
+          expect(onCardDragEnd).toHaveBeenCalledTimes(1)
+          expect(onCardDragEnd).toHaveBeenCalledWith(expectedBoard, { laneId: 1, index: 0 }, { laneId: 1, index: 1 })
+        })
+      })
+    })
   })
 })

@@ -14,9 +14,9 @@
     "@babel/core": "7.4.3",
     "@babel/preset-env": "7.4.3",
     "@babel/preset-react": "7.0.0",
-    "cypress": "3.2.0",
     "all-contributors-cli": "6.2.0",
     "babel-loader": "8.0.5",
+    "cypress": "3.2.0",
     "eslint": "5.16.0",
     "eslint-config-standard": "12.0.0",
     "eslint-config-standard-react": "7.0.2",
@@ -25,6 +25,7 @@
     "eslint-plugin-node": "8.0.1",
     "eslint-plugin-promise": "4.1.1",
     "eslint-plugin-react": "7.12.4",
+    "eslint-plugin-react-hooks": "^1.6.0",
     "eslint-plugin-standard": "4.0.0",
     "html-webpack-plugin": "3.2.0",
     "jest": "24.7.1",
@@ -32,7 +33,7 @@
     "jest-environment-jsdom-fourteen": "0.1.0",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-testing-library": "6.0.4",
+    "react-testing-library": "6.1.2",
     "styled-components": "4.2.0",
     "webpack": "4.29.6",
     "webpack-cli": "3.3.0",
@@ -46,5 +47,8 @@
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "cypress": "cypress"
+  },
+  "dependencies": {
+    "react-beautiful-dnd": "^10.1.1"
   }
 }

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
+import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
+import reorderBoard from './services/reorderBoard'
 
 const StyledBoard = styled.div`
   position: relative;
@@ -11,11 +13,29 @@ const StyledBoard = styled.div`
   overflow-y: hidden;
 `
 
-function Board ({ children }) {
+function Board ({ children, onCardDragEnd }) {
+  const [board, setBoard] = useState(children)
+
+  function onDragEnd (event) {
+    if (event.destination === null) return
+
+    const source = { laneId: parseInt(event.source.droppableId), index: event.source.index }
+    const destination = { laneId: parseInt(event.destination.droppableId), index: event.destination.index }
+
+    const reorderedBoard = reorderBoard(board, source, destination)
+
+    onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
+    setBoard(reorderedBoard)
+  }
+
   return (
-    <StyledBoard>
-      {children.lanes.map(lane => (<Lane key={lane.id}>{lane}</Lane>))}
-    </StyledBoard>
+    <DragDropContext
+      onDragEnd={onDragEnd}
+    >
+      <StyledBoard>
+        {board.lanes.map(lane => (<Lane key={lane.id}>{lane}</Lane>))}
+      </StyledBoard>
+    </DragDropContext>
   )
 }
 
