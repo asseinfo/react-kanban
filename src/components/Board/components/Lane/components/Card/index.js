@@ -11,6 +11,10 @@ const StyledCard = styled.div`
   min-width: 230px;
 `
 
+const DraggingCard = styled(StyledCard)`
+  box-shadow: 2px 2px grey;
+`
+
 const CardTitle = styled.div`
   border-bottom: 1px solid #eee;
   padding-bottom: 5px;
@@ -24,16 +28,19 @@ const CardDescription = styled.div`
 function Card ({ children, index }) {
   return (
     <Draggable draggableId={String(children.id)} index={index}>
-      {provided => (
-        <StyledCard
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-        >
-          <CardTitle>{children.title}</CardTitle>
-          <CardDescription>{children.description}</CardDescription>
-        </StyledCard>
-      )}
+      {(provided, snapshot) => {
+        const Card = snapshot.isDragging ? DraggingCard : StyledCard
+        return (
+          <Card
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+          >
+            <CardTitle>{children.title}</CardTitle>
+            <CardDescription>{children.description}</CardDescription>
+          </Card>
+        )
+      }}
     </Draggable>
   )
 }
