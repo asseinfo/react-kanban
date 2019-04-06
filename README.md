@@ -56,10 +56,11 @@ const board = {
 
 ## 🔥 API
 ### ⚙️ Props
-|Prop|Description|
-|-|-|
-|`children`|The board to render|
-|`onCardDragEnd`|Callback that will be called when the card move ends
+
+| Prop           | Description                                          |
+|----------------|------------------------------------------------------|
+| `children`     | The board to render                                  |
+| `onCardDragEnd`| Callback that will be called when the card move ends |
 
 #### `children`
 ```js
@@ -77,18 +78,19 @@ const board = {
 
 #### `OnCardDragEnd`
 When the user moves a card, this callback will be called passing these parameters:
-|Arg|Description|
-|-|-|
-|`board`|The modified board|
-|`source`|An object with the card source `{ laneId, index }`.
-|`destination`|An object with the card destination `{ laneId, index }`.
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The modified board                                     |
+| `source`     | An object with the card source `{ laneId, index }`     |
+| `destination`| An object with the card destination `{ laneId, index }`|
 
 ##### Source and destination
 
-|prop|Description|
-|-|-|
-|`laneId`|**In source**: lane source id; **In destination**: lane destination id;|
-|`index`|**In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
+| Prop    | Description                                                            |
+|---------|------------------------------------------------------------------------|
+| `laneId`| **In source**: lane source id; **In destination**: lane destination id;|
+| `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
 
 ## 🤝 Contributing
 
