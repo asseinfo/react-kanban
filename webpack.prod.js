@@ -15,5 +15,10 @@ module.exports = {
   externals: {
     'styled-components': 'styled-components',
     react: 'react'
+  },
+  resolve: {
+    alias: {
+      '@services': path.resolve(__dirname, 'src/services/')
+    }
   }
 }

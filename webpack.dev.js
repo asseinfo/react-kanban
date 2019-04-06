@@ -11,5 +11,10 @@ module.exports = {
   module: {
     rules: [{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }]
   },
-  plugins: [new HtmlWebpackPlugin({ template: './assets/index.html' })]
+  plugins: [new HtmlWebpackPlugin({ template: './assets/index.html' })],
+  resolve: {
+    alias: {
+      '@services': path.resolve(__dirname, 'src/services/')
+    }
+  }
 }
