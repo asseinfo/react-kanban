@@ -5,14 +5,92 @@
 
 Yet another Kanban/Trello board like lib for React.
 
-🚨 **WIP - It's not usable yet** 🚨
-
-## Why?
+## ❓ Why?
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
 
-## Contributing
+## 🛠 Install and usage
+
+Install the lib and the dependency on your project:
+  ```bash
+  yarn add @lourenci/react-kanban styled-components
+  ```
+Import the lib and use it on your project:
+```js
+import Board from '@lourenci/react-kanban'
+
+const board = {
+  lanes: [
+    {
+      id: 1,
+      title: 'Backlog',
+      cards: [
+        {
+          id: 1,
+          title: 'Add card',
+          description: 'Add capability to add a card in a lane'
+        },
+      ]
+    }
+    {
+      id: 2,
+      title: 'Doing',
+      cards: [
+        {
+          id: 2,
+          title: 'Drag-n-drop support',
+          description: 'Move a card between the lanes'
+        },
+      ]
+    }
+  ]
+}
+
+<Board
+  onCardDragEnd={() => {}}
+>
+  {board}
+</Board>
+```
+
+## 🔥 API
+### ⚙️ Props
+|Prop|Description|
+|-|-|
+|`children`|The board to render|
+|`onCardDragEnd`|Callback that will be called when the card move ends
+
+#### `children`
+```js
+const board = {
+  lanes: {
+    id: ${laneId},
+    cards: {
+      id: ${cardId},
+      title: ${cardTitle},
+      description: ${cardDescription}
+    }
+  }
+}
+```
+
+#### `OnCardDragEnd`
+When the user moves a card, this callback will be called passing these parameters:
+|Arg|Description|
+|-|-|
+|`board`|The modified board|
+|`source`|An object with the card source `{ laneId, index }`.
+|`destination`|An object with the card destination `{ laneId, index }`.
+
+##### Source and destination
+
+|prop|Description|
+|-|-|
+|`laneId`|**In source**: lane source id; **In destination**: lane destination id;|
+|`index`|**In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
+
+## 🤝 Contributing
 
 PRs are welcome. Just fork this project, setup it:
   ```bash
@@ -26,7 +104,7 @@ and open the PR.
   * Try to be clean on your change. CodeClimate will keep an eye on you.
   * It has to pass on CI.
 
-## Contributors
+## 🤖 Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
