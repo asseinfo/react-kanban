@@ -57,10 +57,10 @@ const board = {
 ## 🔥 API
 ### ⚙️ Props
 
-| Prop           | Description                                          |
-|----------------|------------------------------------------------------|
-| `children`     | The board to render                                  |
-| `onCardDragEnd`| Callback that will be called when the card move ends |
+| Prop                  | Description                                          |
+|-----------------------|------------------------------------------------------|
+| `children` (required) | The board to render                                  |
+| `onCardDragEnd`       | Callback that will be called when the card move ends |
 
 #### `children`
 ```js

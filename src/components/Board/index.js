@@ -24,7 +24,7 @@ function Board ({ children, onCardDragEnd }) {
 
     const reorderedBoard = reorderBoard(board, source, destination)
 
-    onCardDragEnd(reorderedBoard, source, destination)
+    onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
     setBoard(reorderedBoard)
   }
 
