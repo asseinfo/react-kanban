@@ -1,9 +1,5 @@
 import React from 'react'
 
-const callbacks = {
-  onDragEnd: jest.fn()
-}
-
 function DragDropContext (props) {
   callbacks.onDragEnd = props.onDragEnd
 
@@ -23,8 +19,15 @@ const draggableProvide = {
   draggableProps: {},
   dragHandleProps: {}
 }
+const draggableSnapshot = {
+  isDragging: false
+}
 function Draggable (props) {
-  return <>{props.children(draggableProvide)}</>
+  return <>{props.children(draggableProvide, draggableSnapshot)}</>
 }
 
+const callbacks = {
+  onDragEnd: jest.fn(),
+  isDragging: isDragging => { draggableSnapshot.isDragging = isDragging }
+}
 export { DragDropContext, Droppable, Draggable, callbacks }

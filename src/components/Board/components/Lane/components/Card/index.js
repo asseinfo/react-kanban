@@ -9,10 +9,10 @@ const StyledCard = styled.div`
   margin-bottom: 7px;
   max-width: 250px;
   min-width: 230px;
-`
 
-const DraggingCard = styled(StyledCard)`
-  box-shadow: 2px 2px grey;
+  ${({ dragging }) => dragging && `
+    box-shadow: 2px 2px grey;
+  `}
 `
 
 const CardTitle = styled.div`
@@ -29,16 +29,16 @@ function Card ({ children, index }) {
   return (
     <Draggable draggableId={String(children.id)} index={index}>
       {(provided, snapshot) => {
-        const Card = snapshot.isDragging ? DraggingCard : StyledCard
         return (
-          <Card
+          <StyledCard
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
+            dragging={snapshot.isDragging}
           >
             <CardTitle>{children.title}</CardTitle>
             <CardDescription>{children.description}</CardDescription>
-          </Card>
+          </StyledCard>
         )
       }}
     </Draggable>
