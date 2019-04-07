@@ -5,8 +5,6 @@
 
 Yet another Kanban/Trello board like lib for React.
 
-🚨 **NOT USABLE YET** 🚨
-
 ## ❓ Why?
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
@@ -14,9 +12,13 @@ Yet another Kanban/Trello board like lib for React.
 
 ## 🛠 Install and usage
 
-Install the lib and the dependency on your project:
+Since this project use Hooks and Styled Components, you have to install them:
+  * `react>=16.8.0`
+  * `styled-components>=3`
+
+After, Install the lib and the dependency on your project:
   ```bash
-  yarn add @lourenci/react-kanban styled-components
+  yarn add @lourenci/react-kanban
   ```
 Import the lib and use it on your project:
 ```js
@@ -68,9 +70,9 @@ const board = {
 ```js
 const board = {
   lanes: {
-    id: ${laneId},
+    id: ${unique-laneId},
     cards: {
-      id: ${cardId},
+      id: ${unique-cardId},
       title: ${cardTitle},
       description: ${cardDescription}
     }
@@ -96,14 +98,21 @@ When the user moves a card, this callback will be called passing these parameter
 
 ## 🤝 Contributing
 
-PRs are welcome. Just fork this project, setup it:
-  ```bash
-  $ yarn
-  $ yarn start
-  ```
-and open the PR.
+PRs are welcome:
+  * Fork this project.
+  * Setup it:
+      ```
+      yarn
+      yarn start
+      ```
+  * Make your change.
+  * Add yourself to the contributors table:
+      ```
+      yarn contributors:add
+      ```
+  * Open the PR.
 
-### Guidelines for contributing
+### ✍️ Guidelines for contributing
   * You need to test your change.
   * Try to be clean on your change. CodeClimate will keep an eye on you.
   * It has to pass on CI.
