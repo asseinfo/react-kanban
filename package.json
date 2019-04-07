@@ -1,6 +1,6 @@
 {
   "name": "@lourenci/react-kanban",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A <ReactKanban /> for React Hooks",
   "main": "dist/index.js",
   "repository": "https://github.com/lourenci/react-kanban",
@@ -42,6 +42,7 @@
   "scripts": {
     "lint": "eslint 'src/**/*.js'",
     "build": "webpack --config webpack.prod.js",
+    "build:publish": "rm -rf dist/ && webpack --config webpack.prod.js && npm publish --access public",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "contributors:add": "all-contributors add",
