@@ -7,6 +7,9 @@ Yet another Kanban/Trello board like lib for React.
 
 ![Kanban Demo](https://i.imgur.com/i0dX0q1.gif)
 
+## ▶️ Demo
+[![Edit react-kanban-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5k7py44kl?fontsize=14)
+
 ## ❓ Why?
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
@@ -19,7 +22,7 @@ Since this project use Hooks and Styled Components, you have to install them:
   * `react>=16.8.0`
   * `styled-components>=3`
 
-After, Install the lib and the dependency on your project:
+After, Install the lib on your project:
   ```bash
   yarn add @lourenci/react-kanban
   ```
