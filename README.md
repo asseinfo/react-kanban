@@ -99,6 +99,11 @@ When the user moves a card, this callback will be called passing these parameter
 | `laneId`| **In source**: lane source id; **In destination**: lane destination id;|
 | `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
 
+## 🚴‍♀️ Roadmap
+
+You can view the next features [here](https://github.com/lourenci/react-kanban/milestone/1).
+Feel welcome to help us with some PRs.
+
 ## 🤝 Contributing
 
 PRs are welcome:
