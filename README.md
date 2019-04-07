@@ -5,10 +5,13 @@
 
 Yet another Kanban/Trello board like lib for React.
 
+![Kanban Demo](https://i.imgur.com/i0dX0q1.gif)
+
 ## ❓ Why?
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
+  * ♿️ Acessible: Keyboard and mobile friendly.
 
 ## 🛠 Install and usage
 
