@@ -4,7 +4,7 @@ import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
-  let subject, onCardDragEnd
+  let subject, onCardDragEnd, onLaneDragEnd
 
   function mount (props) {
     const board = {
@@ -41,7 +41,7 @@ describe('<Board />', () => {
     subject = render(<Board {...props}>{board}</Board>)
     return subject
   }
-  afterEach(() => { subject = onCardDragEnd = undefined })
+  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = undefined })
 
   it('renders a board', () => {
     expect(mount().container).toBeInTheDocument()
@@ -114,6 +114,68 @@ describe('<Board />', () => {
           }
           expect(onCardDragEnd).toHaveBeenCalledTimes(1)
           expect(onCardDragEnd).toHaveBeenCalledWith(expectedBoard, { laneId: 1, index: 0 }, { laneId: 1, index: 1 })
+        })
+      })
+    })
+  })
+
+  describe('about the lane moving', () => {
+    describe('when the component receives "onLaneDragEnd" callback', () => {
+      beforeEach(() => {
+        onLaneDragEnd = jest.fn()
+        mount({ onLaneDragEnd })
+      })
+
+      describe('when the user cancels the lane moving', () => {
+        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null, type: 'board' }) })
+
+        it('does not call onLaneDragEnd callback', () => {
+          expect(onLaneDragEnd).not.toHaveBeenCalled()
+        })
+      })
+
+      describe('when the user moves a lane to another position', () => {
+        beforeEach(() => {
+          act(() => {
+            callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'board' })
+          })
+        })
+
+        it('calls the onLaneDragEnd callback passing the modified board and the lane move coordinates', () => {
+          const expectedBoard = {
+            lanes: [
+              {
+                id: 2,
+                title: 'Lane Doing',
+                cards: [
+                  {
+                    id: 3,
+                    title: 'Card title',
+                    description: 'Card content'
+                  }
+                ]
+              },
+              {
+                id: 1,
+                title: 'Lane Backlog',
+                cards: [
+                  {
+                    id: 1,
+                    title: 'Card title',
+                    description: 'Card content'
+                  },
+                  {
+                    id: 2,
+                    title: 'Card title',
+                    description: 'Card content'
+                  }
+                ]
+              }
+            ]
+          }
+
+          expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
+          expect(onLaneDragEnd).toHaveBeenCalledWith(expectedBoard, { index: 0 }, { index: 1 })
         })
       })
     })

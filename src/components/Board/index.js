@@ -13,7 +13,7 @@ const StyledBoard = styled.div`
   overflow-y: hidden;
 `
 
-function Board ({ children, onCardDragEnd }) {
+function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
   const [board, setBoard] = useState(children)
 
   function onDragEnd (event) {
@@ -30,7 +30,11 @@ function Board ({ children, onCardDragEnd }) {
 
     const reorderedBoard = reorderBoard(board, source, destination)
 
-    onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
+    if (event.type === 'board') {
+      onLaneDragEnd && onLaneDragEnd(reorderedBoard, source, destination)
+    } else {
+      onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
+    }
     setBoard(reorderedBoard)
   }
 
