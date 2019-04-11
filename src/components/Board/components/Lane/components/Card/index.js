@@ -35,6 +35,7 @@ function Card ({ children, index }) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             dragging={snapshot.isDragging}
+            data-testid='card'
           >
             <CardTitle>{children.title}</CardTitle>
             <CardDescription>{children.description}</CardDescription>

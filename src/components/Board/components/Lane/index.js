@@ -21,7 +21,7 @@ function Lane ({ children, index }) {
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={index}>
       {laneProvided => (
-        <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} >
+        <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
           <LaneTitle {...laneProvided.dragHandleProps}>{children.title}</LaneTitle>
           <Droppable droppableId={String(children.id)}>
             {provided => (
