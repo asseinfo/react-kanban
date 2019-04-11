@@ -19,8 +19,14 @@ function Board ({ children, onCardDragEnd }) {
   function onDragEnd (event) {
     if (event.destination === null) return
 
-    const source = { laneId: parseInt(event.source.droppableId), index: event.source.index }
-    const destination = { laneId: parseInt(event.destination.droppableId), index: event.destination.index }
+    let source, destination
+    if (event.type === 'board') {
+      source = { index: event.source.index }
+      destination = { index: event.destination.index }
+    } else {
+      source = { laneId: parseInt(event.source.droppableId), index: event.source.index }
+      destination = { laneId: parseInt(event.destination.droppableId), index: event.destination.index }
+    }
 
     const reorderedBoard = reorderBoard(board, source, destination)
 
