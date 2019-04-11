@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { DragDropContext } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import reorderBoard from './services/reorderBoard'
 
@@ -32,9 +32,14 @@ function Board ({ children, onCardDragEnd }) {
     <DragDropContext
       onDragEnd={onDragEnd}
     >
-      <StyledBoard>
-        {board.lanes.map(lane => (<Lane key={lane.id}>{lane}</Lane>))}
-      </StyledBoard>
+      <Droppable droppableId='lane-droppable' direction='horizontal' type='board'>
+        {provided => (
+          <StyledBoard ref={provided.innerRef} {...provided.droppableProps}>
+            {board.lanes.map((lane, idx) => (<Lane key={lane.id} index={idx}>{lane}</Lane>))}
+            {provided.placeholder}
+          </StyledBoard>
+        )}
+      </Droppable>
     </DragDropContext>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Droppable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 
 const StyledLane = styled.div`
@@ -17,20 +17,23 @@ const LaneTitle = styled.div`
   font-weight: bold;
 `
 
-function Lane ({ children }) {
+function Lane ({ children, index }) {
   return (
-    <Droppable droppableId={String(children.id)}>
-      {provided => (
-        <StyledLane
-          ref={provided.innerRef}
-          {...provided.droppableProps}
-        >
-          <LaneTitle>{children.title}</LaneTitle>
-          {children.cards.map((card, idx) => (<Card key={card.id} index={idx}>{card}</Card>))}
-          {provided.placeholder}
+    <Draggable draggableId={`lane-draggable-${children.id}`} index={index}>
+      {laneProvided => (
+        <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} >
+          <LaneTitle {...laneProvided.dragHandleProps}>{children.title}</LaneTitle>
+          <Droppable droppableId={String(children.id)}>
+            {provided => (
+              <div ref={provided.innerRef} {...provided.droppableProps}>
+                {children.cards.map((card, idx) => (<Card key={card.id} index={idx}>{card}</Card>))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </StyledLane>
       )}
-    </Droppable>
+    </Draggable>
   )
 }
 
