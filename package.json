@@ -35,7 +35,7 @@
     "react-dom": "16.8.6",
     "react-testing-library": "6.1.2",
     "styled-components": "4.2.0",
-    "webpack": "4.29.6",
+    "webpack": "4.30.0",
     "webpack-cli": "3.3.0",
     "webpack-dev-server": "3.3.1"
   },
