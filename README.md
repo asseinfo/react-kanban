@@ -59,6 +59,7 @@ const board = {
 
 <Board
   onCardDragEnd={() => {}}
+  onLaneDragEnd={() => {}}
 >
   {board}
 </Board>
@@ -71,6 +72,7 @@ const board = {
 |-----------------------|------------------------------------------------------|
 | `children` (required) | The board to render                                  |
 | `onCardDragEnd`       | Callback that will be called when the card move ends |
+| `onLaneDragEnd`       | Callback that will be called when the lane move ends |
 
 #### `children`
 ```js
@@ -101,6 +103,22 @@ When the user moves a card, this callback will be called passing these parameter
 |---------|------------------------------------------------------------------------|
 | `laneId`| **In source**: lane source id; **In destination**: lane destination id;|
 | `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
+
+
+#### `OnLaneDragEnd`
+When the user moves a lane, this callback will be called passing these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The modified board                                     |
+| `source`     | An object with the lane source `{ index }`     |
+| `destination`| An object with the lane destination `{ index }`|
+
+##### Source and destination
+
+| Prop    | Description                                                            |
+|---------|------------------------------------------------------------------------|
+| `index` | **In source**: lane index before the moving; **In destination**: lane index after the moving;|
 
 ## 🚴‍♀️ Roadmap
 

@@ -12,6 +12,11 @@
           },
         ],
       ],
+    },
+    "production": {
+      "plugins": [
+        "react-remove-properties"
+      ]
     }
   },
 }

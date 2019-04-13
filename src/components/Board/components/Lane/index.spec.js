@@ -28,7 +28,7 @@ describe('<Lane />', () => {
   afterEach(() => { subject = undefined })
 
   it('renders a lane', () => {
-    expect(subject.container).toBeInTheDocument()
+    expect(subject.container.querySelector('div')).toBeInTheDocument()
   })
 
   it("renders the lane's title", () => {

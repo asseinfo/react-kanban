@@ -2,13 +2,16 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import styled from 'styled-components'
 
-const StyledCard = styled.div`
+export const CardSkeleton = styled.div`
+   max-width: 250px;
+   min-width: 230px;
+   padding: 10px;
+   margin-bottom: 7px;
+ `
+
+const StyledCard = styled(CardSkeleton)`
   border-radius: 3px;
   background-color: #fff;
-  padding: 10px;
-  margin-bottom: 7px;
-  max-width: 250px;
-  min-width: 230px;
 
   ${({ dragging }) => dragging && `
     box-shadow: 2px 2px grey;
@@ -35,6 +38,7 @@ function Card ({ children, index }) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             dragging={snapshot.isDragging}
+            data-testid='card'
           >
             <CardTitle>{children.title}</CardTitle>
             <CardDescription>{children.description}</CardDescription>

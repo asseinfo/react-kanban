@@ -48,4 +48,25 @@ describe('#reorderBoard', () => {
       })
     })
   })
+
+  describe('when the lane is moved to another position', () => {
+    beforeEach(() => {
+      const board = {
+        lanes: [
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
+        ]
+      }
+      subject = reorderBoard(board, { index: 0 }, { index: 1 })
+    })
+
+    it('returns a board with the lane moved to the specified position', () => {
+      expect(subject).toEqual({
+        lanes: [
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }
+        ]
+      })
+    })
+  })
 })

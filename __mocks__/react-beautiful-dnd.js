@@ -8,7 +8,8 @@ function DragDropContext (props) {
 
 const droppableProvide = {
   innerRef: React.createRef(),
-  droppableProps: {}
+  droppableProps: {},
+  placeholder: <div id='placeholder' />
 }
 function Droppable (props) {
   return <>{props.children(droppableProvide)}</>
@@ -22,8 +23,8 @@ const draggableProvide = {
 const draggableSnapshot = {
   isDragging: false
 }
-function Draggable (props) {
-  return <>{props.children(draggableProvide, draggableSnapshot)}</>
+function Draggable ({ children }) {
+  return <>{children(draggableProvide, draggableSnapshot)}</>
 }
 
 const callbacks = {
