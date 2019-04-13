@@ -22,22 +22,18 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
   function onDragEnd (event) {
     if (event.destination === null) return
 
-    let source, destination
-    if (event.type === 'BOARD') {
-      source = { index: event.source.index }
-      destination = { index: event.destination.index }
-    } else {
-      source = { laneId: parseInt(event.source.droppableId), index: event.source.index }
-      destination = { laneId: parseInt(event.destination.droppableId), index: event.destination.index }
+    let source = { index: event.source.index }
+    let destination = { index: event.destination.index }
+    let propCallback = onLaneDragEnd
+
+    if (event.type !== 'BOARD') {
+      source = { ...source, laneId: parseInt(event.source.droppableId) }
+      destination = { ...destination, laneId: parseInt(event.destination.droppableId) }
+      propCallback = onCardDragEnd
     }
 
     const reorderedBoard = reorderBoard(board, source, destination)
-
-    if (event.type === 'BOARD') {
-      onLaneDragEnd && onLaneDragEnd(reorderedBoard, source, destination)
-    } else {
-      onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
-    }
+    propCallback && propCallback(reorderedBoard, source, destination)
     setBoard(reorderedBoard)
   }
 
