@@ -19,7 +19,7 @@ describe('<Card />', () => {
   afterEach(() => { subject = undefined })
 
   it('renders a card', () => {
-    expect(mount().container).toBeInTheDocument()
+    expect(mount().container.querySelector('div')).toBeInTheDocument()
   })
 
   it("renders the card's title", () => {

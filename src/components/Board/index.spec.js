@@ -44,7 +44,7 @@ describe('<Board />', () => {
   afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = undefined })
 
   it('renders a board', () => {
-    expect(mount().container).toBeInTheDocument()
+    expect(mount().container.querySelector('div')).toBeInTheDocument()
   })
 
   it('renders the specified lanes in the board ordered by its specified position', () => {
