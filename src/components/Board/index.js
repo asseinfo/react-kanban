@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import reorderBoard from './services/reorderBoard'
+import withDroppable from '../withDroppable'
 
 const StyledBoard = styled.div`
   position: relative;
@@ -13,6 +14,8 @@ const StyledBoard = styled.div`
   overflow-y: hidden;
 `
 
+const DroppableBoard = withDroppable(StyledBoard)
+
 function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
   const [board, setBoard] = useState(children)
 
@@ -20,7 +23,7 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
     if (event.destination === null) return
 
     let source, destination
-    if (event.type === 'board') {
+    if (event.type === 'BOARD') {
       source = { index: event.source.index }
       destination = { index: event.destination.index }
     } else {
@@ -30,7 +33,7 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
 
     const reorderedBoard = reorderBoard(board, source, destination)
 
-    if (event.type === 'board') {
+    if (event.type === 'BOARD') {
       onLaneDragEnd && onLaneDragEnd(reorderedBoard, source, destination)
     } else {
       onCardDragEnd && onCardDragEnd(reorderedBoard, source, destination)
@@ -42,14 +45,9 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd }) {
     <DragDropContext
       onDragEnd={onDragEnd}
     >
-      <Droppable droppableId='lane-droppable' direction='horizontal' type='board'>
-        {provided => (
-          <StyledBoard ref={provided.innerRef} {...provided.droppableProps}>
-            {board.lanes.map((lane, idx) => (<Lane key={lane.id} index={idx}>{lane}</Lane>))}
-            {provided.placeholder}
-          </StyledBoard>
-        )}
-      </Droppable>
+      <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+        {board.lanes.map((lane, idx) => (<Lane key={lane.id} index={idx}>{lane}</Lane>))}
+      </DroppableBoard>
     </DragDropContext>
   )
 }

@@ -127,7 +127,7 @@ describe('<Board />', () => {
       })
 
       describe('when the user cancels the lane moving', () => {
-        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null, type: 'board' }) })
+        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' }) })
 
         it('does not call onLaneDragEnd callback', () => {
           expect(onLaneDragEnd).not.toHaveBeenCalled()
@@ -137,7 +137,7 @@ describe('<Board />', () => {
       describe('when the user moves a lane to another position', () => {
         beforeEach(() => {
           act(() => {
-            callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'board' })
+            callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'BOARD' })
           })
         })
 
