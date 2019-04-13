@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-testing-library'
-import Card from './'
+import Card, { CardSkeleton } from './'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Card />', () => {
@@ -39,5 +39,11 @@ describe('<Card />', () => {
     it('shows the card with a box shadow', () => {
       expect(subject.queryByText(/^Card title$/).parentNode).toHaveStyle('box-shadow: 2px 2px grey')
     })
+  })
+})
+
+describe('<CardSkeleton />', () => {
+  it("renders a card's skeleton", () => {
+    expect(render(<CardSkeleton />).container.querySelector('div')).toBeInTheDocument()
   })
 })
