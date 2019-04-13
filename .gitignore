@@ -3,3 +3,4 @@ coverage
 dist
 yarn.lock
 .DS_Store
+cypress/screenshots
