@@ -59,6 +59,7 @@ const board = {
 
 <Board
   onCardDragEnd={() => {}}
+  onLaneDragEnd={() => {}}
 >
   {board}
 </Board>
