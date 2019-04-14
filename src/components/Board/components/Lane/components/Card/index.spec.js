@@ -36,6 +36,7 @@ describe('<Card />', () => {
       callbacks.isDragging(true)
       mount()
     })
+    afterEach(() => { callbacks.isDragging(false) })
 
     it('shows the card with a box shadow', () => {
       expect(subject.queryByText(/^Card title$/).parentNode).toHaveStyle('box-shadow: 2px 2px grey')
@@ -67,7 +68,7 @@ describe('<Card />', () => {
 
       it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
         expect(renderCard).toHaveBeenCalledTimes(1)
-        expect(renderCard).toHaveBeenCalledWith(customCard, true)
+        expect(renderCard).toHaveBeenCalledWith(customCard, false)
       })
     })
   })
