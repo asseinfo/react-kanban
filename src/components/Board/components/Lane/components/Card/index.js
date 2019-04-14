@@ -9,7 +9,7 @@ export const CardSkeleton = styled.div`
    margin-bottom: 7px;
  `
 
-const StyledCard = styled(CardSkeleton)`
+const DefaultCard = styled(CardSkeleton)`
   border-radius: 3px;
   background-color: #fff;
 
@@ -28,21 +28,27 @@ const CardDescription = styled.div`
   padding-top: 10px;
 `
 
-function Card ({ children, index }) {
+function Card ({ children, index, renderCard }) {
   return (
     <Draggable draggableId={String(children.id)} index={index}>
       {(provided, snapshot) => {
         return (
-          <StyledCard
+          <div
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            dragging={snapshot.isDragging}
             data-testid='card'
           >
-            <CardTitle>{children.title}</CardTitle>
-            <CardDescription>{children.description}</CardDescription>
-          </StyledCard>
+            {renderCard
+              ? renderCard(children, snapshot.isDragging)
+              : (
+                <DefaultCard dragging={snapshot.isDragging}>
+                  <CardTitle>{children.title}</CardTitle>
+                  <CardDescription>{children.description}</CardDescription>
+                </DefaultCard>
+              )
+            }
+          </div>
         )
       }}
     </Draggable>
