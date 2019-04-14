@@ -5,9 +5,11 @@
 
 Yet another Kanban/Trello board like lib for React.
 
-![Kanban Demo](https://imgur.com/DQSsVoh.gif)
+![Kanban Demo](https://imgur.com/xyOoy2N.gif)
 
-[▶️ Demo](https://5k7py44kl.codesandbox.io/)
+### ▶️ Demo
+
+[Usage](https://5k7py44kl.codesandbox.io/)
 
 [![Edit react-kanban-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5k7py44kl?fontsize=14)
 
