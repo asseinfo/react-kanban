@@ -19,15 +19,15 @@ const LaneTitle = styled.div`
 `
 const DroppableLane = withDroppable('div')
 
-function Lane ({ children, index }) {
+function Lane ({ children, index: laneIndex, renderCard }) {
   return (
-    <Draggable draggableId={`lane-draggable-${children.id}`} index={index}>
+    <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex}>
       {laneProvided => (
         <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
           <LaneTitle {...laneProvided.dragHandleProps}>{children.title}</LaneTitle>
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length
-              ? children.cards.map((card, idx) => (<Card key={card.id} index={idx}>{card}</Card>))
+              ? children.cards.map((card, index) => (<Card key={card.id} index={index} renderCard={renderCard}>{card}</Card>))
               : <CardSkeleton />
             }
           </DroppableLane>

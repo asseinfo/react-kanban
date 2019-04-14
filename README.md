@@ -63,6 +63,7 @@ const board = {
 <Board
   onCardDragEnd={() => {}}
   onLaneDragEnd={() => {}}
+  renderCard={() => {}}
 >
   {board}
 </Board>
@@ -76,20 +77,22 @@ const board = {
 | `children` (required) | The board to render                                  |
 | `onCardDragEnd`       | Callback that will be called when the card move ends |
 | `onLaneDragEnd`       | Callback that will be called when the lane move ends |
+| `renderCard`          | A card to be rendered instead of the default card    |
 
 #### `children`
 ```js
 const board = {
   lanes: {
-    id: ${unique-laneId},
+    id: ${unique-required-laneId},
     cards: {
-      id: ${unique-cardId},
+      id: ${unique-required-cardId},
       title: ${cardTitle},
       description: ${cardDescription}
     }
   }
 }
 ```
+These cards props are required to the card's default template, except the id that is required for your template too. See [`renderCard`](#rendercard)
 
 #### `OnCardDragEnd`
 When the user moves a card, this callback will be called passing these parameters:
@@ -122,6 +125,37 @@ When the user moves a lane, this callback will be called passing these parameter
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
 | `index` | **In source**: lane index before the moving; **In destination**: lane index after the moving;|
+
+#### `renderCard`
+Use this if you want to render your own card. You have to pass a function and return your card component.
+The function will receive these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `card`       | The card props                                         |
+| `isDragging` | Whether the card is being dragged                      |
+
+Ex.:
+```js
+const board = {
+  lanes: {
+    id: ${unique-required-laneId},
+    cards: {
+      id: ${unique-required-cardId},
+      dueDate: ${cardDueDate},
+      content: ${cardContent}
+    }
+  }
+}
+
+<Board
+  renderCard={({ dueDate, content }, isDragging) => (
+    <YourCard dueDate={dueDate} content={content} isDragging={isDragging} />
+  )}
+>
+{board}
+</Board>
+```
 
 ## 🚴‍♀️ Roadmap
 

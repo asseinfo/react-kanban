@@ -5,40 +5,40 @@ import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
   let subject, onCardDragEnd, onLaneDragEnd
+  const board = {
+    lanes: [
+      {
+        id: 1,
+        title: 'Lane Backlog',
+        cards: [
+          {
+            id: 1,
+            title: 'Card title',
+            description: 'Card content'
+          },
+          {
+            id: 2,
+            title: 'Card title',
+            description: 'Card content'
+          }
+        ]
+      },
+      {
+        id: 2,
+        title: 'Lane Doing',
+        cards: [
+          {
+            id: 3,
+            title: 'Card title',
+            description: 'Card content'
+          }
+        ]
+      }
+    ]
+  }
 
-  function mount (props) {
-    const board = {
-      lanes: [
-        {
-          id: 1,
-          title: 'Lane Backlog',
-          cards: [
-            {
-              id: 1,
-              title: 'Card title',
-              description: 'Card content'
-            },
-            {
-              id: 2,
-              title: 'Card title',
-              description: 'Card content'
-            }
-          ]
-        },
-        {
-          id: 2,
-          title: 'Lane Doing',
-          cards: [
-            {
-              id: 3,
-              title: 'Card title',
-              description: 'Card content'
-            }
-          ]
-        }
-      ]
-    }
-    subject = render(<Board {...props}>{board}</Board>)
+  function mount ({ children = board, ...otherProps } = {}) {
+    subject = render(<Board {...otherProps}>{children}</Board>)
     return subject
   }
   afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = undefined })
@@ -177,6 +177,63 @@ describe('<Board />', () => {
           expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
           expect(onLaneDragEnd).toHaveBeenCalledWith(expectedBoard, { index: 0 }, { index: 1 })
         })
+      })
+    })
+  })
+
+  describe("about the board's custom card", () => {
+    let renderCard
+    const board = {
+      lanes: [
+        {
+          id: 1,
+          title: 'Lane Backlog',
+          cards: [
+            {
+              id: 1,
+              title: 'Card title',
+              content: 'Card content'
+            },
+            {
+              id: 2,
+              title: 'Card title',
+              content: 'Card content'
+            }
+          ]
+        },
+        {
+          id: 2,
+          title: 'Lane Doing',
+          cards: [
+            {
+              id: 3,
+              title: 'Card title',
+              content: 'Card content'
+            }
+          ]
+        }
+      ]
+    }
+
+    afterEach(() => { renderCard = undefined })
+
+    describe('when it receives a "renderCard" prop', () => {
+      beforeEach(() => {
+        renderCard = jest.fn(cardContent => (
+          <div>{cardContent.id} - {cardContent.title} - {cardContent.content}</div>
+        ))
+
+        mount({ children: board, renderCard })
+      })
+
+      it("renders the custom cards on the board's lane", () => {
+        expect(subject.queryAllByTestId('card')).toHaveLength(3)
+        expect(subject.queryByTestId('card')).toHaveTextContent(/^1 - Card title - Card content$/)
+      })
+
+      it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
+        expect(renderCard).toHaveBeenCalledTimes(3)
+        expect(renderCard).toHaveBeenNthCalledWith(1, { id: 1, title: 'Card title', content: 'Card content' }, false)
       })
     })
   })
