@@ -16,7 +16,7 @@ const StyledBoard = styled.div`
 
 const DroppableBoard = withDroppable(StyledBoard)
 
-function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard }) {
+function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLaneHeader }) {
   const [board, setBoard] = useState(children)
 
   function onDragEnd (event) {
@@ -42,7 +42,9 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard }) {
       onDragEnd={onDragEnd}
     >
       <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-        {board.lanes.map((lane, index) => (<Lane key={lane.id} index={index} renderCard={renderCard}>{lane}</Lane>))}
+        {board.lanes.map((lane, index) => (
+          <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
+        )}
       </DroppableBoard>
     </DragDropContext>
   )

@@ -55,7 +55,7 @@ describe('<Board />', () => {
   })
 
   it('renders the specified cards in their lanes', () => {
-    expect(within(mount().queryByText(/^Lane Backlog$/).parentNode).queryAllByText(/^Card title$/)).toHaveLength(2)
+    expect(within(mount().queryByText(/^Lane Backlog$/).parentNode.parentNode).queryAllByText(/^Card title$/)).toHaveLength(2)
   })
 
   describe('about the card moving', () => {
@@ -234,6 +234,47 @@ describe('<Board />', () => {
       it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
         expect(renderCard).toHaveBeenCalledTimes(3)
         expect(renderCard).toHaveBeenNthCalledWith(1, { id: 1, title: 'Card title', content: 'Card content' }, false)
+      })
+    })
+  })
+
+  describe("about the lane's custom header", () => {
+    let renderLaneHeader
+    const board = {
+      lanes: [
+        {
+          id: 1,
+          title: 'Lane Backlog',
+          wip: 1,
+          cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+        }
+      ]
+    }
+
+    afterEach(() => { renderLaneHeader = undefined })
+
+    describe('when it receives a "renderLaneHeader" prop', () => {
+      beforeEach(() => {
+        renderLaneHeader = jest.fn(laneContent => (
+          <div>{laneContent.title} ({laneContent.wip})</div>
+        ))
+
+        mount({ children: board, renderLaneHeader })
+      })
+
+      it("renders the custom header on the board's lane", () => {
+        expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
+        expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog \(1\)$/)
+      })
+
+      it('passes the lane content to the renderLaneHeader prop', () => {
+        expect(renderLaneHeader).toHaveBeenCalledTimes(1)
+        expect(renderLaneHeader).toHaveBeenCalledWith({
+          id: 1,
+          title: 'Lane Backlog',
+          wip: 1,
+          cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+        })
       })
     })
   })

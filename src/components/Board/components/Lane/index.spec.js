@@ -79,4 +79,36 @@ describe('<Lane />', () => {
       })
     })
   })
+
+  describe('about the custom header', () => {
+    let renderLaneHeader
+    const lane = {
+      id: 1,
+      title: 'Backlog',
+      wip: 2,
+      cards: [{ id: 1, title: 'Card title', description: 'Card content' }]
+    }
+
+    afterEach(() => { renderLaneHeader = undefined })
+
+    describe('when it receives a "renderLaneHeader" prop', () => {
+      beforeEach(() => {
+        renderLaneHeader = jest.fn(laneContent => (
+          <div>{laneContent.title} ({laneContent.wip})</div>
+        ))
+
+        mount({ children: lane, renderLaneHeader })
+      })
+
+      it('renders the custom header', () => {
+        expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
+        expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Backlog \(2\)$/)
+      })
+
+      it('passes the lane content to the renderLaneHeader prop', () => {
+        expect(renderLaneHeader).toHaveBeenCalledTimes(1)
+        expect(renderLaneHeader).toHaveBeenCalledWith(lane)
+      })
+    })
+  })
 })
