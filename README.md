@@ -180,8 +180,8 @@ const board = {
     wip: ${wip},
     cards: {
       id: ${unique-required-cardId},
-      dueDate: ${cardDueDate},
-      content: ${cardContent}
+      title: ${required-cardTitle},
+      description: ${required-cardDescription}
     }
   }
 }
