@@ -51,6 +51,6 @@
     "cypress": "cypress"
   },
   "dependencies": {
-    "react-beautiful-dnd": "^10.1.1"
+    "react-beautiful-dnd": "^11.0.0"
   }
 }
