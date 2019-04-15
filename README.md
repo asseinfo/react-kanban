@@ -64,6 +64,7 @@ const board = {
   onCardDragEnd={() => {}}
   onLaneDragEnd={() => {}}
   renderCard={() => {}}
+  renderLaneHeader={() => {}}
 >
   {board}
 </Board>
@@ -72,27 +73,31 @@ const board = {
 ## 🔥 API
 ### ⚙️ Props
 
-| Prop                  | Description                                          |
-|-----------------------|------------------------------------------------------|
-| `children` (required) | The board to render                                  |
-| `onCardDragEnd`       | Callback that will be called when the card move ends |
-| `onLaneDragEnd`       | Callback that will be called when the lane move ends |
-| `renderCard`          | A card to be rendered instead of the default card    |
+| Prop                  | Description                                                     |
+|-----------------------|-----------------------------------------------------------------|
+| `children` (required) | The board to render                                             |
+| `onCardDragEnd`       | Callback that will be called when the card move ends            |
+| `onLaneDragEnd`       | Callback that will be called when the lane move ends            |
+| `renderCard`          | A card to be rendered instead of the default card               |
+| `renderLaneHeader`    | A lane header to be rendered instead of the default lane header |
 
 #### `children`
 ```js
 const board = {
   lanes: {
     id: ${unique-required-laneId},
+    title: {$required-laneTitle},
     cards: {
       id: ${unique-required-cardId},
-      title: ${cardTitle},
-      description: ${cardDescription}
+      title: ${required-cardTitle},
+      description: ${required-cardDescription}
     }
   }
 }
 ```
-These cards props are required to the card's default template, except the id that is required for your template too. See [`renderCard`](#rendercard)
+These cards props are required to the card's default template, except the id that is required for your template too. See [`renderCard`](#rendercard).
+
+These lanes props are required to the lane's default template, except the id that is required for your template too. See [`renderLaneHeader`](#renderlaneheader).
 
 #### `OnCardDragEnd`
 When the user moves a card, this callback will be called passing these parameters:
@@ -140,6 +145,7 @@ Ex.:
 const board = {
   lanes: {
     id: ${unique-required-laneId},
+    title: ${laneTitle},
     cards: {
       id: ${unique-required-cardId},
       dueDate: ${cardDueDate},
@@ -151,6 +157,38 @@ const board = {
 <Board
   renderCard={({ dueDate, content }, isDragging) => (
     <YourCard dueDate={dueDate} content={content} isDragging={isDragging} />
+  )}
+>
+{board}
+</Board>
+```
+
+#### `renderLaneHeader`
+Use this if you want to render your own lane header. You have to pass a function and return your lane header component.
+The function will receive this parameter:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `lane`       | The lane props                                         |
+
+Ex.:
+```js
+const board = {
+  lanes: {
+    id: ${unique-required-laneId},
+    title: ${laneTitle},
+    wip: ${wip},
+    cards: {
+      id: ${unique-required-cardId},
+      dueDate: ${cardDueDate},
+      content: ${cardContent}
+    }
+  }
+}
+
+<Board
+  renderLaneHeader={({ title, wip }) => (
+    <YourLaneHeader title={title} wip={wip} />
   )}
 >
 {board}
