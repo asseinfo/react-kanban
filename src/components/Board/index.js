@@ -15,7 +15,7 @@ const StyledBoard = styled.div`
 
 const LaneAdder = styled.div`
   border: 2px dashed #eee;
-  width: 230px;
+  min-width: 230px;
   height: 132px;
   margin: 5px;
   display: flex;
@@ -28,6 +28,7 @@ const LaneAdder = styled.div`
 `
 
 const Lanes = styled.div`
+  white-space: nowrap;
 `
 
 const DroppableBoard = withDroppable(Lanes)
@@ -68,7 +69,6 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLane
       onDragEnd={onDragEnd}
     >
       <StyledBoard>
-
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           {board.lanes.map((lane, index) => (
             <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
