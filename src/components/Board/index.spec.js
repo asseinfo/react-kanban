@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, within, act } from 'react-testing-library'
+import { render, within, act, fireEvent } from 'react-testing-library'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
@@ -274,6 +274,55 @@ describe('<Board />', () => {
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+        })
+      })
+    })
+  })
+
+  describe('about the lane adding', () => {
+    describe('when it receives the "allowAddLane" and "onNewLane" prop', () => {
+      let onNewLane
+
+      beforeEach(() => {
+        onNewLane = jest.fn(lane => ({ id: 999, ...lane }))
+        mount({ allowAddLane: true, onNewLane })
+      })
+      afterEach(() => { onNewLane = undefined })
+
+      it('renders the lane placeholder as the last lane to add a new lane', () => {
+        expect(subject.queryByText('➕')).toBeInTheDocument()
+      })
+
+      describe('when the user clicks to add a new lane', () => {
+        beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+
+        it('hides the lane placeholder', () => {
+          expect(subject.queryByText('➕')).not.toBeInTheDocument()
+        })
+
+        it('renders the input asking for a lane name', () => {
+          expect(subject.container.querySelector('input')).toBeInTheDocument()
+        })
+
+        describe('when the user submits the new lane', () => {
+          beforeEach(() => {
+            fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
+            fireEvent.click(subject.queryByText('Ok'))
+          })
+
+          it('calls the "onNewLane" passing the lane title', () => {
+            expect(onNewLane).toHaveBeenCalledTimes(1)
+            expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user' })
+          })
+
+          it('renders the new lane using the id returned on "onNewLane"', () => {
+            const lanes = subject.queryAllByText(/^Lane/)
+            expect(lanes).toHaveLength(3)
+          })
+
+          it('renders the lane placeholder as the last lane to add a new lane', () => {
+            expect(subject.queryByText('➕')).toBeInTheDocument()
+          })
         })
       })
     })

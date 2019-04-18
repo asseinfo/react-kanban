@@ -4,20 +4,38 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
+import { addInArrayAtPosition } from '../../services/utils'
 
 const StyledBoard = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
   padding: 5px;
   overflow-y: hidden;
+  display: flex;
+  align-items: flex-start;
 `
 
-const DroppableBoard = withDroppable(StyledBoard)
+const LaneAdder = styled.div`
+  border: 2px dashed #eee;
+  width: 230px;
+  height: 132px;
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLaneHeader }) {
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const Lanes = styled.div`
+`
+
+const DroppableBoard = withDroppable(Lanes)
+
+function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLaneHeader, allowAddLane, onNewLane }) {
   const [board, setBoard] = useState(children)
+  const [addingLane, setAddingLane] = useState(false)
+  const inputLaneName = React.createRef()
 
   function onDragEnd (event) {
     if (event.destination === null) return
@@ -37,15 +55,38 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLane
     setBoard(reorderedBoard)
   }
 
+  function addLane (event) {
+    event.preventDefault()
+    const lane = { ...onNewLane({ title: inputLaneName.current.value }), cards: [] }
+    const lanes = addInArrayAtPosition(board.lanes, lane, board.lanes.length)
+    setBoard({ ...board, lanes })
+    setAddingLane(false)
+  }
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
     >
-      <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-        {board.lanes.map((lane, index) => (
-          <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
-        )}
-      </DroppableBoard>
+      <StyledBoard>
+
+        <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+          {board.lanes.map((lane, index) => (
+            <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
+          )}
+        </DroppableBoard>
+        {allowAddLane && onNewLane &&
+        (!addingLane
+          ? <LaneAdder onClick={() => setAddingLane(true)} role='button'>➕</LaneAdder>
+          : (
+            <div>
+              <form onSubmit={addLane}>
+                <input type='text' ref={inputLaneName} /><button>Ok</button>
+              </form>
+            </div>
+          )
+        )
+        }
+      </StyledBoard>
     </DragDropContext>
   )
 }

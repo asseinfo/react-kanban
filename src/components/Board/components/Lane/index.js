@@ -6,10 +6,12 @@ import withDroppable from '../../../withDroppable'
 
 const StyledLane = styled.div`
   height: 100%;
+  display: inline-block;
   padding: 15px;
   border-radius: 2px;
   background-color: #eee;
   margin: 5px;
+  vertical-align: top;
 `
 
 const DefaultLaneHeader = styled.div`
