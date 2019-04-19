@@ -4,7 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import Card, { CardSkeleton } from './components/Card'
 import withDroppable from '../../../withDroppable'
 
-const StyledLane = styled.div`
+export const StyledLane = styled.div`
   height: 100%;
   display: inline-block;
   padding: 15px;
@@ -14,7 +14,7 @@ const StyledLane = styled.div`
   vertical-align: top;
 `
 
-const DefaultLaneHeader = styled.div`
+export const DefaultLaneHeader = styled.div`
   padding-left: 10px;
   padding-bottom: 10px;
   font-weight: bold;
