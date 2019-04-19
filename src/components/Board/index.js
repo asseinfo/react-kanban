@@ -42,8 +42,7 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLane
   }
 
   function addLane (title) {
-    const newLane = { ...onNewLane({ title }), cards: [] }
-    const lanes = addInArrayAtPosition(board.lanes, newLane, board.lanes.length)
+    const lanes = addInArrayAtPosition(board.lanes, onNewLane({ title, cards: [] }), board.lanes.length)
     setBoard({ ...board, lanes })
   }
 

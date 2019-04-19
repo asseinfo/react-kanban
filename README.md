@@ -205,12 +205,12 @@ Allow the user to add a new lane directly by the board. Use this together with `
 #### `onNewLane`
 When the user adds a new lane, this callback will be called passing the lane title typed by the user.
 
-You **must** return the new lane with its id in this callback.
+You **must** return the new lane with its new id in this callback.
 
 Ex.:
 ```js
-function onNewLane (title) {
-  const newLane = { id: 999, title }
+function onNewLane (newLane) {
+  const newLane = { id: ${required-new-unique-laneId}, ...newLane }
   return newLane
 }
 

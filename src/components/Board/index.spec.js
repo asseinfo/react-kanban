@@ -304,20 +304,33 @@ describe('<Board />', () => {
           expect(subject.container.querySelector('input')).toBeInTheDocument()
         })
 
-        describe('when the user submits the new lane', () => {
+        describe('when the user confirms the new lane', () => {
           beforeEach(() => {
             fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
-            fireEvent.click(subject.queryByText('Ok'))
+            fireEvent.click(subject.queryByText('Add'))
           })
 
-          it('calls the "onNewLane" passing the lane title', () => {
+          it('calls the "onNewLane" passing the new lane', () => {
             expect(onNewLane).toHaveBeenCalledTimes(1)
-            expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user' })
+            expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
           })
 
           it('renders the new lane using the id returned on "onNewLane"', () => {
-            const lanes = subject.queryAllByText(/^Lane/)
-            expect(lanes).toHaveLength(3)
+            expect(subject.queryAllByTestId('lane')).toHaveLength(3)
+          })
+
+          it('renders the lane placeholder as the last lane to add a new lane', () => {
+            expect(subject.queryByText('➕')).toBeInTheDocument()
+          })
+        })
+
+        describe('when the user cancels the new lane adding', () => {
+          beforeEach(() => {
+            fireEvent.click(subject.queryByText('Cancel'))
+          })
+
+          it('does not add any new lane', () => {
+            expect(subject.queryAllByTestId('lane')).toHaveLength(2)
           })
 
           it('renders the lane placeholder as the last lane to add a new lane', () => {
