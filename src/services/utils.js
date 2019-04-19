@@ -23,4 +23,14 @@ function changeElementOfPositionInArray (array, from, to) {
   return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
 }
 
-export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray }
+function identity (value) {
+  return value
+}
+
+function when (value, predicate = identity) {
+  return function callback (callback) {
+    if (predicate(value)) return callback(value)
+  }
+}
+
+export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when }

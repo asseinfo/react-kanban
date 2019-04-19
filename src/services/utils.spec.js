@@ -1,4 +1,4 @@
-import { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray } from './utils'
+import { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when } from './utils'
 
 describe('#addInArrayAtPosition', () => {
   it('returns an array with an element added in the specified position', () => {
@@ -27,5 +27,49 @@ describe('#removeFromArrayAtPosition', () => {
 describe('#changeElementOfPositionInArray', () => {
   it('returns an array with an element positioned in the specified position', () => {
     expect(changeElementOfPositionInArray([0, 1, 2, 3, 4], 1, 2)).toEqual([0, 2, 1, 3, 4])
+  })
+})
+
+describe('#when', () => {
+  describe('when there is no predicate', () => {
+    describe('when the value is a truthy value', () => {
+      it('calls the callback passing the value', () => {
+        const callback = jest.fn()
+        when(1)(callback)
+
+        expect(callback).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledWith(1)
+      })
+    })
+
+    describe('when the value is a falsy value', () => {
+      it('does not call the callback', () => {
+        const callback = jest.fn()
+        when(0)(callback)
+
+        expect(callback).not.toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when there is a predicate', () => {
+    describe('when the predicate is true', () => {
+      it('calls the callback passing the value', () => {
+        const callback = jest.fn()
+        when(1, value => value === 1)(callback)
+
+        expect(callback).toHaveBeenCalledTimes(1)
+        expect(callback).toHaveBeenCalledWith(1)
+      })
+    })
+
+    describe('when the predicate is false', () => {
+      it('does not call the callback', () => {
+        const callback = jest.fn()
+        when(1, value => value !== 1)(callback)
+
+        expect(callback).not.toHaveBeenCalled()
+      })
+    })
   })
 })

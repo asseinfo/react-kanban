@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { StyledLane } from '../../../Lane'
+import { when } from '@services/utils'
 
 const StyledLaneForm = styled(StyledLane)`
   min-width: 230px;
@@ -16,7 +17,8 @@ function LaneForm ({ onConfirm, onCancel }) {
 
   function addLane (event) {
     event.preventDefault()
-    onConfirm(inputLaneTitle.current.value)
+
+    when(inputLaneTitle.current.value)(onConfirm)
   }
 
   return (

@@ -5,7 +5,7 @@ import Lane from './components/Lane'
 import LaneAdder from './components/LaneAdder'
 import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
-import { addInArrayAtPosition } from '../../services/utils'
+import { addInArrayAtPosition, when } from '@services/utils'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -37,7 +37,7 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLane
     }
 
     const reorderedBoard = reorderBoard(board, source, destination)
-    propCallback && propCallback(reorderedBoard, source, destination)
+    when(propCallback)(callback => callback(reorderedBoard, source, destination))
     setBoard(reorderedBoard)
   }
 

@@ -24,18 +24,34 @@ describe('<LaneForm />', () => {
   })
 
   describe('when the user clicks confirm the input', () => {
-    beforeEach(() => {
-      fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Title' } })
-      fireEvent.click(subject.queryByText('Add'))
+    describe('when the user has typed a lane title', () => {
+      beforeEach(() => {
+        fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Title' } })
+        fireEvent.click(subject.queryByText('Add'))
+      })
+
+      it('calls the onConfirm prop passing the lane title', () => {
+        expect(onConfirm).toHaveBeenCalledTimes(1)
+        expect(onConfirm).toHaveBeenCalledWith('Lane Title')
+      })
+
+      it('does not call the onCancel prop', () => {
+        expect(onCancel).not.toHaveBeenCalled()
+      })
     })
 
-    it('calls the onConfirm prop passing the lane title', () => {
-      expect(onConfirm).toHaveBeenCalledTimes(1)
-      expect(onConfirm).toHaveBeenCalledWith('Lane Title')
-    })
+    describe('when the user has not typed a lane title', () => {
+      beforeEach(() => {
+        fireEvent.click(subject.queryByText('Add'))
+      })
 
-    it('does not call the onCancel prop', () => {
-      expect(onCancel).not.toHaveBeenCalled()
+      it('does not call the onConfirm prop', () => {
+        expect(onConfirm).not.toHaveBeenCalled()
+      })
+
+      it('does not call the onCancel prop', () => {
+        expect(onCancel).not.toHaveBeenCalled()
+      })
     })
   })
 
