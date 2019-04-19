@@ -300,7 +300,7 @@ describe('<Board />', () => {
           expect(subject.queryByText('➕')).not.toBeInTheDocument()
         })
 
-        it('renders the input asking for a lane name', () => {
+        it('renders the input asking for a lane title', () => {
           expect(subject.container.querySelector('input')).toBeInTheDocument()
         })
 
