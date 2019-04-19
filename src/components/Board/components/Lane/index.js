@@ -14,7 +14,7 @@ export const StyledLane = styled.div`
   vertical-align: top;
 `
 
-export const DefaultLaneHeader = styled.div`
+const DefaultLaneHeader = styled.div`
   padding-left: 10px;
   padding-bottom: 10px;
   font-weight: bold;

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-testing-library'
-import Lane from './'
+import Lane, { StyledLane } from './'
 
 describe('<Lane />', () => {
   let subject
@@ -110,5 +110,11 @@ describe('<Lane />', () => {
         expect(renderLaneHeader).toHaveBeenCalledWith(lane)
       })
     })
+  })
+})
+
+describe('<StyledLane />', () => {
+  it('renders a lane', () => {
+    expect(render(<StyledLane />).container.querySelector('div')).toBeInTheDocument()
   })
 })
