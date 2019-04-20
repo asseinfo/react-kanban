@@ -65,6 +65,8 @@ const board = {
   onLaneDragEnd={() => {}}
   renderCard={() => {}}
   renderLaneHeader={() => {}}
+  allowAddLane
+  onNewLane={() => {}}
 >
   {board}
 </Board>
@@ -74,12 +76,14 @@ const board = {
 ### ⚙️ Props
 
 | Prop                  | Description                                                     |
-|-----------------------|-----------------------------------------------------------------|
-| `children` (required) | The board to render                                             |
-| `onCardDragEnd`       | Callback that will be called when the card move ends            |
-| `onLaneDragEnd`       | Callback that will be called when the lane move ends            |
-| `renderCard`          | A card to be rendered instead of the default card               |
-| `renderLaneHeader`    | A lane header to be rendered instead of the default lane header |
+|-------------------------------------------------|-----------------------------------------------------------------|
+| `children` (required)                           | The board to render                                             |
+| `onCardDragEnd`                                 | Callback that will be called when the card move ends            |
+| `onLaneDragEnd`                                 | Callback that will be called when the lane move ends            |
+| `renderCard`                                    | A card to be rendered instead of the default card               |
+| `renderLaneHeader`                              | A lane header to be rendered instead of the default lane header |
+| `allowAddLane` (required if `onNewLane`)        | Allow a new lane be added by the user                           |
+| `onNewLane` (required if `allowAddLane`)        | Callback that will be called when a new lane is added           |
 
 #### `children`
 ```js
@@ -193,6 +197,24 @@ const board = {
 >
 {board}
 </Board>
+```
+
+#### `allowAddLane`
+Allow the user to add a new lane directly by the board. Use this together with `onNewLane` prop.
+
+#### `onNewLane`
+When the user adds a new lane, this callback will be called passing the lane title typed by the user.
+
+You **must** return the new lane with its new id in this callback.
+
+Ex.:
+```js
+function onNewLane (newLane) {
+  const newLane = { id: ${required-new-unique-laneId}, ...newLane }
+  return newLane
+}
+
+<Board allowAddLane onNewLane={onNewLane}>{board}</Board>
 ```
 
 ## 🚴‍♀️ Roadmap

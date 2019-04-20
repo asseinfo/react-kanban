@@ -2,21 +2,25 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
+import LaneAdder from './components/LaneAdder'
 import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
+import { addInArrayAtPosition, when } from '@services/utils'
 
 const StyledBoard = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
   padding: 5px;
   overflow-y: hidden;
+  display: flex;
+  align-items: flex-start;
 `
 
-const DroppableBoard = withDroppable(StyledBoard)
+const Lanes = styled.div`
+  white-space: nowrap;
+`
 
-function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLaneHeader }) {
+const DroppableBoard = withDroppable(Lanes)
+
+function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLaneHeader, allowAddLane, onNewLane }) {
   const [board, setBoard] = useState(children)
 
   function onDragEnd (event) {
@@ -33,19 +37,27 @@ function Board ({ children, onCardDragEnd, onLaneDragEnd, renderCard, renderLane
     }
 
     const reorderedBoard = reorderBoard(board, source, destination)
-    propCallback && propCallback(reorderedBoard, source, destination)
+    when(propCallback)(callback => callback(reorderedBoard, source, destination))
     setBoard(reorderedBoard)
+  }
+
+  function addLane (title) {
+    const lanes = addInArrayAtPosition(board.lanes, onNewLane({ title, cards: [] }), board.lanes.length)
+    setBoard({ ...board, lanes })
   }
 
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
     >
-      <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-        {board.lanes.map((lane, index) => (
-          <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
-        )}
-      </DroppableBoard>
+      <StyledBoard>
+        <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+          {board.lanes.map((lane, index) => (
+            <Lane key={lane.id} index={index} renderCard={renderCard} renderLaneHeader={renderLaneHeader}>{lane}</Lane>)
+          )}
+        </DroppableBoard>
+        {allowAddLane && onNewLane && <LaneAdder onConfirm={addLane} />}
+      </StyledBoard>
     </DragDropContext>
   )
 }
