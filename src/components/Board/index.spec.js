@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, within, act, fireEvent } from 'react-testing-library'
+import { render, within, act, fireEvent } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
