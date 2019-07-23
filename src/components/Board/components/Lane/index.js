@@ -21,9 +21,9 @@ const DefaultLaneHeader = styled.div`
 `
 const DroppableLane = withDroppable('div')
 
-function Lane ({ children, index: laneIndex, renderCard, renderLaneHeader }) {
+function Lane ({ children, index: laneIndex, renderCard, renderLaneHeader, disableLaneDrag, disableCardDrag }) {
   return (
-    <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex}>
+    <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
       {laneProvided => (
         <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
@@ -33,10 +33,13 @@ function Lane ({ children, index: laneIndex, renderCard, renderLaneHeader }) {
             }
           </div>
           <DroppableLane droppableId={String(children.id)}>
-            {children.cards.length
-              ? children.cards.map((card, index) => (<Card key={card.id} index={index} renderCard={renderCard}>{card}</Card>))
-              : <CardSkeleton />
-            }
+            {children.cards.length ? (
+              children.cards.map((card, index) => (
+                <Card key={card.id} index={index} renderCard={renderCard} disableCardDrag={disableCardDrag}>{card}</Card>
+              ))
+            ) : (
+              <CardSkeleton />
+            )}
           </DroppableLane>
         </StyledLane>
       )}

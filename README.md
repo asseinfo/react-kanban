@@ -67,6 +67,8 @@ const board = {
   renderLaneHeader={() => {}}
   allowAddLane
   onNewLane={() => {}}
+  disableLaneDrag={false}
+  disableCardDrag={false}
 >
   {board}
 </Board>
@@ -84,6 +86,8 @@ const board = {
 | `renderLaneHeader`                              | A lane header to be rendered instead of the default lane header |
 | `allowAddLane` (required if `onNewLane`)        | Allow a new lane be added by the user                           |
 | `onNewLane` (required if `allowAddLane`)        | Callback that will be called when a new lane is added           |
+| `disableLaneDrag`                               | Disable the lane move                                           |
+| `disableCardDrag`                               | Disable the card move                                           |
 
 #### `children`
 ```js
@@ -216,6 +220,12 @@ function onNewLane (newLane) {
 
 <Board allowAddLane onNewLane={onNewLane}>{board}</Board>
 ```
+
+#### `disableLaneDrag`
+Disallow the user from move a lane.
+
+#### `disableCardDrag`
+Disallow the user from move a card.
 
 ## 🚴‍♀️ Roadmap
 

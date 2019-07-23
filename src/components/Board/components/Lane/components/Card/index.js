@@ -28,9 +28,9 @@ const CardDescription = styled.div`
   padding-top: 10px;
 `
 
-function Card ({ children, index, renderCard }) {
+function Card ({ children, index, renderCard, disableCardDrag }) {
   return (
-    <Draggable draggableId={String(children.id)} index={index}>
+    <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableCardDrag}>
       {(provided, snapshot) => {
         return (
           <div
