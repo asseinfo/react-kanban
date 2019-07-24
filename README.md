@@ -88,15 +88,15 @@ const board = {
 #### `children`
 ```js
 const board = {
-  lanes: {
+  lanes: [{
     id: ${unique-required-laneId},
     title: {$required-laneTitle},
-    cards: {
+    cards: [{
       id: ${unique-required-cardId},
       title: ${required-cardTitle},
       description: ${required-cardDescription}
-    }
-  }
+    }]
+  }]
 }
 ```
 These cards props are required to the card's default template, except the id that is required for your template too. See [`renderCard`](#rendercard).
