@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, within, act, fireEvent } from 'react-testing-library'
+import { render, within, act, fireEvent } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
@@ -227,8 +227,9 @@ describe('<Board />', () => {
       })
 
       it("renders the custom cards on the board's lane", () => {
-        expect(subject.queryAllByTestId('card')).toHaveLength(3)
-        expect(subject.queryByTestId('card')).toHaveTextContent(/^1 - Card title - Card content$/)
+        const cards = subject.queryAllByTestId('card')
+        expect(cards).toHaveLength(3)
+        expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
       })
 
       it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {

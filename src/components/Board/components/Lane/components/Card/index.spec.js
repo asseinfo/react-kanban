@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-testing-library'
+import { render } from '@testing-library/react'
 import Card, { CardSkeleton } from './'
 import { callbacks } from 'react-beautiful-dnd'
 
