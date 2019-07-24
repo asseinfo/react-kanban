@@ -75,7 +75,7 @@ describe('<Lane />', () => {
 
       it('renders the custom cards on the lane', () => {
         expect(subject.queryAllByTestId('card')).toHaveLength(2)
-        expect(subject.queryByTestId('card')).toHaveTextContent(/^1 - Card title - Card content$/)
+        expect(subject.queryAllByTestId('card')[0]).toHaveTextContent(/^1 - Card title - Card content$/)
       })
     })
   })

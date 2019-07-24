@@ -228,7 +228,7 @@ describe('<Board />', () => {
 
       it("renders the custom cards on the board's lane", () => {
         expect(subject.queryAllByTestId('card')).toHaveLength(3)
-        expect(subject.queryByTestId('card')).toHaveTextContent(/^1 - Card title - Card content$/)
+        expect(subject.queryAllByTestId('card')[0]).toHaveTextContent(/^1 - Card title - Card content$/)
       })
 
       it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
