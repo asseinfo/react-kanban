@@ -4,7 +4,7 @@ import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
-  let subject, onCardDragEnd, onLaneDragEnd
+  let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove
   const board = {
     lanes: [
       {
@@ -41,7 +41,7 @@ describe('<Board />', () => {
     subject = render(<Board {...otherProps}>{children}</Board>)
     return subject
   }
-  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = undefined })
+  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = undefined })
 
   it('renders a board', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
@@ -55,7 +55,9 @@ describe('<Board />', () => {
   })
 
   it('renders the specified cards in their lanes', () => {
-    expect(within(mount().queryByText(/^Lane Backlog$/).parentNode.parentNode).queryAllByText(/^Card title$/)).toHaveLength(2)
+    const lane = within(mount().queryByText(/^Lane Backlog$/).closest('[data-testid="lane"]'))
+    const cards = lane.queryAllByText(/^Card title$/)
+    expect(cards).toHaveLength(2)
   })
 
   describe('about the card moving', () => {
@@ -239,7 +241,7 @@ describe('<Board />', () => {
     })
   })
 
-  describe("about the lane's custom header", () => {
+  describe("about the lane's header", () => {
     let renderLaneHeader
     const board = {
       lanes: [
@@ -254,7 +256,7 @@ describe('<Board />', () => {
 
     afterEach(() => { renderLaneHeader = undefined })
 
-    describe('when it receives a "renderLaneHeader" prop', () => {
+    describe('when the component receives a "renderLaneHeader" prop', () => {
       beforeEach(() => {
         renderLaneHeader = jest.fn(laneContent => (
           <div>{laneContent.title} ({laneContent.wip})</div>
@@ -268,14 +270,23 @@ describe('<Board />', () => {
         expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog \(1\)$/)
       })
 
-      it('passes the lane content to the renderLaneHeader prop', () => {
+      it('passes both the lane content and the removeLane function to the renderLaneHeader prop', () => {
         expect(renderLaneHeader).toHaveBeenCalledTimes(1)
         expect(renderLaneHeader).toHaveBeenCalledWith({
           id: 1,
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        })
+        }, expect.any(Function))
+      })
+    })
+
+    describe('when the component does not receive a "renderLaneHeader" prop', () => {
+      beforeEach(() => mount({ children: board }))
+
+      it("renders the default header on the board's lane", () => {
+        expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
+        expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog$/)
       })
     })
   })
@@ -338,6 +349,47 @@ describe('<Board />', () => {
             expect(subject.queryByText('➕')).toBeInTheDocument()
           })
         })
+      })
+    })
+  })
+
+  describe('about the lane removing', () => {
+    describe('when the component receives the "allowRemoveProp" prop', () => {
+      describe('when the component receives the "onLaneRemove" prop', () => {
+        beforeEach(() => {
+          onLaneRemove = jest.fn()
+          mount({ allowRemoveLane: true, onLaneRemove })
+        })
+
+        it('does not call the "onLaneRemove callback', () => {
+          expect(onLaneRemove).toHaveBeenCalledTimes(0)
+        })
+
+        describe('when the user clicks to remove a lane', () => {
+          beforeEach(() => {
+            const removeLaneButton = within(subject.queryAllByTestId('lane')[0]).queryByText('×')
+            fireEvent.click(removeLaneButton)
+          })
+
+          it('removes the lane', () => {
+            const lane = subject.queryAllByTestId('lane')
+            expect(lane).toHaveLength(1)
+            expect(lane[0]).toHaveTextContent('Lane Doing')
+          })
+
+          it('calls the "onLaneRemove callback passing the updated board', () => {
+            expect(onLaneRemove).toHaveBeenCalledTimes(1)
+            expect(onLaneRemove).toHaveBeenCalledWith({ lanes: [expect.objectContaining({ id: 2 })] })
+          })
+        })
+      })
+    })
+
+    describe('when the component does not receive the "allowRemoveProp" prop', () => {
+      beforeEach(() => mount())
+
+      it('does not show the button on lane header to remove the lane', () => {
+        expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
       })
     })
   })

@@ -14,11 +14,6 @@ export const StyledLane = styled.div`
   vertical-align: top;
 `
 
-const DefaultLaneHeader = styled.div`
-  padding-left: 10px;
-  padding-bottom: 10px;
-  font-weight: bold;
-`
 const DroppableLane = withDroppable('div')
 
 function Lane ({ children, index: laneIndex, renderCard, renderLaneHeader, disableLaneDrag, disableCardDrag }) {
@@ -27,10 +22,7 @@ function Lane ({ children, index: laneIndex, renderCard, renderLaneHeader, disab
       {laneProvided => (
         <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
-            {renderLaneHeader
-              ? renderLaneHeader(children)
-              : <DefaultLaneHeader>{children.title}</DefaultLaneHeader>
-            }
+            {renderLaneHeader}
           </div>
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length ? (
