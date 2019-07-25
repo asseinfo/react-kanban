@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/lourenci/react-kanban.svg?branch=master)](https://travis-ci.org/lourenci/react-kanban)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-Yet another Kanban/Trello board like lib for React.
+Yet another Kanban/Trello board lib for React.
 
 ![Kanban Demo](https://imgur.com/xyOoy2N.gif)
 
