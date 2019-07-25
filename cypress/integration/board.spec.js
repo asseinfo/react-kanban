@@ -22,7 +22,7 @@ describe('Board Page', function () {
   })
 
   describe('about the card moving', () => {
-    describe('when the card is not bloked for moving', () => {
+    describe('when the card is not blocked for moving', () => {
       describe('when the user moves a card in the same lane', () => {
         beforeEach(() => {
           const firstCardSelector = '[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)'
