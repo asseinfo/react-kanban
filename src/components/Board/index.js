@@ -73,7 +73,10 @@ function Board ({
   function removeLane (laneId) {
     const lanes = board.lanes.filter(lane => lane.id !== laneId)
     const filteredBoard = { ...board, lanes }
-    onLaneRemove && onLaneRemove(filteredBoard)
+    if (onLaneRemove) {
+      const removedLane = board.lanes.find(lane => lane.id === laneId)
+      onLaneRemove(filteredBoard, removedLane)
+    }
     setBoard(filteredBoard)
   }
 

@@ -377,9 +377,12 @@ describe('<Board />', () => {
             expect(lane[0]).toHaveTextContent('Lane Doing')
           })
 
-          it('calls the "onLaneRemove callback passing the updated board', () => {
+          it('calls the "onLaneRemove callback passing both the updated board and the removed lane', () => {
             expect(onLaneRemove).toHaveBeenCalledTimes(1)
-            expect(onLaneRemove).toHaveBeenCalledWith({ lanes: [expect.objectContaining({ id: 2 })] })
+            expect(onLaneRemove).toHaveBeenCalledWith(
+              { lanes: [expect.objectContaining({ id: 2 })] },
+              expect.objectContaining({ id: 1 })
+            )
           })
         })
       })
