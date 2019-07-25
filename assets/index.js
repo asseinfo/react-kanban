@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
 import Board from '../src'
+import getUrlParams from './services/getUrlParams'
 
 const board = {
   lanes: [
@@ -65,4 +66,4 @@ const board = {
   ]
 }
 
-render(<Board>{board}</Board>, document.getElementById('app'))
+render(<Board {...getUrlParams()}>{board}</Board>, document.getElementById('app'))
