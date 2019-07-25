@@ -67,8 +67,8 @@ const board = {
   renderLaneHeader={() => {}}
   allowAddLane
   onNewLane={() => {}}
-  disableLaneDrag={false}
-  disableCardDrag={false}
+  disableLaneDrag
+  disableCardDrag
 >
   {board}
 </Board>
