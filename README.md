@@ -23,7 +23,7 @@ Yet another Kanban/Trello board lib for React.
 
 Since this project use Hooks and Styled Components, you have to install them:
   * `react>=16.8.0`
-  * `styled-components>=3`
+  * `styled-components>=4`
 
 After, Install the lib on your project:
   ```bash
@@ -60,18 +60,7 @@ const board = {
   ]
 }
 
-<Board
-  onCardDragEnd={() => {}}
-  onLaneDragEnd={() => {}}
-  renderCard={() => {}}
-  renderLaneHeader={() => {}}
-  allowAddLane
-  onNewLane={() => {}}
-  disableLaneDrag
-  disableCardDrag
->
-  {board}
-</Board>
+<Board>{board}</Board>
 ```
 
 ## 🔥 API
@@ -153,15 +142,15 @@ The function will receive these parameters:
 Ex.:
 ```js
 const board = {
-  lanes: {
+  lanes: [{
     id: ${unique-required-laneId},
     title: ${laneTitle},
-    cards: {
+    cards: [{
       id: ${unique-required-cardId},
       dueDate: ${cardDueDate},
       content: ${cardContent}
-    }
-  }
+    }]
+  }]
 }
 
 <Board
@@ -185,16 +174,16 @@ The function will receive these parameters:
 Ex.:
 ```js
 const board = {
-  lanes: {
+  lanes: [{
     id: ${unique-required-laneId},
     title: ${laneTitle},
     wip: ${wip},
-    cards: {
+    cards: [{
       id: ${unique-required-cardId},
       title: ${required-cardTitle},
       description: ${required-cardDescription}
-    }
-  }
+    }]
+  }]
 }
 
 <Board
