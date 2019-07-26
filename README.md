@@ -88,6 +88,8 @@ const board = {
 | `onNewLane` (required if `allowAddLane`)        | Callback that will be called when a new lane is added           |
 | `disableLaneDrag`                               | Disable the lane move                                           |
 | `disableCardDrag`                               | Disable the card move                                           |
+| `allowRemoveLane`                               | Allow to remove a lane in default lane header                   |
+| `onLaneRemove`                                  | Callback that will be called when a lane is removed             |
 
 #### `children`
 ```js
@@ -173,11 +175,12 @@ const board = {
 
 #### `renderLaneHeader`
 Use this if you want to render your own lane header. You have to pass a function and return your lane header component.
-The function will receive this parameter:
+The function will receive these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `lane`       | The lane props                                         |
+| `removeLane` | A function to remove the lane                          |
 
 Ex.:
 ```js
@@ -195,8 +198,10 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title, wip }) => (
-    <YourLaneHeader title={title} wip={wip} />
+  renderLaneHeader={({ title }, removeLane) => (
+    <YourLaneHeader>
+      {title} - <button type='button' onClick={removeLane}>Remove Lane</button>
+    </YourLaneHeader
   )}
 >
 {board}
@@ -226,6 +231,14 @@ Disallow the user from move a lane.
 
 #### `disableCardDrag`
 Disallow the user from move a card.
+
+#### `onLaneRemove`
+When the user removes a lane, this callback will be called passing these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The board without the removed lane                     |
+| `lane`       | The removed lane                                       |
 
 ## 🚴‍♀️ Roadmap
 

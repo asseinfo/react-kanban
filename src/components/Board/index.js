@@ -18,6 +18,18 @@ const Lanes = styled.div`
   white-space: nowrap;
 `
 
+const DefaultLaneHeader = styled.div`
+  padding-left: 10px;
+  padding-bottom: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+
+  span:nth-child(2) {
+    cursor: pointer;
+  }
+`
+
 const DroppableBoard = withDroppable(Lanes)
 
 function Board ({
@@ -29,7 +41,9 @@ function Board ({
   allowAddLane,
   onNewLane,
   disableLaneDrag,
-  disableCardDrag
+  disableCardDrag,
+  allowRemoveLane,
+  onLaneRemove
 }) {
   const [board, setBoard] = useState(children)
 
@@ -56,6 +70,16 @@ function Board ({
     setBoard({ ...board, lanes })
   }
 
+  function removeLane (laneId) {
+    const filteredLanes = board.lanes.filter(lane => lane.id !== laneId)
+    const filteredBoard = { ...board, lanes: filteredLanes }
+    if (onLaneRemove) {
+      const removedLane = board.lanes.find(lane => lane.id === laneId)
+      onLaneRemove(filteredBoard, removedLane)
+    }
+    setBoard(filteredBoard)
+  }
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -67,7 +91,11 @@ function Board ({
               key={lane.id}
               index={index}
               renderCard={renderCard}
-              renderLaneHeader={renderLaneHeader}
+              renderLaneHeader={renderLaneHeader ? renderLaneHeader(lane, removeLane.bind(null, lane.id)) : (
+                <DefaultLaneHeader>
+                  <span>{lane.title}</span>{allowRemoveLane && <span onClick={() => removeLane(lane.id)}>×</span>}
+                </DefaultLaneHeader>
+              )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >
