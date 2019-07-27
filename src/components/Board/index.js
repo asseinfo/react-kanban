@@ -64,8 +64,16 @@ function Board ({
   function removeLane (lane) {
     const filteredLanes = board.lanes.filter(({ id }) => id !== lane.id)
     const filteredBoard = { ...board, lanes: filteredLanes }
-    onLaneRemove && onLaneRemove(filteredBoard, lane)
+    onLaneRemove(filteredBoard, lane)
     setBoard(filteredBoard)
+  }
+
+  function renameLane (laneId, title) {
+    const renamedLane = board.lanes.find(lane => lane.id === laneId)
+    const renamedLanes = board.lanes.map(lane => lane.id === laneId ? { ...lane, title } : lane)
+    const boardWithRenamedLane = { ...board, lanes: renamedLanes }
+    onLaneRename(boardWithRenamedLane, { ...renamedLane, title })
+    setBoard(boardWithRenamedLane)
   }
 
   return (
@@ -79,16 +87,18 @@ function Board ({
               key={lane.id}
               index={index}
               renderCard={renderCard}
-              renderLaneHeader={renderLaneHeader ? renderLaneHeader(lane, removeLane.bind(null, lane)) : (
-                <DefaultLaneHeader
-                  allowRemoveLane={allowRemoveLane}
-                  onLaneRemove={removeLane}
-                  allowRenameLane={allowRenameLane}
-                  onLaneRename={console.log}
-                >
-                  {lane}
-                </DefaultLaneHeader>
-              )}
+              renderLaneHeader={renderLaneHeader
+                ? renderLaneHeader(lane, removeLane.bind(null, lane), renameLane.bind(null, lane.id))
+                : (
+                  <DefaultLaneHeader
+                    allowRemoveLane={allowRemoveLane}
+                    onLaneRemove={removeLane}
+                    allowRenameLane={allowRenameLane}
+                    onLaneRename={renameLane}
+                  >
+                    {lane}
+                  </DefaultLaneHeader>
+                )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >

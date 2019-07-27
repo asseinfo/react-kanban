@@ -29,7 +29,7 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   const [titleInput, setTitleInput] = useState('')
 
   function handleRenameLane (title) {
-    onLaneRename({ ...lane, ...{ title } })
+    onLaneRename(lane.id, title)
     setTitle(title)
     toggleRenameMode()
   }

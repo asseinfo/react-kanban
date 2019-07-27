@@ -39,26 +39,26 @@ describe('<DefaultLaneHeader />', () => {
         expect(subject.queryByText('×')).not.toBeInTheDocument()
       })
 
-      it('does not call the onLaneRemove callback', () => {
+      it('does not call the "onLaneRemove" callback', () => {
         expect(onLaneRemove).not.toHaveBeenCalled()
       })
     })
 
-    describe('when the component receives the allowRemoveLaneProp', () => {
+    describe('when the component receives the "allowRemoveLane" prop', () => {
       beforeEach(() => mount({ allowRemoveLane: true }))
 
       it('shows the remove button', () => {
         expect(subject.queryByText('×')).toBeInTheDocument()
       })
 
-      it('does not call the onLaneRemove callback', () => {
+      it('does not call the "onLaneRemove" callback', () => {
         expect(onLaneRemove).not.toHaveBeenCalled()
       })
 
       describe('when the user clicks on the remove button', () => {
         beforeEach(() => fireEvent.click(subject.queryByText('×')))
 
-        it('calls the onLaneRemove callback passing the lane', () => {
+        it('calls the "onLaneRemove" callback passing the lane', () => {
           expect(onLaneRemove).toHaveBeenCalledTimes(1)
           expect(onLaneRemove).toHaveBeenCalledWith(lane)
         })
@@ -67,7 +67,7 @@ describe('<DefaultLaneHeader />', () => {
   })
 
   describe('about the lane title renaming', () => {
-    describe('when the component does not receive the allowRenameLane prop', () => {
+    describe('when the component does not receive the "allowRenameLane" prop', () => {
       describe('when the user clicks on the lane title', () => {
         beforeEach(() => {
           mount({ onLaneRename })
@@ -79,17 +79,21 @@ describe('<DefaultLaneHeader />', () => {
           expect(subject.container.querySelector('input')).not.toBeInTheDocument()
         })
 
-        it('does not call the onLaneRename callback', () => {
+        it('does not call the "onLaneRename" callback', () => {
           expect(onLaneRename).not.toHaveBeenCalled()
         })
       })
     })
 
-    describe('when the component receives the allowRenameLane prop', () => {
+    describe('when the component receives the "allowRenameLane" prop', () => {
       describe('when the user clicks on the lane title', () => {
         beforeEach(() => {
           mount({ allowRenameLane: true, onLaneRename })
           fireEvent.click(subject.queryByText('Lane title'))
+        })
+
+        it('does not call the "onLaneRename" callback', () => {
+          expect(onLaneRename).not.toHaveBeenCalled()
         })
 
         it('toggles the title for an input for typing a new title', () => {
@@ -108,9 +112,9 @@ describe('<DefaultLaneHeader />', () => {
             expect(subject.container.querySelector('input')).not.toBeInTheDocument()
           })
 
-          it('calls the onLaneRename passing the lane with the new title', () => {
+          it('calls the "onLaneRename" callback passing the lane id with the new title', () => {
             expect(onLaneRename).toHaveBeenCalledTimes(1)
-            expect(onLaneRename).toHaveBeenCalledWith(expect.objectContaining({ title: 'New title' }))
+            expect(onLaneRename).toHaveBeenCalledWith(1, 'New title')
           })
         })
       })
