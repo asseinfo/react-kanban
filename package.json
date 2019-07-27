@@ -41,7 +41,6 @@
     "webpack-dev-server": "3.3.1"
   },
   "scripts": {
-    "lint": "eslint 'src/**/*.js'",
     "build": "webpack --config webpack.prod.js",
     "build:publish": "rm -rf dist/ && webpack --config webpack.prod.js && yarn publish --access public",
     "server": "webpack-dev-server --config webpack.dev.js",
