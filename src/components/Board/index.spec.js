@@ -395,5 +395,31 @@ describe('<Board />', () => {
         expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
       })
     })
+
+    describe('when the component receives the "renderLaneHeader"', () => {
+      beforeEach(() => {
+        const renderLaneHeader = ({ title }, removeLane) => <div onClick={removeLane}>{title}</div>
+        onLaneRemove = jest.fn()
+        mount({ renderLaneHeader, onLaneRemove })
+      })
+
+      describe('when the "removeLane" callback is called', () => {
+        beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog')))
+
+        it('removes the lane', () => {
+          const lane = subject.queryAllByTestId('lane')
+          expect(lane).toHaveLength(1)
+          expect(lane[0]).toHaveTextContent('Lane Doing')
+        })
+
+        it('calls the "onLaneRemove callback passing both the updated board and the removed lane', () => {
+          expect(onLaneRemove).toHaveBeenCalledTimes(1)
+          expect(onLaneRemove).toHaveBeenCalledWith(
+            { lanes: [expect.objectContaining({ id: 2 })] },
+            expect.objectContaining({ id: 1 })
+          )
+        })
+      })
+    })
   })
 })
