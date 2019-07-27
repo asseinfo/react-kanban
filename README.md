@@ -171,7 +171,13 @@ The function will receive these parameters:
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `lane`       | The lane props                                         |
-| `removeLane` | A function to remove the lane                          |
+| `laneBag`    | A bag with some helper functions to work with the lane |
+
+##### `laneBag`
+| function     | Description                                            |
+|--------------|------------------------------------------------------- |
+| `removeLane` | Call this function to remove the lane from the board   |
+| `renameLane` | Call this function with a title to rename the lane     |
 
 Ex.:
 ```js
@@ -189,9 +195,11 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title }, removeLane) => (
+  renderLaneHeader={({ title }, { removeLane, renameLane }) => (
     <YourLaneHeader>
-      {title} - <button type='button' onClick={removeLane}>Remove Lane</button>
+      {title}
+      <button type='button' onClick={removeLane}>Remove Lane</button>
+      <button type='button' onClick={() => renameLane('New title')}>Rename Lane</button>
     </YourLaneHeader
   )}
 >

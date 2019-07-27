@@ -88,8 +88,12 @@ function Board ({
               index={index}
               renderCard={renderCard}
               renderLaneHeader={renderLaneHeader
-                ? renderLaneHeader(lane, removeLane.bind(null, lane), renameLane.bind(null, lane.id))
-                : (
+                ? (
+                  renderLaneHeader(lane, {
+                    removeLane: removeLane.bind(null, lane),
+                    renameLane: renameLane.bind(null, lane.id)
+                  })
+                ) : (
                   <DefaultLaneHeader
                     allowRemoveLane={allowRemoveLane}
                     onLaneRemove={removeLane}

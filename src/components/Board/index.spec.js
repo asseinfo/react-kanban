@@ -277,7 +277,7 @@ describe('<Board />', () => {
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        }, expect.any(Function), expect.any(Function))
+        }, { removeLane: expect.any(Function), renameLane: expect.any(Function) })
       })
     })
 
@@ -405,7 +405,7 @@ describe('<Board />', () => {
 
     describe('when the component receives a custom header lane template', () => {
       beforeEach(() => {
-        const renderLaneHeader = ({ title }, removeLane) => <div onClick={removeLane}>{title}</div>
+        const renderLaneHeader = ({ title }, { removeLane }) => <div onClick={removeLane}>{title}</div>
         onLaneRemove = jest.fn()
         mount({ renderLaneHeader, onLaneRemove })
       })
@@ -486,7 +486,7 @@ describe('<Board />', () => {
 
     describe('when the component receives a custom header lane template', () => {
       beforeEach(() => {
-        const renderLaneHeader = ({ title }, _, renameLane) => <div onClick={() => renameLane('New title')}>{title}</div>
+        const renderLaneHeader = ({ title }, { renameLane }) => <div onClick={() => renameLane('New title')}>{title}</div>
         onLaneRename = jest.fn()
         mount({ renderLaneHeader, onLaneRename })
       })
