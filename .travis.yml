@@ -13,9 +13,8 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
 script:
-  - npm run lint
   - npm run test
   - npm run server &
-  - npm run cypress run -- --browser chrome --record --key 09e5da75-8d57-48bd-98f5-c806298396d7
+  - npm run cypress run -- --browser chrome
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
