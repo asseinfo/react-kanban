@@ -66,4 +66,4 @@ const board = {
   ]
 }
 
-render(<Board {...getUrlParams()} onLaneRename={console.log}>{board}</Board>, document.getElementById('app'))
+render(<Board {...getUrlParams()}>{board}</Board>, document.getElementById('app'))
