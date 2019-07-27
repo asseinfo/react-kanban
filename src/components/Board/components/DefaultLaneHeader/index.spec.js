@@ -99,12 +99,22 @@ describe('<DefaultLaneHeader />', () => {
         it('toggles the title for an input for typing a new title', () => {
           expect(subject.queryByText('Lane title')).not.toBeInTheDocument()
           expect(subject.container.querySelector('input')).toBeInTheDocument()
+          expect(subject.queryByText('Rename', { selector: 'button' })).toBeInTheDocument()
+          expect(subject.queryByText('Cancel', { selector: 'button' })).toBeInTheDocument()
         })
 
-        describe('when the user confirms types a new name and confirms it', () => {
+        it('focuses on the input', () => {
+          expect(subject.container.querySelector('input')).toHaveFocus()
+        })
+
+        it('fills the input with the lane title', () => {
+          expect(subject.container.querySelector('input')).toHaveValue('Lane title')
+        })
+
+        describe('when the user types a new name and confirms it', () => {
           beforeEach(() => {
             fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
-            fireEvent.click(subject.container.querySelector('button'))
+            fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
           })
 
           it('toggles the input for the new lane title', () => {
@@ -115,6 +125,21 @@ describe('<DefaultLaneHeader />', () => {
           it('calls the "onLaneRename" callback passing the lane id with the new title', () => {
             expect(onLaneRename).toHaveBeenCalledTimes(1)
             expect(onLaneRename).toHaveBeenCalledWith(1, 'New title')
+          })
+        })
+
+        describe('when the user cancels the renaming', () => {
+          beforeEach(() => {
+            fireEvent.click(subject.queryByText('Cancel', { selector: 'button' }))
+          })
+
+          it('cancels the renaming', () => {
+            expect(subject.queryByText('Lane title')).toBeInTheDocument()
+            expect(subject.container.querySelector('input')).not.toBeInTheDocument()
+          })
+
+          it('does call the "onLaneRename" callback', () => {
+            expect(onLaneRename).not.toHaveBeenCalled()
           })
         })
       })

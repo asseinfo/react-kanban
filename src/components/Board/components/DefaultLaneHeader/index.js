@@ -13,6 +13,10 @@ const SkeletonLaneHeader = styled.div`
   }
 `
 
+const InvisibleInput = styled.input`
+
+`
+
 function useRenameMode (state) {
   const [renameMode, setRenameMode] = useState(state)
 
@@ -34,20 +38,26 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
     toggleRenameMode()
   }
 
+  function handleRenameMode () {
+    setTitleInput(title)
+    toggleRenameMode()
+  }
+
   return (
     <SkeletonLaneHeader>
       {allowRenameLane && renameMode ? (
         <Fragment>
           <span>
-            <input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} />
+            <input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
           </span>
           <span>
             <button type='button' onClick={() => handleRenameLane(titleInput)}>Rename</button>
+            <button type='button' onClick={handleRenameMode}>Cancel</button>
           </span>
         </Fragment>
       ) : (
         <Fragment>
-          <span onClick={toggleRenameMode}>
+          <span onClick={handleRenameMode}>
             {title}
           </span>
           {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
