@@ -270,7 +270,7 @@ describe('<Board />', () => {
         expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog \(1\)$/)
       })
 
-      it('passes the lane content, the removeLane and the renameLane to the renderLaneHeader prop', () => {
+      it('passes the lane content, the "removeLane" and the "renameLane" to the "renderLaneHeader" prop', () => {
         expect(renderLaneHeader).toHaveBeenCalledTimes(1)
         expect(renderLaneHeader).toHaveBeenCalledWith({
           id: 1,
@@ -354,7 +354,7 @@ describe('<Board />', () => {
   })
 
   describe('about the lane removing', () => {
-    describe('when the component use the default header template', () => {
+    describe('when the component uses the default header template', () => {
       describe('when the component receives the "allowRemoveLane" prop', () => {
         beforeEach(() => {
           onLaneRemove = jest.fn()
