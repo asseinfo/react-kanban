@@ -1,6 +1,6 @@
 {
   "name": "@lourenci/react-kanban",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A <ReactKanban /> for React Hooks",
   "main": "dist/index.js",
   "repository": "https://github.com/lourenci/react-kanban",
