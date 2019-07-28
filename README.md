@@ -231,7 +231,7 @@ Disallow the user from move a lane.
 #### `disableCardDrag`
 Disallow the user from move a card.
 
-### `AllowRemoveLane`
+#### `AllowRemoveLane`
 When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to remove a lane.
 
 #### `onLaneRemove`
@@ -242,7 +242,7 @@ When the user removes a lane, this callback will be called passing these paramet
 | `board`      | The board without the removed lane                     |
 | `lane`       | The removed lane                                       |
 
-### `AllowRenameLane`
+#### `AllowRenameLane`
 When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to rename a lane.
 
 #### `onLaneRename`
