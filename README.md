@@ -66,21 +66,21 @@ const board = {
 ## 🔥 API
 ### ⚙️ Props
 
-| Prop                  | Description                                                     |
-|-------------------------------------------------|-----------------------------------------------------------------|
-| `children` (required)                           | The board to render                                             |
-| `onCardDragEnd`                                 | Callback that will be called when the card move ends            |
-| `onLaneDragEnd`                                 | Callback that will be called when the lane move ends            |
-| `renderCard`                                    | A card to be rendered instead of the default card               |
-| `renderLaneHeader`                              | A lane header to be rendered instead of the default lane header |
-| `allowAddLane`                                  | Allow a new lane be added by the user                           |
-| `onNewLane` (required if `allowAddLane`)        | Callback that will be called when a new lane is added           |
-| `disableLaneDrag`                               | Disable the lane move                                           |
-| `disableCardDrag`                               | Disable the card move                                           |
-| `allowRemoveLane`                               | Allow to remove a lane in default lane header                   |
-| `onLaneRemove` (required if `allowRemoveLane`   | Callback that will be called when a lane is removed             |
-| `allowRenameLane`                               | Allow to rename a lane in default lane header                   |
-| `onLaneRename` (required if `allowRenameLane`   | Callback that will be called when a lane is renamed             |
+| Prop                                                            | Description                                                     |
+|-----------------------------------------------------------------|-----------------------------------------------------------------|
+| [`children`](#children) (required)                              | The board to render                                             |
+| [`onCardDragEnd`](#oncarddragend)                               | Callback that will be called when the card move ends            |
+| [`onLaneDragEnd`](#onlanedragend)                               | Callback that will be called when the lane move ends            |
+| [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
+| [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
+| [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
+| [`onNewLane`](#onnewlane) (required if `allowAddLane`)          | Callback that will be called when a new lane is added           |
+| [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
+| [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
+| [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
+| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane`) | Callback that will be called when a lane is removed             |
+| [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
+| [`onLaneRename`](#onlanerename) (required if `allowRenameLane`) | Callback that will be called when a lane is renamed             |
 
 #### `children`
 ```js
