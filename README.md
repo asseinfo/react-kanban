@@ -17,7 +17,7 @@ Yet another Kanban/Trello board lib for React.
 
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
-  * ♿️ Acessible: Keyboard and mobile friendly.
+  * ♿️ Accessible: Keyboard and mobile friendly.
 
 ## 🛠 Install and usage
 
@@ -73,12 +73,14 @@ const board = {
 | `onLaneDragEnd`                                 | Callback that will be called when the lane move ends            |
 | `renderCard`                                    | A card to be rendered instead of the default card               |
 | `renderLaneHeader`                              | A lane header to be rendered instead of the default lane header |
-| `allowAddLane` (required if `onNewLane`)        | Allow a new lane be added by the user                           |
+| `allowAddLane`                                  | Allow a new lane be added by the user                           |
 | `onNewLane` (required if `allowAddLane`)        | Callback that will be called when a new lane is added           |
 | `disableLaneDrag`                               | Disable the lane move                                           |
 | `disableCardDrag`                               | Disable the card move                                           |
 | `allowRemoveLane`                               | Allow to remove a lane in default lane header                   |
-| `onLaneRemove`                                  | Callback that will be called when a lane is removed             |
+| `onLaneRemove` (required if `allowRemoveLane`   | Callback that will be called when a lane is removed             |
+| `allowRenameLane`                               | Allow to rename a lane in default lane header                   |
+| `onLaneRename` (required if `allowRenameLane`   | Callback that will be called when a lane is renamed             |
 
 #### `children`
 ```js
@@ -169,7 +171,13 @@ The function will receive these parameters:
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `lane`       | The lane props                                         |
-| `removeLane` | A function to remove the lane                          |
+| `laneBag`    | A bag with some helper functions to work with the lane |
+
+##### `laneBag`
+| function     | Description                                            |
+|--------------|------------------------------------------------------- |
+| `removeLane` | Call this function to remove the lane from the board   |
+| `renameLane` | Call this function with a title to rename the lane     |
 
 Ex.:
 ```js
@@ -187,9 +195,11 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title }, removeLane) => (
+  renderLaneHeader={({ title }, { removeLane, renameLane }) => (
     <YourLaneHeader>
-      {title} - <button type='button' onClick={removeLane}>Remove Lane</button>
+      {title}
+      <button type='button' onClick={removeLane}>Remove Lane</button>
+      <button type='button' onClick={() => renameLane('New title')}>Rename Lane</button>
     </YourLaneHeader
   )}
 >
@@ -198,7 +208,7 @@ const board = {
 ```
 
 #### `allowAddLane`
-Allow the user to add a new lane directly by the board. Use this together with `onNewLane` prop.
+Allow the user to add a new lane directly by the board.
 
 #### `onNewLane`
 When the user adds a new lane, this callback will be called passing the lane title typed by the user.
@@ -221,6 +231,9 @@ Disallow the user from move a lane.
 #### `disableCardDrag`
 Disallow the user from move a card.
 
+### `AllowRemoveLane`
+When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to remove a lane.
+
 #### `onLaneRemove`
 When the user removes a lane, this callback will be called passing these parameters:
 
@@ -228,6 +241,17 @@ When the user removes a lane, this callback will be called passing these paramet
 |--------------|------------------------------------------------------- |
 | `board`      | The board without the removed lane                     |
 | `lane`       | The removed lane                                       |
+
+### `AllowRenameLane`
+When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to rename a lane.
+
+#### `onLaneRename`
+When the user renames a lane, this callback will be called passing these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The board with the renamed lane                        |
+| `lane`       | The renamed lane                                       |
 
 ## 🚴‍♀️ Roadmap
 

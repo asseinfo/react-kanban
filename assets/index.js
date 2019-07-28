@@ -66,4 +66,13 @@ const board = {
   ]
 }
 
-render(<Board {...getUrlParams()}>{board}</Board>, document.getElementById('app'))
+render(
+  <Board
+    {...getUrlParams()}
+    onLaneRemove={console.log}
+    onLaneRename={console.log}
+  >
+    {board}
+  </Board>,
+  document.getElementById('app')
+)

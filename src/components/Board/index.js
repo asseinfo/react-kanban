@@ -6,6 +6,7 @@ import LaneAdder from './components/LaneAdder'
 import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
 import { addInArrayAtPosition, when } from '@services/utils'
+import DefaultLaneHeader from './components/DefaultLaneHeader'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -16,18 +17,6 @@ const StyledBoard = styled.div`
 
 const Lanes = styled.div`
   white-space: nowrap;
-`
-
-const DefaultLaneHeader = styled.div`
-  padding-left: 10px;
-  padding-bottom: 10px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-
-  span:nth-child(2) {
-    cursor: pointer;
-  }
 `
 
 const DroppableBoard = withDroppable(Lanes)
@@ -43,7 +32,9 @@ function Board ({
   disableLaneDrag,
   disableCardDrag,
   allowRemoveLane,
-  onLaneRemove
+  onLaneRemove,
+  allowRenameLane,
+  onLaneRename
 }) {
   const [board, setBoard] = useState(children)
 
@@ -70,14 +61,19 @@ function Board ({
     setBoard({ ...board, lanes })
   }
 
-  function removeLane (laneId) {
-    const filteredLanes = board.lanes.filter(lane => lane.id !== laneId)
+  function removeLane (lane) {
+    const filteredLanes = board.lanes.filter(({ id }) => id !== lane.id)
     const filteredBoard = { ...board, lanes: filteredLanes }
-    if (onLaneRemove) {
-      const removedLane = board.lanes.find(lane => lane.id === laneId)
-      onLaneRemove(filteredBoard, removedLane)
-    }
+    onLaneRemove(filteredBoard, lane)
     setBoard(filteredBoard)
+  }
+
+  function renameLane (laneId, title) {
+    const renamedLane = board.lanes.find(lane => lane.id === laneId)
+    const renamedLanes = board.lanes.map(lane => lane.id === laneId ? { ...lane, title } : lane)
+    const boardWithRenamedLane = { ...board, lanes: renamedLanes }
+    onLaneRename(boardWithRenamedLane, { ...renamedLane, title })
+    setBoard(boardWithRenamedLane)
   }
 
   return (
@@ -91,11 +87,22 @@ function Board ({
               key={lane.id}
               index={index}
               renderCard={renderCard}
-              renderLaneHeader={renderLaneHeader ? renderLaneHeader(lane, removeLane.bind(null, lane.id)) : (
-                <DefaultLaneHeader>
-                  <span>{lane.title}</span>{allowRemoveLane && <span onClick={() => removeLane(lane.id)}>×</span>}
-                </DefaultLaneHeader>
-              )}
+              renderLaneHeader={renderLaneHeader
+                ? (
+                  renderLaneHeader(lane, {
+                    removeLane: removeLane.bind(null, lane),
+                    renameLane: renameLane.bind(null, lane.id)
+                  })
+                ) : (
+                  <DefaultLaneHeader
+                    allowRemoveLane={allowRemoveLane}
+                    onLaneRemove={removeLane}
+                    allowRenameLane={allowRenameLane}
+                    onLaneRename={renameLane}
+                  >
+                    {lane}
+                  </DefaultLaneHeader>
+                )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >

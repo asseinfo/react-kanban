@@ -4,7 +4,7 @@ import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
-  let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove
+  let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename
   const board = {
     lanes: [
       {
@@ -270,14 +270,14 @@ describe('<Board />', () => {
         expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog \(1\)$/)
       })
 
-      it('passes both the lane content and the removeLane function to the renderLaneHeader prop', () => {
+      it('passes the lane content, the "removeLane" and the "renameLane" to the "renderLaneHeader" prop', () => {
         expect(renderLaneHeader).toHaveBeenCalledTimes(1)
         expect(renderLaneHeader).toHaveBeenCalledWith({
           id: 1,
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        }, expect.any(Function))
+        }, { removeLane: expect.any(Function), renameLane: expect.any(Function) })
       })
     })
 
@@ -354,8 +354,8 @@ describe('<Board />', () => {
   })
 
   describe('about the lane removing', () => {
-    describe('when the component receives the "allowRemoveProp" prop', () => {
-      describe('when the component receives the "onLaneRemove" prop', () => {
+    describe('when the component uses the default header template', () => {
+      describe('when the component receives the "allowRemoveLane" prop', () => {
         beforeEach(() => {
           onLaneRemove = jest.fn()
           mount({ allowRemoveLane: true, onLaneRemove })
@@ -377,7 +377,7 @@ describe('<Board />', () => {
             expect(lane[0]).toHaveTextContent('Lane Doing')
           })
 
-          it('calls the "onLaneRemove callback passing both the updated board and the removed lane', () => {
+          it('calls the "onLaneRemove" callback passing both the updated board and the removed lane', () => {
             expect(onLaneRemove).toHaveBeenCalledTimes(1)
             expect(onLaneRemove).toHaveBeenCalledWith(
               { lanes: [expect.objectContaining({ id: 2 })] },
@@ -386,13 +386,130 @@ describe('<Board />', () => {
           })
         })
       })
+
+      describe('when the component does not receive the "allowRemoveLane" prop', () => {
+        beforeEach(() => {
+          onLaneRemove = jest.fn()
+          mount({ onLaneRemove })
+        })
+
+        it('does not call the "onLaneRemove" callback', () => {
+          expect(onLaneRemove).toHaveBeenCalledTimes(0)
+        })
+
+        it('does not show the button on lane header to remove the lane', () => {
+          expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+        })
+      })
     })
 
-    describe('when the component does not receive the "allowRemoveProp" prop', () => {
-      beforeEach(() => mount())
+    describe('when the component receives a custom header lane template', () => {
+      beforeEach(() => {
+        const renderLaneHeader = ({ title }, { removeLane }) => <div onClick={removeLane}>{title}</div>
+        onLaneRemove = jest.fn()
+        mount({ renderLaneHeader, onLaneRemove })
+      })
 
-      it('does not show the button on lane header to remove the lane', () => {
-        expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+      describe('when the "removeLane" callback is called', () => {
+        beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog')))
+
+        it('removes the lane', () => {
+          const lane = subject.queryAllByTestId('lane')
+          expect(lane).toHaveLength(1)
+          expect(lane[0]).toHaveTextContent('Lane Doing')
+        })
+
+        it('calls the "onLaneRemove" callback passing both the updated board and the removed lane', () => {
+          expect(onLaneRemove).toHaveBeenCalledTimes(1)
+          expect(onLaneRemove).toHaveBeenCalledWith(
+            { lanes: [expect.objectContaining({ id: 2 })] },
+            expect.objectContaining({ id: 1 })
+          )
+        })
+      })
+    })
+  })
+
+  describe('about the lane renaming', () => {
+    describe('when the component use the default header template', () => {
+      describe('when the component receives the "allowRenameLane" prop', () => {
+        beforeEach(() => {
+          onLaneRename = jest.fn()
+          mount({ allowRenameLane: true, onLaneRename })
+        })
+
+        it('does not call the "onLaneRename" callback', () => {
+          expect(onLaneRename).toHaveBeenCalledTimes(0)
+        })
+
+        describe('when the user renames a lane', () => {
+          beforeEach(() => {
+            fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog'))
+            fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
+            fireEvent.click(subject.container.querySelector('button'))
+          })
+
+          it('renames the lane', () => {
+            expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
+          })
+
+          it('calls the "onLaneRename" callback passing both the updated board and the renamed lane lane', () => {
+            expect(onLaneRename).toHaveBeenCalledTimes(1)
+            expect(onLaneRename).toHaveBeenCalledWith(
+              {
+                lanes: [
+                  expect.objectContaining({ id: 1, title: 'New title' }),
+                  expect.objectContaining({ id: 2, title: 'Lane Doing' })
+                ]
+              },
+              expect.objectContaining({ id: 1, title: 'New title' })
+            )
+          })
+        })
+      })
+
+      describe('when the component does not receive the "allowRenameLane" prop', () => {
+        beforeEach(() => {
+          onLaneRename = jest.fn()
+          mount({ onLaneRename })
+        })
+
+        it('does not call the "onLaneRename" callback', () => {
+          expect(onLaneRename).toHaveBeenCalledTimes(0)
+        })
+
+        it('does not show the button on lane header to remove the lane', () => {
+          expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+        })
+      })
+    })
+
+    describe('when the component receives a custom header lane template', () => {
+      beforeEach(() => {
+        const renderLaneHeader = ({ title }, { renameLane }) => <div onClick={() => renameLane('New title')}>{title}</div>
+        onLaneRename = jest.fn()
+        mount({ renderLaneHeader, onLaneRename })
+      })
+
+      describe('when the "renameLane" callback is called', () => {
+        beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog')))
+
+        it('renames the lane', () => {
+          expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
+        })
+
+        it('calls the "onLaneRemove" callback passing both the updated board and the removed lane', () => {
+          expect(onLaneRename).toHaveBeenCalledTimes(1)
+          expect(onLaneRename).toHaveBeenCalledWith(
+            {
+              lanes: [
+                expect.objectContaining({ id: 1, title: 'New title' }),
+                expect.objectContaining({ id: 2, title: 'Lane Doing' })
+              ]
+            },
+            expect.objectContaining({ id: 1, title: 'New title' })
+          )
+        })
       })
     })
   })
