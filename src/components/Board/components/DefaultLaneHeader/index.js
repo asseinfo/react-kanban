@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
 
-const SkeletonLaneHeader = styled.div`
-  padding-left: 10px;
+const LaneHeaderSkeleton = styled.div`
   padding-bottom: 10px;
   font-weight: bold;
   display: flex;
@@ -13,8 +12,24 @@ const SkeletonLaneHeader = styled.div`
   }
 `
 
-const InvisibleInput = styled.input`
+const CursorPointer = styled.span`
+  cursor: pointer;
+`
 
+const DefaultButton = styled.button`
+  color: #333333;
+  background-color: #FFFFFF;
+  border-color: #CCCCCC;
+
+  :hover, :focus, :active {
+    background-color: #E6E6E6;
+  }
+`
+
+const Input = styled.input`
+  :focus {
+    outline: none;
+  }
 `
 
 function useRenameMode (state) {
@@ -44,25 +59,25 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   }
 
   return (
-    <SkeletonLaneHeader>
+    <LaneHeaderSkeleton>
       {allowRenameLane && renameMode ? (
         <Fragment>
           <span>
-            <input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
+            <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
           </span>
           <span>
-            <button type='button' onClick={() => handleRenameLane(titleInput)}>Rename</button>
-            <button type='button' onClick={handleRenameMode}>Cancel</button>
+            <DefaultButton type='button' onClick={() => handleRenameLane(titleInput)}>Rename</DefaultButton>
+            <DefaultButton type='button' onClick={handleRenameMode}>Cancel</DefaultButton>
           </span>
         </Fragment>
       ) : (
         <Fragment>
-          <span onClick={handleRenameMode}>
+          <CursorPointer onClick={handleRenameMode}>
             {title}
-          </span>
+          </CursorPointer>
           {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
         </Fragment>
       )}
-    </SkeletonLaneHeader>
+    </LaneHeaderSkeleton>
   )
 }
