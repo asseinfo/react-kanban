@@ -15,7 +15,7 @@
     "@babel/preset-env": "7.4.5",
     "@babel/preset-react": "7.0.0",
     "@testing-library/jest-dom": "4.0.0",
-    "@testing-library/react": "8.0.7",
+    "@testing-library/react": "8.0.9",
     "all-contributors-cli": "6.8.1",
     "babel-loader": "8.0.6",
     "babel-plugin-react-remove-properties": "0.3.0",
