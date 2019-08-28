@@ -9,29 +9,10 @@ export const CardSkeleton = styled.div`
    margin-bottom: 7px;
  `
 
-const DefaultCard = styled(CardSkeleton)`
-  border-radius: 3px;
-  background-color: #fff;
-
-  ${({ dragging }) => dragging && `
-    box-shadow: 2px 2px grey;
-  `}
-`
-
-const CardTitle = styled.div`
-  border-bottom: 1px solid #eee;
-  padding-bottom: 5px;
-  font-weight: bold
-`
-
-const CardDescription = styled.div`
-  padding-top: 10px;
-`
-
 function Card ({ children, index, renderCard, disableCardDrag }) {
   return (
     <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableCardDrag}>
-      {(provided, snapshot) => {
+      {(provided, { isDragging }) => {
         return (
           <div
             ref={provided.innerRef}
@@ -39,15 +20,7 @@ function Card ({ children, index, renderCard, disableCardDrag }) {
             {...provided.dragHandleProps}
             data-testid='card'
           >
-            {renderCard
-              ? renderCard(children, snapshot.isDragging)
-              : (
-                <DefaultCard dragging={snapshot.isDragging}>
-                  <CardTitle>{children.title}</CardTitle>
-                  <CardDescription>{children.description}</CardDescription>
-                </DefaultCard>
-              )
-            }
+            {renderCard(isDragging)}
           </div>
         )
       }}
