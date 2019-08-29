@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
-import DefaultCard from './components/DefaultCard'
-import Card, { CardSkeleton } from './components/Card'
+import Card from './components/Card'
+import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
 
 export const StyledLane = styled.div`
@@ -23,9 +23,7 @@ function Lane ({
   renderCard,
   renderLaneHeader,
   disableLaneDrag,
-  disableCardDrag,
-  allowRemoveCard,
-  onCardRemove
+  disableCardDrag
 }) {
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
@@ -40,19 +38,7 @@ function Lane ({
                 <Card
                   key={card.id}
                   index={index}
-                  renderCard={dragging => (
-                    renderCard ? (
-                      renderCard(card, dragging)
-                    ) : (
-                      <DefaultCard
-                        dragging={dragging}
-                        allowRemoveCard={allowRemoveCard}
-                        onCardRemove={onCardRemove}
-                      >
-                        {card}
-                      </DefaultCard>
-                    )
-                  )}
+                  renderCard={dragging => renderCard(card, dragging)}
                   disableCardDrag={disableCardDrag}
                 >
                   {card}

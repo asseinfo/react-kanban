@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Card, { CardSkeleton } from './'
+import Card from './'
+import CardSkeleton from '../../../CardSkeleton'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Card />', () => {
@@ -41,11 +42,5 @@ describe('<Card />', () => {
       expect(defaultCard).toHaveBeenCalledTimes(1)
       expect(defaultCard).toHaveBeenCalledWith(true)
     })
-  })
-})
-
-describe('<CardSkeleton />', () => {
-  it("renders a card's skeleton", () => {
-    expect(render(<CardSkeleton />).container.querySelector('div')).toBeInTheDocument()
   })
 })

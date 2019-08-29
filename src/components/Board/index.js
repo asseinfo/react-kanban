@@ -7,6 +7,7 @@ import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
 import { addInArrayAtPosition, when } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
+import DefaultCard from './components/DefaultCard'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -34,7 +35,9 @@ function Board ({
   allowRemoveLane,
   onLaneRemove,
   allowRenameLane,
-  onLaneRename
+  onLaneRename,
+  allowRemoveCard,
+  onCardRemove
 }) {
   const [board, setBoard] = useState(children)
 
@@ -86,7 +89,18 @@ function Board ({
             <Lane
               key={lane.id}
               index={index}
-              renderCard={renderCard}
+              renderCard={(card, dragging) => {
+                if (renderCard) return renderCard(card, dragging)
+                return (
+                  <DefaultCard
+                    dragging={dragging}
+                    allowRemoveCard={allowRemoveCard}
+                    onCardRemove={onCardRemove}
+                  >
+                    {card}
+                  </DefaultCard>
+                )
+              }}
               renderLaneHeader={renderLaneHeader
                 ? (
                   renderLaneHeader(lane, {
@@ -105,6 +119,8 @@ function Board ({
                 )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
+              allowRemoveCard={allowRemoveCard}
+              onCardRemove={onCardRemove}
             >
               {lane}
             </Lane>

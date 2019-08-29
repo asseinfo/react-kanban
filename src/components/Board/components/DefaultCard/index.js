@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { CardSkeleton } from '../Card'
+import CardSkeleton from '../CardSkeleton'
 
 const DefaultCard = styled(CardSkeleton)`
   border-radius: 3px;
