@@ -526,7 +526,7 @@ describe('<Board />', () => {
 
         describe('when the user clicks to remove a card from a lane', () => {
           beforeEach(() => {
-            const removeCardButton = within(subject.queryByText('Card title 1')).queryByText('×')
+            const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
             fireEvent.click(removeCardButton)
           })
 
