@@ -5,7 +5,7 @@
 
 Yet another Kanban/Trello board lib for React.
 
-![Kanban Demo](https://imgur.com/xyOoy2N.gif)
+![Kanban Demo](https://i.imgur.com/yceKUEp.gif)
 
 ### ▶️ Demo
 
@@ -18,6 +18,7 @@ Yet another Kanban/Trello board lib for React.
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
   * ♿️ Accessible: Keyboard and mobile friendly.
+  * 👫 Project-friendly: For use in projects.
 
 ## 🛠 Install and usage
 
