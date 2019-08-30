@@ -4,7 +4,7 @@ import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Board />', () => {
-  let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename
+  let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename, onCardRemove
   const board = {
     lanes: [
       {
@@ -13,12 +13,12 @@ describe('<Board />', () => {
         cards: [
           {
             id: 1,
-            title: 'Card title',
+            title: 'Card title 1',
             description: 'Card content'
           },
           {
             id: 2,
-            title: 'Card title',
+            title: 'Card title 2',
             description: 'Card content'
           }
         ]
@@ -29,7 +29,7 @@ describe('<Board />', () => {
         cards: [
           {
             id: 3,
-            title: 'Card title',
+            title: 'Card title 3',
             description: 'Card content'
           }
         ]
@@ -41,7 +41,7 @@ describe('<Board />', () => {
     subject = render(<Board {...otherProps}>{children}</Board>)
     return subject
   }
-  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = undefined })
+  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = onCardRemove = undefined })
 
   it('renders a board', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
@@ -56,7 +56,7 @@ describe('<Board />', () => {
 
   it('renders the specified cards in their lanes', () => {
     const lane = within(mount().queryByText(/^Lane Backlog$/).closest('[data-testid="lane"]'))
-    const cards = lane.queryAllByText(/^Card title$/)
+    const cards = lane.queryAllByText(/^Card title/)
     expect(cards).toHaveLength(2)
   })
 
@@ -91,12 +91,12 @@ describe('<Board />', () => {
                 cards: [
                   {
                     id: 2,
-                    title: 'Card title',
+                    title: 'Card title 2',
                     description: 'Card content'
                   },
                   {
                     id: 1,
-                    title: 'Card title',
+                    title: 'Card title 1',
                     description: 'Card content'
                   }
                 ]
@@ -107,7 +107,7 @@ describe('<Board />', () => {
                 cards: [
                   {
                     id: 3,
-                    title: 'Card title',
+                    title: 'Card title 3',
                     description: 'Card content'
                   }
                 ]
@@ -152,7 +152,7 @@ describe('<Board />', () => {
                 cards: [
                   {
                     id: 3,
-                    title: 'Card title',
+                    title: 'Card title 3',
                     description: 'Card content'
                   }
                 ]
@@ -163,12 +163,12 @@ describe('<Board />', () => {
                 cards: [
                   {
                     id: 1,
-                    title: 'Card title',
+                    title: 'Card title 1',
                     description: 'Card content'
                   },
                   {
                     id: 2,
-                    title: 'Card title',
+                    title: 'Card title 2',
                     description: 'Card content'
                   }
                 ]
@@ -234,9 +234,11 @@ describe('<Board />', () => {
         expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
       })
 
-      it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
-        expect(renderCard).toHaveBeenCalledTimes(3)
-        expect(renderCard).toHaveBeenNthCalledWith(1, { id: 1, title: 'Card title', content: 'Card content' }, false)
+      it('passes the card content and the card bag as a parameter to the renderCard prop', () => {
+        expect(renderCard).toHaveBeenCalledWith(
+          { id: 1, title: 'Card title', content: 'Card content' },
+          { removeCard: expect.any(Function), dragging: false }
+        )
       })
     })
   })
@@ -354,15 +356,14 @@ describe('<Board />', () => {
   })
 
   describe('about the lane removing', () => {
+    beforeEach(() => { onLaneRemove = jest.fn() })
+
     describe('when the component uses the default header template', () => {
       describe('when the component receives the "allowRemoveLane" prop', () => {
-        beforeEach(() => {
-          onLaneRemove = jest.fn()
-          mount({ allowRemoveLane: true, onLaneRemove })
-        })
+        beforeEach(() => mount({ allowRemoveLane: true, onLaneRemove }))
 
         it('does not call the "onLaneRemove callback', () => {
-          expect(onLaneRemove).toHaveBeenCalledTimes(0)
+          expect(onLaneRemove).not.toHaveBeenCalled()
         })
 
         describe('when the user clicks to remove a lane', () => {
@@ -386,28 +387,26 @@ describe('<Board />', () => {
           })
         })
       })
-
-      describe('when the component does not receive the "allowRemoveLane" prop', () => {
-        beforeEach(() => {
-          onLaneRemove = jest.fn()
-          mount({ onLaneRemove })
-        })
-
-        it('does not call the "onLaneRemove" callback', () => {
-          expect(onLaneRemove).toHaveBeenCalledTimes(0)
-        })
-
-        it('does not show the button on lane header to remove the lane', () => {
-          expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
-        })
-      })
     })
 
     describe('when the component receives a custom header lane template', () => {
+      let renderLaneHeader
+
       beforeEach(() => {
-        const renderLaneHeader = ({ title }, { removeLane }) => <div onClick={removeLane}>{title}</div>
+        renderLaneHeader = jest.fn(({ title }, { removeLane }) => <div onClick={removeLane}>{title}</div>)
         onLaneRemove = jest.fn()
         mount({ renderLaneHeader, onLaneRemove })
+      })
+
+      it('does not call the "onLaneRemove callback', () => {
+        expect(onLaneRemove).not.toHaveBeenCalled()
+      })
+
+      it('passes the lane and the lane bag to the "renderLaneHeader"', () => {
+        expect(renderLaneHeader).toHaveBeenCalledWith(
+          expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
+          expect.objectContaining({ removeLane: expect.any(Function), renameLane: expect.any(Function) })
+        )
       })
 
       describe('when the "removeLane" callback is called', () => {
@@ -439,7 +438,7 @@ describe('<Board />', () => {
         })
 
         it('does not call the "onLaneRename" callback', () => {
-          expect(onLaneRename).toHaveBeenCalledTimes(0)
+          expect(onLaneRename).not.toHaveBeenCalled()
         })
 
         describe('when the user renames a lane', () => {
@@ -475,7 +474,7 @@ describe('<Board />', () => {
         })
 
         it('does not call the "onLaneRename" callback', () => {
-          expect(onLaneRename).toHaveBeenCalledTimes(0)
+          expect(onLaneRename).not.toHaveBeenCalled()
         })
 
         it('does not show the button on lane header to remove the lane', () => {
@@ -508,6 +507,94 @@ describe('<Board />', () => {
               ]
             },
             expect.objectContaining({ id: 1, title: 'New title' })
+          )
+        })
+      })
+    })
+  })
+
+  describe('about the card removing', () => {
+    beforeEach(() => { onCardRemove = jest.fn() })
+
+    describe('when the component uses the default card template', () => {
+      describe('when the component receives the "allowRemoveCard" prop', () => {
+        beforeEach(() => mount({ allowRemoveCard: true, onCardRemove }))
+
+        it('does not call the "onCardRemove" callback', () => {
+          expect(onCardRemove).not.toHaveBeenCalled()
+        })
+
+        describe('when the user clicks to remove a card from a lane', () => {
+          beforeEach(() => {
+            const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
+            fireEvent.click(removeCardButton)
+          })
+
+          it('removes the card from the lane', () => {
+            const cards = subject.queryAllByText(/^Card title/)
+            expect(cards).toHaveLength(2)
+            expect(cards[0]).toHaveTextContent('Card title 2')
+            expect(cards[1]).toHaveTextContent('Card title 3')
+          })
+
+          it('calls the "onCardRemove" callback passing the updated board, the updated lane and the removed card', () => {
+            expect(onCardRemove).toHaveBeenCalledTimes(1)
+            expect(onCardRemove).toHaveBeenCalledWith(
+              {
+                lanes: [
+                  expect.objectContaining({ id: 1, cards: [expect.objectContaining({ id: 2 })] }),
+                  expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 3 })] })
+                ]
+              },
+              expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
+              expect.objectContaining({ id: 1, title: 'Card title 1' })
+            )
+          })
+        })
+      })
+    })
+
+    describe('when the component receives a custom card template', () => {
+      let renderCard
+
+      beforeEach(() => {
+        renderCard = jest.fn(({ title }, { removeCard }) => <div onClick={removeCard}>{title}</div>)
+        onCardRemove = jest.fn()
+        mount({ renderCard, onCardRemove })
+      })
+
+      it('does not call the "onCardRemove" callback', () => {
+        expect(onCardRemove).not.toHaveBeenCalled()
+      })
+
+      it('passes the card and the card bag to the "renderCard"', () => {
+        expect(renderCard).toHaveBeenCalledWith(
+          expect.objectContaining({ title: 'Card title 1' }),
+          expect.objectContaining({ removeCard: expect.any(Function), dragging: false })
+        )
+      })
+
+      describe('when the "removeCard" callback is called', () => {
+        beforeEach(() => fireEvent.click(subject.queryByText('Card title 1')))
+
+        it('removes the card from the lane', () => {
+          const cards = subject.queryAllByText(/^Card title/)
+          expect(cards).toHaveLength(2)
+          expect(cards[0]).toHaveTextContent('Card title 2')
+          expect(cards[1]).toHaveTextContent('Card title 3')
+        })
+
+        it('calls the "onCardRemove" callback passing the updated board, lane and the removed card', () => {
+          expect(onCardRemove).toHaveBeenCalledTimes(1)
+          expect(onCardRemove).toHaveBeenCalledWith(
+            {
+              lanes: [
+                expect.objectContaining({ title: 'Lane Backlog' }),
+                expect.objectContaining({ title: 'Lane Doing' })
+              ]
+            },
+            expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
+            expect.objectContaining({ id: 1, title: 'Card title 1' })
           )
         })
       })

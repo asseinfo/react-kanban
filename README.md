@@ -81,6 +81,8 @@ const board = {
 | [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane`) | Callback that will be called when a lane is removed             |
 | [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
 | [`onLaneRename`](#onlanerename) (required if `allowRenameLane`) | Callback that will be called when a lane is renamed             |
+| [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
+| [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
 
 #### `children`
 ```js
@@ -136,10 +138,16 @@ When the user moves a lane, this callback will be called passing these parameter
 Use this if you want to render your own card. You have to pass a function and return your card component.
 The function will receive these parameters:
 
-| Arg          | Description                                            |
+| Arg          | Description                                                      |
+|--------------|----------------------------------------------------------------- |
+| `card`       | The card props                                                   |
+| `cardBag`    | A bag with some helper functions and state to work with the card |
+
+##### `cardBag`
+| function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `card`       | The card props                                         |
-| `isDragging` | Whether the card is being dragged                      |
+| `removeCard` | Call this function to remove the card from the lane    |
+| `dragging`   | Whether the card is being dragged or not               |
 
 Ex.:
 ```js
@@ -156,8 +164,11 @@ const board = {
 }
 
 <Board
-  renderCard={({ dueDate, content }, isDragging) => (
-    <YourCard dueDate={dueDate} content={content} isDragging={isDragging} />
+  renderCard={({ content }, { removeCard, dragging }) => (
+    <YourCard dragging={dragging}>
+      {content}
+      <button type="button" onClick={removeCard}>Remove Card</button>
+    </YourCard>
   )}
 >
 {board}
@@ -231,7 +242,7 @@ Disallow the user from move a lane.
 #### `disableCardDrag`
 Disallow the user from move a card.
 
-#### `AllowRemoveLane`
+#### `allowRemoveLane`
 When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to remove a lane.
 
 #### `onLaneRemove`
@@ -242,7 +253,7 @@ When the user removes a lane, this callback will be called passing these paramet
 | `board`      | The board without the removed lane                     |
 | `lane`       | The removed lane                                       |
 
-#### `AllowRenameLane`
+#### `allowRenameLane`
 When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to rename a lane.
 
 #### `onLaneRename`
@@ -252,6 +263,18 @@ When the user renames a lane, this callback will be called passing these paramet
 |--------------|------------------------------------------------------- |
 | `board`      | The board with the renamed lane                        |
 | `lane`       | The renamed lane                                       |
+
+#### `allowRemoveCard`
+When using the default card template, when you don't pass a template through the `renderCard`, it will allow the user to remove a card.
+
+#### `onCardRemove`
+When the user removes a card, this callback will be called passing these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The board without the removed lane                     |
+| `lane`       | The lane without the removed card                      |
+| `card`       | The removed card                                       |
 
 ## 🚴‍♀️ Roadmap
 

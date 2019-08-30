@@ -7,6 +7,7 @@ import reorderBoard from './services/reorderBoard'
 import withDroppable from '../withDroppable'
 import { addInArrayAtPosition, when } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
+import DefaultCard from './components/DefaultCard'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -34,7 +35,9 @@ function Board ({
   allowRemoveLane,
   onLaneRemove,
   allowRenameLane,
-  onLaneRename
+  onLaneRename,
+  allowRemoveCard,
+  onCardRemove
 }) {
   const [board, setBoard] = useState(children)
 
@@ -76,6 +79,15 @@ function Board ({
     setBoard(boardWithRenamedLane)
   }
 
+  function removeCard (lane, card) {
+    const filteredCards = lane.cards.filter(({ id }) => card.id !== id)
+    const laneWithoutCard = { ...lane, cards: filteredCards }
+    const filteredLanes = board.lanes.map(laneMap => lane.id === laneMap.id ? laneWithoutCard : laneMap)
+    const boardWithoutCard = { ...board, lanes: filteredLanes }
+    onCardRemove(boardWithoutCard, laneWithoutCard, card)
+    setBoard(boardWithoutCard)
+  }
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -86,7 +98,18 @@ function Board ({
             <Lane
               key={lane.id}
               index={index}
-              renderCard={renderCard}
+              renderCard={(card, dragging) => {
+                if (renderCard) return renderCard(card, { removeCard: removeCard.bind(null, lane, card), dragging })
+                return (
+                  <DefaultCard
+                    dragging={dragging}
+                    allowRemoveCard={allowRemoveCard}
+                    onCardRemove={card => removeCard(lane, card)}
+                  >
+                    {card}
+                  </DefaultCard>
+                )
+              }}
               renderLaneHeader={renderLaneHeader
                 ? (
                   renderLaneHeader(lane, {

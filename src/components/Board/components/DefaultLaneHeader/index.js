@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from 'react'
 import styled from 'styled-components'
+import CursorPointer from '../CursorPointer'
 
 const LaneHeaderSkeleton = styled.div`
   padding-bottom: 10px;
@@ -10,10 +11,6 @@ const LaneHeaderSkeleton = styled.div`
   span:nth-child(2) {
     cursor: pointer;
   }
-`
-
-const CursorPointer = styled.span`
-  cursor: pointer;
 `
 
 const DefaultButton = styled.button`
