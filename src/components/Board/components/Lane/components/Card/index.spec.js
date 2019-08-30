@@ -1,7 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Card from './'
-import CardSkeleton from '../../../CardSkeleton'
 import { callbacks } from 'react-beautiful-dnd'
 
 describe('<Card />', () => {

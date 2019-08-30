@@ -79,6 +79,15 @@ function Board ({
     setBoard(boardWithRenamedLane)
   }
 
+  function removeCard (lane, card) {
+    const filteredCards = lane.cards.filter(({ id }) => card.id !== id)
+    const laneWithoutCard = { ...lane, cards: filteredCards }
+    const filteredLanes = board.lanes.map(laneMap => lane.id === laneMap.id ? laneWithoutCard : laneMap)
+    const boardWithoutCard = { ...board, lanes: filteredLanes }
+    onCardRemove(boardWithoutCard, laneWithoutCard, card)
+    setBoard(boardWithoutCard)
+  }
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -90,12 +99,12 @@ function Board ({
               key={lane.id}
               index={index}
               renderCard={(card, dragging) => {
-                if (renderCard) return renderCard(card, dragging)
+                if (renderCard) return renderCard(card, { removeCard: removeCard.bind(null, lane, card), dragging })
                 return (
                   <DefaultCard
                     dragging={dragging}
                     allowRemoveCard={allowRemoveCard}
-                    onCardRemove={onCardRemove}
+                    onCardRemove={card => removeCard(lane, card)}
                   >
                     {card}
                   </DefaultCard>

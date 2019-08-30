@@ -234,9 +234,11 @@ describe('<Board />', () => {
         expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
       })
 
-      it('passes the card content and the isDragging as a parameter to the renderCard prop', () => {
-        expect(renderCard).toHaveBeenCalledTimes(3)
-        expect(renderCard).toHaveBeenNthCalledWith(1, { id: 1, title: 'Card title', content: 'Card content' }, false)
+      it('passes the card content and the card bag as a parameter to the renderCard prop', () => {
+        expect(renderCard).toHaveBeenCalledWith(
+          { id: 1, title: 'Card title', content: 'Card content' },
+          { removeCard: expect.any(Function), dragging: false }
+        )
       })
     })
   })
@@ -518,10 +520,6 @@ describe('<Board />', () => {
       describe('when the component receives the "allowRemoveCard" prop', () => {
         beforeEach(() => mount({ allowRemoveCard: true, onCardRemove }))
 
-        it('shows a button to remove the card', () => {
-          expect(within(subject.queryByText('Card title 1')).queryByText('×')).toBeVisible()
-        })
-
         describe('when the user clicks to remove a card from a lane', () => {
           beforeEach(() => {
             const removeCardButton = within(subject.queryByText('Card title 1')).queryByText('×')
@@ -540,12 +538,12 @@ describe('<Board />', () => {
             expect(onCardRemove).toHaveBeenCalledWith(
               {
                 lanes: [
-                  expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 2 })] }),
-                  expect.objectContaining({ id: 3, cards: [expect.objectContaining({ id: 3 })] })
+                  expect.objectContaining({ id: 1, cards: [expect.objectContaining({ id: 2 })] }),
+                  expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 3 })] })
                 ]
               },
               expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
-              expect.objectContaining({ id: 1, title: 'Card Title' })
+              expect.objectContaining({ id: 1, title: 'Card title 1' })
             )
           })
         })
@@ -562,10 +560,9 @@ describe('<Board />', () => {
       })
 
       it('passes the card and the card bag to the "renderCard"', () => {
-        expect(renderCard).toHaveBeenCalledTimes(1)
         expect(renderCard).toHaveBeenCalledWith(
-          expect.objectContaining({ title: 'Card Title 1' }),
-          expect.objectContaining({ removeCard: expect.any(Function) })
+          expect.objectContaining({ title: 'Card title 1' }),
+          expect.objectContaining({ removeCard: expect.any(Function), dragging: false })
         )
       })
 
@@ -582,9 +579,14 @@ describe('<Board />', () => {
         it('calls the "onCardRemove" callback passing the updated board, lane and the removed card', () => {
           expect(onCardRemove).toHaveBeenCalledTimes(1)
           expect(onCardRemove).toHaveBeenCalledWith(
-            { lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })] },
+            {
+              lanes: [
+                expect.objectContaining({ title: 'Lane Backlog' }),
+                expect.objectContaining({ title: 'Lane Doing' })
+              ]
+            },
             expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
-            expect.objectContaining({ id: 1, title: 'Card Title 1' })
+            expect.objectContaining({ id: 1, title: 'Card title 1' })
           )
         })
       })
