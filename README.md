@@ -279,6 +279,18 @@ When the user removes a card, this callback will be called passing these paramet
 
 ## Tests
 
+### Unit
+
+```shell
+npm test
+```
+
+Code coverage is saved in `coverage` folder. Open HTML report for example with
+
+```shell
+open coverage/lcov-report/index.html
+```
+
 ### End-to-end
 
 Using [Cypress](https://www.cypress.io) test runner. Start dev server and open Cypress using
@@ -287,7 +299,11 @@ Using [Cypress](https://www.cypress.io) test runner. Start dev server and open C
 npm run dev
 ```
 
-All tests are in the [cypress/integration](cypress/integration) folder.
+All tests are in the [cypress/integration](cypress/integration) folder. These tests also collect code coverage and save in several formats in the `coverage` folder. Open HTML report
+
+```shell
+open coverage/lcov-report/index.html
+```
 
 ## 🚴‍♀️ Roadmap
 
