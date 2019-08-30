@@ -277,6 +277,18 @@ When the user removes a card, this callback will be called passing these paramet
 | `lane`       | The lane without the removed card                      |
 | `card`       | The removed card                                       |
 
+## Tests
+
+### End-to-end
+
+Using [Cypress](https://www.cypress.io) test runner. Start dev server and open Cypress using
+
+```shell
+npm run dev
+```
+
+All tests are in the [cypress/integration](cypress/integration) folder.
+
 ## 🚴‍♀️ Roadmap
 
 You can view the next features [here](https://github.com/lourenci/react-kanban/milestone/1).
