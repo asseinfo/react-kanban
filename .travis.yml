@@ -17,9 +17,12 @@ addons:
     packages:
     - libgconf-2-4
 script:
+  # unit tests
   - npm run test
+  - npx nyc report --reporter=text-summary
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
   # to enable code instrumentation for E2E tests set NODE_ENV=cypress
   - NODE_ENV=cypress npm run server &
   - npm run cypress run -- --browser chrome
-after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - npx nyc report --reporter=text-summary
