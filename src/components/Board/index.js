@@ -128,8 +128,6 @@ function Board ({
                 )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
-              allowRemoveCard={allowRemoveCard}
-              onCardRemove={onCardRemove}
             >
               {lane}
             </Lane>

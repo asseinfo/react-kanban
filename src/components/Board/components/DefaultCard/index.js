@@ -21,17 +21,16 @@ const CardDescription = styled.div`
   padding-top: 10px;
 `
 
-export default function ({ children: lane, dragging, allowRemoveCard, onCardRemove }) {
+export default function ({ children: card, dragging, allowRemoveCard, onCardRemove }) {
   return (
     <DefaultCard dragging={dragging}>
       <span>
         <CardTitle>
-          {lane.title}
-          {allowRemoveCard && <span onClick={() => onCardRemove(lane)}>×</span>}
+          {card.title}
+          {allowRemoveCard && <span onClick={() => onCardRemove(card)}>×</span>}
         </CardTitle>
       </span>
-      <CardDescription>{lane.description}</CardDescription>
+      <CardDescription>{card.description}</CardDescription>
     </DefaultCard>
-
   )
 }

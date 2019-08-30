@@ -358,13 +358,13 @@ describe('<Board />', () => {
   describe('about the lane removing', () => {
     beforeEach(() => { onLaneRemove = jest.fn() })
 
-    it('does not call the "onLaneRemove callback', () => {
-      expect(onLaneRemove).not.toHaveBeenCalled()
-    })
-
     describe('when the component uses the default header template', () => {
       describe('when the component receives the "allowRemoveLane" prop', () => {
         beforeEach(() => mount({ allowRemoveLane: true, onLaneRemove }))
+
+        it('does not call the "onLaneRemove callback', () => {
+          expect(onLaneRemove).not.toHaveBeenCalled()
+        })
 
         describe('when the user clicks to remove a lane', () => {
           beforeEach(() => {
@@ -396,6 +396,10 @@ describe('<Board />', () => {
         renderLaneHeader = jest.fn(({ title }, { removeLane }) => <div onClick={removeLane}>{title}</div>)
         onLaneRemove = jest.fn()
         mount({ renderLaneHeader, onLaneRemove })
+      })
+
+      it('does not call the "onLaneRemove callback', () => {
+        expect(onLaneRemove).not.toHaveBeenCalled()
       })
 
       it('passes the lane and the lane bag to the "renderLaneHeader"', () => {
@@ -512,13 +516,13 @@ describe('<Board />', () => {
   describe('about the card removing', () => {
     beforeEach(() => { onCardRemove = jest.fn() })
 
-    it('does not call the "onCardRemove" callback', () => {
-      expect(onCardRemove).not.toHaveBeenCalled()
-    })
-
     describe('when the component uses the default card template', () => {
       describe('when the component receives the "allowRemoveCard" prop', () => {
         beforeEach(() => mount({ allowRemoveCard: true, onCardRemove }))
+
+        it('does not call the "onCardRemove" callback', () => {
+          expect(onCardRemove).not.toHaveBeenCalled()
+        })
 
         describe('when the user clicks to remove a card from a lane', () => {
           beforeEach(() => {
@@ -557,6 +561,10 @@ describe('<Board />', () => {
         renderCard = jest.fn(({ title }, { removeCard }) => <div onClick={removeCard}>{title}</div>)
         onCardRemove = jest.fn()
         mount({ renderCard, onCardRemove })
+      })
+
+      it('does not call the "onCardRemove" callback', () => {
+        expect(onCardRemove).not.toHaveBeenCalled()
       })
 
       it('passes the card and the card bag to the "renderCard"', () => {
