@@ -71,6 +71,7 @@ render(
     {...getUrlParams()}
     onLaneRemove={console.log}
     onLaneRename={console.log}
+    onCardRemove={console.log}
   >
     {board}
   </Board>,
