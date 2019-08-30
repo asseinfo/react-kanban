@@ -305,6 +305,8 @@ All tests are in the [cypress/integration](cypress/integration) folder. These te
 open coverage/lcov-report/index.html
 ```
 
+Read [Cypress code coverage guide](https://on.cypress.io/code-coverage)
+
 ## 🚴‍♀️ Roadmap
 
 You can view the next features [here](https://github.com/lourenci/react-kanban/milestone/1).
