@@ -354,6 +354,26 @@ describe('<Board />', () => {
         })
       })
     })
+
+    describe('when the component receives a "renderLaneHeader" prop', () => {
+      let renderLaneAdder
+      beforeEach(() => {
+        renderLaneAdder = jest.fn(addLane => (
+          <div><input data-testid='laneAdder' /></div>
+        ))
+
+        mount({ children: board, renderLaneAdder })
+      })
+
+      it("renders the custom header on the board's lane", () => {
+        expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+      })
+
+      it('passes the addLane "renderLaneHeader" prop', () => {
+        expect(renderLaneAdder).toHaveBeenCalledTimes(1)
+        expect(renderLaneAdder).toHaveBeenCalledWith({ addLane: expect.any(Function) })
+      })
+    })
   })
 
   describe('about the lane removing', () => {
