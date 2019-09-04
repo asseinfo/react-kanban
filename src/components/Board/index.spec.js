@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, within, act, fireEvent } from '@testing-library/react'
+import { render, within, act, fireEvent, waitForElement } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 
@@ -298,7 +298,7 @@ describe('<Board />', () => {
       let onNewLane
 
       beforeEach(() => {
-        onNewLane = jest.fn(lane => ({ id: 999, ...lane }))
+        onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
         mount({ allowAddLane: true, onNewLane })
       })
       afterEach(() => { onNewLane = undefined })
@@ -319,9 +319,10 @@ describe('<Board />', () => {
         })
 
         describe('when the user confirms the new lane', () => {
-          beforeEach(() => {
+          beforeEach(async () => {
             fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
             fireEvent.click(subject.queryByText('Add'))
+            await waitForElement(() => subject.container.querySelector('[data-testid="lane"]:nth-child(3)'))
           })
 
           it('calls the "onNewLane" passing the new lane', () => {

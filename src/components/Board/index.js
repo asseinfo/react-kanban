@@ -59,8 +59,8 @@ function Board ({
     setBoard(reorderedBoard)
   }
 
-  function addLane (title) {
-    const lanes = addInArrayAtPosition(board.lanes, onNewLane({ title, cards: [] }), board.lanes.length)
+  async function addLane (title) {
+    const lanes = addInArrayAtPosition(board.lanes, await onNewLane({ title, cards: [] }), board.lanes.length)
     setBoard({ ...board, lanes })
   }
 
