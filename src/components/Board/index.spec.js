@@ -294,7 +294,7 @@ describe('<Board />', () => {
   })
 
   describe('about the lane adding', () => {
-    describe('about default laneAdder', () => {
+    describe('about the default lane adder', () => {
       describe('when the component does not receive "allowAddLane" prop', () => {
         let onNewLane
 

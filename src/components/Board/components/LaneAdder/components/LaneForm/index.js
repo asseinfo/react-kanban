@@ -17,6 +17,7 @@ function LaneForm ({ onConfirm, onCancel }) {
 
   function addLane (event) {
     event.preventDefault()
+
     when(inputLaneTitle.current.value)(onConfirm)
   }
 
