@@ -244,7 +244,7 @@ The function will receive these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
-| `laneBag`    | A bag with some helper functions.                      |
+| `laneBag`    | A bag with some helper functions                       |
 
 ##### `laneBag`
 | function     | Description                                            |
@@ -254,13 +254,13 @@ The function will receive these parameters:
 
 Ex.:
 ```js
-const  LaneAdder = ({ addLane }) {
+const LaneAdder = ({ addLane }) {
   addLane({id: ${required-new-unique-laneId}, title: 'Title', cards:[]})
 }
 
 <Board
   allowAddLane
-  renderLaneAdder={({ addLane }) => { return <LaneAdder addLane={addLane} > }}>
+  renderLaneAdder={({ addLane }) => <LaneAdder addLane={addLane} />}
   {board}
 </Board>
 ```
