@@ -86,7 +86,6 @@ const board = {
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
 
-
 #### `children`
 ```js
 const board = {
