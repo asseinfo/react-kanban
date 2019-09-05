@@ -355,7 +355,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('when the component receives a "renderLaneHeader" prop', () => {
+    describe('when the component receives a "renderLaneAdder" prop', () => {
       let renderLaneAdder
       beforeEach(() => {
         renderLaneAdder = jest.fn(addLane => (
@@ -365,11 +365,11 @@ describe('<Board />', () => {
         mount({ children: board, renderLaneAdder })
       })
 
-      it("renders the custom header on the board's lane", () => {
+      it("renders the custom lane adder as the last lane to add a new lane", () => {
         expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
       })
 
-      it('passes the addLane "renderLaneHeader" prop', () => {
+      it('passes the "addLane" to the "renderLaneAdder" prop', () => {
         expect(renderLaneAdder).toHaveBeenCalledTimes(1)
         expect(renderLaneAdder).toHaveBeenCalledWith({ addLane: expect.any(Function) })
       })
