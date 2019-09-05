@@ -294,84 +294,129 @@ describe('<Board />', () => {
   })
 
   describe('about the lane adding', () => {
-    describe('when it receives the "allowAddLane" and "onNewLane" prop', () => {
-      let onNewLane
+    describe('about default laneAdder', () => {
+      describe('when the component does not receive "allowAddLane" prop', () => {
+        let onNewLane
 
-      beforeEach(() => {
-        onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-        mount({ allowAddLane: true, onNewLane })
-      })
-      afterEach(() => { onNewLane = undefined })
+        beforeEach(() => {
+          onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+          mount({ allowAddLane: false, onNewLane })
+        })
+        afterEach(() => { onNewLane = undefined })
 
-      it('renders the lane placeholder as the last lane to add a new lane', () => {
-        expect(subject.queryByText('➕')).toBeInTheDocument()
-      })
-
-      describe('when the user clicks to add a new lane', () => {
-        beforeEach(() => fireEvent.click(subject.queryByText('➕')))
-
-        it('hides the lane placeholder', () => {
+        it('does not render the lane adder', () => {
           expect(subject.queryByText('➕')).not.toBeInTheDocument()
         })
+      })
 
-        it('renders the input asking for a lane title', () => {
-          expect(subject.container.querySelector('input')).toBeInTheDocument()
+      describe('when the component does not receive "onNewLane" prop', () => {
+        beforeEach(() => {
+          mount({ allowAddLane: true })
         })
 
-        describe('when the user confirms the new lane', () => {
-          beforeEach(async () => {
-            fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
-            fireEvent.click(subject.queryByText('Add'))
-            await waitForElement(() => subject.container.querySelector('[data-testid="lane"]:nth-child(3)'))
-          })
+        it('does not render the lane adder', () => {
+          expect(subject.queryByText('➕')).not.toBeInTheDocument()
+        })
+      })
 
-          it('calls the "onNewLane" passing the new lane', () => {
-            expect(onNewLane).toHaveBeenCalledTimes(1)
-            expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
-          })
+      describe('when it receives the "allowAddLane" and "onNewLane" prop', () => {
+        let onNewLane
 
-          it('renders the new lane using the id returned on "onNewLane"', () => {
-            expect(subject.queryAllByTestId('lane')).toHaveLength(3)
-          })
+        beforeEach(() => {
+          onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+          mount({ allowAddLane: true, onNewLane })
+        })
+        afterEach(() => { onNewLane = undefined })
 
-          it('renders the lane placeholder as the last lane to add a new lane', () => {
-            expect(subject.queryByText('➕')).toBeInTheDocument()
-          })
+        it('renders the lane placeholder as the last lane to add a new lane', () => {
+          expect(subject.queryByText('➕')).toBeInTheDocument()
         })
 
-        describe('when the user cancels the new lane adding', () => {
-          beforeEach(() => {
-            fireEvent.click(subject.queryByText('Cancel'))
+        describe('when the user clicks to add a new lane', () => {
+          beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+
+          it('hides the lane placeholder', () => {
+            expect(subject.queryByText('➕')).not.toBeInTheDocument()
           })
 
-          it('does not add any new lane', () => {
-            expect(subject.queryAllByTestId('lane')).toHaveLength(2)
+          it('renders the input asking for a lane title', () => {
+            expect(subject.container.querySelector('input')).toBeInTheDocument()
           })
 
-          it('renders the lane placeholder as the last lane to add a new lane', () => {
-            expect(subject.queryByText('➕')).toBeInTheDocument()
+          describe('when the user confirms the new lane', () => {
+            beforeEach(async () => {
+              fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
+              fireEvent.click(subject.queryByText('Add'))
+              await waitForElement(() => subject.container.querySelector('[data-testid="lane"]:nth-child(3)'))
+            })
+
+            it('calls the "onNewLane" passing the new lane', () => {
+              expect(onNewLane).toHaveBeenCalledTimes(1)
+              expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
+            })
+
+            it('renders the new lane using the id returned on "onNewLane"', () => {
+              expect(subject.queryAllByTestId('lane')).toHaveLength(3)
+            })
+
+            it('renders the lane placeholder as the last lane to add a new lane', () => {
+              expect(subject.queryByText('➕')).toBeInTheDocument()
+            })
+          })
+
+          describe('when the user cancels the new lane adding', () => {
+            beforeEach(() => {
+              fireEvent.click(subject.queryByText('Cancel'))
+            })
+
+            it('does not add any new lane', () => {
+              expect(subject.queryAllByTestId('lane')).toHaveLength(2)
+            })
+
+            it('renders the lane placeholder as the last lane to add a new lane', () => {
+              expect(subject.queryByText('➕')).toBeInTheDocument()
+            })
           })
         })
       })
     })
 
-    describe('when the component receives a "renderLaneAdder" prop', () => {
-      let renderLaneAdder
-      beforeEach(() => {
-        renderLaneAdder = jest.fn(addLane => (
-          <div><input data-testid='laneAdder' /></div>
-        ))
+    describe('about custom lade adder', () => {
+      describe('when the component receives a custom lane adder', () => {
+        let renderLaneAdder
 
-        mount({ children: board, renderLaneAdder })
-      })
+        describe('when the component does not receive "allowAddLane" prop', () => {
+          beforeEach(() => {
+            renderLaneAdder = jest.fn(addLane => (
+              <div><input data-testid='laneAdder' /></div>
+            ))
 
-      it("renders the custom lane adder as the last lane to add a new lane", () => {
-        expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
-      })
+            mount({ children: board, renderLaneAdder })
 
-      it('passes the "addLane" to the "renderLaneAdder" prop', () => {
-        expect(renderLaneAdder).toHaveBeenCalledTimes(1)
-        expect(renderLaneAdder).toHaveBeenCalledWith({ addLane: expect.any(Function) })
+            it('does not renders the custom render adder', () => {
+              expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+            })
+          })
+        })
+
+        describe('when the component receives the "allowAddLane" prop', () => {
+          beforeEach(() => {
+            renderLaneAdder = jest.fn(addLane => (
+              <div><input data-testid='laneAdder' /></div>
+            ))
+
+            mount({ children: board, renderLaneAdder, allowAddLane: true })
+          })
+
+          it('renders the custom lane adder as the last lane to add a new lane', () => {
+            expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+          })
+
+          it('passes the "addLane" to the "renderLaneAdder" prop', () => {
+            expect(renderLaneAdder).toHaveBeenCalledTimes(1)
+            expect(renderLaneAdder).toHaveBeenCalledWith({ addLane: expect.any(Function) })
+          })
+        })
       })
     })
   })
