@@ -17,8 +17,7 @@ function LaneForm ({ onConfirm, onCancel }) {
 
   function addLane (event) {
     event.preventDefault()
-    const title = inputLaneTitle.current.value
-    when({ title, cards: [] })(onConfirm)
+    when(inputLaneTitle.current.value)(onConfirm)
   }
 
   return (

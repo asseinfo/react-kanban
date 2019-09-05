@@ -137,7 +137,7 @@ function Board ({
           ))}
         </DroppableBoard>
         {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
-          : allowAddLane && onNewLane && <LaneAdder onConfirm={addLane} />}
+          : allowAddLane && onNewLane && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
       </StyledBoard>
     </DragDropContext>
   )
