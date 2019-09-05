@@ -75,7 +75,8 @@ const board = {
 | [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
 | [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
 | [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
-| [`onNewLane`](#onnewlane) (required if `allowAddLane`)          | Callback that will be called when a new lane is added           |
+| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
+| [`renderLaneAdder`](#renderlaneadder)                           | A lane adder to be rendered instead of the default lane adder template |
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
 | [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
@@ -223,7 +224,7 @@ const board = {
 Allow the user to add a new lane directly by the board.
 
 #### `onNewLane`
-When the user adds a new lane, this callback will be called passing the lane title typed by the user.
+When the user adds a new lane through the default lane adder template, this callback will be called passing the lane title typed by the user.
 
 You **must** return the new lane with its new id in this callback.
 
@@ -235,6 +236,37 @@ function onNewLane (newLane) {
 }
 
 <Board allowAddLane onNewLane={onNewLane}>{board}</Board>
+```
+
+#### `renderLaneAdder`
+Use this if you want to render your own lane adder. You have to pass a function and return your lane adder component.
+The function will receive these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `laneBag`    | A bag with some helper functions                       |
+
+##### `laneBag`
+| function     | Description                                            |
+|--------------|------------------------------------------------------- |
+| `addLane`    | Call this function with a new lane to add the new lane |
+
+
+Ex.:
+```js
+const LaneAdder = ({ addLane }) {
+  return (
+    <div onClick={()=> addLane({id: ${required-new-unique-laneId}, title: 'Title', cards:[]})}>
+      Add lane
+    </div>
+  )
+}
+
+<Board
+  allowAddLane
+  renderLaneAdder={({ addLane }) => <LaneAdder addLane={addLane} />}
+  {board}
+</Board>
 ```
 
 #### `disableLaneDrag`
@@ -308,9 +340,17 @@ PRs are welcome:
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-<table><tr><td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt="Leandro Lourenci"/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td></tr></table>
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt="Leandro Lourenci"/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
+  </tr>
+</table>
 
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

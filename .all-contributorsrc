@@ -22,7 +22,18 @@
         "example",
         "test"
       ]
+    },
+    {
+      "login": "mathesouza",
+      "name": "Matheus Sabino",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/20099472?v=4",
+      "profile": "https://github.com/mathesouza",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
-  "contributorsPerLine": 7
+  "contributorsPerLine": 7,
+  "commitConvention": "none"
 }

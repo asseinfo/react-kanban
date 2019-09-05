@@ -37,7 +37,8 @@ function Board ({
   allowRenameLane,
   onLaneRename,
   allowRemoveCard,
-  onCardRemove
+  onCardRemove,
+  renderLaneAdder
 }) {
   const [board, setBoard] = useState(children)
 
@@ -59,8 +60,10 @@ function Board ({
     setBoard(reorderedBoard)
   }
 
-  async function addLane (title) {
-    const lanes = addInArrayAtPosition(board.lanes, await onNewLane({ title, cards: [] }), board.lanes.length)
+  async function addLane (lane) {
+    const lanes = renderLaneAdder ? addInArrayAtPosition(board.lanes, lane, board.lanes.length)
+      : addInArrayAtPosition(board.lanes, await onNewLane(lane), board.lanes.length)
+
     setBoard({ ...board, lanes })
   }
 
@@ -133,7 +136,8 @@ function Board ({
             </Lane>
           ))}
         </DroppableBoard>
-        {allowAddLane && onNewLane && <LaneAdder onConfirm={addLane} />}
+        {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
+          : allowAddLane && onNewLane && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
       </StyledBoard>
     </DragDropContext>
   )
