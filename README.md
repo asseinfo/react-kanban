@@ -255,7 +255,11 @@ The function will receive these parameters:
 Ex.:
 ```js
 const LaneAdder = ({ addLane }) {
-  addLane({id: ${required-new-unique-laneId}, title: 'Title', cards:[]})
+  return (
+    <div onClick={()=> addLane({id: ${required-new-unique-laneId}, title: 'Title', cards:[]})}>
+      Add lane
+    </div>
+  )
 }
 
 <Board
