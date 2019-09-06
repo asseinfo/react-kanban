@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import CursorPointer from '../CursorPointer'
 
@@ -58,7 +58,7 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   return (
     <LaneHeaderSkeleton>
       {allowRenameLane && renameMode ? (
-        <Fragment>
+        <>
           <span>
             <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
           </span>
@@ -66,14 +66,14 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
             <DefaultButton type='button' onClick={() => handleRenameLane(titleInput)}>Rename</DefaultButton>
             <DefaultButton type='button' onClick={handleRenameMode}>Cancel</DefaultButton>
           </span>
-        </Fragment>
+        </>
       ) : (
-        <Fragment>
+        <>
           <CursorPointer onClick={handleRenameMode}>
             {title}
           </CursorPointer>
           {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
-        </Fragment>
+        </>
       )}
     </LaneHeaderSkeleton>
   )

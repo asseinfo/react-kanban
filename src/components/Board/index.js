@@ -113,22 +113,21 @@ function Board ({
                   </DefaultCard>
                 )
               }}
-              renderLaneHeader={renderLaneHeader
-                ? (
-                  renderLaneHeader(lane, {
-                    removeLane: removeLane.bind(null, lane),
-                    renameLane: renameLane.bind(null, lane.id)
-                  })
-                ) : (
-                  <DefaultLaneHeader
-                    allowRemoveLane={allowRemoveLane}
-                    onLaneRemove={removeLane}
-                    allowRenameLane={allowRenameLane}
-                    onLaneRename={renameLane}
-                  >
-                    {lane}
-                  </DefaultLaneHeader>
-                )}
+              renderLaneHeader={renderLaneHeader ? (
+                renderLaneHeader(lane, {
+                  removeLane: removeLane.bind(null, lane),
+                  renameLane: renameLane.bind(null, lane.id)
+                })
+              ) : (
+                <DefaultLaneHeader
+                  allowRemoveLane={allowRemoveLane}
+                  onLaneRemove={removeLane}
+                  allowRenameLane={allowRenameLane}
+                  onLaneRename={renameLane}
+                >
+                  {lane}
+                </DefaultLaneHeader>
+              )}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >
