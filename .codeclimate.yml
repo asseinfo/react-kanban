@@ -2,11 +2,6 @@ plugins:
   eslint:
     enabled: true
     channel: "eslint-5"
-    checks:
-      react-hooks/rules-of-hooks:
-        enabled: false
-      react-hooks/exhaustive-deps:
-        enabled: false
   fixme:
     enabled: true
 exclude_patterns:
