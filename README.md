@@ -307,6 +307,8 @@ open coverage/lcov-report/index.html
 
 Read [Cypress code coverage guide](https://on.cypress.io/code-coverage)
 
+Note: to avoid inserting `babel-plugin-istanbul` twice during Jest tests, E2E tests run with `NODE_ENV=cypress` environment variable. The `babel-plugin-istanbul` plugin is included in [.babelrc](.babelrc) file only in the `cypress` Node environment, leaving the default Jest configuration during `NODE_ENV=test` the same.
+
 ## 🚴‍♀️ Roadmap
 
 You can view the next features [here](https://github.com/lourenci/react-kanban/milestone/1).
