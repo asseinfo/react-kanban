@@ -4,3 +4,5 @@ dist
 yarn.lock
 .DS_Store
 cypress/screenshots
+.nyc_output
+unit-coverage

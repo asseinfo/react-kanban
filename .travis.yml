@@ -17,8 +17,19 @@ addons:
     packages:
     - libgconf-2-4
 script:
-  - npm run test
-  - npm run server &
+  # unit tests, also prints code coverage summary
+  - npm run test -- --coverageDirectory unit-coverage
+
+  # to enable code instrumentation for E2E tests set NODE_ENV=cypress
+  - NODE_ENV=cypress npm run server &
   - npm run cypress run -- --browser chrome
+  - npx nyc report --reporter=text-summary
+
 after_script:
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  # format and combine unit and e2e code coverage
+  # https://docs.codeclimate.com/docs/travis-ci-test-coverage
+  # https://docs.codeclimate.com/docs/configuring-test-coverage#section-parallel-tests
+  - ./cc-test-reporter format-coverage -t lcov -o combined-coverage/unit.json unit-coverage/lcov.info
+  - ./cc-test-reporter format-coverage -t lcov -o combined-coverage/e2e.json coverage/lcov.info
+  - ./cc-test-reporter sum-coverage combined-coverage/*.json -p 2
+  - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
