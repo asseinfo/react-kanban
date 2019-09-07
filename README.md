@@ -186,10 +186,10 @@ The function will receive these parameters:
 | `laneBag`    | A bag with some helper functions to work with the lane |
 
 ##### `laneBag`
-| function     | Description                                            |
+| Function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `removeLane` | Call this function to remove the lane from the board   |
-| `renameLane` | Call this function with a title to rename the lane     |
+| `removeLane` (require [`onLaneRemove`](#onlaneremove)) | Call this function to remove the lane from the board   |
+| `renameLane` (require [`onlaneRename`](#onlanerename)) | Call this function with a title to rename the lane     |
 
 Ex.:
 ```js
