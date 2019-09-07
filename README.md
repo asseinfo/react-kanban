@@ -296,7 +296,7 @@ open coverage/lcov-report/index.html
 Using [Cypress](https://www.cypress.io) test runner. Start dev server and open Cypress using
 
 ```shell
-npm run dev
+yarn dev
 ```
 
 All tests are in the [cypress/integration](cypress/integration) folder. These tests also collect code coverage and save in several formats in the `coverage` folder. Open HTML report
