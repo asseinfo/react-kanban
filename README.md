@@ -282,7 +282,7 @@ When the user removes a card, this callback will be called passing these paramet
 ### Unit
 
 ```shell
-npm test
+yarn test
 ```
 
 Code coverage is saved in `coverage` folder. Open HTML report for example with
