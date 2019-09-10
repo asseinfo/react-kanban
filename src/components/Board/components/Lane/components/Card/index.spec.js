@@ -42,4 +42,30 @@ describe('<Card />', () => {
       expect(defaultCard).toHaveBeenCalledWith(true)
     })
   })
+
+  describe('about the style on dragging', () => {
+    describe('when the component receives "dragging"', () => {
+      beforeEach(() => {
+        callbacks.isDragging(true)
+        mount()
+      })
+      afterEach(() => { callbacks.isDragging(false) })
+
+      it('applies the gray background color to the card', () => {
+        expect(subject.container.querySelector('div')).toHaveStyle('box-shadow: 2px 2px grey;')
+      })
+    })
+
+    describe('when the component does not receive "dragging"', () => {
+      beforeEach(() => {
+        callbacks.isDragging(false)
+        mount()
+      })
+      afterEach(() => { callbacks.isDragging(false) })
+
+      it('does not apply the gray background color to the card', () => {
+        expect(subject.container.querySelector('div')).not.toHaveStyle('box-shadow: 2px 2px grey;')
+      })
+    })
+  })
 })

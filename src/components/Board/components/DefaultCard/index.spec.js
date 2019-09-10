@@ -31,24 +31,6 @@ describe('<DefaultCard />', () => {
     expect(subject.queryByText('Description')).toBeVisible()
   })
 
-  describe('about the style on dragging', () => {
-    describe('when the component receives "dragging"', () => {
-      beforeEach(() => mount({ dragging: true }))
-
-      it('applies the gray background color to the card', () => {
-        expect(subject.container.querySelector('div')).toHaveStyle('box-shadow: 2px 2px grey;')
-      })
-    })
-
-    describe('when the component does not receive "dragging"', () => {
-      beforeEach(() => mount())
-
-      it('does not apply the gray background color to the card', () => {
-        expect(subject.container.querySelector('div')).not.toHaveStyle('box-shadow: 2px 2px grey;')
-      })
-    })
-  })
-
   describe('about the remove card button', () => {
     describe('when the component does not receive the "allowRemoveCard" prop', () => {
       beforeEach(() => mount({ onCardRemove }))
