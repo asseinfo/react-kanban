@@ -1,18 +1,11 @@
 {
-  "presets": ["@babel/preset-react", "@babel/preset-env"],
+  "presets": ["@babel/preset-react", [
+    '@babel/preset-env',
+      {
+        "exclude": ["transform-regenerator"]
+      },
+  ]],
   "env": {
-    "test": {
-      presets: [
-        [
-          '@babel/preset-env',
-          {
-            targets: {
-              node: 'current',
-            },
-          },
-        ],
-      ],
-    },
     // only include babel istanbul plugin when Cypress runs
     // because Jest preset already includes it, and you will
     // get duplicate plugin error
