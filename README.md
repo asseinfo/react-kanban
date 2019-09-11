@@ -75,14 +75,14 @@ const board = {
 | [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
 | [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
 | [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
-| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
+| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template |
 | [`renderLaneAdder`](#renderlaneadder)                           | A lane adder to be rendered instead of the default lane adder template |
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
 | [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
-| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane`) | Callback that will be called when a lane is removed             |
+| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or [`removeLane`](#renderlaneheader)) | Callback that will be called when a lane is removed |
 | [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
-| [`onLaneRename`](#onlanerename) (required if `allowRenameLane`) | Callback that will be called when a lane is renamed             |
+| [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or [`renameLane`](#renderlaneheader)) | Callback that will be called when a lane is renamed |
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
 
@@ -187,7 +187,7 @@ The function will receive these parameters:
 | `laneBag`    | A bag with some helper functions to work with the lane |
 
 ##### `laneBag`
-| function     | Description                                            |
+| Function     | Description                                            |
 |--------------|------------------------------------------------------- |
 | `removeLane` | Call this function to remove the lane from the board   |
 | `renameLane` | Call this function with a title to rename the lane     |
@@ -379,6 +379,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt="Leandro Lourenci"/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://glebbahmutov.com/"><img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;" alt="Gleb Bahmutov"/><br /><sub><b>Gleb Bahmutov</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=bahmutov" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars2.githubusercontent.com/u/25781749?s=460&v=4" width="100px;" alt="Matheus Poli"/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=matheuspolicamilo" title="Documentation">📖</a></td>
   </tr>
 </table>
 
