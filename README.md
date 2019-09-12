@@ -18,7 +18,7 @@ Yet another Kanban/Trello board lib for React.
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
   * ♿️ Accessible: Keyboard and mobile friendly.
-  * 👫 Project-friendly: For use in projects.
+  * 🔌 Pluggable: For use in projects.
 
 ## 🛠 Install and usage
 
@@ -309,7 +309,7 @@ When the user removes a card, this callback will be called passing these paramet
 | `lane`       | The lane without the removed card                      |
 | `card`       | The removed card                                       |
 
-## Tests
+## 🧪 Tests
 
 ### Unit
 
