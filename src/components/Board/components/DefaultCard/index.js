@@ -6,6 +6,8 @@ import CursorPointer from '../CursorPointer'
 const DefaultCard = styled(CardSkeleton)`
   border-radius: 3px;
   background-color: #fff;
+  padding: 10px;
+  margin-bottom: 7px;
 
   ${({ dragging }) => dragging && `
     box-shadow: 2px 2px grey;

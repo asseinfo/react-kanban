@@ -15,7 +15,9 @@ export const StyledLane = styled.div`
   vertical-align: top;
 `
 
-const DroppableLane = withDroppable('div')
+const DroppableLane = withDroppable(styled.div`
+  min-height: 28px;
+`)
 
 function Lane ({
   children,
