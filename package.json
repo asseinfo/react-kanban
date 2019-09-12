@@ -42,7 +42,7 @@
     "react-dom": "16.9.0",
     "start-server-and-test": "1.10.0",
     "styled-components": "4.3.1",
-    "webpack": "4.31.0",
+    "webpack": "4.40.0",
     "webpack-cli": "3.3.8",
     "webpack-dev-server": "3.3.1"
   },
