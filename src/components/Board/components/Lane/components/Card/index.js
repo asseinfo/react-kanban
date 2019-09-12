@@ -1,6 +1,6 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 const CardContent = styled.div`
   display: inline-block;
