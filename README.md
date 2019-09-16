@@ -75,7 +75,7 @@ const board = {
 | [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
 | [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
 | [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
-| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
+| [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
 | [`renderLaneAdder`](#renderlaneadder)                           | A lane adder to be rendered instead of the default lane adder template |
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
@@ -223,19 +223,19 @@ const board = {
 #### `allowAddLane`
 Allow the user to add a new lane directly by the board.
 
-#### `onNewLane`
+#### `onLaneNew`
 When the user adds a new lane through the default lane adder template, this callback will be called passing the lane title typed by the user.
 
 You **must** return the new lane with its new id in this callback.
 
 Ex.:
 ```js
-function onNewLane (newLane) {
+function onLaneNew (newLane) {
   const newLane = { id: ${required-new-unique-laneId}, ...newLane }
   return newLane
 }
 
-<Board allowAddLane onNewLane={onNewLane}>{board}</Board>
+<Board allowAddLane onLaneNew={onLaneNew}>{board}</Board>
 ```
 
 #### `renderLaneAdder`

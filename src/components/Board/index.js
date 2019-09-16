@@ -29,7 +29,7 @@ function Board ({
   renderCard,
   renderLaneHeader,
   allowAddLane,
-  onNewLane,
+  onLaneNew,
   disableLaneDrag,
   disableCardDrag,
   allowRemoveLane,
@@ -62,7 +62,7 @@ function Board ({
 
   async function addLane (lane) {
     const lanes = renderLaneAdder ? addInArrayAtPosition(board.lanes, lane, board.lanes.length)
-      : addInArrayAtPosition(board.lanes, await onNewLane(lane), board.lanes.length)
+      : addInArrayAtPosition(board.lanes, await onLaneNew(lane), board.lanes.length)
 
     setBoard({ ...board, lanes })
   }
@@ -136,7 +136,7 @@ function Board ({
           ))}
         </DroppableBoard>
         {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
-          : allowAddLane && onNewLane && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
+          : allowAddLane && onLaneNew && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
       </StyledBoard>
     </DragDropContext>
   )
