@@ -56,9 +56,11 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   const [title, setTitle] = useState(lane.title)
   const [titleInput, setTitleInput] = useState('')
 
-  function handleRenameLane (title) {
-    onLaneRename(lane.id, title)
-    setTitle(title)
+  function handleRenameLane (event) {
+    event.preventDefault()
+
+    onLaneRename(lane.id, titleInput)
+    setTitle(titleInput)
     toggleRenameMode()
   }
 
@@ -70,7 +72,7 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   return (
     <LaneHeaderSkeleton>
       {renameMode ? (
-        <form onSubmit={() => handleRenameLane(titleInput)}>
+        <form onSubmit={handleRenameLane}>
           <span>
             <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
           </span>
