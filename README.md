@@ -23,7 +23,7 @@ Yet another Kanban/Trello board lib for React.
 ## 🛠 Install and usage
 
 Since this project use Hooks and Styled Components, you have to install them:
-  * `react>=16.8.0`
+  * `react>=16.8.5`
   * `styled-components>=4`
 
 After, Install the lib on your project:
