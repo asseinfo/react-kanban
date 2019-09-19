@@ -80,9 +80,9 @@ const board = {
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
 | [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
-| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane`) | Callback that will be called when a lane is removed             |
+| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or when [`removeLane`](#renderlaneheader) is called) | Callback that will be called when a lane is removed |
 | [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
-| [`onLaneRename`](#onlanerename) (required if `allowRenameLane`) | Callback that will be called when a lane is renamed             |
+| [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or when [`renameLane`](#renderlaneheader) is called) | Callback that will be called when a lane is renamed |
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
 
@@ -380,6 +380,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://glebbahmutov.com/"><img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;" alt="Gleb Bahmutov"/><br /><sub><b>Gleb Bahmutov</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=bahmutov" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt="Pedro Javier Nicolás"/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars2.githubusercontent.com/u/25781749?s=460&v=4" width="100px;" alt="Matheus Poli"/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=matheuspolicamilo" title="Documentation">📖</a></td>
   </tr>
 </table>
 
