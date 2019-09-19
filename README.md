@@ -80,7 +80,7 @@ const board = {
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
 | [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
-| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or [`removeLane`](#renderlaneheader)) | Callback that will be called when a lane is removed |
+| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or when [`removeLane`](#renderlaneheader) is called) | Callback that will be called when a lane is removed |
 | [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
 | [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or [`renameLane`](#renderlaneheader)) | Callback that will be called when a lane is renamed |
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
