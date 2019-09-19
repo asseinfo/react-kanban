@@ -58,15 +58,15 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
   return (
     <LaneHeaderSkeleton>
       {allowRenameLane && renameMode ? (
-        <>
+        <form onSubmit={() => handleRenameLane(titleInput)}>
           <span>
             <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
           </span>
           <span>
-            <DefaultButton type='button' onClick={() => handleRenameLane(titleInput)}>Rename</DefaultButton>
+            <DefaultButton type='submit'>Rename</DefaultButton>
             <DefaultButton type='button' onClick={handleRenameMode}>Cancel</DefaultButton>
           </span>
-        </>
+        </form>
       ) : (
         <>
           <CursorPointer onClick={handleRenameMode}>
