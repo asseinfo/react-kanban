@@ -1,8 +1,11 @@
 {
   "name": "@lourenci/react-kanban",
-  "version": "0.11.1",
-  "description": "A <ReactKanban /> for React Hooks",
+  "version": "0.12.0",
+  "description": "Yet another Kanban/Trello board lib for React.",
   "main": "dist/index.js",
+  "files": [
+    "dist/index.js"
+  ],
   "repository": "https://github.com/lourenci/react-kanban",
   "author": "Leandro Lourenci",
   "license": "MIT",
@@ -23,7 +26,7 @@
     "babel-plugin-react-remove-properties": "0.3.0",
     "cross-env": "5.2.1",
     "cypress": "3.4.1",
-    "eslint": "6.3.0",
+    "eslint": "6.4.0",
     "eslint-config-standard": "14.1.0",
     "eslint-config-standard-react": "9.2.0",
     "eslint-plugin-cypress": "2.6.1",
@@ -40,9 +43,9 @@
     "nyc": "14.1.1",
     "react": "16.9.0",
     "react-dom": "16.9.0",
-    "start-server-and-test": "1.10.0",
+    "start-server-and-test": "1.10.2",
     "styled-components": "4.3.1",
-    "webpack": "4.31.0",
+    "webpack": "4.40.2",
     "webpack-cli": "3.3.8",
     "webpack-dev-server": "3.3.1"
   },

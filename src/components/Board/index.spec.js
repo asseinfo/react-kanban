@@ -296,20 +296,20 @@ describe('<Board />', () => {
   describe('about the lane adding', () => {
     describe('about the default lane adder', () => {
       describe('when the component does not receive "allowAddLane" prop', () => {
-        let onNewLane
+        let onLaneNew
 
         beforeEach(() => {
-          onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-          mount({ allowAddLane: false, onNewLane })
+          onLaneNew = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+          mount({ allowAddLane: false, onLaneNew })
         })
-        afterEach(() => { onNewLane = undefined })
+        afterEach(() => { onLaneNew = undefined })
 
         it('does not render the lane adder', () => {
           expect(subject.queryByText('➕')).not.toBeInTheDocument()
         })
       })
 
-      describe('when the component does not receive "onNewLane" prop', () => {
+      describe('when the component does not receive "onLaneNew" prop', () => {
         beforeEach(() => {
           mount({ allowAddLane: true })
         })
@@ -319,14 +319,14 @@ describe('<Board />', () => {
         })
       })
 
-      describe('when it receives the "allowAddLane" and "onNewLane" prop', () => {
-        let onNewLane
+      describe('when it receives the "allowAddLane" and "onLaneNew" prop', () => {
+        let onLaneNew
 
         beforeEach(() => {
-          onNewLane = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-          mount({ allowAddLane: true, onNewLane })
+          onLaneNew = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+          mount({ allowAddLane: true, onLaneNew })
         })
-        afterEach(() => { onNewLane = undefined })
+        afterEach(() => { onLaneNew = undefined })
 
         it('renders the lane placeholder as the last lane to add a new lane', () => {
           expect(subject.queryByText('➕')).toBeInTheDocument()
@@ -350,12 +350,12 @@ describe('<Board />', () => {
               await waitForElement(() => subject.container.querySelector('[data-testid="lane"]:nth-child(3)'))
             })
 
-            it('calls the "onNewLane" passing the new lane', () => {
-              expect(onNewLane).toHaveBeenCalledTimes(1)
-              expect(onNewLane).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
+            it('calls the "onLaneNew" passing the new lane', () => {
+              expect(onLaneNew).toHaveBeenCalledTimes(1)
+              expect(onLaneNew).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
             })
 
-            it('renders the new lane using the id returned on "onNewLane"', () => {
+            it('renders the new lane using the id returned on "onLaneNew"', () => {
               expect(subject.queryAllByTestId('lane')).toHaveLength(3)
             })
 

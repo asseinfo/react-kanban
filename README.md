@@ -18,7 +18,7 @@ Yet another Kanban/Trello board lib for React.
   * 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
   * 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
   * ♿️ Accessible: Keyboard and mobile friendly.
-  * 👫 Project-friendly: For use in projects.
+  * 🔌 Pluggable: For use in projects.
 
 ## 🛠 Install and usage
 
@@ -75,7 +75,7 @@ const board = {
 | [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
 | [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
 | [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
-| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
+| [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
 | [`renderLaneAdder`](#renderlaneadder)                           | A lane adder to be rendered instead of the default lane adder template |
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
@@ -223,19 +223,19 @@ const board = {
 #### `allowAddLane`
 Allow the user to add a new lane directly by the board.
 
-#### `onNewLane`
+#### `onLaneNew`
 When the user adds a new lane through the default lane adder template, this callback will be called passing the lane title typed by the user.
 
 You **must** return the new lane with its new id in this callback.
 
 Ex.:
 ```js
-function onNewLane (newLane) {
+function onLaneNew (newLane) {
   const newLane = { id: ${required-new-unique-laneId}, ...newLane }
   return newLane
 }
 
-<Board allowAddLane onNewLane={onNewLane}>{board}</Board>
+<Board allowAddLane onLaneNew={onLaneNew}>{board}</Board>
 ```
 
 #### `renderLaneAdder`
@@ -309,7 +309,7 @@ When the user removes a card, this callback will be called passing these paramet
 | `lane`       | The lane without the removed card                      |
 | `card`       | The removed card                                       |
 
-## Tests
+## 🧪 Tests
 
 ### Unit
 
@@ -379,6 +379,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt="Leandro Lourenci"/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://glebbahmutov.com/"><img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;" alt="Gleb Bahmutov"/><br /><sub><b>Gleb Bahmutov</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=bahmutov" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt="Pedro Javier Nicolás"/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
   </tr>
 </table>
 

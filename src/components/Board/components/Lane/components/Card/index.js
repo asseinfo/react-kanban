@@ -1,5 +1,10 @@
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
+import styled from 'styled-components'
+
+const CardTemplate = styled.div`
+  display: inline-block;
+`
 
 function Card ({ children, index, renderCard, disableCardDrag }) {
   return (
@@ -12,7 +17,9 @@ function Card ({ children, index, renderCard, disableCardDrag }) {
             {...provided.dragHandleProps}
             data-testid='card'
           >
-            {renderCard(isDragging)}
+            <CardTemplate>
+              {renderCard(isDragging)}
+            </CardTemplate>
           </div>
         )
       }}
