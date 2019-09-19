@@ -1,6 +1,6 @@
 {
   "name": "@lourenci/react-kanban",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "description": "Yet another Kanban/Trello board lib for React.",
   "main": "dist/index.js",
   "files": [
