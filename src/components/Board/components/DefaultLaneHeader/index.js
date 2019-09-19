@@ -29,6 +29,18 @@ const Input = styled.input`
   }
 `
 
+function LaneTitle ({ allowRenameLane, onClick, children: title }) {
+  return allowRenameLane ? (
+    <CursorPointer onClick={onClick}>
+      {title}
+    </CursorPointer>
+  ) : (
+    <span>
+      {title}
+    </span>
+  )
+}
+
 function useRenameMode (state) {
   const [renameMode, setRenameMode] = useState(state)
 
@@ -59,7 +71,7 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
 
   return (
     <LaneHeaderSkeleton>
-      {allowRenameLane && renameMode ? (
+      {renameMode ? (
         <form onSubmit={handleRenameLane}>
           <span>
             <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
@@ -71,9 +83,9 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
         </form>
       ) : (
         <>
-          <CursorPointer onClick={handleRenameMode}>
+          <LaneTitle allowRenameLane={allowRenameLane} onClick={handleRenameMode}>
             {title}
-          </CursorPointer>
+          </LaneTitle>
           {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
         </>
       )}
