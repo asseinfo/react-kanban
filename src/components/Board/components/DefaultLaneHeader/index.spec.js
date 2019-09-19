@@ -68,11 +68,16 @@ describe('<DefaultLaneHeader />', () => {
 
   describe('about the lane title renaming', () => {
     describe('when the component does not receive the "allowRenameLane" prop', () => {
-      describe('when the user clicks on the lane title', () => {
-        beforeEach(() => {
-          mount({ onLaneRename })
-          fireEvent.click(subject.queryByText('Lane title'))
+      beforeEach(() => mount({ onLaneRename }))
+
+      describe('when the user moves the mouse over the title', () => {
+        it('does not show a mouse pointer', () => {
+          expect(subject.queryByText('Lane title')).not.toHaveStyle('cursor: pointer')
         })
+      })
+
+      describe('when the user clicks on the lane title', () => {
+        beforeEach(() => fireEvent.click(subject.queryByText('Lane title')))
 
         it('does not allow the user to rename the lane', () => {
           expect(subject.queryByText('Lane title')).toBeInTheDocument()
@@ -86,11 +91,16 @@ describe('<DefaultLaneHeader />', () => {
     })
 
     describe('when the component receives the "allowRenameLane" prop', () => {
-      describe('when the user clicks on the lane title', () => {
-        beforeEach(() => {
-          mount({ allowRenameLane: true, onLaneRename })
-          fireEvent.click(subject.queryByText('Lane title'))
+      beforeEach(() => mount({ allowRenameLane: true, onLaneRename }))
+
+      describe('when the user moves the mouse over the title', () => {
+        it('shows a mouse pointer', () => {
+          expect(subject.queryByText('Lane title')).toHaveStyle('cursor: pointer')
         })
+      })
+
+      describe('when the user clicks on the lane title', () => {
+        beforeEach(() => fireEvent.click(subject.queryByText('Lane title')))
 
         it('does not call the "onLaneRename" callback', () => {
           expect(onLaneRename).not.toHaveBeenCalled()
