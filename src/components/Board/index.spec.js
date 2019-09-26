@@ -699,12 +699,12 @@ describe('<Board />', () => {
         beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card')))
 
         it('adds a new card in the end of the lane', () => {
-          const cards = within(subject.queryAllByTestId('lane')[0]).queryByTestId('card')
+          const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
           expect(cards).toHaveLength(3)
           expect(cards[2]).toHaveTextContent('New card')
         })
 
-        it('calls the "onCardAdd" callback passing both the updated board, the updated lane and the new card', () => {
+        it('calls the "onCardAdd" callback passing the updated board, the updated lane and the new card', () => {
           expect(onCardAdd).toHaveBeenCalledTimes(1)
           expect(onCardAdd).toHaveBeenCalledWith(
             {
@@ -717,7 +717,7 @@ describe('<Board />', () => {
               id: 1,
               cards: [
                 expect.objectContaining({ id: 1 }),
-                expect.objectContaining({ id: 1 }),
+                expect.objectContaining({ id: 2 }),
                 expect.objectContaining({ id: 99 })
               ]
             }),
