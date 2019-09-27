@@ -192,7 +192,11 @@ The function will receive these parameters:
 |--------------|------------------------------------------------------- |
 | `removeLane` | Call this function to remove the lane from the board   |
 | `renameLane` | Call this function with a title to rename the lane     |
-| `addCard`    | Call this function with a new card to add it in the end of the lane |
+| `addCard`    | Call this function with a new card to add it in the lane |
+
+**`addCard`**: As a second argument you can pass an option to define where in the lane you want to add the card:
+* `{ on: 'top' }`: to add on the top of the lane.
+* `{ on: 'bottom' }`: to add on the bottom of the lane (default).
 
 Ex.:
 ```js
@@ -219,7 +223,7 @@ const board = {
     </YourLaneHeader
   )}
 >
-{board}
+  {board}
 </Board>
 ```
 

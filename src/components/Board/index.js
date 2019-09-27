@@ -92,8 +92,8 @@ function Board ({
     setBoard(boardWithoutCard)
   }
 
-  function addCard (lane, card) {
-    const cards = addInArrayAtPosition(lane.cards, card, lane.cards.length)
+  function addCard (lane, card, { on } = {}) {
+    const cards = addInArrayAtPosition(lane.cards, card, on === 'top' ? 0 : lane.cards.length)
     const lanes = board.lanes.map(laneMap => lane.id === laneMap.id ? { ...laneMap, cards } : laneMap)
     const boardWithNewCard = { ...board, lanes }
     onCardNew(boardWithNewCard, { ...lane, cards }, card)

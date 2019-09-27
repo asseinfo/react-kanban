@@ -677,14 +677,15 @@ describe('<Board />', () => {
       beforeEach(() => {
         renderLaneHeader.mockClear()
         onCardNew.mockClear()
-        mount({ renderLaneHeader, onCardNew })
       })
 
       it('does not call the "onCardNew" callback', () => {
+        mount({ renderLaneHeader, onCardNew })
         expect(onCardNew).not.toHaveBeenCalled()
       })
 
       it('passes the lane and the lane bag to the "renderLaneHeader"', () => {
+        mount({ renderLaneHeader, onCardNew })
         expect(renderLaneHeader).toHaveBeenCalledWith(
           expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
           expect.objectContaining({
@@ -696,33 +697,112 @@ describe('<Board />', () => {
       })
 
       describe('when the "addCard" callback is called', () => {
-        beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card')))
+        describe('when the position is not specified', () => {
+          beforeEach(() => {
+            mount({ renderLaneHeader, onCardNew })
+            fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
+          })
 
-        it('adds a new card in the end of the lane', () => {
-          const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
-          expect(cards).toHaveLength(3)
-          expect(cards[2]).toHaveTextContent('New card')
+          it('adds a new card on the bottom of the lane', () => {
+            const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            expect(cards).toHaveLength(3)
+            expect(cards[2]).toHaveTextContent('New card')
+          })
+
+          it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
+            expect(onCardNew).toHaveBeenCalledTimes(1)
+            expect(onCardNew).toHaveBeenCalledWith(
+              {
+                lanes: [
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 })
+                ]
+              },
+              expect.objectContaining({
+                id: 1,
+                cards: [
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 }),
+                  expect.objectContaining({ id: 99 })
+                ]
+              }),
+              expect.objectContaining({ id: 99 })
+            )
+          })
         })
 
-        it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
-          expect(onCardNew).toHaveBeenCalledTimes(1)
-          expect(onCardNew).toHaveBeenCalledWith(
-            {
-              lanes: [
-                expect.objectContaining({ id: 1 }),
-                expect.objectContaining({ id: 2 })
-              ]
-            },
-            expect.objectContaining({
-              id: 1,
-              cards: [
-                expect.objectContaining({ id: 1 }),
-                expect.objectContaining({ id: 2 }),
-                expect.objectContaining({ id: 99 })
-              ]
-            }),
-            expect.objectContaining({ id: 99 })
-          )
+        describe('when the position is specified to add the card on the top of the lane', () => {
+          beforeEach(() => {
+            const renderLaneHeader = jest.fn((_, { addCard }) => {
+              return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'top' })}>New card</button>
+            })
+            mount({ renderLaneHeader, onCardNew })
+            fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
+          })
+
+          it('adds a new card on the top of the lane', () => {
+            const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            expect(cards).toHaveLength(3)
+            expect(cards[0]).toHaveTextContent('New card')
+          })
+
+          it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
+            expect(onCardNew).toHaveBeenCalledTimes(1)
+            expect(onCardNew).toHaveBeenCalledWith(
+              {
+                lanes: [
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 })
+                ]
+              },
+              expect.objectContaining({
+                id: 1,
+                cards: [
+                  expect.objectContaining({ id: 99 }),
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 })
+                ]
+              }),
+              expect.objectContaining({ id: 99 })
+            )
+          })
+        })
+
+        describe('when the position is specified to add the card on the bottom of the lane', () => {
+          beforeEach(() => {
+            const renderLaneHeader = jest.fn((_, { addCard }) => {
+              return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'bottom' })}>New card</button>
+            })
+            mount({ renderLaneHeader, onCardNew })
+            fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
+          })
+
+          it('adds a new card on the bottom of the lane', () => {
+            const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            expect(cards).toHaveLength(3)
+            expect(cards[2]).toHaveTextContent('New card')
+          })
+
+          it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
+            expect(onCardNew).toHaveBeenCalledTimes(1)
+            expect(onCardNew).toHaveBeenCalledWith(
+              {
+                lanes: [
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 })
+                ]
+              },
+              expect.objectContaining({
+                id: 1,
+                cards: [
+                  expect.objectContaining({ id: 1 }),
+                  expect.objectContaining({ id: 2 }),
+                  expect.objectContaining({ id: 99 })
+                ]
+              }),
+              expect.objectContaining({ id: 99 })
+            )
+          })
         })
       })
     })
