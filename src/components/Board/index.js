@@ -39,7 +39,7 @@ function Board ({
   allowRemoveCard,
   onCardRemove,
   renderLaneAdder,
-  onCardAdd
+  onCardNew
 }) {
   const [board, setBoard] = useState(children)
 
@@ -96,7 +96,7 @@ function Board ({
     const cards = addInArrayAtPosition(lane.cards, card, lane.cards.length)
     const lanes = board.lanes.map(laneMap => lane.id === laneMap.id ? { ...laneMap, cards } : laneMap)
     const boardWithNewCard = { ...board, lanes }
-    onCardAdd(boardWithNewCard, { ...lane, cards }, card)
+    onCardNew(boardWithNewCard, { ...lane, cards }, card)
     setBoard(boardWithNewCard)
   }
 

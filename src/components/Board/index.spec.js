@@ -672,16 +672,16 @@ describe('<Board />', () => {
       const renderLaneHeader = jest.fn((_, { addCard }) => {
         return <button onClick={() => addCard({ id: 99, title: 'New card' })}>New card</button>
       })
-      const onCardAdd = jest.fn()
+      const onCardNew = jest.fn()
 
       beforeEach(() => {
         renderLaneHeader.mockClear()
-        onCardAdd.mockClear()
-        mount({ renderLaneHeader, onCardAdd })
+        onCardNew.mockClear()
+        mount({ renderLaneHeader, onCardNew })
       })
 
-      it('does not call the "onCardAdd" callback', () => {
-        expect(onCardAdd).not.toHaveBeenCalled()
+      it('does not call the "onCardNew" callback', () => {
+        expect(onCardNew).not.toHaveBeenCalled()
       })
 
       it('passes the lane and the lane bag to the "renderLaneHeader"', () => {
@@ -704,9 +704,9 @@ describe('<Board />', () => {
           expect(cards[2]).toHaveTextContent('New card')
         })
 
-        it('calls the "onCardAdd" callback passing the updated board, the updated lane and the new card', () => {
-          expect(onCardAdd).toHaveBeenCalledTimes(1)
-          expect(onCardAdd).toHaveBeenCalledWith(
+        it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
+          expect(onCardNew).toHaveBeenCalledTimes(1)
+          expect(onCardNew).toHaveBeenCalledWith(
             {
               lanes: [
                 expect.objectContaining({ id: 1 }),
