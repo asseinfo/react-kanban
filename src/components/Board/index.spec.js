@@ -703,7 +703,7 @@ describe('<Board />', () => {
             fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
           })
 
-          it('adds a new card in the end of the lane', () => {
+          it('adds a new card on the bottom of the lane', () => {
             const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
             expect(cards).toHaveLength(3)
             expect(cards[2]).toHaveTextContent('New card')
@@ -731,7 +731,7 @@ describe('<Board />', () => {
           })
         })
 
-        describe('when the position is specified to add the card in the top of the lane', () => {
+        describe('when the position is specified to add the card on the top of the lane', () => {
           beforeEach(() => {
             const renderLaneHeader = jest.fn((_, { addCard }) => {
               return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'top' })}>New card</button>
@@ -740,7 +740,7 @@ describe('<Board />', () => {
             fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
           })
 
-          it('adds a new card in the top of the lane', () => {
+          it('adds a new card on the top of the lane', () => {
             const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
             expect(cards).toHaveLength(3)
             expect(cards[0]).toHaveTextContent('New card')
@@ -768,7 +768,7 @@ describe('<Board />', () => {
           })
         })
 
-        describe('when the position is specified to add the card in the bottom of the lane', () => {
+        describe('when the position is specified to add the card on the bottom of the lane', () => {
           beforeEach(() => {
             const renderLaneHeader = jest.fn((_, { addCard }) => {
               return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'bottom' })}>New card</button>
@@ -777,7 +777,7 @@ describe('<Board />', () => {
             fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card'))
           })
 
-          it('adds a new card in the end of the lane', () => {
+          it('adds a new card on the bottom of the lane', () => {
             const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
             expect(cards).toHaveLength(3)
             expect(cards[2]).toHaveTextContent('New card')
