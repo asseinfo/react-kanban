@@ -279,7 +279,7 @@ describe('<Board />', () => {
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        }, { removeLane: expect.any(Function), renameLane: expect.any(Function) })
+        }, { removeLane: expect.any(Function), renameLane: expect.any(Function), addCard: expect.any(Function) })
       })
     })
 
