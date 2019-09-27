@@ -279,7 +279,7 @@ describe('<Board />', () => {
           title: 'Lane Backlog',
           wip: 1,
           cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        }, { removeLane: expect.any(Function), renameLane: expect.any(Function) })
+        }, { removeLane: expect.any(Function), renameLane: expect.any(Function), addCard: expect.any(Function) })
       })
     })
 
@@ -381,7 +381,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about custom lade adder', () => {
+    describe('about custom lane adder', () => {
       describe('when the component receives a custom lane adder', () => {
         let renderLaneAdder
 
@@ -464,7 +464,7 @@ describe('<Board />', () => {
         mount({ renderLaneHeader, onLaneRemove })
       })
 
-      it('does not call the "onLaneRemove callback', () => {
+      it('does not call the "onLaneRemove" callback', () => {
         expect(onLaneRemove).not.toHaveBeenCalled()
       })
 
@@ -661,6 +661,67 @@ describe('<Board />', () => {
             },
             expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
             expect.objectContaining({ id: 1, title: 'Card title 1' })
+          )
+        })
+      })
+    })
+  })
+
+  describe('about the card adding', () => {
+    describe('when the component receives a custom header lane template', () => {
+      const renderLaneHeader = jest.fn((_, { addCard }) => {
+        return <button onClick={() => addCard({ id: 99, title: 'New card' })}>New card</button>
+      })
+      const onCardNew = jest.fn()
+
+      beforeEach(() => {
+        renderLaneHeader.mockClear()
+        onCardNew.mockClear()
+        mount({ renderLaneHeader, onCardNew })
+      })
+
+      it('does not call the "onCardNew" callback', () => {
+        expect(onCardNew).not.toHaveBeenCalled()
+      })
+
+      it('passes the lane and the lane bag to the "renderLaneHeader"', () => {
+        expect(renderLaneHeader).toHaveBeenCalledWith(
+          expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
+          expect.objectContaining({
+            removeLane: expect.any(Function),
+            renameLane: expect.any(Function),
+            addCard: expect.any(Function)
+          })
+        )
+      })
+
+      describe('when the "addCard" callback is called', () => {
+        beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('New card')))
+
+        it('adds a new card in the end of the lane', () => {
+          const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+          expect(cards).toHaveLength(3)
+          expect(cards[2]).toHaveTextContent('New card')
+        })
+
+        it('calls the "onCardNew" callback passing the updated board, the updated lane and the new card', () => {
+          expect(onCardNew).toHaveBeenCalledTimes(1)
+          expect(onCardNew).toHaveBeenCalledWith(
+            {
+              lanes: [
+                expect.objectContaining({ id: 1 }),
+                expect.objectContaining({ id: 2 })
+              ]
+            },
+            expect.objectContaining({
+              id: 1,
+              cards: [
+                expect.objectContaining({ id: 1 }),
+                expect.objectContaining({ id: 2 }),
+                expect.objectContaining({ id: 99 })
+              ]
+            }),
+            expect.objectContaining({ id: 99 })
           )
         })
       })

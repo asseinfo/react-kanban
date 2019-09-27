@@ -85,6 +85,7 @@ const board = {
 | [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or when [`renameLane`](#renderlaneheader) is called) | Callback that will be called when a lane is renamed |
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
+| [`onCardNew`](#oncardnew) (required if [`addCard`](#renderlaneheader) is called) | Callback that will be called when a new card is added |
 
 #### `children`
 ```js
@@ -191,6 +192,7 @@ The function will receive these parameters:
 |--------------|------------------------------------------------------- |
 | `removeLane` | Call this function to remove the lane from the board   |
 | `renameLane` | Call this function with a title to rename the lane     |
+| `addCard`    | Call this function with a new card to add it in the end of the lane |
 
 Ex.:
 ```js
@@ -208,11 +210,12 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title }, { removeLane, renameLane }) => (
+  renderLaneHeader={({ title }, { removeLane, renameLane, addCard }) => (
     <YourLaneHeader>
       {title}
       <button type='button' onClick={removeLane}>Remove Lane</button>
       <button type='button' onClick={() => renameLane('New title')}>Rename Lane</button>
+      <button type='button' onClick={() => addCard({ id: 99, title: 'New Card' })}>Add Card</button>
     </YourLaneHeader
   )}
 >

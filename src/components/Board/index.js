@@ -38,7 +38,8 @@ function Board ({
   onLaneRename,
   allowRemoveCard,
   onCardRemove,
-  renderLaneAdder
+  renderLaneAdder,
+  onCardNew
 }) {
   const [board, setBoard] = useState(children)
 
@@ -91,6 +92,14 @@ function Board ({
     setBoard(boardWithoutCard)
   }
 
+  function addCard (lane, card) {
+    const cards = addInArrayAtPosition(lane.cards, card, lane.cards.length)
+    const lanes = board.lanes.map(laneMap => lane.id === laneMap.id ? { ...laneMap, cards } : laneMap)
+    const boardWithNewCard = { ...board, lanes }
+    onCardNew(boardWithNewCard, { ...lane, cards }, card)
+    setBoard(boardWithNewCard)
+  }
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}
@@ -116,7 +125,8 @@ function Board ({
               renderLaneHeader={renderLaneHeader ? (
                 renderLaneHeader(lane, {
                   removeLane: removeLane.bind(null, lane),
-                  renameLane: renameLane.bind(null, lane.id)
+                  renameLane: renameLane.bind(null, lane.id),
+                  addCard: addCard.bind(null, lane)
                 })
               ) : (
                 <DefaultLaneHeader
