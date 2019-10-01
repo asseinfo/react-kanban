@@ -33,7 +33,6 @@ after_script:
   - ./cc-test-reporter format-coverage -t lcov -o combined-coverage/e2e.json coverage/lcov.info
   - ./cc-test-reporter sum-coverage combined-coverage/*.json -p 2
   - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
-
 before_deploy:
   - npm run docz build
 deploy:
