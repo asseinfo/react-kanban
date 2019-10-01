@@ -6,13 +6,12 @@ function withDroppable (Component) {
     return (
       <Droppable {...droppableProps} maxHeight="120px">
         {provided => (
-          <>
+          
           <Component ref={provided.innerRef} {...provided.droppableProps}>
             {children}
             {provided.placeholder}
           </Component>
-          {console.log({c: Component,pro:provided.droppableProps})}
-          </>
+          
         )}
       </Droppable>
     )
