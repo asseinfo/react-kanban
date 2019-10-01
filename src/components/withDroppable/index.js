@@ -4,7 +4,7 @@ import { Droppable } from 'react-beautiful-dnd'
 function withDroppable (Component) {
   return function WrapperComponent ({ children, ...droppableProps }) {
     return (
-      <Droppable {...droppableProps} maxHeight="120px">
+      <Droppable {...droppableProps}>
         {provided => (
           
           <Component ref={provided.innerRef} {...provided.droppableProps}>
