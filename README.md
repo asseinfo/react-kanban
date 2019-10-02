@@ -23,7 +23,7 @@ Yet another Kanban/Trello board lib for React.
 ## 🛠 Install and usage
 
 Since this project use Hooks and Styled Components, you have to install them:
-  * `react>=16.8.0`
+  * `react>=16.8.5`
   * `styled-components>=4`
 
 After, Install the lib on your project:
@@ -75,16 +75,17 @@ const board = {
 | [`renderCard`](#rendercard)                                     | A card to be rendered instead of the default card               |
 | [`renderLaneHeader`](#renderlaneheader)                         | A lane header to be rendered instead of the default lane header |
 | [`allowAddLane`](#allowaddlane)                                 | Allow a new lane be added by the user                           |
-| [`onNewLane`](#onnewlane) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
+| [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template           |
 | [`renderLaneAdder`](#renderlaneadder)                           | A lane adder to be rendered instead of the default lane adder template |
 | [`disableLaneDrag`](#disablelanedrag)                           | Disable the lane move                                           |
 | [`disableCardDrag`](#disablecarddrag)                           | Disable the card move                                           |
 | [`allowRemoveLane`](#allowremovelane)                           | Allow to remove a lane in default lane header                   |
-| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane`) | Callback that will be called when a lane is removed             |
+| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or when [`removeLane`](#renderlaneheader) is called) | Callback that will be called when a lane is removed |
 | [`allowRenameLane`](#allowrenamelane)                           | Allow to rename a lane in default lane header                   |
-| [`onLaneRename`](#onlanerename) (required if `allowRenameLane`) | Callback that will be called when a lane is renamed             |
+| [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or when [`renameLane`](#renderlaneheader) is called) | Callback that will be called when a lane is renamed |
 | [`allowRemoveCard`](#allowremovecard)                           | Allow to remove a card in default card template                 |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed             |
+| [`onCardNew`](#oncardnew) (required if [`addCard`](#renderlaneheader) is called) | Callback that will be called when a new card is added |
 
 #### `children`
 ```js
@@ -191,6 +192,11 @@ The function will receive these parameters:
 |--------------|------------------------------------------------------- |
 | `removeLane` | Call this function to remove the lane from the board   |
 | `renameLane` | Call this function with a title to rename the lane     |
+| `addCard`    | Call this function with a new card to add it in the lane |
+
+**`addCard`**: As a second argument you can pass an option to define where in the lane you want to add the card:
+* `{ on: 'top' }`: to add on the top of the lane.
+* `{ on: 'bottom' }`: to add on the bottom of the lane (default).
 
 Ex.:
 ```js
@@ -208,34 +214,35 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title }, { removeLane, renameLane }) => (
+  renderLaneHeader={({ title }, { removeLane, renameLane, addCard }) => (
     <YourLaneHeader>
       {title}
       <button type='button' onClick={removeLane}>Remove Lane</button>
       <button type='button' onClick={() => renameLane('New title')}>Rename Lane</button>
+      <button type='button' onClick={() => addCard({ id: 99, title: 'New Card' })}>Add Card</button>
     </YourLaneHeader
   )}
 >
-{board}
+  {board}
 </Board>
 ```
 
 #### `allowAddLane`
 Allow the user to add a new lane directly by the board.
 
-#### `onNewLane`
+#### `onLaneNew`
 When the user adds a new lane through the default lane adder template, this callback will be called passing the lane title typed by the user.
 
 You **must** return the new lane with its new id in this callback.
 
 Ex.:
 ```js
-function onNewLane (newLane) {
+function onLaneNew (newLane) {
   const newLane = { id: ${required-new-unique-laneId}, ...newLane }
   return newLane
 }
 
-<Board allowAddLane onNewLane={onNewLane}>{board}</Board>
+<Board allowAddLane onLaneNew={onLaneNew}>{board}</Board>
 ```
 
 #### `renderLaneAdder`
@@ -381,6 +388,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt="Pedro Javier Nicolás"/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/GLuchtenberg"><img src="https://avatars3.githubusercontent.com/u/28123879?v=4" width="100px;" alt="Gabriel F. Luchtenberg"/><br /><sub><b>Gabriel F. Luchtenberg</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=GLuchtenberg" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars2.githubusercontent.com/u/25781749?s=460&v=4" width="100px;" alt="Matheus Poli"/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=matheuspolicamilo" title="Documentation">📖</a></td>
   </tr>
 </table>
 

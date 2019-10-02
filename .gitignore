@@ -6,3 +6,4 @@ yarn.lock
 cypress/screenshots
 .nyc_output
 unit-coverage
+.docz

@@ -33,7 +33,7 @@ function Board({
   renderCard,
   renderLaneHeader,
   allowAddLane,
-  onNewLane,
+  onLaneNew,
   disableLaneDrag,
   disableCardDrag,
   allowRemoveLane,
@@ -44,6 +44,7 @@ function Board({
   onCardRemove,
   renderLaneAdder,
   height
+  onCardNew
 }) {
   const [board, setBoard] = useState(children);
 
@@ -70,15 +71,10 @@ function Board({
     setBoard(reorderedBoard);
   }
 
-  async function addLane(lane) {
-    const lanes = renderLaneAdder
-      ? addInArrayAtPosition(board.lanes, lane, board.lanes.length)
-      : addInArrayAtPosition(
-          board.lanes,
-          await onNewLane(lane),
-          board.lanes.length
-        );
-
+  async function addLane (lane) {
+    const lanes = renderLaneAdder ? addInArrayAtPosition(board.lanes, lane, board.lanes.length)
+      : addInArrayAtPosition(board.lanes, await onLaneNew(lane), board.lanes.length)
+    
     setBoard({ ...board, lanes });
   }
 
@@ -110,6 +106,14 @@ function Board({
     setBoard(boardWithoutCard);
   }
 
+  function addCard (lane, card, { on } = {}) {
+    const cards = addInArrayAtPosition(lane.cards, card, on === 'top' ? 0 : lane.cards.length)
+    const lanes = board.lanes.map(laneMap => lane.id === laneMap.id ? { ...laneMap, cards } : laneMap)
+    const boardWithNewCard = { ...board, lanes }
+    onCardNew(boardWithNewCard, { ...lane, cards }, card)
+    setBoard(boardWithNewCard)
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <StyledBoard height={height}>
@@ -138,23 +142,23 @@ function Board({
                   </DefaultCard>
                 );
               }}
-              renderLaneHeader={
-                renderLaneHeader ? (
-                  renderLaneHeader(lane, {
-                    removeLane: removeLane.bind(null, lane),
-                    renameLane: renameLane.bind(null, lane.id)
-                  })
-                ) : (
-                  <DefaultLaneHeader
-                    allowRemoveLane={allowRemoveLane}
-                    onLaneRemove={removeLane}
-                    allowRenameLane={allowRenameLane}
-                    onLaneRename={renameLane}
-                  >
-                    {lane}
-                  </DefaultLaneHeader>
-                )
-              }
+              renderLaneHeader={renderLaneHeader ? (
+                renderLaneHeader(lane, {
+                  removeLane: removeLane.bind(null, lane),
+                  renameLane: renameLane.bind(null, lane.id),
+                  addCard: addCard.bind(null, lane)
+                })
+              ) : (
+                <DefaultLaneHeader
+                  allowRemoveLane={allowRemoveLane}
+                  onLaneRemove={removeLane}
+                  allowRenameLane={allowRenameLane}
+                  onLaneRename={renameLane}
+                >
+                  {lane}
+                </DefaultLaneHeader>
+              )}
+
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >
@@ -162,12 +166,9 @@ function Board({
             </Lane>
           ))}
         </DroppableBoard>
-        {renderLaneAdder && allowAddLane
-          ? renderLaneAdder({ addLane })
-          : allowAddLane &&
-            onNewLane && (
-              <LaneAdder onConfirm={title => addLane({ title, cards: [] })} />
-            )}
+
+        {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
+          : allowAddLane && onLaneNew && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
       </StyledBoard>
     </DragDropContext>
   );
