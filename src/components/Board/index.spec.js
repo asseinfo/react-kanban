@@ -43,6 +43,10 @@ describe('<Board />', () => {
   }
   afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = onCardRemove = undefined })
 
+  it('should match snapshot', () => {
+    expect(mount().debug()).toMatchSnapshot();
+  })
+
   it('renders a board', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
   })

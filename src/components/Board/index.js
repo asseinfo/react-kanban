@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import LaneAdder from './components/LaneAdder'
@@ -9,7 +9,15 @@ import { addInArrayAtPosition, when } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
 
+const GlobalStyle = createGlobalStyle`
+  html, body, #app {
+    height: 100%;
+    overflow-y: hidden;
+  }
+`
+
 const StyledBoard = styled.div`
+  height: 100%;
   padding: 5px;
   overflow-y: hidden;
   display: flex;
@@ -17,6 +25,7 @@ const StyledBoard = styled.div`
 `
 
 const Lanes = styled.div`
+  height: 100%;
   white-space: nowrap;
 `
 
@@ -101,54 +110,57 @@ function Board ({
   }
 
   return (
-    <DragDropContext
-      onDragEnd={onDragEnd}
-    >
-      <StyledBoard>
-        <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-          {board.lanes.map((lane, index) => (
-            <Lane
-              key={lane.id}
-              index={index}
-              renderCard={(card, dragging) => {
-                if (renderCard) return renderCard(card, { removeCard: removeCard.bind(null, lane, card), dragging })
-                return (
-                  <DefaultCard
-                    dragging={dragging}
-                    allowRemoveCard={allowRemoveCard}
-                    onCardRemove={card => removeCard(lane, card)}
+    <>
+      <GlobalStyle />
+      <DragDropContext
+        onDragEnd={onDragEnd}
+      >
+        <StyledBoard>
+          <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
+            {board.lanes.map((lane, index) => (
+              <Lane
+                key={lane.id}
+                index={index}
+                renderCard={(card, dragging) => {
+                  if (renderCard) return renderCard(card, { removeCard: removeCard.bind(null, lane, card), dragging })
+                  return (
+                    <DefaultCard
+                      dragging={dragging}
+                      allowRemoveCard={allowRemoveCard}
+                      onCardRemove={card => removeCard(lane, card)}
+                    >
+                      {card}
+                    </DefaultCard>
+                  )
+                }}
+                renderLaneHeader={renderLaneHeader ? (
+                  renderLaneHeader(lane, {
+                    removeLane: removeLane.bind(null, lane),
+                    renameLane: renameLane.bind(null, lane.id),
+                    addCard: addCard.bind(null, lane)
+                  })
+                ) : (
+                  <DefaultLaneHeader
+                    allowRemoveLane={allowRemoveLane}
+                    onLaneRemove={removeLane}
+                    allowRenameLane={allowRenameLane}
+                    onLaneRename={renameLane}
                   >
-                    {card}
-                  </DefaultCard>
-                )
-              }}
-              renderLaneHeader={renderLaneHeader ? (
-                renderLaneHeader(lane, {
-                  removeLane: removeLane.bind(null, lane),
-                  renameLane: renameLane.bind(null, lane.id),
-                  addCard: addCard.bind(null, lane)
-                })
-              ) : (
-                <DefaultLaneHeader
-                  allowRemoveLane={allowRemoveLane}
-                  onLaneRemove={removeLane}
-                  allowRenameLane={allowRenameLane}
-                  onLaneRename={renameLane}
-                >
-                  {lane}
-                </DefaultLaneHeader>
-              )}
-              disableLaneDrag={disableLaneDrag}
-              disableCardDrag={disableCardDrag}
-            >
-              {lane}
-            </Lane>
-          ))}
-        </DroppableBoard>
-        {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
-          : allowAddLane && onLaneNew && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
-      </StyledBoard>
-    </DragDropContext>
+                    {lane}
+                  </DefaultLaneHeader>
+                )}
+                disableLaneDrag={disableLaneDrag}
+                disableCardDrag={disableCardDrag}
+              >
+                {lane}
+              </Lane>
+            ))}
+          </DroppableBoard>
+          {renderLaneAdder && allowAddLane ? renderLaneAdder({ addLane })
+            : allowAddLane && onLaneNew && <LaneAdder onConfirm={(title) => addLane({ title, cards: [] })} />}
+        </StyledBoard>
+      </DragDropContext>
+    </>
   )
 }
 

@@ -44,6 +44,10 @@ describe('<Lane />', () => {
 
   beforeEach(reset)
 
+  it('should match with snapshot', () => {
+    expect(mount().debug()).toMatchSnapshot();
+  })
+
   it('renders a lane', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
   })

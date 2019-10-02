@@ -3,7 +3,8 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'src/**',
-    '!src/index.js'
+    '!src/index.js',
+    '!src/**/*.js.snap'
   ],
   coverageDirectory: 'coverage',
   testMatch: ['<rootDir>/src/**/*.spec.js'],

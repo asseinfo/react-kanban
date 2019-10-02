@@ -8,11 +8,15 @@ import withDroppable from '../../../withDroppable'
 export const StyledLane = styled.div`
   height: 100%;
   display: inline-block;
-  padding: 15px;
   border-radius: 2px;
-  background-color: #eee;
-  margin: 5px;
   vertical-align: top;
+  overflow-y: auto;
+`
+const LaneWrapper = styled.div`
+  height: auto;
+  margin: 5px;
+  padding: 15px;
+  background-color: #eee;
 `
 
 const DroppableLane = withDroppable(styled.div`
@@ -31,25 +35,27 @@ function Lane ({
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
       {laneProvided => (
         <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
-          <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
-            {renderLaneHeader}
-          </div>
-          <DroppableLane droppableId={String(children.id)}>
-            {children.cards.length ? (
-              children.cards.map((card, index) => (
-                <Card
-                  key={card.id}
-                  index={index}
-                  renderCard={dragging => renderCard(card, dragging)}
-                  disableCardDrag={disableCardDrag}
-                >
-                  {card}
-                </Card>
-              ))
-            ) : (
-              <CardSkeleton />
-            )}
-          </DroppableLane>
+          <LaneWrapper>
+            <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
+              {renderLaneHeader}
+            </div>
+            <DroppableLane droppableId={String(children.id)}>
+              {children.cards.length ? (
+                children.cards.map((card, index) => (
+                  <Card
+                    key={card.id}
+                    index={index}
+                    renderCard={dragging => renderCard(card, dragging)}
+                    disableCardDrag={disableCardDrag}
+                  >
+                    {card}
+                  </Card>
+                ))
+              ) : (
+                <CardSkeleton />
+              )}
+            </DroppableLane>
+          </LaneWrapper>
         </StyledLane>
       )}
     </Draggable>
