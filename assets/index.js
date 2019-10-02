@@ -48,28 +48,7 @@ const board = {
           id: 8,
           title: "Card title 8",
           description: "Card content"
-        },
-
-        {
-          id: 8,
-          title: "Card title 8",
-          description: "Card content"
-        },
-        {
-          id: 8,
-          title: "Card title 8",
-          description: "Card content"
-        },
-        {
-          id: 8,
-          title: "Card title 8",
-          description: "Card content"
-        },
-        {
-          id: 8,
-          title: "Card title 8",
-          description: "Card content"
-        },
+        }
       ]
     },
     {
@@ -87,17 +66,13 @@ const board = {
 };
 
 render(
-  <div >
-    <h1>Heyy, react-kanban by lourenci</h1>
-    <Board
-      {...getUrlParams()}
-      maxHeight='300px'
-      onLaneRemove={console.log}
-      onLaneRename={console.log}
-      onCardRemove={console.log}
-    >
-      {board}
-    </Board>
-  </div>,
+  <Board
+    {...getUrlParams()}
+    onLaneRemove={console.log}
+    onLaneRename={console.log}
+    onCardRemove={console.log}
+  >
+    {board}
+  </Board>,
   document.getElementById("app")
 );

@@ -6,12 +6,10 @@ function withDroppable (Component) {
     return (
       <Droppable {...droppableProps}>
         {provided => (
-          
           <Component ref={provided.innerRef} {...provided.droppableProps}>
             {children}
             {provided.placeholder}
           </Component>
-          
         )}
       </Droppable>
     )
