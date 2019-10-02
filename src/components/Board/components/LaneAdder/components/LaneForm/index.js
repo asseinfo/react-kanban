@@ -4,11 +4,21 @@ import { StyledLane } from '../../../Lane'
 import { when } from '@services/utils'
 
 const StyledLaneForm = styled(StyledLane)`
-  min-width: 230px;
-
+width: 350px;
   form {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+  }
+
+  button[type=submit]{
+    flex: 1;
+    margin: 5px 10px 0px 0px;
+  }
+
+  button[type=button]{
+    flex: 1;
+    margin-top: 5px;
   }
 `
 

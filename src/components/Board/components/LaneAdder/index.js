@@ -4,7 +4,7 @@ import LaneForm from './components/LaneForm'
 
 const LaneAdderPlaceholder = styled.div`
   border: 2px dashed #eee;
-  min-width: 230px;
+  min-width: 207px;
   height: 132px;
   margin: 5px;
   display: flex;
