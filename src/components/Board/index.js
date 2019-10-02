@@ -10,21 +10,18 @@ import DefaultLaneHeader from "./components/DefaultLaneHeader";
 import DefaultCard from "./components/DefaultCard";
 
 const StyledBoard = styled.div`
-  /* padding: 5px;
+  padding: 5px;
   overflow-y: hidden;
   display: flex;
-  align-items: flex-start; */
-  /* max-height:300px; */
+  align-items: flex-start;
+  ${({ height }) =>
+    height ? `height: ${height};` : ""} /* max-height:300px; */
 `;
 
 const Lanes = styled.div`
   white-space: nowrap;
   display: inline-flex;
-  max-height: ${({maxHeight}) => {
-  
-    console.log('pa',{maxHeight})
-    return maxHeight
-  }};
+  height: 100%;
 `;
 
 const DroppableBoard = withDroppable(Lanes);
@@ -46,7 +43,7 @@ function Board({
   allowRemoveCard,
   onCardRemove,
   renderLaneAdder,
-  maxHeight = "100%"
+  height
 }) {
   const [board, setBoard] = useState(children);
 
@@ -115,20 +112,16 @@ function Board({
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <StyledBoard
-        maxHeight="300px"
-      >
+      <StyledBoard height={height}>
         <DroppableBoard
           droppableId="board-droppable"
           direction="horizontal"
           type="BOARD"
-          maxHeight="120px"
         >
           {board.lanes.map((lane, index) => (
             <Lane
               key={lane.id}
               index={index}
-              // maxHeight={maxHeight}
               renderCard={(card, dragging) => {
                 if (renderCard)
                   return renderCard(card, {
