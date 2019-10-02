@@ -1,8 +1,9 @@
 describe('Board Page', function () {
-  it('renders a board with its lanes and cards', function () {
+  it('renders a board with its lanes and cards', () => {
     cy.get('[data-testid="lane"]').should('have.length', 2)
-    cy.get('[data-testid="lane"]:eq(0) > div:eq(0)').should('have.text', 'Lane Backlog')
-    cy.get('[data-testid="lane"]:eq(1) > div:eq(0)').should('have.text', 'Lane Doing')
+
+    cy.get('[data-testid="lane"]:eq(0) [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Backlog')
+    cy.get('[data-testid="lane"]:eq(1) [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Doing')
 
     cy.get('[data-testid="card"]').should('have.length', 9)
     cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]')
@@ -25,7 +26,7 @@ describe('Board Page', function () {
     describe('when the card is not blocked for moving', () => {
       describe('when the user moves a card in the same lane', () => {
         beforeEach(() => {
-          const firstCardSelector = '[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)'
+          const firstCardSelector = 'div[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)'
           cy.get(firstCardSelector)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 40, which: 40, force: true })
@@ -103,7 +104,7 @@ describe('Board Page', function () {
     describe('when the lane is not blocked for moving', () => {
       describe('when the user moves a lane to another position', () => {
         beforeEach(() => {
-          const firstLane = '[data-testid="lane"]:eq(0) > div:eq(0)'
+          const firstLane = '[data-testid="lane"]:eq(0)  [data-testid="lane-header"]:eq(0)'
           cy.get(firstLane)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 39, which: 39, force: true })
@@ -112,8 +113,8 @@ describe('Board Page', function () {
         })
 
         it('moves the lane to the specified position', () => {
-          cy.get('[data-testid="lane"]:eq(0) > div:eq(0)').should('have.text', 'Lane Doing')
-          cy.get('[data-testid="lane"]:eq(1) > div:eq(0)').should('have.text', 'Lane Backlog')
+          cy.get('[data-testid="lane"]:eq(0)  [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Doing')
+          cy.get('[data-testid="lane"]:eq(1)  [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Backlog')
         })
       })
     })
@@ -123,7 +124,7 @@ describe('Board Page', function () {
 
       describe('when the user tries to move a lane', () => {
         beforeEach(() => {
-          const firstLane = '[data-testid="lane"]:eq(0) > div:eq(0)'
+          const firstLane = '[data-testid="lane"]:eq(0)  [data-testid="lane-header"]:eq(0)'
           cy.get(firstLane)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 39, which: 39, force: true })
@@ -132,8 +133,8 @@ describe('Board Page', function () {
         })
 
         it('does not move the lane', () => {
-          cy.get('[data-testid="lane"]:eq(0) > div:eq(0)').should('have.text', 'Lane Backlog')
-          cy.get('[data-testid="lane"]:eq(1) > div:eq(0)').should('have.text', 'Lane Doing')
+          cy.get('[data-testid="lane"]:eq(0)  [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Backlog')
+          cy.get('[data-testid="lane"]:eq(1)  [data-testid="lane-header"]:eq(0)').should('have.text', 'Lane Doing')
         })
       })
     })
