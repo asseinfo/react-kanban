@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 const CardTemplate = styled.div`
   display: inline-block;
+  white-space: normal;
 `
 
 function Card ({ children, index, renderCard, disableCardDrag }) {
