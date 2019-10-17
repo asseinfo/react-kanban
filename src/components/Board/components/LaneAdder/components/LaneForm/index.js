@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { StyledLane } from '../../../Lane'
+import { getStyledLane } from '../../../Lane'
 import { when } from '@services/utils'
 
-const StyledLaneForm = styled(StyledLane)`
+const StyledLaneForm = styled(getStyledLane())`
   min-width: 230px;
 
   form {

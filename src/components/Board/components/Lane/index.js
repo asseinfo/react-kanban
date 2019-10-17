@@ -5,8 +5,8 @@ import Card from './components/Card'
 import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
 
-export const StyledLane = styled.div`
-  height: 100%;
+const getStyledLane = (height = 'auto') => styled.div`
+  height: ${height};
   display: inline-block;
   border-radius: 2px;
   vertical-align: top;
@@ -20,10 +20,13 @@ const LaneWrapper = styled.div`
 `
 
 const DroppableLane = withDroppable(styled.div`
+  height: 100%;
+  overflow-y: auto;
   min-height: 28px;
 `)
 
 function Lane ({
+  height,
   children,
   index: laneIndex,
   renderCard,
@@ -31,6 +34,8 @@ function Lane ({
   disableLaneDrag,
   disableCardDrag
 }) {
+  const StyledLane = getStyledLane(height)
+
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
       {laneProvided => (
@@ -62,4 +67,5 @@ function Lane ({
   )
 }
 
-export default Lane
+export default Lane;
+export { getStyledLane };

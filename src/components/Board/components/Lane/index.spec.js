@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Lane, { StyledLane } from './'
+import Lane, { getStyledLane } from './'
+
+const StyledLane = getStyledLane();
 
 describe('<Lane />', () => {
   let subject
