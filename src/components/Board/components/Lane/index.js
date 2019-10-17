@@ -67,5 +67,5 @@ function Lane ({
   )
 }
 
-export default Lane;
-export { getStyledLane };
+export default Lane
+export { getStyledLane }
