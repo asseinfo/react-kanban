@@ -27,7 +27,7 @@
     "cross-env": "6.0.2",
     "cypress": "3.5.0",
     "docz": "2.0.0-rc.53",
-    "eslint": "6.5.1",
+    "eslint": "6.6.0",
     "eslint-config-standard": "14.1.0",
     "eslint-config-standard-react": "9.2.0",
     "eslint-plugin-cypress": "2.7.0",
