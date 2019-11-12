@@ -46,7 +46,7 @@ const board = {
           description: 'Add capability to add a card in a lane'
         },
       ]
-    }
+    },
     {
       id: 2,
       title: 'Doing',
