@@ -18,11 +18,11 @@ addons:
     - libgconf-2-4
 script:
   # unit tests, also prints code coverage summary
-  - npm run test -- --coverageDirectory unit-coverage
+  - npx jest -- --coverageDirectory unit-coverage
 
   # to enable code instrumentation for E2E tests set NODE_ENV=cypress
-  - NODE_ENV=cypress npm run server &
-  - npm run cypress run -- --browser chrome
+  - NODE_ENV=cypress npx server &
+  - npx cypress run -- --browser chrome
   - npx nyc report --reporter=text-summary
 
 after_script:
@@ -34,7 +34,7 @@ after_script:
   - ./cc-test-reporter sum-coverage combined-coverage/*.json -p 2
   - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then ./cc-test-reporter upload-coverage; fi
 before_deploy:
-  - npm run docz build
+  - npx docz build
 deploy:
   provider: pages
   skip_cleanup: true
