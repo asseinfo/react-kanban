@@ -12,10 +12,10 @@ const StyledLaneForm = styled(StyledLane)`
   }
 `
 
-function LaneForm ({ onConfirm, onCancel }) {
+function LaneForm({ onConfirm, onCancel }) {
   const inputLaneTitle = React.createRef()
 
-  function addLane (event) {
+  function addLane(event) {
     event.preventDefault()
 
     when(inputLaneTitle.current.value)(onConfirm)
@@ -26,7 +26,9 @@ function LaneForm ({ onConfirm, onCancel }) {
       <form onSubmit={addLane}>
         <input type='text' ref={inputLaneTitle} autoFocus />
         <button type='submit'>Add</button>
-        <button type='button' onClick={onCancel}>Cancel</button>
+        <button type='button' onClick={onCancel}>
+          Cancel
+        </button>
       </form>
     </StyledLaneForm>
   )

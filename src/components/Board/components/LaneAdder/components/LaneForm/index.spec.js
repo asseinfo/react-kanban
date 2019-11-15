@@ -5,7 +5,7 @@ import LaneForm from './'
 describe('<LaneForm />', () => {
   let subject, onConfirm, onCancel
 
-  function mount () {
+  function mount() {
     onConfirm = jest.fn()
     onCancel = jest.fn()
 
@@ -13,7 +13,9 @@ describe('<LaneForm />', () => {
   }
 
   beforeEach(mount)
-  afterEach(() => { subject = onConfirm = onCancel = undefined })
+  afterEach(() => {
+    subject = onConfirm = onCancel = undefined
+  })
 
   it('renders an input asking for a lane title', () => {
     expect(subject.container.querySelector('input')).toBeInTheDocument()

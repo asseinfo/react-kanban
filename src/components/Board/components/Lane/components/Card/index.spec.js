@@ -14,12 +14,16 @@ describe('<Card />', () => {
 
   const defaultCard = jest.fn(() => <div>Card title</div>)
 
-  function mount ({ children = card, ...otherProps } = {}) {
-    subject = render(<Card renderCard={defaultCard} {...otherProps}>{children}</Card>)
+  function mount({ children = card, ...otherProps } = {}) {
+    subject = render(
+      <Card renderCard={defaultCard} {...otherProps}>
+        {children}
+      </Card>
+    )
     return subject
   }
 
-  function reset () {
+  function reset() {
     subject = undefined
     defaultCard.mockClear()
   }
@@ -35,7 +39,9 @@ describe('<Card />', () => {
       callbacks.isDragging(true)
       mount()
     })
-    afterEach(() => { callbacks.isDragging(false) })
+    afterEach(() => {
+      callbacks.isDragging(false)
+    })
 
     it('calls the "renderCard" prop passing the dragging value', () => {
       expect(defaultCard).toHaveBeenCalledTimes(1)

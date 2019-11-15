@@ -14,7 +14,9 @@ describe('#withDroppable', () => {
     )
   })
 
-  afterEach(() => { subject = undefined })
+  afterEach(() => {
+    subject = undefined
+  })
 
   it('returns a droppable component', () => {
     expect(subject.container.querySelector('span > #children')).toBeInTheDocument()

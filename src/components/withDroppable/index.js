@@ -1,8 +1,8 @@
 import React from 'react'
 import { Droppable } from 'react-beautiful-dnd'
 
-function withDroppable (Component) {
-  return function WrapperComponent ({ children, ...droppableProps }) {
+function withDroppable(Component) {
+  return function WrapperComponent({ children, ...droppableProps }) {
     return (
       <Droppable {...droppableProps}>
         {provided => (

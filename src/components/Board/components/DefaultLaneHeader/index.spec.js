@@ -10,13 +10,13 @@ describe('<DefaultLaneHeader />', () => {
 
   const lane = { id: 1, title: 'Lane title' }
 
-  function reset () {
+  function reset() {
     subject = undefined
     onLaneRemove.mockClear()
     onLaneRename.mockClear()
   }
 
-  function mount (props) {
+  function mount(props) {
     subject = render(
       <DefaultLaneHeader onLaneRemove={onLaneRemove} onLaneRename={onLaneRename} {...props}>
         {lane}

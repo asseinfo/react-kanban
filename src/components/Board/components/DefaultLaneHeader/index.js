@@ -15,11 +15,13 @@ const LaneHeaderSkeleton = styled.div`
 
 const DefaultButton = styled.button`
   color: #333333;
-  background-color: #FFFFFF;
-  border-color: #CCCCCC;
+  background-color: #ffffff;
+  border-color: #cccccc;
 
-  :hover, :focus, :active {
-    background-color: #E6E6E6;
+  :hover,
+  :focus,
+  :active {
+    background-color: #e6e6e6;
   }
 `
 
@@ -29,34 +31,26 @@ const Input = styled.input`
   }
 `
 
-function LaneTitle ({ allowRenameLane, onClick, children: title }) {
-  return allowRenameLane ? (
-    <CursorPointer onClick={onClick}>
-      {title}
-    </CursorPointer>
-  ) : (
-    <span>
-      {title}
-    </span>
-  )
+function LaneTitle({ allowRenameLane, onClick, children: title }) {
+  return allowRenameLane ? <CursorPointer onClick={onClick}>{title}</CursorPointer> : <span>{title}</span>
 }
 
-function useRenameMode (state) {
+function useRenameMode(state) {
   const [renameMode, setRenameMode] = useState(state)
 
-  function toggleRenameMode () {
+  function toggleRenameMode() {
     setRenameMode(!renameMode)
   }
 
   return [renameMode, toggleRenameMode]
 }
 
-export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowRenameLane, onLaneRename }) {
+export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRenameLane, onLaneRename }) {
   const [renameMode, toggleRenameMode] = useRenameMode(false)
   const [title, setTitle] = useState(lane.title)
   const [titleInput, setTitleInput] = useState('')
 
-  function handleRenameLane (event) {
+  function handleRenameLane(event) {
     event.preventDefault()
 
     onLaneRename(lane.id, titleInput)
@@ -64,7 +58,7 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
     toggleRenameMode()
   }
 
-  function handleRenameMode () {
+  function handleRenameMode() {
     setTitleInput(title)
     toggleRenameMode()
   }
@@ -74,11 +68,18 @@ export default function ({ children: lane, allowRemoveLane, onLaneRemove, allowR
       {renameMode ? (
         <form onSubmit={handleRenameLane}>
           <span>
-            <Input type='text' value={titleInput} onChange={({ target: { value } }) => setTitleInput(value)} autoFocus />
+            <Input
+              type='text'
+              value={titleInput}
+              onChange={({ target: { value } }) => setTitleInput(value)}
+              autoFocus
+            />
           </span>
           <span>
             <DefaultButton type='submit'>Rename</DefaultButton>
-            <DefaultButton type='button' onClick={handleRenameMode}>Cancel</DefaultButton>
+            <DefaultButton type='button' onClick={handleRenameMode}>
+              Cancel
+            </DefaultButton>
           </span>
         </form>
       ) : (

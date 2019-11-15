@@ -19,14 +19,7 @@ const DroppableLane = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Lane ({
-  children,
-  index: laneIndex,
-  renderCard,
-  renderLaneHeader,
-  disableLaneDrag,
-  disableCardDrag
-}) {
+function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disableLaneDrag, disableCardDrag }) {
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
       {laneProvided => (

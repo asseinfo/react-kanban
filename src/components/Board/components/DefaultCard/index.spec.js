@@ -9,7 +9,7 @@ describe('<DefaultCard />', () => {
 
   const card = { id: 1, title: 'Card title', description: 'Description' }
 
-  function mount (props) {
+  function mount(props) {
     subject = render(
       <DefaultCard onCardRemove={onCardRemove} {...props}>
         {card}
@@ -18,7 +18,7 @@ describe('<DefaultCard />', () => {
     return subject
   }
 
-  function reset () {
+  function reset() {
     subject = undefined
     onCardRemove.mockClear()
   }

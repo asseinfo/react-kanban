@@ -1,34 +1,34 @@
-function compose (...fns) {
+function compose(...fns) {
   return arg => fns.reduce((acc, fn) => fn(acc), arg)
 }
 
-function partialRight (fn, ...args) {
+function partialRight(fn, ...args) {
   return (...leftArgs) => fn(...leftArgs, ...args)
 }
 
-function addInArrayAtPosition (array, element, position) {
+function addInArrayAtPosition(array, element, position) {
   const arrayCopy = [...array]
   arrayCopy.splice(position, 0, element)
   return arrayCopy
 }
 
-function removeFromArrayAtPosition (array, position) {
-  return array.reduce((acc, value, idx) => idx === position ? acc : [...acc, value], [])
+function removeFromArrayAtPosition(array, position) {
+  return array.reduce((acc, value, idx) => (idx === position ? acc : [...acc, value]), [])
 }
 
-function changeElementOfPositionInArray (array, from, to) {
+function changeElementOfPositionInArray(array, from, to) {
   const removeFromArrayAtPositionFrom = partialRight(removeFromArrayAtPosition, from)
   const addInArrayAtPositionTo = partialRight(addInArrayAtPosition, array[from], to)
 
   return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
 }
 
-function identity (value) {
+function identity(value) {
   return value
 }
 
-function when (value, predicate = identity) {
-  return function callback (callback) {
+function when(value, predicate = identity) {
+  return function callback(callback) {
     if (predicate(value)) return callback(value)
   }
 }

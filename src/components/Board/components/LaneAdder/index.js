@@ -16,17 +16,21 @@ const LaneAdderPlaceholder = styled.div`
   }
 `
 
-function LaneAdder ({ onConfirm }) {
+function LaneAdder({ onConfirm }) {
   const [isAddingLane, setAddingLane] = useState(false)
 
-  function confirmLane (title) {
+  function confirmLane(title) {
     onConfirm(title)
     setAddingLane(false)
   }
 
-  return isAddingLane
-    ? <LaneForm onConfirm={confirmLane} onCancel={() => setAddingLane(false)} />
-    : <LaneAdderPlaceholder onClick={() => setAddingLane(true)} role='button'>➕</LaneAdderPlaceholder>
+  return isAddingLane ? (
+    <LaneForm onConfirm={confirmLane} onCancel={() => setAddingLane(false)} />
+  ) : (
+    <LaneAdderPlaceholder onClick={() => setAddingLane(true)} role='button'>
+      ➕
+    </LaneAdderPlaceholder>
+  )
 }
 
 export default LaneAdder

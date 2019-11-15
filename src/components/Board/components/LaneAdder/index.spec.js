@@ -5,14 +5,16 @@ import LaneAdder from './'
 describe('<LaneAdder />', () => {
   let subject, onConfirm
 
-  function mount () {
+  function mount() {
     onConfirm = jest.fn()
 
     subject = render(<LaneAdder onConfirm={onConfirm} />)
   }
 
   beforeEach(mount)
-  afterEach(() => { subject = onConfirm = undefined })
+  afterEach(() => {
+    subject = onConfirm = undefined
+  })
 
   it('renders the lane placeholder to add a new lane', () => {
     expect(subject.queryByText('➕')).toBeInTheDocument()

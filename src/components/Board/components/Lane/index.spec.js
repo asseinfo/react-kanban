@@ -24,20 +24,16 @@ describe('<Lane />', () => {
     ]
   }
 
-  function mount ({ children = lane, ...otherProps } = {}) {
+  function mount({ children = lane, ...otherProps } = {}) {
     subject = render(
-      <Lane
-        {...otherProps}
-        renderLaneHeader={<div>Backlog</div>}
-        renderCard={renderCard}
-      >
+      <Lane {...otherProps} renderLaneHeader={<div>Backlog</div>} renderCard={renderCard}>
         {children}
       </Lane>
     )
     return subject
   }
 
-  function reset () {
+  function reset() {
     subject = undefined
     renderCard.mockClear()
   }

@@ -3,7 +3,9 @@ import reorderBoard from './reorderBoard'
 describe('#reorderBoard', () => {
   let subject
 
-  afterEach(() => { subject = undefined })
+  afterEach(() => {
+    subject = undefined
+  })
 
   describe('when the card is changed of position in same lane', () => {
     beforeEach(() => {

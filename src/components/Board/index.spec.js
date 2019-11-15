@@ -37,11 +37,13 @@ describe('<Board />', () => {
     ]
   }
 
-  function mount ({ children = board, ...otherProps } = {}) {
+  function mount({ children = board, ...otherProps } = {}) {
     subject = render(<Board {...otherProps}>{children}</Board>)
     return subject
   }
-  afterEach(() => { subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = onCardRemove = undefined })
+  afterEach(() => {
+    subject = onCardDragEnd = onLaneDragEnd = onLaneRemove = onCardRemove = undefined
+  })
 
   it('renders a board', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
@@ -55,7 +57,11 @@ describe('<Board />', () => {
   })
 
   it('renders the specified cards in their lanes', () => {
-    const lane = within(mount().queryByText(/^Lane Backlog$/).closest('[data-testid="lane"]'))
+    const lane = within(
+      mount()
+        .queryByText(/^Lane Backlog$/)
+        .closest('[data-testid="lane"]')
+    )
     const cards = lane.queryAllByText(/^Card title/)
     expect(cards).toHaveLength(2)
   })
@@ -68,7 +74,9 @@ describe('<Board />', () => {
       })
 
       describe('when the user cancels the card moving', () => {
-        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null }) })
+        beforeEach(() => {
+          callbacks.onDragEnd({ source: null, destination: null })
+        })
 
         it('does not call onCardDragEnd callback', () => {
           expect(onCardDragEnd).not.toHaveBeenCalled()
@@ -129,7 +137,9 @@ describe('<Board />', () => {
       })
 
       describe('when the user cancels the lane moving', () => {
-        beforeEach(() => { callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' }) })
+        beforeEach(() => {
+          callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
+        })
 
         it('does not call onLaneDragEnd callback', () => {
           expect(onLaneDragEnd).not.toHaveBeenCalled()
@@ -217,12 +227,16 @@ describe('<Board />', () => {
       ]
     }
 
-    afterEach(() => { renderCard = undefined })
+    afterEach(() => {
+      renderCard = undefined
+    })
 
     describe('when it receives a "renderCard" prop', () => {
       beforeEach(() => {
         renderCard = jest.fn(cardContent => (
-          <div>{cardContent.id} - {cardContent.title} - {cardContent.content}</div>
+          <div>
+            {cardContent.id} - {cardContent.title} - {cardContent.content}
+          </div>
         ))
 
         mount({ children: board, renderCard })
@@ -256,12 +270,16 @@ describe('<Board />', () => {
       ]
     }
 
-    afterEach(() => { renderLaneHeader = undefined })
+    afterEach(() => {
+      renderLaneHeader = undefined
+    })
 
     describe('when the component receives a "renderLaneHeader" prop', () => {
       beforeEach(() => {
         renderLaneHeader = jest.fn(laneContent => (
-          <div>{laneContent.title} ({laneContent.wip})</div>
+          <div>
+            {laneContent.title} ({laneContent.wip})
+          </div>
         ))
 
         mount({ children: board, renderLaneHeader })
@@ -274,12 +292,15 @@ describe('<Board />', () => {
 
       it('passes the lane content, the "removeLane" and the "renameLane" to the "renderLaneHeader" prop', () => {
         expect(renderLaneHeader).toHaveBeenCalledTimes(1)
-        expect(renderLaneHeader).toHaveBeenCalledWith({
-          id: 1,
-          title: 'Lane Backlog',
-          wip: 1,
-          cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-        }, { removeLane: expect.any(Function), renameLane: expect.any(Function), addCard: expect.any(Function) })
+        expect(renderLaneHeader).toHaveBeenCalledWith(
+          {
+            id: 1,
+            title: 'Lane Backlog',
+            wip: 1,
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+          },
+          { removeLane: expect.any(Function), renameLane: expect.any(Function), addCard: expect.any(Function) }
+        )
       })
     })
 
@@ -302,7 +323,9 @@ describe('<Board />', () => {
           onLaneNew = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
           mount({ allowAddLane: false, onLaneNew })
         })
-        afterEach(() => { onLaneNew = undefined })
+        afterEach(() => {
+          onLaneNew = undefined
+        })
 
         it('does not render the lane adder', () => {
           expect(subject.queryByText('➕')).not.toBeInTheDocument()
@@ -326,7 +349,9 @@ describe('<Board />', () => {
           onLaneNew = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
           mount({ allowAddLane: true, onLaneNew })
         })
-        afterEach(() => { onLaneNew = undefined })
+        afterEach(() => {
+          onLaneNew = undefined
+        })
 
         it('renders the lane placeholder as the last lane to add a new lane', () => {
           expect(subject.queryByText('➕')).toBeInTheDocument()
@@ -388,7 +413,9 @@ describe('<Board />', () => {
         describe('when the component does not receive "allowAddLane" prop', () => {
           beforeEach(() => {
             renderLaneAdder = jest.fn(addLane => (
-              <div><input data-testid='laneAdder' /></div>
+              <div>
+                <input data-testid='laneAdder' />
+              </div>
             ))
 
             mount({ children: board, renderLaneAdder })
@@ -402,7 +429,9 @@ describe('<Board />', () => {
         describe('when the component receives the "allowAddLane" prop', () => {
           beforeEach(() => {
             renderLaneAdder = jest.fn(addLane => (
-              <div><input data-testid='laneAdder' /></div>
+              <div>
+                <input data-testid='laneAdder' />
+              </div>
             ))
 
             mount({ children: board, renderLaneAdder, allowAddLane: true })
@@ -422,7 +451,9 @@ describe('<Board />', () => {
   })
 
   describe('about the lane removing', () => {
-    beforeEach(() => { onLaneRemove = jest.fn() })
+    beforeEach(() => {
+      onLaneRemove = jest.fn()
+    })
 
     describe('when the component uses the default header template', () => {
       describe('when the component receives the "allowRemoveLane" prop', () => {
@@ -551,7 +582,9 @@ describe('<Board />', () => {
 
     describe('when the component receives a custom header lane template', () => {
       beforeEach(() => {
-        const renderLaneHeader = ({ title }, { renameLane }) => <div onClick={() => renameLane('New title')}>{title}</div>
+        const renderLaneHeader = ({ title }, { renameLane }) => (
+          <div onClick={() => renameLane('New title')}>{title}</div>
+        )
         onLaneRename = jest.fn()
         mount({ renderLaneHeader, onLaneRename })
       })
@@ -580,7 +613,9 @@ describe('<Board />', () => {
   })
 
   describe('about the card removing', () => {
-    beforeEach(() => { onCardRemove = jest.fn() })
+    beforeEach(() => {
+      onCardRemove = jest.fn()
+    })
 
     describe('when the component uses the default card template', () => {
       describe('when the component receives the "allowRemoveCard" prop', () => {
@@ -713,10 +748,7 @@ describe('<Board />', () => {
             expect(onCardNew).toHaveBeenCalledTimes(1)
             expect(onCardNew).toHaveBeenCalledWith(
               {
-                lanes: [
-                  expect.objectContaining({ id: 1 }),
-                  expect.objectContaining({ id: 2 })
-                ]
+                lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
               },
               expect.objectContaining({
                 id: 1,
@@ -750,10 +782,7 @@ describe('<Board />', () => {
             expect(onCardNew).toHaveBeenCalledTimes(1)
             expect(onCardNew).toHaveBeenCalledWith(
               {
-                lanes: [
-                  expect.objectContaining({ id: 1 }),
-                  expect.objectContaining({ id: 2 })
-                ]
+                lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
               },
               expect.objectContaining({
                 id: 1,
@@ -787,10 +816,7 @@ describe('<Board />', () => {
             expect(onCardNew).toHaveBeenCalledTimes(1)
             expect(onCardNew).toHaveBeenCalledWith(
               {
-                lanes: [
-                  expect.objectContaining({ id: 1 }),
-                  expect.objectContaining({ id: 2 })
-                ]
+                lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
               },
               expect.objectContaining({
                 id: 1,

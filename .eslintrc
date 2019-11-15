@@ -1,11 +1,12 @@
 {
-  "extends": ["standard", "standard-react"],
+  "extends": ["standard", "standard-react", "plugin:prettier/recommended"],
   "plugins": ["react-hooks"],
   "env": {
     "jest": true
   },
   "rules": {
     "react/prop-types": "off",
+    "react/jsx-indent": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
