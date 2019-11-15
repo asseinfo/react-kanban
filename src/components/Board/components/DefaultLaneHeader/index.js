@@ -53,6 +53,7 @@ export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRe
   function handleRenameLane(event) {
     event.preventDefault()
 
+    // TODO this should pass the entire lane
     onLaneRename(lane.id, titleInput)
     setTitle(titleInput)
     toggleRenameMode()
