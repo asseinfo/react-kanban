@@ -181,11 +181,9 @@ function ControlledBoard({
   allowRemoveLane,
   allowRenameLane,
   onLaneRename,
-  onCardNew,
   renderCard,
   allowRemoveCard,
-  onCardRemove,
-  onLaneNew
+  onCardRemove
 }) {
   function handleOnDragEnd(event) {
     const { source, destination } = getCoordinates(event)
@@ -218,7 +216,7 @@ function ControlledBoard({
           </DefaultLaneHeader>
         )
       }}
-      renderCard={(lane, card, dragging) => {
+      renderCard={(_lane, card, dragging) => {
         if (renderCard) return renderCard(card, { dragging })
         return (
           <DefaultCard dragging={dragging} allowRemoveCard={allowRemoveCard} onCardRemove={onCardRemove}>

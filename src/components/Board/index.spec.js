@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { render, within, act, fireEvent, waitForElement } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
-import { moveCard, moveLane } from './services'
+import { moveCard } from './services'
 
 describe('<Board />', () => {
   let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename, onCardRemove
@@ -276,7 +276,7 @@ describe('<Board />', () => {
           let onNewLaneConfirm
 
           beforeEach(() => {
-            onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            onNewLaneConfirm = jest.fn()
             mount({ allowAddLane: false, onNewLaneConfirm })
           })
           afterEach(() => {
@@ -302,7 +302,7 @@ describe('<Board />', () => {
           let onNewLaneConfirm
 
           beforeEach(() => {
-            onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            onNewLaneConfirm = jest.fn()
             mount({ allowAddLane: true, onNewLaneConfirm })
           })
           afterEach(() => {
@@ -442,7 +442,6 @@ describe('<Board />', () => {
             expect(onLaneRename).not.toHaveBeenCalled()
           })
 
-          // TODO verify this context on the uncontrolled component
           describe('when the user renames a lane', () => {
             beforeEach(() => {
               fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog'))
@@ -476,7 +475,6 @@ describe('<Board />', () => {
         })
       })
 
-      // TODO check the context below in the uncontrolled component
       describe('when the component receives a custom header lane template', () => {
         beforeEach(() => {
           const renderLaneHeader = ({ title }) => <div>{title}</div>
@@ -529,14 +527,6 @@ describe('<Board />', () => {
         it('does not call the "onCardRemove" callback', () => {
           expect(onCardRemove).not.toHaveBeenCalled()
         })
-
-        // TODO check if this test is on custom card template
-        it('passes the card and the card bag to the "renderCard"', () => {
-          expect(renderCard).toHaveBeenCalledWith(
-            expect.objectContaining({ title: 'Card title 1' }),
-            expect.objectContaining({ dragging: false })
-          )
-        })
       })
     })
   })
@@ -550,13 +540,13 @@ describe('<Board />', () => {
     function UselessState({ initialBoard, ...props }) {
       const [board, setBoard] = useState(initialBoard)
 
-      function handleLaneMove() {
-        setBoard(moveLane(board, { fromPosition: 0 }, { toPosition: 1 }))
+      function handleCardMoving() {
+        setBoard(moveCard(board, { fromPosition: 0, fromLaneId: 1 }, { toPosition: 1, toLaneId: 1 }))
       }
 
       return (
         <>
-          <button onClick={handleLaneMove}>Move lane</button>
+          <button onClick={handleCardMoving}>Move card</button>
           <Board initialBoard={board} {...props} />
         </>
       )
@@ -566,24 +556,24 @@ describe('<Board />', () => {
       expect(mount().container.querySelector('div')).toBeInTheDocument()
     })
 
-    // TODO This spec needs to be breaked
     it('does not rerender on initialBoard change', () => {
-      const { queryByText, queryAllByText } = mount({ Component: UselessState })
+      const { queryByText } = mount({ Component: UselessState })
 
-      const lanes = queryAllByText(/^Lane/)
-      expect(lanes).toHaveLength(2)
-      expect(lanes[0]).toHaveTextContent(/^Lane Backlog$/)
-      expect(lanes[1]).toHaveTextContent(/^Lane Doing$/)
+      const lane = within(queryByText(/^Lane Backlog$/).closest('[data-testid="lane"]'))
+      const cards = lane.queryAllByText(/^Card title/)
 
-      fireEvent.click(queryByText('Move lane'))
+      expect(cards).toHaveLength(2)
+      expect(cards[0]).toHaveTextContent(/^Card title 1$/)
+      expect(cards[1]).toHaveTextContent(/^Card title 2$/)
 
-      const unmovedLanes = queryAllByText(/^Lane/)
-      expect(unmovedLanes).toHaveLength(2)
-      expect(unmovedLanes[0]).toHaveTextContent(/^Lane Backlog$/)
-      expect(unmovedLanes[1]).toHaveTextContent(/^Lane Doing$/)
+      fireEvent.click(queryByText('Move card', { selector: 'button' }))
+
+      const movedCards = lane.queryAllByText(/^Card title/)
+
+      expect(movedCards).toHaveLength(2)
+      expect(movedCards[0]).toHaveTextContent(/^Card title 1$/)
+      expect(movedCards[1]).toHaveTextContent(/^Card title 2$/)
     })
-
-    // TODO We need to test that initialBoard can change and the board will not change.
 
     it('renders the specified lanes in the board ordered by its specified position', () => {
       const lanes = mount().queryAllByText(/^Lane/)
@@ -934,6 +924,20 @@ describe('<Board />', () => {
               it('renders the lane placeholder as the last lane to add a new lane', () => {
                 expect(subject.queryByText('➕')).toBeInTheDocument()
               })
+
+              it('calls the "onLaneNew" passing the modified board and the added lane', () => {
+                expect(onLaneNew).toHaveBeenCalledTimes(1)
+                expect(onLaneNew).toHaveBeenCalledWith(
+                  {
+                    lanes: [
+                      expect.objectContaining({ id: 1 }),
+                      expect.objectContaining({ id: 2 }),
+                      expect.objectContaining({ id: 999 })
+                    ]
+                  },
+                  { id: 999, title: 'Lane Added by user', cards: [] }
+                )
+              })
             })
 
             describe('when the user cancels the new lane adding', () => {
@@ -1114,14 +1118,14 @@ describe('<Board />', () => {
             beforeEach(() => {
               fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog'))
               fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
-              fireEvent.click(subject.container.querySelector('button'))
+              fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
 
             it('renames the lane', () => {
               expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
             })
 
-            it('calls the "onLaneRename" callback passing both the updated board and the renamed lane lane', () => {
+            it('calls the "onLaneRename" callback passing both the updated board and the renamed lane', () => {
               expect(onLaneRename).toHaveBeenCalledTimes(1)
               expect(onLaneRename).toHaveBeenCalledWith(
                 {
@@ -1161,6 +1165,10 @@ describe('<Board />', () => {
           mount({ renderLaneHeader, onLaneRename })
         })
 
+        it('does not call the "onLaneRename" callback', () => {
+          expect(onLaneRename).not.toHaveBeenCalled()
+        })
+
         describe('when the "renameLane" callback is called', () => {
           beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog')))
 
@@ -1168,7 +1176,7 @@ describe('<Board />', () => {
             expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
           })
 
-          it('calls the "onLaneRemove" callback passing both the updated board and the removed lane', () => {
+          it('calls the "onLaneRemove" callback passing both the updated board and the renamed lane', () => {
             expect(onLaneRename).toHaveBeenCalledTimes(1)
             expect(onLaneRename).toHaveBeenCalledWith(
               {
