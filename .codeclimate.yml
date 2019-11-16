@@ -1,6 +1,6 @@
 plugins:
   eslint:
-    enabled: true
+    enabled: false
     channel: "eslint-5"
   fixme:
     enabled: true
