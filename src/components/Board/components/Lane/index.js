@@ -33,7 +33,7 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
                 <Card
                   key={card.id}
                   index={index}
-                  renderCard={dragging => renderCard(card, dragging)}
+                  renderCard={dragging => renderCard(children, card, dragging)}
                   disableCardDrag={disableCardDrag}
                 >
                   {card}

@@ -4,10 +4,10 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import LaneAdder from './components/LaneAdder'
 import withDroppable from '../withDroppable'
-import { addInArrayAtPosition, when } from '@services/utils'
+import { when } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
-import { moveCard, moveLane, addLane, removeLane, renameLane } from './services'
+import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -58,7 +58,10 @@ function UncontrolledBoard({
   allowRemoveLane,
   allowRenameLane,
   onLaneRename,
-  ...props
+  onCardNew,
+  renderCard,
+  allowRemoveCard,
+  onCardRemove
 }) {
   const [board, setBoard] = useState(initialBoard)
 
@@ -98,9 +101,28 @@ function UncontrolledBoard({
     setBoard(boardWithRenamedLane)
   }
 
+  function handleCardAdd(lane, card, options = {}) {
+    const boardWithNewCard = addCard(board, lane, card, options)
+    onCardNew(
+      boardWithNewCard,
+      boardWithNewCard.lanes.find(({ id }) => id === lane.id),
+      card
+    )
+    setBoard(boardWithNewCard)
+  }
+
+  function handleCardRemove(lane, card) {
+    const boardWithoutCard = removeCard(board, lane, card)
+    onCardRemove(
+      boardWithoutCard,
+      boardWithoutCard.lanes.find(({ id }) => id === lane.id),
+      card
+    )
+    setBoard(boardWithoutCard)
+  }
+
   return (
     <BoardContainer
-      {...props}
       onDragEnd={handleOnDragEnd}
       renderLaneAdder={() => {
         if (!allowAddLane) return null
@@ -113,7 +135,7 @@ function UncontrolledBoard({
           return renderLaneHeader(lane, {
             removeLane: handleLaneRemove.bind(null, lane),
             renameLane: handleLaneRename.bind(null, lane),
-            addCard: addCard.bind(null, lane)
+            addCard: handleCardAdd.bind(null, lane)
           })
         return (
           <DefaultLaneHeader
@@ -124,6 +146,18 @@ function UncontrolledBoard({
           >
             {lane}
           </DefaultLaneHeader>
+        )
+      }}
+      renderCard={(lane, card, dragging) => {
+        if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
+        return (
+          <DefaultCard
+            dragging={dragging}
+            allowRemoveCard={allowRemoveCard}
+            onCardRemove={card => handleCardRemove(lane, card)}
+          >
+            {card}
+          </DefaultCard>
         )
       }}
     >
@@ -173,28 +207,8 @@ function BoardContainer({
   disableLaneDrag,
   disableCardDrag,
   renderLaneHeader,
-  allowRemoveCard,
-  onCardRemove,
-  onCardNew,
   renderLaneAdder
 }) {
-  function removeCard(lane, card) {
-    const filteredCards = lane.cards.filter(({ id }) => card.id !== id)
-    const laneWithoutCard = { ...lane, cards: filteredCards }
-    const filteredLanes = board.lanes.map(laneMap => (lane.id === laneMap.id ? laneWithoutCard : laneMap))
-    const boardWithoutCard = { ...board, lanes: filteredLanes }
-    onCardRemove(boardWithoutCard, laneWithoutCard, card)
-    setBoard(boardWithoutCard)
-  }
-
-  function addCard(lane, card, { on } = {}) {
-    const cards = addInArrayAtPosition(lane.cards, card, on === 'top' ? 0 : lane.cards.length)
-    const lanes = board.lanes.map(laneMap => (lane.id === laneMap.id ? { ...laneMap, cards } : laneMap))
-    const boardWithNewCard = { ...board, lanes }
-    onCardNew(boardWithNewCard, { ...lane, cards }, card)
-    setBoard(boardWithNewCard)
-  }
-
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <StyledBoard>
@@ -203,18 +217,7 @@ function BoardContainer({
             <Lane
               key={lane.id}
               index={index}
-              renderCard={(card, dragging) => {
-                if (renderCard) return renderCard(card, { removeCard: removeCard.bind(null, lane, card), dragging })
-                return (
-                  <DefaultCard
-                    dragging={dragging}
-                    allowRemoveCard={allowRemoveCard}
-                    onCardRemove={card => removeCard(lane, card)}
-                  >
-                    {card}
-                  </DefaultCard>
-                )
-              }}
+              renderCard={renderCard}
               renderLaneHeader={renderLaneHeader}
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}

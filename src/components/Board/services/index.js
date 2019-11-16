@@ -49,4 +49,19 @@ function renameLane(board, lane, newTitle) {
   return { ...board, lanes: renamedLanes }
 }
 
-export { moveLane, moveCard, addLane, removeLane, renameLane }
+function addCard(board, inLane, card, { on } = {}) {
+  const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
+  const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
+  const lanes = board.lanes.map(value => (inLane.id === value.id ? { ...value, cards } : value))
+  return { ...board, lanes }
+}
+
+function removeCard(board, fromLane, card) {
+  const laneToRemove = board.lanes.find(({ id }) => id === fromLane.id)
+  const filteredCards = laneToRemove.cards.filter(({ id }) => card.id !== id)
+  const laneWithoutCard = { ...laneToRemove, cards: filteredCards }
+  const filteredLanes = board.lanes.map(lane => (fromLane.id === lane.id ? laneWithoutCard : lane))
+  return { ...board, lanes: filteredLanes }
+}
+
+export { moveLane, moveCard, addLane, removeLane, renameLane, addCard, removeCard }

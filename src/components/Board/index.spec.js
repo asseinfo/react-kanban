@@ -153,7 +153,7 @@ describe('<Board />', () => {
     })
   })
 
-  describe('when the board is uncontrolled', () => {
+  fdescribe('when the board is uncontrolled', () => {
     function mount({ initialBoard = board, ...props } = {}) {
       subject = render(<Board initialBoard={initialBoard} {...props} />)
       return subject
@@ -362,7 +362,7 @@ describe('<Board />', () => {
             </div>
           ))
 
-          mount({ children: board, renderCard })
+          mount({ initialBoard: board, renderCard })
         })
 
         it("renders the custom cards on the board's lane", () => {
@@ -405,7 +405,7 @@ describe('<Board />', () => {
             </div>
           ))
 
-          mount({ children: board, renderLaneHeader })
+          mount({ initialBoard: board, renderLaneHeader })
         })
 
         it("renders the custom header on the board's lane", () => {
@@ -428,7 +428,7 @@ describe('<Board />', () => {
       })
 
       describe('when the component does not receive a "renderLaneHeader" prop', () => {
-        beforeEach(() => mount({ children: board }))
+        beforeEach(() => mount({ initialBoard: board }))
 
         it("renders the default header on the board's lane", () => {
           expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
@@ -573,7 +573,7 @@ describe('<Board />', () => {
       })
     })
 
-    fdescribe('about the lane removing', () => {
+    describe('about the lane removing', () => {
       beforeEach(() => {
         onLaneRemove = jest.fn()
       })

@@ -5,7 +5,7 @@ import Lane, { StyledLane } from './'
 describe('<Lane />', () => {
   let subject
 
-  const renderCard = jest.fn(({ title }) => <div>{title}</div>)
+  const renderCard = jest.fn((_, { title }) => <div>{title}</div>)
 
   const lane = {
     id: 1,
@@ -26,7 +26,7 @@ describe('<Lane />', () => {
 
   function mount({ children = lane, ...otherProps } = {}) {
     subject = render(
-      <Lane {...otherProps} renderLaneHeader={<div>Backlog</div>} renderCard={renderCard}>
+      <Lane {...otherProps} renderLaneHeader={() => <div>Backlog</div>} renderCard={renderCard}>
         {children}
       </Lane>
     )
@@ -58,8 +58,8 @@ describe('<Lane />', () => {
       expect(cards[1]).toHaveTextContent(/^Card title 2/)
     })
 
-    it('calls the "renderCard" passing the card and whether the card is dragging or not', () => {
-      expect(renderCard).toHaveBeenCalledWith(expect.objectContaining({ id: 1, title: 'Card title 1' }), false)
+    it('calls the "renderCard" passing the lane, the card and whether the card is dragging or not', () => {
+      expect(renderCard).toHaveBeenCalledWith(lane, expect.objectContaining({ id: 1, title: 'Card title 1' }), false)
     })
   })
 })

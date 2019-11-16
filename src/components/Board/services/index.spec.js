@@ -1,4 +1,4 @@
-import { moveLane, moveCard, addLane, removeLane, renameLane } from './'
+import { moveLane, moveCard, addLane, removeLane, renameLane, addCard, removeCard } from './'
 
 describe('#moveLane', () => {
   it('returns a board with the lane moved to the specified position', () => {
@@ -117,6 +117,73 @@ describe('#renameLane', () => {
       lanes: [
         { id: 1, title: 'New title', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
+      ]
+    })
+  })
+})
+
+// TODO I'm not happy with this and with the remove card method
+// How can we handle this better?
+describe('#addCard', () => {
+  describe('when the card is added on top of the lane', () => {
+    it('returns a board with the new card in the specified lane at the specified position', () => {
+      const board = {
+        lanes: [
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
+        ]
+      }
+      const lane = { id: 2 }
+
+      const boardWithTheNewLane = addCard(board, lane, { id: 7 }, { on: 'top' })
+
+      expect(boardWithTheNewLane).toEqual({
+        lanes: [
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { id: 2, cards: [{ id: 7 }, { id: 4 }, { id: 5 }, { id: 6 }] }
+        ]
+      })
+    })
+  })
+
+  describe('when the card is added on bottom of the lane', () => {
+    it('returns a board with the new card in the specified lane at the specified position', () => {
+      const board = {
+        lanes: [
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
+        ]
+      }
+      const inLane = { id: 2 }
+
+      const boardWithTheNewLane = addCard(board, inLane, { id: 7 }, { on: 'bottom' })
+
+      expect(boardWithTheNewLane).toEqual({
+        lanes: [
+          { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }] }
+        ]
+      })
+    })
+  })
+})
+
+describe('#removeCard', () => {
+  it('returns a board without the specified card', () => {
+    const board = {
+      lanes: [
+        { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
+      ]
+    }
+    const fromLane = { id: 1 }
+
+    const boardWithoutTheCard = removeCard(board, fromLane, { id: 2 })
+
+    expect(boardWithoutTheCard).toEqual({
+      lanes: [
+        { id: 1, cards: [{ id: 1 }, { id: 3 }] },
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     })
   })
