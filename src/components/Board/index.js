@@ -62,7 +62,9 @@ function UncontrolledBoard({
   renderCard,
   allowRemoveCard,
   onCardRemove,
-  onLaneNew
+  onLaneNew,
+  disableCardDrag,
+  disableLaneDrag
 }) {
   const [board, setBoard] = useState(initialBoard)
 
@@ -157,6 +159,8 @@ function UncontrolledBoard({
       onLaneRemove={handleLaneRemove}
       allowRenameLane={allowRenameLane}
       onLaneRename={handleLaneRename}
+      disableLaneDrag={disableLaneDrag}
+      disableCardDrag={disableCardDrag}
     >
       {board}
     </BoardContainer>
@@ -177,7 +181,9 @@ function ControlledBoard({
   onLaneRename,
   renderCard,
   allowRemoveCard,
-  onCardRemove
+  onCardRemove,
+  disableCardDrag,
+  disableLaneDrag
 }) {
   function handleOnDragEnd(event) {
     const { source, destination } = getCoordinates(event)
@@ -210,6 +216,8 @@ function ControlledBoard({
       onLaneRemove={onLaneRemove}
       allowRenameLane={allowRenameLane}
       onLaneRename={onLaneRename}
+      disableLaneDrag={disableLaneDrag}
+      disableCardDrag={disableCardDrag}
     >
       {board}
     </BoardContainer>
