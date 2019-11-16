@@ -33,4 +33,10 @@ function when(value, predicate = identity) {
   }
 }
 
-export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when }
+function replaceElementOfArray(array) {
+  return function(options) {
+    return array.map(element => (options.when(element) ? options.for(element) : element))
+  }
+}
+
+export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when, replaceElementOfArray }

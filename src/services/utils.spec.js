@@ -1,4 +1,10 @@
-import { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when } from './utils'
+import {
+  addInArrayAtPosition,
+  removeFromArrayAtPosition,
+  changeElementOfPositionInArray,
+  when,
+  replaceElementOfArray
+} from './utils'
 
 describe('#addInArrayAtPosition', () => {
   it('returns an array with an element added in the specified position', () => {
@@ -71,5 +77,12 @@ describe('#when', () => {
         expect(callback).not.toHaveBeenCalled()
       })
     })
+  })
+})
+
+describe('#replaceElementOfArray', () => {
+  it('returns an array with the specified element replacing an element that matches the predicate', () => {
+    const predicate = value => value === 2
+    expect(replaceElementOfArray([0, 1, 2, 3])({ when: predicate, for: _ => 999 })).toEqual([0, 1, 999, 3])
   })
 })

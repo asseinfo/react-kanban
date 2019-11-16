@@ -1,4 +1,9 @@
-import { removeFromArrayAtPosition, addInArrayAtPosition, changeElementOfPositionInArray } from '@services/utils'
+import {
+  removeFromArrayAtPosition,
+  addInArrayAtPosition,
+  changeElementOfPositionInArray,
+  replaceElementOfArray
+} from '@services/utils'
 
 function reorderCardsOnLane(lane, reorderCards) {
   return { ...lane, cards: reorderCards(lane.cards) }
@@ -45,14 +50,20 @@ function removeLane(board, lane) {
 }
 
 function renameLane(board, lane, newTitle) {
-  const renamedLanes = board.lanes.map(value => (value.id === lane.id ? { ...value, title: newTitle } : value))
+  const renamedLanes = replaceElementOfArray(board.lanes)({
+    when: ({ id }) => id === lane.id,
+    for: value => ({ ...value, title: newTitle })
+  })
   return { ...board, lanes: renamedLanes }
 }
 
 function addCard(board, inLane, card, { on } = {}) {
   const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
   const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
-  const lanes = board.lanes.map(value => (inLane.id === value.id ? { ...value, cards } : value))
+  const lanes = replaceElementOfArray(board.lanes)({
+    when: ({ id }) => inLane.id === id,
+    for: value => ({ ...value, cards })
+  })
   return { ...board, lanes }
 }
 
