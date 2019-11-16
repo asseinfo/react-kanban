@@ -61,7 +61,8 @@ function UncontrolledBoard({
   onCardNew,
   renderCard,
   allowRemoveCard,
-  onCardRemove
+  onCardRemove,
+  onLaneNew
 }) {
   const [board, setBoard] = useState(initialBoard)
 
@@ -86,7 +87,9 @@ function UncontrolledBoard({
 
   async function handleLaneAdd(newLane) {
     const lane = renderLaneAdder ? newLane : await onNewLaneConfirm(newLane)
-    setBoard(addLane(board, lane))
+    const boardWithNewLane = addLane(board, lane)
+    onLaneNew(boardWithNewLane, lane)
+    setBoard(boardWithNewLane)
   }
 
   function handleLaneRemove(lane) {

@@ -440,13 +440,15 @@ describe('<Board />', () => {
     describe('about the lane adding', () => {
       describe('about the default lane adder', () => {
         describe('when the component does not receive "allowAddLane" prop', () => {
-          let onNewLaneConfirm
+          let onLaneNew, onNewLaneConfirm
 
           beforeEach(() => {
+            onLaneNew = jest.fn()
             onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-            mount({ allowAddLane: false, onNewLaneConfirm })
+            mount({ allowAddLane: false, onNewLaneConfirm, onLaneNew })
           })
           afterEach(() => {
+            onLaneNew = undefined
             onNewLaneConfirm = undefined
           })
 
@@ -466,13 +468,15 @@ describe('<Board />', () => {
         })
 
         describe('when it receives the "allowAddLane" and "onNewLaneConfirm" prop', () => {
-          let onNewLaneConfirm
+          let onLaneNew, onNewLaneConfirm
 
           beforeEach(() => {
+            onLaneNew = jest.fn()
             onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-            mount({ allowAddLane: true, onNewLaneConfirm })
+            mount({ allowAddLane: true, onNewLaneConfirm, onLaneNew })
           })
           afterEach(() => {
+            onLaneNew = undefined
             onNewLaneConfirm = undefined
           })
 
@@ -531,17 +535,17 @@ describe('<Board />', () => {
 
       describe('about custom lane adder', () => {
         describe('when the component receives a custom lane adder', () => {
-          let renderLaneAdder
+          let onLaneNew, renderLaneAdder
 
           describe('when the component does not receive "allowAddLane" prop', () => {
             beforeEach(() => {
-              renderLaneAdder = jest.fn(addLane => (
+              renderLaneAdder = jest.fn(_ => (
                 <div>
                   <input data-testid='laneAdder' />
                 </div>
               ))
 
-              mount({ children: board, renderLaneAdder })
+              mount({ initialBoard: board, renderLaneAdder })
 
               it('does not renders the custom render adder', () => {
                 expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
@@ -551,13 +555,14 @@ describe('<Board />', () => {
 
           describe('when the component receives the "allowAddLane" prop', () => {
             beforeEach(() => {
-              renderLaneAdder = jest.fn(addLane => (
-                <div>
-                  <input data-testid='laneAdder' />
+              onLaneNew = jest.fn()
+              renderLaneAdder = jest.fn(({ addLane }) => (
+                <div data-testid='laneAdder'>
+                  <button onClick={() => addLane({ id: 99, title: 'New lane', cards: [] })}>Add lane</button>
                 </div>
               ))
 
-              mount({ children: board, renderLaneAdder, allowAddLane: true })
+              mount({ children: board, renderLaneAdder, allowAddLane: true, onLaneNew })
             })
 
             it('renders the custom lane adder as the last lane to add a new lane', () => {
@@ -567,6 +572,30 @@ describe('<Board />', () => {
             it('passes the "addLane" to the "renderLaneAdder" prop', () => {
               expect(renderLaneAdder).toHaveBeenCalledTimes(1)
               expect(renderLaneAdder).toHaveBeenCalledWith({ addLane: expect.any(Function) })
+            })
+
+            describe('when the "addLane" callback is called', () => {
+              beforeEach(() => fireEvent.click(within(subject.queryByTestId('laneAdder')).queryByText('Add lane')))
+
+              it('renders the new lane', () => {
+                const lane = subject.queryAllByTestId('lane')
+                expect(lane).toHaveLength(3)
+                expect(lane[2]).toHaveTextContent('New lane')
+              })
+
+              it('calls the "onLaneNew" callback passing both the updated board and the added lane', () => {
+                expect(onLaneNew).toHaveBeenCalledTimes(1)
+                expect(onLaneNew).toHaveBeenCalledWith(
+                  {
+                    lanes: [
+                      expect.objectContaining({ id: 1 }),
+                      expect.objectContaining({ id: 2 }),
+                      expect.objectContaining({ id: 99, title: 'New lane' })
+                    ]
+                  },
+                  expect.objectContaining({ id: 99, title: 'New lane' })
+                )
+              })
             })
           })
         })
