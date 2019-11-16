@@ -545,7 +545,7 @@ describe('<Board />', () => {
                 </div>
               ))
 
-              mount({ initialBoard: board, renderLaneAdder })
+              mount({ renderLaneAdder })
 
               it('does not renders the custom render adder', () => {
                 expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
