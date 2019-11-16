@@ -170,13 +170,22 @@ function UncontrolledBoard({
 }
 
 function ControlledBoard({
-  children,
+  children: board,
   onCardDragEnd,
   onLaneDragEnd,
   allowAddLane,
   renderLaneAdder,
   onNewLaneConfirm,
-  ...props
+  onLaneRemove,
+  renderLaneHeader,
+  allowRemoveLane,
+  allowRenameLane,
+  onLaneRename,
+  onCardNew,
+  renderCard,
+  allowRemoveCard,
+  onCardRemove,
+  onLaneNew
 }) {
   function handleOnDragEnd(event) {
     const { source, destination } = getCoordinates(event)
@@ -189,16 +198,36 @@ function ControlledBoard({
 
   return (
     <BoardContainer
-      {...props}
+      onDragEnd={handleOnDragEnd}
       renderLaneAdder={() => {
         if (!allowAddLane) return null
         if (renderLaneAdder) return renderLaneAdder()
         if (!onNewLaneConfirm) return null
-        return <LaneAdder onConfirm={onNewLaneConfirm} />
+        return <LaneAdder onConfirm={title => onNewLaneConfirm({ title, cards: [] })} />
       }}
-      onDragEnd={handleOnDragEnd}
+      renderLaneHeader={lane => {
+        if (renderLaneHeader) return renderLaneHeader(lane)
+        return (
+          <DefaultLaneHeader
+            allowRemoveLane={allowRemoveLane}
+            onLaneRemove={onLaneRemove}
+            allowRenameLane={allowRenameLane}
+            onLaneRename={onLaneRename}
+          >
+            {lane}
+          </DefaultLaneHeader>
+        )
+      }}
+      renderCard={(lane, card, dragging) => {
+        if (renderCard) return renderCard(card, { dragging })
+        return (
+          <DefaultCard dragging={dragging} allowRemoveCard={allowRemoveCard} onCardRemove={onCardRemove}>
+            {card}
+          </DefaultCard>
+        )
+      }}
     >
-      {children}
+      {board}
     </BoardContainer>
   )
 }

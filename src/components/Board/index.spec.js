@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { render, within, act, fireEvent, waitForElement } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
-import { moveCard } from './services'
+import { moveCard, moveLane } from './services'
 
 describe('<Board />', () => {
   let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename, onCardRemove
@@ -82,38 +82,6 @@ describe('<Board />', () => {
       expect(movedCards[1]).toHaveTextContent(/^Card title 1$/)
     })
 
-    describe('about the lane moving', () => {
-      describe('when the component receives "onLaneDragEnd" callback', () => {
-        beforeEach(() => {
-          onLaneDragEnd = jest.fn()
-          mount({ onLaneDragEnd })
-        })
-
-        describe('when the user cancels the lane moving', () => {
-          beforeEach(() => {
-            callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
-          })
-
-          it('does not call onLaneDragEnd callback', () => {
-            expect(onLaneDragEnd).not.toHaveBeenCalled()
-          })
-        })
-
-        describe('when the user moves a lane to another position', () => {
-          beforeEach(() => {
-            act(() => {
-              callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'BOARD' })
-            })
-          })
-
-          it('calls the onLaneDragEnd callback passing the lane move coordinates', () => {
-            expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
-            expect(onLaneDragEnd).toHaveBeenCalledWith({ fromPosition: 0 }, { toPosition: 1 })
-          })
-        })
-      })
-    })
-
     describe('about the card moving', () => {
       describe('when the component receives "onCardDragEnd" callback', () => {
         beforeEach(() => {
@@ -151,16 +119,468 @@ describe('<Board />', () => {
         })
       })
     })
+
+    describe('about the lane moving', () => {
+      describe('when the component receives "onLaneDragEnd" callback', () => {
+        beforeEach(() => {
+          onLaneDragEnd = jest.fn()
+          mount({ onLaneDragEnd })
+        })
+
+        describe('when the user cancels the lane moving', () => {
+          beforeEach(() => {
+            callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
+          })
+
+          it('does not call onLaneDragEnd callback', () => {
+            expect(onLaneDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
+        describe('when the user moves a lane to another position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'BOARD' })
+            })
+          })
+
+          it('calls the onLaneDragEnd callback passing the lane move coordinates', () => {
+            expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
+            expect(onLaneDragEnd).toHaveBeenCalledWith({ fromPosition: 0 }, { toPosition: 1 })
+          })
+        })
+      })
+    })
+
+    describe("about the board's custom card", () => {
+      let renderCard
+      const board = {
+        lanes: [
+          {
+            id: 1,
+            title: 'Lane Backlog',
+            cards: [
+              {
+                id: 1,
+                title: 'Card title',
+                content: 'Card content'
+              },
+              {
+                id: 2,
+                title: 'Card title',
+                content: 'Card content'
+              }
+            ]
+          },
+          {
+            id: 2,
+            title: 'Lane Doing',
+            cards: [
+              {
+                id: 3,
+                title: 'Card title',
+                content: 'Card content'
+              }
+            ]
+          }
+        ]
+      }
+
+      afterEach(() => {
+        renderCard = undefined
+      })
+
+      describe('when it receives a "renderCard" prop', () => {
+        beforeEach(() => {
+          renderCard = jest.fn(cardContent => (
+            <div>
+              {cardContent.id} - {cardContent.title} - {cardContent.content}
+            </div>
+          ))
+
+          mount({ children: board, renderCard })
+        })
+
+        it("renders the custom cards on the board's lane", () => {
+          const cards = subject.queryAllByTestId('card')
+          expect(cards).toHaveLength(3)
+          expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
+        })
+
+        it('passes the card content and the card bag as a parameter to the renderCard prop', () => {
+          expect(renderCard).toHaveBeenCalledWith(
+            { id: 1, title: 'Card title', content: 'Card content' },
+            { dragging: false }
+          )
+        })
+      })
+    })
+
+    describe("about the lane's header", () => {
+      let renderLaneHeader
+      const board = {
+        lanes: [
+          {
+            id: 1,
+            title: 'Lane Backlog',
+            wip: 1,
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+          }
+        ]
+      }
+
+      afterEach(() => {
+        renderLaneHeader = undefined
+      })
+
+      describe('when the component receives a "renderLaneHeader" prop', () => {
+        beforeEach(() => {
+          renderLaneHeader = jest.fn(laneContent => (
+            <div>
+              {laneContent.title} ({laneContent.wip})
+            </div>
+          ))
+
+          mount({ children: board, renderLaneHeader })
+        })
+
+        it("renders the custom header on the board's lane", () => {
+          expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
+          expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog \(1\)$/)
+        })
+
+        it('passes the lane content to the "renderLaneHeader" prop', () => {
+          expect(renderLaneHeader).toHaveBeenCalledTimes(1)
+          expect(renderLaneHeader).toHaveBeenCalledWith({
+            id: 1,
+            title: 'Lane Backlog',
+            wip: 1,
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+          })
+        })
+      })
+
+      describe('when the component does not receive a "renderLaneHeader" prop', () => {
+        beforeEach(() => mount({ children: board }))
+
+        it("renders the default header on the board's lane", () => {
+          expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
+          expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Lane Backlog$/)
+        })
+      })
+    })
+
+    describe('about the lane adding', () => {
+      describe('about the default lane adder', () => {
+        describe('when the component does not receive "allowAddLane" prop', () => {
+          let onNewLaneConfirm
+
+          beforeEach(() => {
+            onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            mount({ allowAddLane: false, onNewLaneConfirm })
+          })
+          afterEach(() => {
+            onNewLaneConfirm = undefined
+          })
+
+          it('does not render the lane adder', () => {
+            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+          })
+        })
+
+        describe('when the component does not receive "onNewLaneConfirm" prop', () => {
+          beforeEach(() => {
+            mount({ allowAddLane: true })
+          })
+
+          it('does not render the lane adder', () => {
+            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+          })
+        })
+
+        describe('when it receives the "allowAddLane" and "onNewLaneConfirm" prop', () => {
+          let onNewLaneConfirm
+
+          beforeEach(() => {
+            onNewLaneConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            mount({ allowAddLane: true, onNewLaneConfirm })
+          })
+          afterEach(() => {
+            onNewLaneConfirm = undefined
+          })
+
+          it('renders the lane placeholder as the last lane to add a new lane', () => {
+            expect(subject.queryByText('➕')).toBeInTheDocument()
+          })
+
+          describe('when the user clicks to add a new lane', () => {
+            beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+
+            it('hides the lane placeholder', () => {
+              expect(subject.queryByText('➕')).not.toBeInTheDocument()
+            })
+
+            it('renders the input asking for a lane title', () => {
+              expect(subject.container.querySelector('input')).toBeInTheDocument()
+            })
+
+            describe('when the user confirms the new lane', () => {
+              beforeEach(() => {
+                fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
+                fireEvent.click(subject.queryByText('Add'))
+              })
+
+              it('calls the "onNewLaneConfirm" passing the new lane', () => {
+                expect(onNewLaneConfirm).toHaveBeenCalledTimes(1)
+                expect(onNewLaneConfirm).toHaveBeenCalledWith({ title: 'Lane Added by user', cards: [] })
+              })
+            })
+
+            describe('when the user cancels the new lane adding', () => {
+              beforeEach(() => {
+                fireEvent.click(subject.queryByText('Cancel'))
+              })
+
+              it('does not call the "onNewLaneConfirm" passing the new lane', () => {
+                expect(onNewLaneConfirm).not.toHaveBeenCalled()
+              })
+            })
+          })
+        })
+      })
+
+      describe('about custom lane adder', () => {
+        describe('when the component receives a custom lane adder', () => {
+          let renderLaneAdder
+
+          describe('when the component does not receive "allowAddLane" prop', () => {
+            beforeEach(() => {
+              renderLaneAdder = jest.fn(() => (
+                <div>
+                  <input data-testid='laneAdder' />
+                </div>
+              ))
+
+              mount({ renderLaneAdder })
+
+              it('does not renders the custom render adder', () => {
+                expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+              })
+            })
+          })
+
+          describe('when the component receives the "allowAddLane" prop', () => {
+            beforeEach(() => {
+              renderLaneAdder = jest.fn(() => (
+                <div data-testid='laneAdder'>
+                  <button>Add lane</button>
+                </div>
+              ))
+
+              mount({ children: board, renderLaneAdder, allowAddLane: true })
+            })
+
+            it('renders the custom lane adder as the last lane to add a new lane', () => {
+              expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+            })
+          })
+        })
+      })
+    })
+
+    describe('about the lane removing', () => {
+      beforeEach(() => {
+        onLaneRemove = jest.fn()
+      })
+
+      describe('when the component uses the default header template', () => {
+        describe('when the component receives the "allowRemoveLane" prop', () => {
+          beforeEach(() => mount({ allowRemoveLane: true, onLaneRemove }))
+
+          it('does not call the "onLaneRemove callback', () => {
+            expect(onLaneRemove).not.toHaveBeenCalled()
+          })
+
+          describe('when the user clicks to remove a lane', () => {
+            beforeEach(() => {
+              const removeLaneButton = within(subject.queryAllByTestId('lane')[0]).queryByText('×')
+              fireEvent.click(removeLaneButton)
+            })
+
+            it('calls the "onLaneRemove" callback passing the lane to be removed', () => {
+              expect(onLaneRemove).toHaveBeenCalledTimes(1)
+              expect(onLaneRemove).toHaveBeenCalledWith(expect.objectContaining({ id: 1 }))
+            })
+          })
+        })
+      })
+
+      describe('when the component receives a custom header lane template', () => {
+        let renderLaneHeader
+
+        beforeEach(() => {
+          renderLaneHeader = jest.fn(({ title }) => <div>{title}</div>)
+          onLaneRemove = jest.fn()
+          mount({ renderLaneHeader, onLaneRemove })
+        })
+
+        it('does not call the "onLaneRemove" callback', () => {
+          expect(onLaneRemove).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    describe('about the lane renaming', () => {
+      describe('when the component use the default header template', () => {
+        describe('when the component receives the "allowRenameLane" prop', () => {
+          beforeEach(() => {
+            onLaneRename = jest.fn()
+            mount({ allowRenameLane: true, onLaneRename })
+          })
+
+          it('does not call the "onLaneRename" callback', () => {
+            expect(onLaneRename).not.toHaveBeenCalled()
+          })
+
+          // TODO verify this context on the uncontrolled component
+          describe('when the user renames a lane', () => {
+            beforeEach(() => {
+              fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Lane Backlog'))
+              fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
+              fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
+            })
+
+            it('calls the "onLaneRename" callback passing the lane to be renamed', () => {
+              expect(onLaneRename).toHaveBeenCalledTimes(1)
+              expect(onLaneRename).toHaveBeenCalledWith(
+                expect.objectContaining({ id: 1, title: 'Lane Backlog' }),
+                'New title'
+              )
+            })
+          })
+        })
+
+        describe('when the component does not receive the "allowRenameLane" prop', () => {
+          beforeEach(() => {
+            onLaneRename = jest.fn()
+            mount({ onLaneRename })
+          })
+
+          it('does not call the "onLaneRename" callback', () => {
+            expect(onLaneRename).not.toHaveBeenCalled()
+          })
+
+          it('does not show the button on lane header to remove the lane', () => {
+            expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+          })
+        })
+      })
+
+      // TODO check the context below in the uncontrolled component
+      describe('when the component receives a custom header lane template', () => {
+        beforeEach(() => {
+          const renderLaneHeader = ({ title }) => <div>{title}</div>
+          onLaneRename = jest.fn()
+          mount({ renderLaneHeader, onLaneRename })
+        })
+
+        it('does not call the "onLaneRename" callback', () => {
+          expect(onLaneRename).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    describe('about the card removing', () => {
+      beforeEach(() => {
+        onCardRemove = jest.fn()
+      })
+
+      describe('when the component uses the default card template', () => {
+        describe('when the component receives the "allowRemoveCard" prop', () => {
+          beforeEach(() => mount({ allowRemoveCard: true, onCardRemove }))
+
+          it('does not call the "onCardRemove" callback', () => {
+            expect(onCardRemove).not.toHaveBeenCalled()
+          })
+
+          describe('when the user clicks to remove a card from a lane', () => {
+            beforeEach(() => {
+              const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
+              fireEvent.click(removeCardButton)
+            })
+
+            it('calls the "onCardRemove" callback passing the card to be removed', () => {
+              expect(onCardRemove).toHaveBeenCalledTimes(1)
+              expect(onCardRemove).toHaveBeenCalledWith(expect.objectContaining({ id: 1, title: 'Card title 1' }))
+            })
+          })
+        })
+      })
+
+      describe('when the component receives a custom card template', () => {
+        let renderCard
+
+        beforeEach(() => {
+          renderCard = jest.fn(({ title }) => <div>{title}</div>)
+          onCardRemove = jest.fn()
+          mount({ renderCard, onCardRemove })
+        })
+
+        it('does not call the "onCardRemove" callback', () => {
+          expect(onCardRemove).not.toHaveBeenCalled()
+        })
+
+        // TODO check if this test is on custom card template
+        it('passes the card and the card bag to the "renderCard"', () => {
+          expect(renderCard).toHaveBeenCalledWith(
+            expect.objectContaining({ title: 'Card title 1' }),
+            expect.objectContaining({ dragging: false })
+          )
+        })
+      })
+    })
   })
 
-  fdescribe('when the board is uncontrolled', () => {
-    function mount({ initialBoard = board, ...props } = {}) {
-      subject = render(<Board initialBoard={initialBoard} {...props} />)
+  describe('when the board is uncontrolled', () => {
+    function mount({ Component = Board, initialBoard = board, ...props } = {}) {
+      subject = render(<Component initialBoard={initialBoard} {...props} />)
       return subject
     }
 
-    it('renders a board according to the initialBoard prop', () => {
+    function UselessState({ initialBoard, ...props }) {
+      const [board, setBoard] = useState(initialBoard)
+
+      function handleLaneMove() {
+        setBoard(moveLane(board, { fromPosition: 0 }, { toPosition: 1 }))
+      }
+
+      return (
+        <>
+          <button onClick={handleLaneMove}>Move lane</button>
+          <Board initialBoard={board} {...props} />
+        </>
+      )
+    }
+
+    it('renders a board only on mounting according to the initialBoard prop', () => {
       expect(mount().container.querySelector('div')).toBeInTheDocument()
+    })
+
+    // TODO This spec needs to be breaked
+    it('does not rerender on initialBoard change', () => {
+      const { queryByText, queryAllByText } = mount({ Component: UselessState })
+
+      const lanes = queryAllByText(/^Lane/)
+      expect(lanes).toHaveLength(2)
+      expect(lanes[0]).toHaveTextContent(/^Lane Backlog$/)
+      expect(lanes[1]).toHaveTextContent(/^Lane Doing$/)
+
+      fireEvent.click(queryByText('Move lane'))
+
+      const unmovedLanes = queryAllByText(/^Lane/)
+      expect(unmovedLanes).toHaveLength(2)
+      expect(unmovedLanes[0]).toHaveTextContent(/^Lane Backlog$/)
+      expect(unmovedLanes[1]).toHaveTextContent(/^Lane Doing$/)
     })
 
     // TODO We need to test that initialBoard can change and the board will not change.
@@ -539,7 +959,7 @@ describe('<Board />', () => {
 
           describe('when the component does not receive "allowAddLane" prop', () => {
             beforeEach(() => {
-              renderLaneAdder = jest.fn(_ => (
+              renderLaneAdder = jest.fn(() => (
                 <div>
                   <input data-testid='laneAdder' />
                 </div>
