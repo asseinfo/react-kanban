@@ -133,24 +133,14 @@ function UncontrolledBoard({
         if (!onNewLaneConfirm) return null
         return <LaneAdder onConfirm={title => handleLaneAdd({ title, cards: [] })} />
       }}
-      renderLaneHeader={lane => {
-        if (renderLaneHeader)
-          return renderLaneHeader(lane, {
+      {...(renderLaneHeader && {
+        renderLaneHeader: lane =>
+          renderLaneHeader(lane, {
             removeLane: handleLaneRemove.bind(null, lane),
             renameLane: handleLaneRename.bind(null, lane),
             addCard: handleCardAdd.bind(null, lane)
           })
-        return (
-          <DefaultLaneHeader
-            allowRemoveLane={allowRemoveLane}
-            onLaneRemove={handleLaneRemove}
-            allowRenameLane={allowRenameLane}
-            onLaneRename={handleLaneRename}
-          >
-            {lane}
-          </DefaultLaneHeader>
-        )
-      }}
+      })}
       renderCard={(lane, card, dragging) => {
         if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
         return (
@@ -163,6 +153,10 @@ function UncontrolledBoard({
           </DefaultCard>
         )
       }}
+      allowRemoveLane={allowRemoveLane}
+      onLaneRemove={handleLaneRemove}
+      allowRenameLane={allowRenameLane}
+      onLaneRename={handleLaneRename}
     >
       {board}
     </BoardContainer>
@@ -203,19 +197,7 @@ function ControlledBoard({
         if (!onNewLaneConfirm) return null
         return <LaneAdder onConfirm={title => onNewLaneConfirm({ title, cards: [] })} />
       }}
-      renderLaneHeader={lane => {
-        if (renderLaneHeader) return renderLaneHeader(lane)
-        return (
-          <DefaultLaneHeader
-            allowRemoveLane={allowRemoveLane}
-            onLaneRemove={onLaneRemove}
-            allowRenameLane={allowRenameLane}
-            onLaneRename={onLaneRename}
-          >
-            {lane}
-          </DefaultLaneHeader>
-        )
-      }}
+      {...(renderLaneHeader && { renderLaneHeader: renderLaneHeader })}
       renderCard={(_lane, card, dragging) => {
         if (renderCard) return renderCard(card, { dragging })
         return (
@@ -224,6 +206,10 @@ function ControlledBoard({
           </DefaultCard>
         )
       }}
+      allowRemoveLane={allowRemoveLane}
+      onLaneRemove={onLaneRemove}
+      allowRenameLane={allowRenameLane}
+      onLaneRename={onLaneRename}
     >
       {board}
     </BoardContainer>
@@ -237,7 +223,11 @@ function BoardContainer({
   disableLaneDrag,
   disableCardDrag,
   renderLaneHeader,
-  renderLaneAdder
+  renderLaneAdder,
+  allowRemoveLane,
+  onLaneRemove,
+  allowRenameLane,
+  onLaneRename
 }) {
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -248,7 +238,20 @@ function BoardContainer({
               key={lane.id}
               index={index}
               renderCard={renderCard}
-              renderLaneHeader={renderLaneHeader}
+              renderLaneHeader={lane =>
+                renderLaneHeader ? (
+                  renderLaneHeader(lane)
+                ) : (
+                  <DefaultLaneHeader
+                    allowRemoveLane={allowRemoveLane}
+                    onLaneRemove={onLaneRemove}
+                    allowRenameLane={allowRenameLane}
+                    onLaneRename={onLaneRename}
+                  >
+                    {lane}
+                  </DefaultLaneHeader>
+                )
+              }
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
             >

@@ -7,6 +7,7 @@
   "rules": {
     "react/prop-types": "off",
     "react/jsx-indent": "off",
+    "react/jsx-curly-newline": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"
   }
