@@ -96,7 +96,7 @@ setBoard(newBoard)
 <Board>{board}</Board>
 ```
 
-[You can see the list of helpers in the end of the props documentation.](#helpers-to-be-used-with-an-uncontrolled-board)
+[You can see the list of helpers in the end of the props documentation.](#-helpers-to-be-used-with-an-uncontrolled-board)
 
 ### 🔷 Shape of a board
 
