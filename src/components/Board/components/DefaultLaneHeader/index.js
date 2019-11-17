@@ -53,7 +53,7 @@ export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRe
   function handleRenameLane(event) {
     event.preventDefault()
 
-    onLaneRename(lane.id, titleInput)
+    onLaneRename(lane, titleInput)
     setTitle(titleInput)
     toggleRenameMode()
   }

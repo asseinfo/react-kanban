@@ -25,7 +25,7 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
       {laneProvided => (
         <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
-            {renderLaneHeader}
+            {renderLaneHeader(children)}
           </div>
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length ? (
@@ -33,7 +33,7 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
                 <Card
                   key={card.id}
                   index={index}
-                  renderCard={dragging => renderCard(card, dragging)}
+                  renderCard={dragging => renderCard(children, card, dragging)}
                   disableCardDrag={disableCardDrag}
                 >
                   {card}

@@ -62,7 +62,6 @@ const board = {
         }
       ]
     }
-
   ]
 }
 
@@ -72,8 +71,7 @@ render(
     onLaneRemove={console.log}
     onLaneRename={console.log}
     onCardRemove={console.log}
-  >
-    {board}
-  </Board>,
+    initialBoard={board}
+  />,
   document.getElementById('app')
 )

@@ -132,9 +132,9 @@ describe('<DefaultLaneHeader />', () => {
             expect(subject.container.querySelector('input')).not.toBeInTheDocument()
           })
 
-          it('calls the "onLaneRename" callback passing the lane id with the new title', () => {
+          it('calls the "onLaneRename" callback passing the lane with the new title', () => {
             expect(onLaneRename).toHaveBeenCalledTimes(1)
-            expect(onLaneRename).toHaveBeenCalledWith(1, 'New title')
+            expect(onLaneRename).toHaveBeenCalledWith(lane, 'New title')
           })
         })
 
