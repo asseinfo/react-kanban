@@ -150,7 +150,7 @@ The board. Use this prop if you want to control the board's state.
 
 The board. Use this prop if you don't want to control the board's state.
 
-#### `OnCardDragEnd`
+#### `onCardDragEnd`
 When the user moves a card, this callback will be called passing these parameters:
 
 | Arg          | Description                                            |
@@ -167,7 +167,7 @@ When the user moves a card, this callback will be called passing these parameter
 | `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
 
 
-#### `OnLaneDragEnd`
+#### `onLaneDragEnd`
 When the user moves a lane, this callback will be called passing these parameters:
 
 | Arg          | Description                                            |
@@ -194,8 +194,10 @@ The function will receive these parameters:
 ##### `cardBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `removeCard` | Call this function to remove the card from the lane    |
+| `removeCard*` | Call this function to remove the card from the lane    |
 | `dragging`   | Whether the card is being dragged or not               |
+
+\* It's unavailable when the board is controlled.
 
 Ex.:
 ```js
@@ -235,13 +237,15 @@ The function will receive these parameters:
 ##### `laneBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `removeLane` | Call this function to remove the lane from the board   |
-| `renameLane` | Call this function with a title to rename the lane     |
-| `addCard`    | Call this function with a new card to add it in the lane |
+| `removeLane*` | Call this function to remove the lane from the board   |
+| `renameLane*` | Call this function with a title to rename the lane     |
+| `addCard*`    | Call this function with a new card to add it in the lane |
 
 **`addCard`**: As a second argument you can pass an option to define where in the lane you want to add the card:
 * `{ on: 'top' }`: to add on the top of the lane.
 * `{ on: 'bottom' }`: to add on the bottom of the lane (default).
+
+\* It's unavailable when the board is controlled.
 
 Ex.:
 ```js
@@ -308,8 +312,9 @@ The function will receive these parameters:
 ##### `laneBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `addLane`    | Call this function with a new lane to add the new lane |
+| `addLane*`    | Call this function with a new lane to add the new lane |
 
+\* It's unavailable when the board is controlled.
 
 Ex.:
 ```js
