@@ -17,6 +17,7 @@ addons:
     packages:
     - libgconf-2-4
 script:
+  - npm run lint
   # unit tests, also prints code coverage summary
   - npm run test -- --coverageDirectory unit-coverage
 
