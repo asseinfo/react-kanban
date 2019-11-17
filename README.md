@@ -66,7 +66,7 @@ const board = {
 
 ## 🔥 API
 
-### Controlled and Uncontrolled
+### 🕹 Controlled and Uncontrolled
 
 When you need a better control over the board, you should stick with the controlled board.
 A controlled board means you need to deal with the board state yourself, you need to keep the state in your hands (component) and pass this state to the `<Board />`, we just reflect this state.
@@ -96,9 +96,9 @@ setBoard(newBoard)
 <Board>{board}</Board>
 ```
 
-You can see the list of helpers in the end of the props documentation.
+[You can see the list of helpers in the end of the props documentation.](#helpers-to-be-used-with-an-uncontrolled-board)
 
-### Shape of a board
+### 🔷 Shape of a board
 
 ```js
 {
@@ -123,7 +123,7 @@ You can see the list of helpers in the end of the props documentation.
 | Prop | Description | Controlled | Uncontrolled |
 |-|-|-|-|
 | [`children`](#children) (required if controlled) | The board to render | ✅ | 🚫 |
-| [`initialBoard`](#children) (required if uncontrolled) | The board to render | 🚫 | ✅ |
+| [`initialBoard`](#initialboard) (required if uncontrolled) | The board to render | 🚫 | ✅ |
 | [`onCardDragEnd`](#oncarddragend) | Callback that will be called when the card move ends | ✅ | ✅ |
 | [`onLaneDragEnd`](#onlanedragend) | Callback that will be called when the lane move ends | ✅ | ✅ |
 | [`renderCard`](#rendercard)| A card to be rendered instead of the default card | ✅ | ✅ |
@@ -369,7 +369,7 @@ When the user removes a card, this callback will be called passing these paramet
 | `card`       | The removed card                                       |
 
 
-### Helpers to be used with an uncontrolled board
+### 🔩 Helpers to be used with an uncontrolled board
 
 #### `moveLane`
 
