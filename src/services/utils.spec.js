@@ -3,7 +3,8 @@ import {
   removeFromArrayAtPosition,
   changeElementOfPositionInArray,
   when,
-  replaceElementOfArray
+  replaceElementOfArray,
+  partialRight
 } from './utils'
 
 describe('#addInArrayAtPosition', () => {
@@ -84,5 +85,14 @@ describe('#replaceElementOfArray', () => {
   it('returns an array with the specified element replacing an element that matches the predicate', () => {
     const predicate = value => value === 2
     expect(replaceElementOfArray([0, 1, 2, 3])({ when: predicate, for: _ => 999 })).toEqual([0, 1, 999, 3])
+  })
+})
+
+describe('#partialRight', () => {
+  it('returns a function with the arguments partially applied on the right', () => {
+    const mock = jest.fn()
+    partialRight(mock, 'right')('left')
+    expect(mock).toHaveBeenCalledTimes(1)
+    expect(mock).toHaveBeenCalledWith('left', 'right')
   })
 })

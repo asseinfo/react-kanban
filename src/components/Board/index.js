@@ -4,7 +4,7 @@ import { DragDropContext } from 'react-beautiful-dnd'
 import Lane from './components/Lane'
 import LaneAdder from './components/LaneAdder'
 import withDroppable from '../withDroppable'
-import { when } from '@services/utils'
+import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
 import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
@@ -67,16 +67,12 @@ function UncontrolledBoard({
   disableLaneDrag
 }) {
   const [board, setBoard] = useState(initialBoard)
+  const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
+  const handleOnLaneDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveLane, notifyCallback: onLaneDragEnd })
 
-  function handleOnCardDragEnd({ source, destination }) {
-    const reorderedBoard = moveCard(board, source, destination)
-    when(onCardDragEnd)(callback => callback(reorderedBoard, source, destination))
-    setBoard(reorderedBoard)
-  }
-
-  function handleOnLaneDragEnd({ source, destination }) {
-    const reorderedBoard = moveLane(board, source, destination)
-    when(onLaneDragEnd)(callback => callback(reorderedBoard, source, destination))
+  function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
+    const reorderedBoard = moveCallback(board, source, destination)
+    when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
     setBoard(reorderedBoard)
   }
 
