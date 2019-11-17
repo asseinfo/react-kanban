@@ -96,60 +96,7 @@ setBoard(newBoard)
 <Board>{board}</Board>
 ```
 
-* `moveLane`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `{ fromPosition }` | Index of lane to be moved |
-| `{ toPosition }` | Index destination of lane to be moved |
-
-* `moveCard`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `{ fromPosition, fromLaneId }` | Index and laneId of card to be moved |
-| `{ toPosition, toLaneId }` | Index and laneId of the card destination  |
-
-* `addLane`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `lane` | Lane to be added |
-
-* `removeLane`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `lane` | Lane to be removed |
-
-* `renameLane`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `lane` | Lane to be renamed |
-| `newtitle` | New title of the lane |
-
-* `addCard`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `inLane` | Lane to add the card be added |
-| `card` | Card to be added |
-| `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the lane (`bottom` is default) |
-
-* `removeCard`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `fromLane` | Lane where the card is |
-| `card` | Card to be removed |
+You can see the list of helpers in the end of the props documentation.
 
 ### Shape of a board
 
@@ -167,7 +114,7 @@ setBoard(newBoard)
 }
 ```
 
-* The `title` and the `description` are required if you are using the card's default template. You can render your own card template through the [`renderCard`](#rendercard) prop.
+\* The `title` and the `description` are required if you are using the card's default template. You can render your own card template through the [`renderCard`](#rendercard) prop.
 
 ** The `title` is required if you are using the lane's default template. You can render your own lane template through the [`renderLaneHeader`](#renderlaneheader) prop.
 
@@ -182,7 +129,7 @@ setBoard(newBoard)
 | [`renderCard`](#rendercard)| A card to be rendered instead of the default card | ✅ | ✅ |
 | [`renderLaneHeader`](#renderlaneheader) | A lane header to be rendered instead of the default lane header | ✅ | ✅ |
 | [`allowAddLane`](#allowaddlane) | Allow a new lane be added by the user | ✅ | ✅ |
-| [`onNewLaneConfirm`](#onNewLaneConfirm) (required if use the default lane adder template)  | Callback that will be called when a new lane is confirmed by the user through the default lane adder template | ✅ | ✅ |
+| [`onNewLaneConfirm`](#onnewlaneconfirm) (required if use the default lane adder template)  | Callback that will be called when a new lane is confirmed by the user through the default lane adder template | ✅ | ✅ |
 | [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
 | [`renderLaneAdder`](#renderlaneadder) | A lane adder to be rendered instead of the default lane adder template | ✅ | ✅ |
 | [`disableLaneDrag`](#disablelanedrag) | Disable the lane move | ✅ | ✅ |
@@ -328,10 +275,12 @@ const board = {
 #### `allowAddLane`
 Allow the user to add a new lane directly by the board.
 
-#### `onLaneNew`
-When the user adds a new lane through the default lane adder template, this callback will be called passing the lane title typed by the user.
+#### `onNewLaneConfirm`
+When the user confirms a new lane through the default lane adder template, this callback will be called with a draft of a lane with the title typed by the user.
 
-You **must** return the new lane with its new id in this callback.
+If your board is uncontrolled you **must** return the new lane with its new id in this callback.
+
+If your board is controlled use this to get the new lane title.
 
 Ex.:
 ```js
@@ -340,8 +289,13 @@ function onLaneNew (newLane) {
   return newLane
 }
 
-<Board allowAddLane onLaneNew={onLaneNew}>{board}</Board>
+<Board initialBoard={board} allowAddLane onLaneNew={onLaneNew} />
 ```
+
+#### `onLaneNew`
+When the user adds a new lane through the default lane adder template, this callback will be called passing the updated board and the new lane.
+
+This callback will not be called in an uncontrolled board.
 
 #### `renderLaneAdder`
 Use this if you want to render your own lane adder. You have to pass a function and return your lane adder component.
@@ -413,6 +367,64 @@ When the user removes a card, this callback will be called passing these paramet
 | `board`      | The board without the removed lane                     |
 | `lane`       | The lane without the removed card                      |
 | `card`       | The removed card                                       |
+
+
+### Helpers to be used with an uncontrolled board
+
+#### `moveLane`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `{ fromPosition }` | Index of lane to be moved |
+| `{ toPosition }` | Index destination of lane to be moved |
+
+#### `moveCard`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `{ fromPosition, fromLaneId }` | Index and laneId of card to be moved |
+| `{ toPosition, toLaneId }` | Index and laneId of the card destination  |
+
+#### `addLane`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `lane` | Lane to be added |
+
+#### `removeLane`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `lane` | Lane to be removed |
+
+#### `renameLane`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `lane` | Lane to be renamed |
+| `newtitle` | New title of the lane |
+
+#### `addCard`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `inLane` | Lane to add the card be added |
+| `card` | Card to be added |
+| `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the lane (`bottom` is default) |
+
+#### `removeCard`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `fromLane` | Lane where the card is |
+| `card` | Card to be removed |
 
 ## 🧪 Tests
 
