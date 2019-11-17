@@ -58,6 +58,7 @@
     "build:publish": "rm -rf dist/ && webpack --config webpack.prod.js && yarn publish --access public",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
+    "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
     "lint": "eslint src/**/*.js",
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
