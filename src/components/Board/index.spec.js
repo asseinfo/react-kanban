@@ -383,6 +383,8 @@ describe('<Board />', () => {
             it('renders the custom lane adder as the last lane to add a new lane', () => {
               expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
             })
+
+            // TODO it needs spec for the renderLaneAdder callback
           })
         })
       })
