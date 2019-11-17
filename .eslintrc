@@ -1,5 +1,5 @@
 {
-  "extends": ["standard", "standard-react", "prettier/react", "plugin:prettier/recommended"],
+  "extends": ["standard", "standard-react", "plugin:jest/recommended", "plugin:jest/style", "prettier/react", "plugin:prettier/recommended"],
   "plugins": ["react-hooks"],
   "env": {
     "jest": true
