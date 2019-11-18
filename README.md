@@ -130,7 +130,7 @@ setBoard(newBoard)
 | [`renderLaneHeader`](#renderlaneheader) | A lane header to be rendered instead of the default lane header | ✅ | ✅ |
 | [`allowAddLane`](#allowaddlane) | Allow a new lane be added by the user | ✅ | ✅ |
 | [`onNewLaneConfirm`](#onnewlaneconfirm) (required if use the default lane adder template)  | Callback that will be called when a new lane is confirmed by the user through the default lane adder template | ✅ | ✅ |
-| [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
+| [`onLaneNew`](#onlanenew) (required if `allowAddLane` or when [`addLane`](#renderlaneadder) is called)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
 | [`renderLaneAdder`](#renderlaneadder) | A lane adder to be rendered instead of the default lane adder template | ✅ | ✅ |
 | [`disableLaneDrag`](#disablelanedrag) | Disable the lane move | ✅ | ✅ |
 | [`disableCardDrag`](#disablecarddrag) | Disable the card move | ✅ | ✅ |
@@ -156,15 +156,15 @@ When the user moves a card, this callback will be called passing these parameter
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
-| `source`     | An object with the card source `{ laneId, index }`     |
-| `destination`| An object with the card destination `{ laneId, index }`|
+| `source`     | An object with the card source `{ toLaneId, toPosition }`     |
+| `destination`| An object with the card destination `{ toLaneId, toPosition }`|
 
 ##### Source and destination
 
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
-| `laneId`| **In source**: lane source id; **In destination**: lane destination id;|
-| `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
+| `toLaneId`| **In source**: lane source id; **In destination**: lane destination id;|
+| `toPosition` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
 
 
 #### `onLaneDragEnd`
