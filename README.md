@@ -96,7 +96,7 @@ setBoard(newBoard)
 <Board>{board}</Board>
 ```
 
-[You can see the list of helpers in the end of the props documentation.](#-helpers-to-be-used-with-an-uncontrolled-board)
+[You can see the list of helpers in the end of the props documentation.](#-helpers-to-be-used-with-an-controlled-board)
 
 ### 🔷 Shape of a board
 
@@ -130,7 +130,7 @@ setBoard(newBoard)
 | [`renderLaneHeader`](#renderlaneheader) | A lane header to be rendered instead of the default lane header | ✅ | ✅ |
 | [`allowAddLane`](#allowaddlane) | Allow a new lane be added by the user | ✅ | ✅ |
 | [`onNewLaneConfirm`](#onnewlaneconfirm) (required if use the default lane adder template)  | Callback that will be called when a new lane is confirmed by the user through the default lane adder template | ✅ | ✅ |
-| [`onLaneNew`](#onlanenew) (required if use the default lane adder template)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
+| [`onLaneNew`](#onlanenew) (required if `allowAddLane` or when [`addLane`](#renderlaneadder) is called)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
 | [`renderLaneAdder`](#renderlaneadder) | A lane adder to be rendered instead of the default lane adder template | ✅ | ✅ |
 | [`disableLaneDrag`](#disablelanedrag) | Disable the lane move | ✅ | ✅ |
 | [`disableCardDrag`](#disablecarddrag) | Disable the card move | ✅ | ✅ |
@@ -156,15 +156,17 @@ When the user moves a card, this callback will be called passing these parameter
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
-| `source`     | An object with the card source `{ laneId, index }`     |
-| `destination`| An object with the card destination `{ laneId, index }`|
+| `source`     | An object with the card source `{ fromLaneId, fromPosition }`     |
+| `destination`| An object with the card destination `{ toLaneId, toPosition }`|
 
 ##### Source and destination
 
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
-| `laneId`| **In source**: lane source id; **In destination**: lane destination id;|
-| `index` | **In source**: card's index in lane source's array; **In destination**: card's index in lane destination's array;|
+| `fromLaneId`| Lane source id.
+| `toLaneId`| Lane destination id.|
+| `fromPosition` | Card's index in lane source's array.|
+| `toPosition` | Card's index in lane destination's array.|
 
 
 #### `onLaneDragEnd`
@@ -173,14 +175,15 @@ When the user moves a lane, this callback will be called passing these parameter
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
-| `source`     | An object with the lane source `{ index }`     |
-| `destination`| An object with the lane destination `{ index }`|
+| `source`     | An object with the lane source `{ fromPosition }`     |
+| `destination`| An object with the lane destination `{ toPosition }`|
 
 ##### Source and destination
 
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
-| `index` | **In source**: lane index before the moving; **In destination**: lane index after the moving;|
+| `fromPosition` | Lane index before the moving.|
+| `toPosition` | Lane index after the moving.|
 
 #### `renderCard`
 Use this if you want to render your own card. You have to pass a function and return your card component.
@@ -374,7 +377,7 @@ When the user removes a card, this callback will be called passing these paramet
 | `card`       | The removed card                                       |
 
 
-### 🔩 Helpers to be used with an uncontrolled board
+### 🔩 Helpers to be used with an controlled board
 
 #### `moveLane`
 
