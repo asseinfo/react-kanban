@@ -43,7 +43,7 @@
     "html-webpack-plugin": "3.2.0",
     "istanbul-lib-coverage": "2.0.5",
     "jest": "24.8.0",
-    "jest-environment-jsdom-fifteen": "1.0.0",
+    "jest-environment-jsdom-fifteen": "1.0.2",
     "nyc": "14.1.1",
     "prettier": "^1.19.1",
     "react": "16.12.0",
