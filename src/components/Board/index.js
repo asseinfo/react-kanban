@@ -40,6 +40,11 @@ function getCoordinates(event) {
   }
 }
 
+function getCard(board, source) {
+  const lane = board.lanes.find(lane => lane.id === source.fromLaneId)
+  return lane.cards[source.fromPosition]
+}
+
 const DroppableBoard = withDroppable(Lanes)
 
 function Board(props) {
@@ -70,9 +75,9 @@ function UncontrolledBoard({
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   const handleOnLaneDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveLane, notifyCallback: onLaneDragEnd })
 
-  function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
+  function handleOnDragEnd({ source, destination, card }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
-    when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
+    when(notifyCallback)(callback => callback(reorderedBoard, source, destination, card))
     setBoard(reorderedBoard)
   }
 
@@ -175,8 +180,8 @@ function ControlledBoard({
   disableCardDrag,
   disableLaneDrag
 }) {
-  function handleOnCardDragEnd({ source, destination }) {
-    when(onCardDragEnd)(callback => callback(source, destination))
+  function handleOnCardDragEnd({ source, destination, card }) {
+    when(onCardDragEnd)(callback => callback(source, destination, card))
   }
 
   function handleOnLaneDragEnd({ source, destination }) {
@@ -232,7 +237,9 @@ function BoardContainer({
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
 
-    isALaneMove(event.type) ? onLaneDragEnd(coordinates) : onCardDragEnd(coordinates)
+    isALaneMove(event.type)
+      ? onLaneDragEnd(coordinates)
+      : onCardDragEnd({ ...coordinates, card: getCard(board, coordinates.source) })
   }
 
   return (
