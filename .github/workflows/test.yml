@@ -34,6 +34,7 @@ jobs:
     needs: build
     steps:
       - uses: actions/checkout@v1
+      - run: yarn
       - run: NODE_ENV=cypress yarn server &
       - uses: cypress-io/github-action@v1
         with:
