@@ -1,6 +1,6 @@
 name: Test
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -16,6 +16,8 @@ jobs:
   linter-and-unit:
     runs-on: ubuntu-latest
     needs: build
+    env:
+      NODE_ENV: 'test'
     steps:
     - uses: actions/checkout@v1
     - name: Use Node.js 12.x
@@ -27,11 +29,15 @@ jobs:
         yarn
         yarn lint
         yarn test --coverageDirectory unit-coverage
-      env:
-        NODE_ENV: 'test'
+    - uses: actions/upload-artifact@v1
+      with:
+        name: unit-coverage
+        path: unit-coverage/lcov.info
   cypress:
     runs-on: ubuntu-latest
     needs: build
+    env:
+      NODE_ENV: 'test'
     steps:
       - uses: actions/checkout@v1
       - run: yarn
@@ -40,15 +46,29 @@ jobs:
         with:
           browser: chrome
       - run: yarn nyc report --reporter=text-summary
+      - uses: actions/upload-artifact@v1
+        with:
+          name: coverage
+          path: coverage/lcov.info
   teardown:
     runs-on: ubuntu-latest
     needs: [linter-and-unit, cypress]
+    env:
+      CC_TEST_REPORTER_ID: 0c013a7ad123ef27b331e29e37b4730c03971c54ddaf75a34023c8103a126c12
     steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: unit-coverage
+          path: unit-coverage/lcov.info
+      - uses: actions/download-artifact@v1
+        with:
+          name: coverage
+          path: coverage/lcov.info
       - name: upload codeclimate coverage
         run: |
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          chmod +x ./cc-test-reporter
           ./cc-test-reporter format-coverage -t lcov -o combined-coverage/unit.json unit-coverage/lcov.info
           ./cc-test-reporter format-coverage -t lcov -o combined-coverage/e2e.json coverage/lcov.info
           ./cc-test-reporter sum-coverage combined-coverage/*.json -p 2
           ./cc-test-reporter upload-coverage
-        env:
-          CC_TEST_REPORTER_ID: 0c013a7ad123ef27b331e29e37b4730c03971c54ddaf75a34023c8103a126c12
