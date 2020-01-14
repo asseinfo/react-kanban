@@ -7,18 +7,8 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
-import {
-  moveCard,
-  moveLane,
-  addLane,
-  removeLane,
-  renameLane,
-  addCard,
-  removeCard,
-  getCard,
-  getCoordinates,
-  isALaneMove
-} from './services'
+import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
+import { getCard, getCoordinates, isALaneMove } from '@services/helpers'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -64,7 +54,7 @@ function UncontrolledBoard({
   function handleOnDragEnd({ source, destination, card }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
     when(notifyCallback)(callback =>
-      card ? callback(reorderedBoard, source, destination, card) : callback(reorderedBoard, source, destination)
+      card ? callback(reorderedBoard, card, source, destination) : callback(reorderedBoard, source, destination)
     )
     setBoard(reorderedBoard)
   }
@@ -169,7 +159,7 @@ function ControlledBoard({
   disableLaneDrag
 }) {
   function handleOnCardDragEnd({ source, destination, card }) {
-    when(onCardDragEnd)(callback => callback(source, destination, card))
+    when(onCardDragEnd)(callback => callback(card, source, destination))
   }
 
   function handleOnLaneDragEnd({ source, destination }) {
