@@ -39,7 +39,6 @@ jobs:
       - uses: cypress-io/github-action@v1
         with:
           browser: chrome
-          headless: true
       - run: yarn nyc report --reporter=text-summary
   teardown:
     runs-on: ubuntu-latest
