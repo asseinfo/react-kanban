@@ -156,6 +156,7 @@ When the user moves a card, this callback will be called passing these parameter
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
+| `card`       | The moved card                                         |
 | `source`     | An object with the card source `{ fromLaneId, fromPosition }`     |
 | `destination`| An object with the card destination `{ toLaneId, toPosition }`|
 
