@@ -7,8 +7,8 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
-import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
-import { getCard, getCoordinates, isALaneMove } from '@services/helpers'
+import { getCard, getCoordinates, isALaneMove } from './services'
+import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from '@services/helpers'
 
 const StyledBoard = styled.div`
   padding: 5px;
