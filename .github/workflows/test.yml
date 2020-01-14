@@ -60,11 +60,9 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: unit-coverage
-          path: unit-coverage/lcov.info
       - uses: actions/download-artifact@v1
         with:
           name: coverage
-          path: coverage/lcov.info
       - name: upload codeclimate coverage
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
