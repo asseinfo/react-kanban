@@ -7,7 +7,8 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
-import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
+import { getCard, getCoordinates, isALaneMove } from './services'
+import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from '@services/helpers'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -19,26 +20,6 @@ const StyledBoard = styled.div`
 const Lanes = styled.div`
   white-space: nowrap;
 `
-
-function isALaneMove(type) {
-  return type === 'BOARD'
-}
-
-function getCoordinates(event) {
-  if (event.destination === null) return {}
-
-  const laneSource = { fromPosition: event.source.index }
-  const laneDestination = { toPosition: event.destination.index }
-
-  if (isALaneMove(event.type)) {
-    return { source: laneSource, destination: laneDestination }
-  }
-
-  return {
-    source: { ...laneSource, fromLaneId: parseInt(event.source.droppableId) },
-    destination: { ...laneDestination, toLaneId: parseInt(event.destination.droppableId) }
-  }
-}
 
 const DroppableBoard = withDroppable(Lanes)
 
@@ -70,9 +51,11 @@ function UncontrolledBoard({
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   const handleOnLaneDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveLane, notifyCallback: onLaneDragEnd })
 
-  function handleOnDragEnd({ source, destination }, { moveCallback, notifyCallback }) {
+  function handleOnDragEnd({ source, destination, card }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
-    when(notifyCallback)(callback => callback(reorderedBoard, source, destination))
+    when(notifyCallback)(callback =>
+      card ? callback(reorderedBoard, card, source, destination) : callback(reorderedBoard, source, destination)
+    )
     setBoard(reorderedBoard)
   }
 
@@ -175,8 +158,8 @@ function ControlledBoard({
   disableCardDrag,
   disableLaneDrag
 }) {
-  function handleOnCardDragEnd({ source, destination }) {
-    when(onCardDragEnd)(callback => callback(source, destination))
+  function handleOnCardDragEnd({ source, destination, card }) {
+    when(onCardDragEnd)(callback => callback(card, source, destination))
   }
 
   function handleOnLaneDragEnd({ source, destination }) {
@@ -232,7 +215,9 @@ function BoardContainer({
     const coordinates = getCoordinates(event)
     if (!coordinates.source) return
 
-    isALaneMove(event.type) ? onLaneDragEnd(coordinates) : onCardDragEnd(coordinates)
+    isALaneMove(event.type)
+      ? onLaneDragEnd(coordinates)
+      : onCardDragEnd({ ...coordinates, card: getCard(board, coordinates.source) })
   }
 
   return (
