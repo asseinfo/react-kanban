@@ -7,7 +7,18 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
-import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from './services'
+import {
+  moveCard,
+  moveLane,
+  addLane,
+  removeLane,
+  renameLane,
+  addCard,
+  removeCard,
+  getCard,
+  getCoordinates,
+  isALaneMove
+} from './services'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -19,31 +30,6 @@ const StyledBoard = styled.div`
 const Lanes = styled.div`
   white-space: nowrap;
 `
-
-function isALaneMove(type) {
-  return type === 'BOARD'
-}
-
-function getCoordinates(event) {
-  if (event.destination === null) return {}
-
-  const laneSource = { fromPosition: event.source.index }
-  const laneDestination = { toPosition: event.destination.index }
-
-  if (isALaneMove(event.type)) {
-    return { source: laneSource, destination: laneDestination }
-  }
-
-  return {
-    source: { ...laneSource, fromLaneId: parseInt(event.source.droppableId) },
-    destination: { ...laneDestination, toLaneId: parseInt(event.destination.droppableId) }
-  }
-}
-
-function getCard(board, source) {
-  const lane = board.lanes.find(lane => lane.id === source.fromLaneId)
-  return lane.cards[source.fromPosition]
-}
 
 const DroppableBoard = withDroppable(Lanes)
 
