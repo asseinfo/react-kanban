@@ -56,6 +56,7 @@ jobs:
     env:
       CC_TEST_REPORTER_ID: 0c013a7ad123ef27b331e29e37b4730c03971c54ddaf75a34023c8103a126c12
     steps:
+      - uses: actions/checkout@v1
       - uses: actions/download-artifact@v1
         with:
           name: unit-coverage
