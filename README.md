@@ -506,6 +506,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt="Pedro Javier Nicolás"/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars3.githubusercontent.com/u/25781749?v=4" width="100px;" alt="Matheus Poli"/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/sousajunior"><img src="https://avatars0.githubusercontent.com/u/17458197?v=4" width="100px;" alt="Carlinhos de Sousa Junior"/><br /><sub><b>Carlinhos de Sousa Junior</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=sousajunior" title="Code">💻</a></td>
   </tr>
 </table>
 
