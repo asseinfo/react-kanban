@@ -39,11 +39,4 @@ function replaceElementOfArray(array) {
   }
 }
 
-export {
-  addInArrayAtPosition,
-  removeFromArrayAtPosition,
-  changeElementOfPositionInArray,
-  when,
-  replaceElementOfArray,
-  partialRight
-}
+export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, when, replaceElementOfArray }

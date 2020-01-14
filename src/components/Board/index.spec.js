@@ -109,11 +109,12 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onCardDragEnd callback passing the card move coordinates', () => {
+          it('calls the onCardDragEnd callback passing the card and move coordinates', () => {
             expect(onCardDragEnd).toHaveBeenCalledTimes(1)
             expect(onCardDragEnd).toHaveBeenCalledWith(
               { fromPosition: 0, fromLaneId: 1 },
-              { toPosition: 1, toLaneId: 1 }
+              { toPosition: 1, toLaneId: 1 },
+              { id: 1, description: 'Card content', title: 'Card title 1' }
             )
           })
         })
@@ -621,7 +622,7 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onCardDragEnd callback passing the modified board and the card move coordinates', () => {
+          it('calls the onCardDragEnd callback passing the modified board, the card and move coordinates', () => {
             const expectedBoard = {
               lanes: [
                 {
@@ -657,7 +658,8 @@ describe('<Board />', () => {
             expect(onCardDragEnd).toHaveBeenCalledWith(
               expectedBoard,
               { fromPosition: 0, fromLaneId: 1 },
-              { toPosition: 1, toLaneId: 1 }
+              { toPosition: 1, toLaneId: 1 },
+              { description: 'Card content', id: 1, title: 'Card title 1' }
             )
           })
         })
