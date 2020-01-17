@@ -151,6 +151,7 @@ function UncontrolledBoard({
       onLaneRename={handleLaneRename}
       disableLaneDrag={disableLaneDrag}
       disableCardDrag={disableCardDrag}
+      onCardAdd={handleCardAdd}
     >
       {board}
     </BoardContainer>
@@ -226,7 +227,8 @@ function BoardContainer({
   allowRenameLane,
   onLaneRename,
   onLaneDragEnd,
-  onCardDragEnd
+  onCardDragEnd,
+  onCardAdd
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event)
@@ -253,6 +255,7 @@ function BoardContainer({
                     onLaneRemove={onLaneRemove}
                     allowRenameLane={allowRenameLane}
                     onLaneRename={onLaneRename}
+                    onCardAdd={onCardAdd}
                   >
                     {lane}
                   </DefaultLaneHeader>
@@ -260,6 +263,7 @@ function BoardContainer({
               }
               disableLaneDrag={disableLaneDrag}
               disableCardDrag={disableCardDrag}
+              onCardAdd={onCardAdd}
             >
               {lane}
             </Lane>

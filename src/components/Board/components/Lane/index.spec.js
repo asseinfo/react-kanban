@@ -69,3 +69,39 @@ describe('<StyledLane />', () => {
     expect(render(<StyledLane />).container.querySelector('div')).toBeInTheDocument()
   })
 })
+
+describe.skip('about the card adding', () => {
+  const onCardNew = jest.fn()
+
+  describe('when the component does not receive the "allowAddCard" prop', () => {
+    beforeEach(() => mount({ onCardNew }))
+
+    it('does not show the add card button', () => {
+      expect(subject.queryByText('+')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('when the component receives the "allowAddCard" prop', () => {
+    beforeEach(() => mount({ onCardNew, allowAddCard: true }))
+
+    it('shows the add card button', () => {
+      expect(subject.queryByText('+')).toBeVisible()
+    })
+
+    describe('when the user clicks on the add card button', () => {
+      beforeEach(() => fireEvent.click(subject.queryByText('+')))
+
+      it('shows the add card form', () => {
+        expect(subject.container.querySelector('form')).toBeVisible()
+      })
+
+      describe('when the user cancels the card adding', () => {
+        beforeEach(() => fireEvent.click(subject.queryByText('Cancel')))
+
+        it('hides the add card form', () => {
+          expect(subject.container.querySelector('form')).not.toBeInTheDocument()
+        })
+      })
+    })
+  })
+})

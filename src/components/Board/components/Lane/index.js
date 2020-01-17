@@ -4,6 +4,7 @@ import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
+import CardAdder from './components/CardAdder'
 
 export const StyledLane = styled.div`
   height: 100%;
@@ -19,7 +20,15 @@ const DroppableLane = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disableLaneDrag, disableCardDrag }) {
+function Lane({
+  children,
+  index: laneIndex,
+  renderCard,
+  renderLaneHeader,
+  disableLaneDrag,
+  disableCardDrag,
+  onCardAdd
+}) {
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
       {laneProvided => (
@@ -27,6 +36,7 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
             {renderLaneHeader(children)}
           </div>
+          <CardAdder lane={children} onCardAdd={onCardAdd} />
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (
