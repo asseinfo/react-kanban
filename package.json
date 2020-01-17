@@ -20,7 +20,7 @@
     "@cypress/code-coverage": "1.10.1",
     "@testing-library/jest-dom": "4.0.0",
     "@testing-library/react": "8.0.7",
-    "all-contributors-cli": "6.9.1",
+    "all-contributors-cli": "6.13.0",
     "babel-loader": "8.0.6",
     "babel-plugin-istanbul": "5.2.0",
     "babel-plugin-react-remove-properties": "0.3.0",
