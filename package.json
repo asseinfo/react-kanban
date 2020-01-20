@@ -44,7 +44,7 @@
     "istanbul-lib-coverage": "2.0.5",
     "jest": "24.8.0",
     "jest-environment-jsdom-fifteen": "1.0.0",
-    "nyc": "14.1.1",
+    "nyc": "15.0.0",
     "prettier": "1.19.1",
     "react": "16.12.0",
     "react-dom": "16.12.0",
