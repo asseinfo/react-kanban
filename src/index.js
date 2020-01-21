@@ -1,2 +1,2 @@
 export { default } from './components/Board'
-export * from './components/Board/services'
+export * from './services/helpers'

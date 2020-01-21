@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { render, within, act, fireEvent, waitForElement } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
-import { moveCard } from './services'
+import { moveCard } from '@services/helpers'
 
 describe('<Board />', () => {
   let subject, onCardDragEnd, onLaneDragEnd, onLaneRemove, onLaneRename, onCardRemove
@@ -109,9 +109,10 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onCardDragEnd callback passing the card move coordinates', () => {
+          it('calls the onCardDragEnd callback passing the card and the move coordinates', () => {
             expect(onCardDragEnd).toHaveBeenCalledTimes(1)
             expect(onCardDragEnd).toHaveBeenCalledWith(
+              { id: 1, description: 'Card content', title: 'Card title 1' },
               { fromPosition: 0, fromLaneId: 1 },
               { toPosition: 1, toLaneId: 1 }
             )
@@ -621,7 +622,7 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onCardDragEnd callback passing the modified board and the card move coordinates', () => {
+          it('calls the onCardDragEnd callback passing the modified board, the card and the move coordinates', () => {
             const expectedBoard = {
               lanes: [
                 {
@@ -656,6 +657,7 @@ describe('<Board />', () => {
             expect(onCardDragEnd).toHaveBeenCalledTimes(1)
             expect(onCardDragEnd).toHaveBeenCalledWith(
               expectedBoard,
+              { description: 'Card content', id: 1, title: 'Card title 1' },
               { fromPosition: 0, fromLaneId: 1 },
               { toPosition: 1, toLaneId: 1 }
             )
