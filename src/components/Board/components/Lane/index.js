@@ -36,7 +36,7 @@ function Lane({
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
             {renderLaneHeader(children)}
           </div>
-          <CardAdder lane={children} onCardAdd={onCardAdd} />
+          <CardAdder lane={children} onConfirm={onCardAdd} />
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (
