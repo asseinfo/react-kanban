@@ -45,6 +45,7 @@ jobs:
       - uses: cypress-io/github-action@v1
         with:
           browser: chrome
+          headless: true
       - run: yarn nyc report --reporter=text-summary
       - uses: actions/upload-artifact@v1
         with:
