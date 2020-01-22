@@ -34,7 +34,7 @@ jobs:
         name: unit-coverage
         path: unit-coverage/lcov.info
   cypress:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     needs: build
     env:
       NODE_ENV: 'test'
