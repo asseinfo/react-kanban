@@ -62,7 +62,6 @@ function LaneForm({ onConfirm, onCancel }) {
 
   function addCard(event) {
     event.preventDefault()
-
     when(inputCardTitle.current.value)(() =>
       onConfirm({ title: inputCardTitle.current.value, description: inputCardDescription.current.value })
     )

@@ -240,7 +240,6 @@ function BoardContainer({
                     onLaneRemove={onLaneRemove}
                     allowRenameLane={allowRenameLane}
                     onLaneRename={onLaneRename}
-                    onCardAdd={onCardAdd}
                   >
                     {lane}
                   </DefaultLaneHeader>

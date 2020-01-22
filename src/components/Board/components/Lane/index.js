@@ -27,7 +27,8 @@ function Lane({
   renderLaneHeader,
   disableLaneDrag,
   disableCardDrag,
-  onCardAdd
+  onCardAdd,
+  allowAddCard
 }) {
   return (
     <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
@@ -36,7 +37,7 @@ function Lane({
           <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
             {renderLaneHeader(children)}
           </div>
-          <CardAdder lane={children} onConfirm={onCardAdd} />
+          {allowAddCard && <CardAdder lane={children} onConfirm={onCardAdd} />}
           <DroppableLane droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (
