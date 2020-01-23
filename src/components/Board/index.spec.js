@@ -1418,6 +1418,36 @@ describe('<Board />', () => {
           })
         })
       })
+
+      describe('when the component does not receives a custom header lane template', () => {
+        describe('when the component does not receives "allowAddCard" prop', () => {
+          let onCardNew, onNewCardConfirm
+
+          beforeEach(() => {
+            onCardNew = jest.fn()
+            onNewCardConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            mount({ allowAddCard: false, onNewCardConfirm, onCardNew })
+          })
+
+          afterEach(() => {
+            jest.clearAllMocks()
+          })
+
+          it('does not render the card adder', () => {
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
+          })
+        })
+
+        describe('when the component does not receives "onNewCardConfirm" prop', () => {
+          beforeEach(() => {
+            mount({ allowAddCard: true })
+          })
+
+          it('does not render the lane adder', () => {
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
+          })
+        })
+      })
     })
   })
 })
