@@ -20,7 +20,7 @@
     "@babel/preset-react": "7.7.0",
     "@cypress/code-coverage": "1.11.0",
     "@testing-library/jest-dom": "5.0.2",
-    "@testing-library/react": "^9.0.0",
+    "@testing-library/react": "9.4.0",
     "all-contributors-cli": "6.9.1",
     "babel-loader": "8.0.6",
     "babel-plugin-istanbul": "5.2.0",
