@@ -8,3 +8,4 @@ cypress/screenshots
 unit-coverage
 .docz
 .projections.json
+.tool-versions
