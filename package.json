@@ -27,7 +27,6 @@
     "babel-plugin-react-remove-properties": "0.3.0",
     "cross-env": "6.0.2",
     "cypress": "3.8.3",
-    "docz": "2.0.0-rc.53",
     "eslint": "6.6.0",
     "eslint-config-prettier": "6.9.0",
     "eslint-config-standard": "14.1.0",
@@ -64,7 +63,6 @@
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "cypress": "cypress",
-    "docz": "docz",
     "dev": "cross-env NODE_ENV=cypress start-test server 8080 'cypress open'"
   },
   "dependencies": {
