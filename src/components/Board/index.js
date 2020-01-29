@@ -80,12 +80,14 @@ function UncontrolledBoard({
     setBoard(boardWithRenamedLane)
   }
 
-  function handleCardAdd(lane, card, options = {}) {
-    const boardWithNewCard = addCard(board, lane, card, options)
+  async function handleCardAdd(lane, card, options = {}) {
+    const newCard = renderLaneHeader ? card : await onNewCardConfirm(card)
+    const boardWithNewCard = addCard(board, lane, newCard, options)
+
     onCardNew(
       boardWithNewCard,
       boardWithNewCard.lanes.find(({ id }) => id === lane.id),
-      card
+      newCard
     )
     setBoard(boardWithNewCard)
   }
