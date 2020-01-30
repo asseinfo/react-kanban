@@ -49,7 +49,7 @@
     "react-dom": "16.12.0",
     "start-server-and-test": "1.10.8",
     "styled-components": "5.0.0",
-    "webpack": "4.41.0",
+    "webpack": "4.41.5",
     "webpack-cli": "3.3.9",
     "webpack-dev-server": "3.8.2"
   },
