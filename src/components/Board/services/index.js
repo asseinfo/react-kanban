@@ -9,8 +9,8 @@ function getCoordinates(event) {
   }
 
   return {
-    source: { ...laneSource, fromLaneId: parseInt(event.source.droppableId) },
-    destination: { ...laneDestination, toLaneId: parseInt(event.destination.droppableId) }
+    source: { ...laneSource, fromLaneId: event.source.droppableId },
+    destination: { ...laneDestination, toLaneId: event.destination.droppableId }
   }
 }
 

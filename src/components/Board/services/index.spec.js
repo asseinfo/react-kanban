@@ -20,16 +20,33 @@ describe('#getCoordinates', () => {
   })
 
   describe('when the event is a card move', () => {
-    const event = {
-      type: 'CARD',
-      source: { index: 0, droppableId: 0 },
-      destination: { index: 1, droppableId: 1 }
-    }
+    describe('when both the source lane and the destination lane has a number id', () => {
+      const event = {
+        type: 'CARD',
+        source: { index: 0, droppableId: 0 },
+        destination: { index: 1, droppableId: 1 }
+      }
 
-    it('returns the card coordinates', () => {
-      expect(getCoordinates(event)).toEqual({
-        destination: { toLaneId: 1, toPosition: 1 },
-        source: { fromLaneId: 0, fromPosition: 0 }
+      it('returns the card coordinates', () => {
+        expect(getCoordinates(event)).toEqual({
+          destination: { toLaneId: 1, toPosition: 1 },
+          source: { fromLaneId: 0, fromPosition: 0 }
+        })
+      })
+    })
+
+    describe('when any of the source lane or the destination lane has a non-number id', () => {
+      const event = {
+        type: 'CARD',
+        source: { index: 0, droppableId: '0206c8d7-4d48-4d97-b867-86fc2d21074d' },
+        destination: { index: 1, droppableId: 1 }
+      }
+
+      it('returns the card coordinates', () => {
+        expect(getCoordinates(event)).toEqual({
+          source: { fromLaneId: '0206c8d7-4d48-4d97-b867-86fc2d21074d', fromPosition: 0 },
+          destination: { toLaneId: 1, toPosition: 1 }
+        })
       })
     })
   })
