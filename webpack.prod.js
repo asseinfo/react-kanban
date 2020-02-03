@@ -14,7 +14,9 @@ module.exports = {
   },
   externals: {
     'styled-components': 'styled-components',
-    react: 'react'
+    react: 'react',
+    'react-dom': 'react-dom',
+    'react-is': 'react-is'
   },
   resolve: {
     alias: {
