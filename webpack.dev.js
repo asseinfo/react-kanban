@@ -16,5 +16,11 @@ module.exports = {
     alias: {
       '@services': path.resolve(__dirname, 'src/services/')
     }
+  },
+  devtool: 'inline-source-map',
+  devServer: {
+    watchOptions: {
+      ignored: /node_modules/
+    }
   }
 }
