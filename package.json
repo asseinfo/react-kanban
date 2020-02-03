@@ -54,8 +54,8 @@
     "webpack-dev-server": "3.10.2"
   },
   "scripts": {
-    "build": "webpack --config webpack.prod.js",
-    "build:publish": "rm -rf dist/ && webpack --config webpack.prod.js && yarn publish --access public",
+    "build": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
+    "build:publish": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js && yarn publish --access public",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
