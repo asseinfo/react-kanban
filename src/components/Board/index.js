@@ -81,13 +81,13 @@ function UncontrolledBoard({
   }
 
   async function handleCardAdd(lane, card, options = {}) {
-    const teste = onNewCardConfirm && !renderLaneHeader && (await onNewCardConfirm(card))
-    const boardWithNewCard = addCard(board, lane, teste || card, options)
+    const newCard = onNewCardConfirm && !renderLaneHeader && (await onNewCardConfirm(card))
+    const boardWithNewCard = addCard(board, lane, newCard || card, options)
 
     onCardNew(
       boardWithNewCard,
       boardWithNewCard.lanes.find(({ id }) => id === lane.id),
-      teste || card
+      newCard || card
     )
     setBoard(boardWithNewCard)
   }
