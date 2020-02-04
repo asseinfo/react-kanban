@@ -19,7 +19,7 @@
     "@babel/preset-env": "7.8.4",
     "@babel/preset-react": "7.8.3",
     "@cypress/code-coverage": "1.11.0",
-    "@testing-library/jest-dom": "5.1.0",
+    "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "9.4.0",
     "all-contributors-cli": "6.9.3",
     "babel-loader": "8.0.6",
