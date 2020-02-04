@@ -6,11 +6,11 @@ import getUrlParams from './services/getUrlParams'
 const board = {
   lanes: [
     {
-      id: '0206c8d7-4d48-4d97-b867-86fc2d21074d',
+      id: 1,
       title: 'Lane Backlog',
       cards: [
         {
-          id: '0206c8d7-4d48-4d97-b867-86fc2d21075d',
+          id: 1,
           title: 'Card title 1',
           description: 'Card content'
         },
@@ -71,16 +71,7 @@ render(
     onLaneRemove={console.log}
     onLaneRename={console.log}
     onCardRemove={console.log}
-    allowRenameLane
     initialBoard={board}
-    allowAddLane
-    onNewLaneConfirm={newLane => {
-      return { id: 7889, ...newLane }
-    }}
-    onLaneNew={console.log}
-    onLaneRename={console.log}
-    allowAddCard
-    onCardNew={console.log}
   />,
   document.getElementById('app')
 )
