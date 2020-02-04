@@ -34,7 +34,7 @@ jobs:
         name: unit-coverage
         path: unit-coverage/lcov.info
   cypress:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     needs: build
     env:
       NODE_ENV: 'test'
@@ -45,6 +45,7 @@ jobs:
       - uses: cypress-io/github-action@v1
         with:
           browser: chrome
+          headless: true
       - run: yarn nyc report --reporter=text-summary
       - uses: actions/upload-artifact@v1
         with:

@@ -220,7 +220,7 @@ function BoardContainer({
   allowAddCard
 }) {
   function handleOnDragEnd(event) {
-    const coordinates = getCoordinates(event)
+    const coordinates = getCoordinates(event, board)
     if (!coordinates.source) return
 
     isALaneMove(event.type)

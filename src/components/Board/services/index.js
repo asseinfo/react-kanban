@@ -1,4 +1,4 @@
-function getCoordinates(event) {
+function getCoordinates(event, board) {
   if (event.destination === null) return {}
 
   const laneSource = { fromPosition: event.source.index }
@@ -9,8 +9,8 @@ function getCoordinates(event) {
   }
 
   return {
-    source: { ...laneSource, fromLaneId: parseInt(event.source.droppableId) },
-    destination: { ...laneDestination, toLaneId: parseInt(event.destination.droppableId) }
+    source: { ...laneSource, fromLaneId: getLane(board, event.source.droppableId).id },
+    destination: { ...laneDestination, toLaneId: getLane(board, event.destination.droppableId).id }
   }
 }
 
@@ -21,6 +21,10 @@ function isALaneMove(type) {
 function getCard(board, sourceCoordinate) {
   const lane = board.lanes.find(lane => lane.id === sourceCoordinate.fromLaneId)
   return lane.cards[sourceCoordinate.fromPosition]
+}
+
+function getLane(board, droppableId) {
+  return board.lanes.find(({ id }) => String(id) === droppableId)
 }
 
 export { getCard, getCoordinates, isALaneMove }

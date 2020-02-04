@@ -20,16 +20,23 @@ describe('#getCoordinates', () => {
   })
 
   describe('when the event is a card move', () => {
+    const board = {
+      lanes: [
+        { id: 1, cards: [{ id: 1 }] },
+        { id: '2', cards: [{ id: 2 }] }
+      ]
+    }
+
     const event = {
       type: 'CARD',
-      source: { index: 0, droppableId: 0 },
-      destination: { index: 1, droppableId: 1 }
+      source: { index: 0, droppableId: '1' },
+      destination: { index: 1, droppableId: '2' }
     }
 
     it('returns the card coordinates', () => {
-      expect(getCoordinates(event)).toEqual({
-        destination: { toLaneId: 1, toPosition: 1 },
-        source: { fromLaneId: 0, fromPosition: 0 }
+      expect(getCoordinates(event, board)).toEqual({
+        source: { fromLaneId: 1, fromPosition: 0 },
+        destination: { toLaneId: '2', toPosition: 1 }
       })
     })
   })
