@@ -138,7 +138,7 @@ function UncontrolledBoard({
       onLaneRename={handleLaneRename}
       disableLaneDrag={disableLaneDrag}
       disableCardDrag={disableCardDrag}
-      onCardAdd={handleCardAdd}
+      onCardAdd={(lane, card) => handleCardAdd(lane, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
     >
       {board}

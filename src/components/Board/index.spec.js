@@ -1451,127 +1451,314 @@ describe('<Board />', () => {
         describe('when the component receives the "allowAddCard" and "onNewCardConfirm" prosp', () => {
           let onCardNew, onNewCardConfirm
 
-          beforeEach(() => {
-            onCardNew = jest.fn()
-            onNewCardConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
-            mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
-          })
-
           afterEach(() => {
             onCardNew = undefined
             onNewCardConfirm = undefined
           })
 
-          it('renders the card adder placeholder on each lane', () => {
-            expect(subject.queryAllByText('+')).toHaveLength(2)
+          describe('when the position is not specified', () => {
+            beforeEach(() => {
+              onCardNew = jest.fn()
+              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
+              mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
+            })
+
+            it('renders the card adder placeholder on each lane', () => {
+              expect(subject.queryAllByText('+')).toHaveLength(2)
+            })
+
+            describe('when the user clicks to add a new card', () => {
+              beforeEach(() => fireEvent.click(subject.queryAllByText('+')[0]))
+
+              it('hides the card adder placeholder', () => {
+                expect(subject.queryAllByText('+')).toHaveLength(1)
+              })
+
+              it('renders the input asking for a card title and description', () => {
+                expect(subject.container.querySelector('input[name="title"]')).toBeInTheDocument()
+                expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
+              })
+
+              describe('when the user confirms the new card', () => {
+                beforeEach(async () => {
+                  fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                    target: { value: 'Card title' }
+                  })
+                  fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                    target: { value: 'Card description' }
+                  })
+                  fireEvent.click(subject.queryByText('Add'))
+                  await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+                })
+
+                it('calls the "onNewCardConfirm" passing the new card', () => {
+                  expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+                  expect(onNewCardConfirm).toHaveBeenCalledWith({
+                    title: 'Card title',
+                    description: 'Card description'
+                  })
+                })
+
+                it('renders the new card using the id returned on "onNewCardConfirm"', () => {
+                  expect(subject.queryAllByTestId('card')).toHaveLength(4)
+                })
+
+                it('renders the card placeholder', () => {
+                  expect(subject.queryAllByText('+')).toHaveLength(2)
+                })
+
+                it('adds a new card on the bottom of the lane', () => {
+                  const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+                  expect(cards).toHaveLength(3)
+                  expect(cards[2]).toHaveTextContent('Card title')
+                })
+
+                it('calls the "onCardNew" passing the modified board and the added card', () => {
+                  expect(onCardNew).toHaveBeenCalledTimes(1)
+                  expect(onCardNew).toHaveBeenCalledWith(
+                    {
+                      lanes: [
+                        {
+                          id: 1,
+                          title: 'Lane Backlog',
+                          cards: [
+                            {
+                              id: 1,
+                              title: 'Card title 1',
+                              description: 'Card content'
+                            },
+                            {
+                              id: 2,
+                              title: 'Card title 2',
+                              description: 'Card content'
+                            },
+                            { id: 999, title: 'Card title', description: 'Card description' }
+                          ]
+                        },
+                        {
+                          id: 2,
+                          title: 'Lane Doing',
+                          cards: [
+                            {
+                              id: 3,
+                              title: 'Card title 3',
+                              description: 'Card content'
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      id: 1,
+                      title: 'Lane Backlog',
+                      cards: [
+                        {
+                          id: 1,
+                          title: 'Card title 1',
+                          description: 'Card content'
+                        },
+                        {
+                          id: 2,
+                          title: 'Card title 2',
+                          description: 'Card content'
+                        },
+                        { id: 999, title: 'Card title', description: 'Card description' }
+                      ]
+                    },
+                    expect.objectContaining({ id: 999 })
+                  )
+                })
+              })
+
+              describe('when the user cancels the card adding', () => {
+                beforeEach(() => {
+                  fireEvent.click(subject.queryByText('Cancel'))
+                })
+
+                it('does not add any card', () => {
+                  expect(subject.queryAllByTestId('card')).toHaveLength(3)
+                })
+
+                it('renders the cadd placeholder', () => {
+                  expect(subject.queryAllByText('+')).toHaveLength(2)
+                })
+              })
+            })
           })
 
-          describe('when the user clicks to add a new card', () => {
-            beforeEach(() => fireEvent.click(subject.queryAllByText('+')[0]))
+          describe('when the position is specified to add the card on the top of the lane', () => {
+            beforeEach(async () => {
+              onCardNew = jest.fn()
+              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
+              mount({ allowAddCard: { on: 'top' }, onNewCardConfirm, onCardNew })
+              fireEvent.click(subject.queryAllByText('+')[0])
 
-            it('hides the card adder placeholder', () => {
-              expect(subject.queryAllByText('+')).toHaveLength(1)
+              fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                target: { value: 'Card title' }
+              })
+              fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                target: { value: 'Card description' }
+              })
+              fireEvent.click(subject.queryByText('Add'))
+              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
             })
 
-            it('renders the input asking for a card title and description', () => {
-              expect(subject.container.querySelector('input[name="title"]')).toBeInTheDocument()
-              expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
-            })
-
-            describe('when the user confirms the new card', () => {
-              beforeEach(async () => {
-                fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                  target: { value: 'Card title' }
-                })
-                fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                  target: { value: 'Card description' }
-                })
-                fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
-              })
-
-              it('calls the "onNewCardConfirm" passing the new card', () => {
-                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-                expect(onNewCardConfirm).toHaveBeenCalledWith({ title: 'Card title', description: 'Card description' })
-              })
-
-              it('renders the new card using the id returned on "onNewCardConfirm"', () => {
-                expect(subject.queryAllByTestId('card')).toHaveLength(4)
-              })
-
-              it('renders the card placeholder', () => {
-                expect(subject.queryAllByText('+')).toHaveLength(2)
-              })
-
-              it('calls the "onCardNew" passing the modified board and the added lane', () => {
-                expect(onCardNew).toHaveBeenCalledTimes(1)
-                expect(onCardNew).toHaveBeenCalledWith(
-                  {
-                    lanes: [
-                      {
-                        id: 1,
-                        title: 'Lane Backlog',
-                        cards: [
-                          {
-                            id: 1,
-                            title: 'Card title 1',
-                            description: 'Card content'
-                          },
-                          {
-                            id: 2,
-                            title: 'Card title 2',
-                            description: 'Card content'
-                          },
-                          { id: 999, title: 'Card title', description: 'Card description' }
-                        ]
-                      },
-                      {
-                        id: 2,
-                        title: 'Lane Doing',
-                        cards: [
-                          {
-                            id: 3,
-                            title: 'Card title 3',
-                            description: 'Card content'
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    id: 1,
-                    title: 'Lane Backlog',
-                    cards: [
-                      {
-                        id: 1,
-                        title: 'Card title 1',
-                        description: 'Card content'
-                      },
-                      {
-                        id: 2,
-                        title: 'Card title 2',
-                        description: 'Card content'
-                      },
-                      { id: 999, title: 'Card title', description: 'Card description' }
-                    ]
-                  },
-                  expect.objectContaining({ id: 999 })
-                )
+            it('calls the "onNewCardConfirm" passing the new card', () => {
+              expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+              expect(onNewCardConfirm).toHaveBeenCalledWith({
+                title: 'Card title',
+                description: 'Card description'
               })
             })
 
-            describe('when the user cancels the card adding', () => {
-              beforeEach(() => {
-                fireEvent.click(subject.queryByText('Cancel'))
-              })
+            it('adds a new card on the top of the lane', () => {
+              const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+              expect(cards).toHaveLength(3)
+              expect(cards[0]).toHaveTextContent('Card description')
+            })
 
-              it('does not add any card', () => {
-                expect(subject.queryAllByTestId('card')).toHaveLength(3)
-              })
+            it('calls the "onCardNew" passing the modified board and the added card', () => {
+              expect(onCardNew).toHaveBeenCalledTimes(1)
+              expect(onCardNew).toHaveBeenCalledWith(
+                {
+                  lanes: [
+                    {
+                      id: 1,
+                      title: 'Lane Backlog',
+                      cards: [
+                        { id: 999, title: 'Card title', description: 'Card description' },
+                        {
+                          id: 1,
+                          title: 'Card title 1',
+                          description: 'Card content'
+                        },
+                        {
+                          id: 2,
+                          title: 'Card title 2',
+                          description: 'Card content'
+                        }
+                      ]
+                    },
+                    {
+                      id: 2,
+                      title: 'Lane Doing',
+                      cards: [
+                        {
+                          id: 3,
+                          title: 'Card title 3',
+                          description: 'Card content'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  id: 1,
+                  title: 'Lane Backlog',
+                  cards: [
+                    { id: 999, title: 'Card title', description: 'Card description' },
+                    {
+                      id: 1,
+                      title: 'Card title 1',
+                      description: 'Card content'
+                    },
+                    {
+                      id: 2,
+                      title: 'Card title 2',
+                      description: 'Card content'
+                    }
+                  ]
+                },
+                expect.objectContaining({ id: 999 })
+              )
+            })
+          })
 
-              it('renders the cadd placeholder', () => {
-                expect(subject.queryAllByText('+')).toHaveLength(2)
+          describe('when the position is specified to add the card on the bottom of the lane', () => {
+            beforeEach(async () => {
+              onCardNew = jest.fn()
+              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
+              mount({ allowAddCard: { on: 'bottom' }, onNewCardConfirm, onCardNew })
+              fireEvent.click(subject.queryAllByText('+')[0])
+
+              fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                target: { value: 'Card title' }
               })
+              fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                target: { value: 'Card description' }
+              })
+              fireEvent.click(subject.queryByText('Add'))
+              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+            })
+
+            it('calls the "onNewCardConfirm" passing the new card', () => {
+              expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+              expect(onNewCardConfirm).toHaveBeenCalledWith({
+                title: 'Card title',
+                description: 'Card description'
+              })
+            })
+
+            it('adds a new card on the bottom of the lane', () => {
+              const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+              expect(cards).toHaveLength(3)
+              expect(cards[0]).toHaveTextContent('Card description')
+            })
+
+            it('calls the "onCardNew" passing the modified board and the added card', () => {
+              expect(onCardNew).toHaveBeenCalledTimes(1)
+              expect(onCardNew).toHaveBeenCalledWith(
+                {
+                  lanes: [
+                    {
+                      id: 1,
+                      title: 'Lane Backlog',
+                      cards: [
+                        { id: 999, title: 'Card title', description: 'Card description' },
+                        {
+                          id: 1,
+                          title: 'Card title 1',
+                          description: 'Card content'
+                        },
+                        {
+                          id: 2,
+                          title: 'Card title 2',
+                          description: 'Card content'
+                        }
+                      ]
+                    },
+                    {
+                      id: 2,
+                      title: 'Lane Doing',
+                      cards: [
+                        {
+                          id: 3,
+                          title: 'Card title 3',
+                          description: 'Card content'
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  id: 1,
+                  title: 'Lane Backlog',
+                  cards: [
+                    { id: 999, title: 'Card title', description: 'Card description' },
+                    {
+                      id: 1,
+                      title: 'Card title 1',
+                      description: 'Card content'
+                    },
+                    {
+                      id: 2,
+                      title: 'Card title 2',
+                      description: 'Card content'
+                    }
+                  ]
+                },
+                expect.objectContaining({ id: 999 })
+              )
             })
           })
         })
