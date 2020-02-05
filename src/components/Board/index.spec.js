@@ -145,9 +145,13 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onLaneDragEnd callback passing the lane move coordinates', () => {
+          it('calls the onLaneDragEnd callback passing the lane and the move coordinates', () => {
             expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
-            expect(onLaneDragEnd).toHaveBeenCalledWith({ fromPosition: 0 }, { toPosition: 1 })
+            expect(onLaneDragEnd).toHaveBeenCalledWith(
+              expect.objectContaining({ title: 'Lane Backlog' }),
+              { fromPosition: 0 },
+              { toPosition: 1 }
+            )
           })
         })
       })
@@ -690,7 +694,7 @@ describe('<Board />', () => {
             })
           })
 
-          it('calls the onLaneDragEnd callback passing the modified board and the lane move coordinates', () => {
+          it('calls the onLaneDragEnd callback passing the modified board, the lane, and the lane move coordinates', () => {
             const expectedBoard = {
               lanes: [
                 {
@@ -724,7 +728,12 @@ describe('<Board />', () => {
             }
 
             expect(onLaneDragEnd).toHaveBeenCalledTimes(1)
-            expect(onLaneDragEnd).toHaveBeenCalledWith(expectedBoard, { fromPosition: 0 }, { toPosition: 1 })
+            expect(onLaneDragEnd).toHaveBeenCalledWith(
+              expectedBoard,
+              expect.objectContaining({ title: 'Lane Backlog' }),
+              { fromPosition: 0 },
+              { toPosition: 1 }
+            )
           })
         })
       })

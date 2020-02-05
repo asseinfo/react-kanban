@@ -51,11 +51,9 @@ function UncontrolledBoard({
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   const handleOnLaneDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveLane, notifyCallback: onLaneDragEnd })
 
-  function handleOnDragEnd({ source, destination, card }, { moveCallback, notifyCallback }) {
+  function handleOnDragEnd({ source, destination, lane, card }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
-    when(notifyCallback)(callback =>
-      card ? callback(reorderedBoard, card, source, destination) : callback(reorderedBoard, source, destination)
-    )
+    when(notifyCallback)(callback => callback(reorderedBoard, lane || card, source, destination))
     setBoard(reorderedBoard)
   }
 
@@ -162,8 +160,8 @@ function ControlledBoard({
     when(onCardDragEnd)(callback => callback(card, source, destination))
   }
 
-  function handleOnLaneDragEnd({ source, destination }) {
-    when(onLaneDragEnd)(callback => callback(source, destination))
+  function handleOnLaneDragEnd({ source, destination, lane }) {
+    when(onLaneDragEnd)(callback => callback(lane, source, destination))
   }
 
   return (
@@ -216,7 +214,7 @@ function BoardContainer({
     if (!coordinates.source) return
 
     isALaneMove(event.type)
-      ? onLaneDragEnd(coordinates)
+      ? onLaneDragEnd({ ...coordinates, lane: board.lanes[coordinates.source.fromPosition] })
       : onCardDragEnd({ ...coordinates, card: getCard(board, coordinates.source) })
   }
 
