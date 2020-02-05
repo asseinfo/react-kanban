@@ -1702,7 +1702,7 @@ describe('<Board />', () => {
             it('adds a new card on the bottom of the lane', () => {
               const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
-              expect(cards[0]).toHaveTextContent('Card description')
+              expect(cards[2]).toHaveTextContent('Card description')
             })
 
             it('calls the "onCardNew" passing the modified board and the added card', () => {
@@ -1714,7 +1714,6 @@ describe('<Board />', () => {
                       id: 1,
                       title: 'Lane Backlog',
                       cards: [
-                        { id: 999, title: 'Card title', description: 'Card description' },
                         {
                           id: 1,
                           title: 'Card title 1',
@@ -1724,7 +1723,8 @@ describe('<Board />', () => {
                           id: 2,
                           title: 'Card title 2',
                           description: 'Card content'
-                        }
+                        },
+                        { id: 999, title: 'Card title', description: 'Card description' }
                       ]
                     },
                     {
@@ -1744,7 +1744,6 @@ describe('<Board />', () => {
                   id: 1,
                   title: 'Lane Backlog',
                   cards: [
-                    { id: 999, title: 'Card title', description: 'Card description' },
                     {
                       id: 1,
                       title: 'Card title 1',
@@ -1754,7 +1753,8 @@ describe('<Board />', () => {
                       id: 2,
                       title: 'Card title 2',
                       description: 'Card content'
-                    }
+                    },
+                    { id: 999, title: 'Card title', description: 'Card description' }
                   ]
                 },
                 expect.objectContaining({ id: 999 })
