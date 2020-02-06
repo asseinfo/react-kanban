@@ -59,7 +59,7 @@
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
-    "lint": "eslint 'src/**/*.js'",
+    "lint": "eslint 'src/**/*.js' 'cypress/**/*.js'",
     "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "cypress": "cypress",

@@ -1,24 +1,18 @@
-describe('Board Page', function () {
-  it('renders a board with its lanes and cards', function () {
+describe('Board Page', function() {
+  it('renders a board with its lanes and cards', function() {
     cy.get('[data-testid="lane"]').should('have.length', 2)
     cy.get('[data-testid="lane"]:eq(0) > div:eq(0)').should('have.text', 'Lane Backlog')
     cy.get('[data-testid="lane"]:eq(1) > div:eq(0)').should('have.text', 'Lane Doing')
 
     cy.get('[data-testid="card"]').should('have.length', 9)
-    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]')
-      .should('have.length', 8)
-    cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]')
-      .should('have.length', 1)
+    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]').should('have.length', 8)
+    cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]').should('have.length', 1)
 
-    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)')
-      .contains(/Card title 1/)
-    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)')
-      .contains(/Card title 2/)
-    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)')
-      .contains(/Card title 3/)
+    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)').contains(/Card title 1/)
+    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)').contains(/Card title 2/)
+    cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)').contains(/Card title 3/)
 
-    cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]:eq(0)')
-      .contains(/Card title 9/)
+    cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]:eq(0)').contains(/Card title 9/)
   })
 
   describe('about the card moving', () => {
@@ -36,16 +30,11 @@ describe('Board Page', function () {
         })
 
         it('moves the cards to another position in the same lane', () => {
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]')
-            .should('have.length', 8)
-          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]')
-            .should('have.length', 1)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)')
-            .contains(/Card title 2/)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)')
-            .contains(/Card title 3/)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)')
-            .contains(/Card title 1/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]').should('have.length', 8)
+          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]').should('have.length', 1)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)').contains(/Card title 2/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)').contains(/Card title 3/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)').contains(/Card title 1/)
         })
       })
 
@@ -60,10 +49,8 @@ describe('Board Page', function () {
         })
 
         it('moves the cards to another lane', () => {
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]')
-            .should('have.length', 7)
-          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]')
-            .should('have.length', 2)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]').should('have.length', 7)
+          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]').should('have.length', 2)
         })
       })
     })
@@ -84,16 +71,11 @@ describe('Board Page', function () {
         })
 
         it('does not move the card', () => {
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]')
-            .should('have.length', 8)
-          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]')
-            .should('have.length', 1)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)')
-            .contains(/Card title 1/)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)')
-            .contains(/Card title 2/)
-          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)')
-            .contains(/Card title 3/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]').should('have.length', 8)
+          cy.get('[data-testid="lane"]:eq(1) [data-testid="card"]').should('have.length', 1)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(0)').contains(/Card title 1/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(1)').contains(/Card title 2/)
+          cy.get('[data-testid="lane"]:eq(0) [data-testid="card"]:eq(2)').contains(/Card title 3/)
         })
       })
     })
