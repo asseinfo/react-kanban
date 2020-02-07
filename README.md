@@ -176,6 +176,7 @@ When the user moves a lane, this callback will be called passing these parameter
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
+| `lane`       | The moved lane                                         |
 | `source`     | An object with the lane source `{ fromPosition }`     |
 | `destination`| An object with the lane destination `{ toPosition }`|
 
