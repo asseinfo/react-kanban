@@ -1,0 +1,7 @@
+{
+  "branches": [{
+    "name": "master",
+    "channel": "beta",
+    "prerelease": "beta"
+  }]
+}
