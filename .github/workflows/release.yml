@@ -1,0 +1,25 @@
+name: Release
+
+on:
+  check_suite:
+    types: [completed]
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'master'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: yarn
+      - name: Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn semantic-release
