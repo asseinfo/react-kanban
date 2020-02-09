@@ -212,6 +212,7 @@ describe('<Board />', () => {
           expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
         })
 
+        // FIXME It shouldn't be receiving the bag, just the dragging prop?! Maybe, just a typo in spec.
         it('passes the card content and the card bag as a parameter to the renderCard prop', () => {
           expect(renderCard).toHaveBeenCalledWith(
             { id: 1, title: 'Card title', content: 'Card content' },
@@ -1195,7 +1196,7 @@ describe('<Board />', () => {
             expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
           })
 
-          it('calls the "onLaneRemove" callback passing both the updated board and the renamed lane', () => {
+          it('calls the "onLaneRename" callback passing both the updated board and the renamed lane', () => {
             expect(onLaneRename).toHaveBeenCalledTimes(1)
             expect(onLaneRename).toHaveBeenCalledWith(
               {

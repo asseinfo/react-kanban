@@ -1,4 +1,4 @@
-import { moveLane, moveCard, addLane, removeLane, renameLane, addCard, removeCard } from './helpers'
+import { moveLane, moveCard, addLane, removeLane, changeLane, addCard, removeCard } from './helpers'
 
 describe('#moveLane', () => {
   it('returns a board with the lane moved to the specified position', () => {
@@ -102,8 +102,8 @@ describe('#removeLane', () => {
   })
 })
 
-describe('#renameLane', () => {
-  it('returns a board with the specified lane renomed to the specified title', () => {
+describe('#changeLane', () => {
+  it('returns a board with the specified lane changed according to passed lane', () => {
     const board = {
       lanes: [
         { id: 1, title: 'Doing', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
@@ -111,9 +111,9 @@ describe('#renameLane', () => {
       ]
     }
 
-    const boardWithTheRenamedLane = renameLane(board, { id: 1 }, 'New title')
+    const boardWithTheModifiedLane = changeLane(board, { id: 1 }, { title: 'New title' })
 
-    expect(boardWithTheRenamedLane).toEqual({
+    expect(boardWithTheModifiedLane).toEqual({
       lanes: [
         { id: 1, title: 'New title', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
