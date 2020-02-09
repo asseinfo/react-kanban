@@ -51,7 +51,14 @@ jobs:
         with:
           name: coverage
           path: coverage/lcov.info
-  teardown:
+  release:
+    runs-on: ubuntu-latest
+    needs: [linter-and-unit, cypress]
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - run: |
+          curl -v -H "Accept: application/vnd.github.everest-preview+json" -H "Authorization: token ${{ secrets.GH_TOKEN }}" https://api.github.com/repos/lourenci/react-kanban/dispatches -d '{ "event_type": "release" }'
+  upload-coverage:
     runs-on: ubuntu-latest
     needs: [linter-and-unit, cypress]
     env:
