@@ -411,13 +411,13 @@ When the user removes a card, this callback will be called passing these paramet
 | `board` | Your board |
 | `lane` | Lane to be removed |
 
-#### `renameLane`
+#### `changeLane`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
 | `lane` | Lane to be renamed |
-| `newtitle` | New title of the lane |
+| `object` | Pass a object to be merged with the lane. You can add new props and/or change the existing ones |
 
 #### `addCard`
 
