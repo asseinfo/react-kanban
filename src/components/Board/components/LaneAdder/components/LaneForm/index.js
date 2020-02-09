@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { StyledLane } from '../../../Lane'
+import { StyledColumn } from '../../../Column'
 import { when } from '@services/utils'
 
-const StyledLaneForm = styled(StyledLane)`
+const StyledColumnForm = styled(StyledColumn)`
   min-width: 230px;
 
   form {
@@ -12,26 +12,26 @@ const StyledLaneForm = styled(StyledLane)`
   }
 `
 
-function LaneForm({ onConfirm, onCancel }) {
-  const inputLaneTitle = React.createRef()
+function ColumnForm({ onConfirm, onCancel }) {
+  const inputColumnTitle = React.createRef()
 
-  function addLane(event) {
+  function addColumn(event) {
     event.preventDefault()
 
-    when(inputLaneTitle.current.value)(onConfirm)
+    when(inputColumnTitle.current.value)(onConfirm)
   }
 
   return (
-    <StyledLaneForm>
-      <form onSubmit={addLane}>
-        <input type='text' ref={inputLaneTitle} autoFocus />
+    <StyledColumnForm>
+      <form onSubmit={addColumn}>
+        <input type='text' ref={inputColumnTitle} autoFocus />
         <button type='submit'>Add</button>
         <button type='button' onClick={onCancel}>
           Cancel
         </button>
       </form>
-    </StyledLaneForm>
+    </StyledColumnForm>
   )
 }
 
-export default LaneForm
+export default ColumnForm

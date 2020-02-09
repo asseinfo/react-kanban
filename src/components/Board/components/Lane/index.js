@@ -5,7 +5,7 @@ import Card from './components/Card'
 import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
 
-export const StyledLane = styled.div`
+export const StyledColumn = styled.div`
   height: 100%;
   display: inline-block;
   padding: 15px;
@@ -15,19 +15,19 @@ export const StyledLane = styled.div`
   vertical-align: top;
 `
 
-const DroppableLane = withDroppable(styled.div`
+const DroppableColumn = withDroppable(styled.div`
   min-height: 28px;
 `)
 
-function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disableLaneDrag, disableCardDrag }) {
+function Column({ children, index: columnIndex, renderCard, renderColumnHeader, disableColumnDrag, disableCardDrag }) {
   return (
-    <Draggable draggableId={`lane-draggable-${children.id}`} index={laneIndex} isDragDisabled={disableLaneDrag}>
-      {laneProvided => (
-        <StyledLane ref={laneProvided.innerRef} {...laneProvided.draggableProps} data-testid='lane'>
-          <div {...laneProvided.dragHandleProps} data-testid='lane-header'>
-            {renderLaneHeader(children)}
+    <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
+      {columnProvided => (
+        <StyledColumn ref={columnProvided.innerRef} {...columnProvided.draggableProps} data-testid='column'>
+          <div {...columnProvided.dragHandleProps} data-testid='column-header'>
+            {renderColumnHeader(children)}
           </div>
-          <DroppableLane droppableId={String(children.id)}>
+          <DroppableColumn droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (
                 <Card
@@ -42,11 +42,11 @@ function Lane({ children, index: laneIndex, renderCard, renderLaneHeader, disabl
             ) : (
               <CardSkeleton />
             )}
-          </DroppableLane>
-        </StyledLane>
+          </DroppableColumn>
+        </StyledColumn>
       )}
     </Draggable>
   )
 }
 
-export default Lane
+export default Column

@@ -1,14 +1,14 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import LaneAdder from './'
+import ColumnAdder from './'
 
-describe('<LaneAdder />', () => {
+describe('<ColumnAdder />', () => {
   let subject, onConfirm
 
   function mount() {
     onConfirm = jest.fn()
 
-    subject = render(<LaneAdder onConfirm={onConfirm} />)
+    subject = render(<ColumnAdder onConfirm={onConfirm} />)
   }
 
   beforeEach(mount)
@@ -16,42 +16,42 @@ describe('<LaneAdder />', () => {
     subject = onConfirm = undefined
   })
 
-  it('renders the lane placeholder to add a new lane', () => {
+  it('renders the column placeholder to add a new column', () => {
     expect(subject.queryByText('➕')).toBeInTheDocument()
   })
 
-  describe('when the user clicks to add a new lane', () => {
+  describe('when the user clicks to add a new column', () => {
     beforeEach(() => fireEvent.click(subject.queryByText('➕')))
 
-    it('hides the lane placeholder', () => {
+    it('hides the column placeholder', () => {
       expect(subject.queryByText('➕')).not.toBeInTheDocument()
     })
 
-    it('renders the input asking for a lane name', () => {
+    it('renders the input asking for a column name', () => {
       expect(subject.container.querySelector('input')).toBeInTheDocument()
     })
 
-    describe('when the user confirms the new lane', () => {
+    describe('when the user confirms the new column', () => {
       beforeEach(() => {
-        fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Added by user' } })
+        fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Column Added by user' } })
         fireEvent.click(subject.queryByText('Add'))
       })
 
-      it('calls the "onConfirm" prop passing the lane title', () => {
+      it('calls the "onConfirm" prop passing the column title', () => {
         expect(onConfirm).toHaveBeenCalledTimes(1)
-        expect(onConfirm).toHaveBeenCalledWith('Lane Added by user')
+        expect(onConfirm).toHaveBeenCalledWith('Column Added by user')
       })
 
       it('hides the input', () => {
         expect(subject.container.querySelector('input')).not.toBeInTheDocument()
       })
 
-      it('renders the lane placeholder to add a new lane', () => {
+      it('renders the column placeholder to add a new column', () => {
         expect(subject.queryByText('➕')).toBeInTheDocument()
       })
     })
 
-    describe('when the user cancels the new lane', () => {
+    describe('when the user cancels the new column', () => {
       beforeEach(() => {
         fireEvent.click(subject.queryByText('Cancel'))
       })
@@ -64,7 +64,7 @@ describe('<LaneAdder />', () => {
         expect(subject.container.querySelector('input')).not.toBeInTheDocument()
       })
 
-      it('renders the lane placeholder to add a new lane', () => {
+      it('renders the column placeholder to add a new column', () => {
         expect(subject.queryByText('➕')).toBeInTheDocument()
       })
     })

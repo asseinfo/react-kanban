@@ -1,15 +1,15 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import LaneForm from './'
+import ColumnForm from './'
 
-describe('<LaneForm />', () => {
+describe('<ColumnForm />', () => {
   let subject, onConfirm, onCancel
 
   function mount() {
     onConfirm = jest.fn()
     onCancel = jest.fn()
 
-    subject = render(<LaneForm onConfirm={onConfirm} onCancel={onCancel} />)
+    subject = render(<ColumnForm onConfirm={onConfirm} onCancel={onCancel} />)
   }
 
   beforeEach(mount)
@@ -17,7 +17,7 @@ describe('<LaneForm />', () => {
     subject = onConfirm = onCancel = undefined
   })
 
-  it('renders an input asking for a lane title', () => {
+  it('renders an input asking for a column title', () => {
     expect(subject.container.querySelector('input')).toBeInTheDocument()
   })
 
@@ -26,15 +26,15 @@ describe('<LaneForm />', () => {
   })
 
   describe('when the user clicks confirm the input', () => {
-    describe('when the user has typed a lane title', () => {
+    describe('when the user has typed a column title', () => {
       beforeEach(() => {
-        fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Lane Title' } })
+        fireEvent.change(subject.container.querySelector('input'), { target: { value: 'Column Title' } })
         fireEvent.click(subject.queryByText('Add'))
       })
 
-      it('calls the onConfirm prop passing the lane title', () => {
+      it('calls the onConfirm prop passing the column title', () => {
         expect(onConfirm).toHaveBeenCalledTimes(1)
-        expect(onConfirm).toHaveBeenCalledWith('Lane Title')
+        expect(onConfirm).toHaveBeenCalledWith('Column Title')
       })
 
       it('does not call the onCancel prop', () => {
@@ -42,7 +42,7 @@ describe('<LaneForm />', () => {
       })
     })
 
-    describe('when the user has not typed a lane title', () => {
+    describe('when the user has not typed a column title', () => {
       beforeEach(() => {
         fireEvent.click(subject.queryByText('Add'))
       })

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import LaneForm from './components/LaneForm'
+import ColumnForm from './components/ColumnForm'
 
-const LaneAdderPlaceholder = styled.div`
+const ColumnAdderPlaceholder = styled.div`
   border: 2px dashed #eee;
   min-width: 230px;
   height: 132px;
@@ -16,21 +16,21 @@ const LaneAdderPlaceholder = styled.div`
   }
 `
 
-function LaneAdder({ onConfirm }) {
-  const [isAddingLane, setAddingLane] = useState(false)
+function ColumnAdder({ onConfirm }) {
+  const [isAddingColumn, setAddingColumn] = useState(false)
 
-  function confirmLane(title) {
+  function confirmColumn(title) {
     onConfirm(title)
-    setAddingLane(false)
+    setAddingColumn(false)
   }
 
-  return isAddingLane ? (
-    <LaneForm onConfirm={confirmLane} onCancel={() => setAddingLane(false)} />
+  return isAddingColumn ? (
+    <ColumnForm onConfirm={confirmColumn} onCancel={() => setAddingColumn(false)} />
   ) : (
-    <LaneAdderPlaceholder onClick={() => setAddingLane(true)} role='button'>
+    <ColumnAdderPlaceholder onClick={() => setAddingColumn(true)} role='button'>
       ➕
-    </LaneAdderPlaceholder>
+    </ColumnAdderPlaceholder>
   )
 }
 
-export default LaneAdder
+export default ColumnAdder
