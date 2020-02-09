@@ -338,18 +338,18 @@ describe('<Board />', () => {
                 fireEvent.click(subject.queryByText('Add'))
               })
 
-              it('calls the "onNewColumnConfirm" passing the new lane', () => {
+              it('calls the "onNewColumnConfirm" passing the new column', () => {
                 expect(onNewColumnConfirm).toHaveBeenCalledTimes(1)
                 expect(onNewColumnConfirm).toHaveBeenCalledWith({ title: 'Column Added by user', cards: [] })
               })
             })
 
-            describe('when the user cancels the new lane adding', () => {
+            describe('when the user cancels the new column adding', () => {
               beforeEach(() => {
                 fireEvent.click(subject.queryByText('Cancel'))
               })
 
-              it('does not call the "onNewColumnConfirm" passing the new lane', () => {
+              it('does not call the "onNewColumnConfirm" passing the new column', () => {
                 expect(onNewColumnConfirm).not.toHaveBeenCalled()
               })
             })
@@ -357,22 +357,22 @@ describe('<Board />', () => {
         })
       })
 
-      describe('about custom lane adder', () => {
-        describe('when the component receives a custom lane adder', () => {
+      describe('about custom column adder', () => {
+        describe('when the component receives a custom column adder', () => {
           let renderColumnAdder
 
           describe('when the component does not receive "allowAddColumn" prop', () => {
             beforeEach(() => {
               renderColumnAdder = jest.fn(() => (
                 <div>
-                  <input data-testid='laneAdder' />
+                  <input data-testid='columnAdder' />
                 </div>
               ))
 
               mount({ renderColumnAdder })
 
               it('does not renders the custom render adder', () => {
-                expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+                expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
               })
             })
           })
@@ -380,16 +380,16 @@ describe('<Board />', () => {
           describe('when the component receives the "allowAddColumn" prop', () => {
             beforeEach(() => {
               renderColumnAdder = jest.fn(() => (
-                <div data-testid='laneAdder'>
-                  <button>Add lane</button>
+                <div data-testid='columnAdder'>
+                  <button>Add column</button>
                 </div>
               ))
 
               mount({ children: board, renderColumnAdder, allowAddColumn: true })
             })
 
-            it('renders the custom lane adder as the last lane to add a new lane', () => {
-              expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+            it('renders the custom column adder as the last column to add a new column', () => {
+              expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
             })
 
             // TODO it needs spec for the renderColumnAdder callback
@@ -398,7 +398,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about the lane removing', () => {
+    describe('about the column removing', () => {
       beforeEach(() => {
         onColumnRemove = jest.fn()
       })
@@ -413,11 +413,11 @@ describe('<Board />', () => {
 
           describe('when the user clicks to remove a column', () => {
             beforeEach(() => {
-              const removeColumnButton = within(subject.queryAllByTestId('lane')[0]).queryByText('×')
+              const removeColumnButton = within(subject.queryAllByTestId('column')[0]).queryByText('×')
               fireEvent.click(removeColumnButton)
             })
 
-            it('calls the "onColumnRemove" callback passing the lane to be removed', () => {
+            it('calls the "onColumnRemove" callback passing the column to be removed', () => {
               expect(onColumnRemove).toHaveBeenCalledTimes(1)
               expect(onColumnRemove).toHaveBeenCalledWith(expect.objectContaining({ id: 1 }))
             })
@@ -425,7 +425,7 @@ describe('<Board />', () => {
         })
       })
 
-      describe('when the component receives a custom header lane template', () => {
+      describe('when the component receives a custom header column template', () => {
         let renderColumnHeader
 
         beforeEach(() => {
@@ -440,7 +440,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about the lane renaming', () => {
+    describe('about the column renaming', () => {
       describe('when the component use the default header template', () => {
         describe('when the component receives the "allowRenameColumn" prop', () => {
           beforeEach(() => {
@@ -454,17 +454,17 @@ describe('<Board />', () => {
 
           describe('when the user renames a column', () => {
             beforeEach(() => {
-              fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Column Backlog'))
+              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog'))
               fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
               fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
 
-            it('does not rename the lane', () => {
+            it('does not rename the column', () => {
               expect(subject.queryByText('Column Backlog')).toBeInTheDocument()
               expect(subject.queryByText('New title')).not.toBeInTheDocument()
             })
 
-            it('calls the "onColumnRename" callback passing the lane to be renamed', () => {
+            it('calls the "onColumnRename" callback passing the column to be renamed', () => {
               expect(onColumnRename).toHaveBeenCalledTimes(1)
               expect(onColumnRename).toHaveBeenCalledWith(
                 expect.objectContaining({ id: 1, title: 'Column Backlog' }),
@@ -484,13 +484,13 @@ describe('<Board />', () => {
             expect(onColumnRename).not.toHaveBeenCalled()
           })
 
-          it('does not show the button on lane header to remove the lane', () => {
-            expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+          it('does not show the button on column header to remove the column', () => {
+            expect(subject.queryAllByTestId('column')[0].querySelector('button')).not.toBeInTheDocument()
           })
         })
       })
 
-      describe('when the component receives a custom header lane template', () => {
+      describe('when the component receives a custom header column template', () => {
         beforeEach(() => {
           const renderColumnHeader = ({ title }) => <div>{title}</div>
           onColumnRename = jest.fn()
@@ -516,7 +516,7 @@ describe('<Board />', () => {
             expect(onCardRemove).not.toHaveBeenCalled()
           })
 
-          describe('when the user clicks to remove a card from a lane', () => {
+          describe('when the user clicks to remove a card from a column', () => {
             beforeEach(() => {
               const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
               fireEvent.click(removeCardButton)
@@ -574,8 +574,8 @@ describe('<Board />', () => {
     it('does not rerender on initialBoard change', () => {
       const { queryByText } = mount({ Component: UselessState })
 
-      const lane = within(queryByText(/^Column Backlog$/).closest('[data-testid="lane"]'))
-      const cards = lane.queryAllByText(/^Card title/)
+      const column = within(queryByText(/^Column Backlog$/).closest('[data-testid="column"]'))
+      const cards = column.queryAllByText(/^Card title/)
 
       expect(cards).toHaveLength(2)
       expect(cards[0]).toHaveTextContent(/^Card title 1$/)
@@ -583,7 +583,7 @@ describe('<Board />', () => {
 
       fireEvent.click(queryByText('Move card', { selector: 'button' }))
 
-      const movedCards = lane.queryAllByText(/^Card title/)
+      const movedCards = column.queryAllByText(/^Card title/)
 
       expect(movedCards).toHaveLength(2)
       expect(movedCards[0]).toHaveTextContent(/^Card title 1$/)
@@ -593,17 +593,17 @@ describe('<Board />', () => {
     it('renders the specified columns in the board ordered by its specified position', () => {
       const columns = mount().queryAllByText(/^Column/)
       expect(columns).toHaveLength(2)
-      expect(lanes[0]).toHaveTextContent(/^Column Backlog$/)
-      expect(lanes[1]).toHaveTextContent(/^Column Doing$/)
+      expect(columns[0]).toHaveTextContent(/^Column Backlog$/)
+      expect(columns[1]).toHaveTextContent(/^Column Doing$/)
     })
 
-    it('renders the specified cards in their lanes', () => {
-      const lane = within(
+    it('renders the specified cards in their columns', () => {
+      const column = within(
         mount()
           .queryByText(/^Column Backlog$/)
           .closest('[data-testid="column"]')
       )
-      const cards = lane.queryAllByText(/^Card title/)
+      const cards = column.queryAllByText(/^Card title/)
       expect(cards).toHaveLength(2)
     })
 
@@ -636,7 +636,7 @@ describe('<Board />', () => {
 
           it('calls the onCardDragEnd callback passing the modified board, the card and the move coordinates', () => {
             const expectedBoard = {
-              lanes: [
+              columns: [
                 {
                   id: 1,
                   title: 'Column Backlog',
@@ -678,14 +678,14 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about the lane moving', () => {
+    describe('about the column moving', () => {
       describe('when the component receives "onColumnDragEnd" callback', () => {
         beforeEach(() => {
           onColumnDragEnd = jest.fn()
           mount({ onColumnDragEnd })
         })
 
-        describe('when the user cancels the lane moving', () => {
+        describe('when the user cancels the column moving', () => {
           beforeEach(() => {
             callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
           })
@@ -695,7 +695,7 @@ describe('<Board />', () => {
           })
         })
 
-        describe('when the user moves a lane to another position', () => {
+        describe('when the user moves a column to another position', () => {
           beforeEach(() => {
             act(() => {
               callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 1 }, type: 'BOARD' })
@@ -704,7 +704,7 @@ describe('<Board />', () => {
 
           it('calls the onColumnDragEnd callback passing the modified board, the column, and the column move coordinates', () => {
             const expectedBoard = {
-              lanes: [
+              columns: [
                 {
                   id: 2,
                   title: 'Column Doing',
@@ -750,7 +750,7 @@ describe('<Board />', () => {
     describe("about the board's custom card", () => {
       let renderCard
       const board = {
-        lanes: [
+        columns: [
           {
             id: 1,
             title: 'Column Backlog',
@@ -796,7 +796,7 @@ describe('<Board />', () => {
           mount({ initialBoard: board, renderCard })
         })
 
-        it("renders the custom cards on the board's lane", () => {
+        it("renders the custom cards on the board's column", () => {
           const cards = subject.queryAllByTestId('card')
           expect(cards).toHaveLength(3)
           expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
@@ -811,10 +811,10 @@ describe('<Board />', () => {
       })
     })
 
-    describe("about the lane's header", () => {
+    describe("about the column's header", () => {
       let renderColumnHeader
       const board = {
-        lanes: [
+        columns: [
           {
             id: 1,
             title: 'Column Backlog',
@@ -832,7 +832,7 @@ describe('<Board />', () => {
         beforeEach(() => {
           renderColumnHeader = jest.fn(columnContent => (
             <div>
-              {laneContent.title} ({laneContent.wip})
+              {columnContent.title} ({columnContent.wip})
             </div>
           ))
 
@@ -840,11 +840,11 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
-          expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Column Backlog \(1\)$/)
+          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
+          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog \(1\)$/)
         })
 
-        it('passes the lane content, the "removeColumn" and the "renameColumn" to the "renderColumnHeader" prop', () => {
+        it('passes the column content, the "removeColumn" and the "renameColumn" to the "renderColumnHeader" prop', () => {
           expect(renderColumnHeader).toHaveBeenCalledTimes(1)
           expect(renderColumnHeader).toHaveBeenCalledWith(
             {
@@ -862,20 +862,20 @@ describe('<Board />', () => {
         beforeEach(() => mount({ initialBoard: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId('lane-header')).toHaveLength(1)
-          expect(subject.queryByTestId('lane-header')).toHaveTextContent(/^Column Backlog$/)
+          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
+          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog$/)
         })
       })
     })
 
-    describe('about the lane adding', () => {
-      describe('about the default lane adder', () => {
+    describe('about the column adding', () => {
+      describe('about the default column adder', () => {
         describe('when the component does not receive "allowAddColumn" prop', () => {
           let onColumnNew, onNewColumnConfirm
 
           beforeEach(() => {
             onColumnNew = jest.fn()
-            onNewColumnConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            onNewColumnConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
             mount({ allowAddColumn: false, onNewColumnConfirm, onColumnNew })
           })
           afterEach(() => {
@@ -883,7 +883,7 @@ describe('<Board />', () => {
             onNewColumnConfirm = undefined
           })
 
-          it('does not render the lane adder', () => {
+          it('does not render the column adder', () => {
             expect(subject.queryByText('➕')).not.toBeInTheDocument()
           })
         })
@@ -893,7 +893,7 @@ describe('<Board />', () => {
             mount({ allowAddColumn: true })
           })
 
-          it('does not render the lane adder', () => {
+          it('does not render the column adder', () => {
             expect(subject.queryByText('➕')).not.toBeInTheDocument()
           })
         })
@@ -903,7 +903,7 @@ describe('<Board />', () => {
 
           beforeEach(() => {
             onColumnNew = jest.fn()
-            onNewColumnConfirm = jest.fn(lane => new Promise(resolve => resolve({ id: 999, ...lane })))
+            onNewColumnConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
             mount({ allowAddColumn: true, onNewColumnConfirm, onColumnNew })
           })
           afterEach(() => {
@@ -911,37 +911,37 @@ describe('<Board />', () => {
             onNewColumnConfirm = undefined
           })
 
-          it('renders the lane placeholder as the last lane to add a new lane', () => {
+          it('renders the column placeholder as the last column to add a new column', () => {
             expect(subject.queryByText('➕')).toBeInTheDocument()
           })
 
-          describe('when the user clicks to add a new lane', () => {
+          describe('when the user clicks to add a new column', () => {
             beforeEach(() => fireEvent.click(subject.queryByText('➕')))
 
-            it('hides the lane placeholder', () => {
+            it('hides the column placeholder', () => {
               expect(subject.queryByText('➕')).not.toBeInTheDocument()
             })
 
-            it('renders the input asking for a lane title', () => {
+            it('renders the input asking for a column title', () => {
               expect(subject.container.querySelector('input')).toBeInTheDocument()
             })
 
-            describe('when the user confirms the new lane', () => {
+            describe('when the user confirms the new column', () => {
               beforeEach(async () => {
                 fireEvent.change(subject.container.querySelector('input'), {
                   target: { value: 'Column Added by user' }
                 })
                 fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="lane"]:nth-child(3)'))
+                await waitForElement(() => subject.container.querySelector('[data-testid="column"]:nth-child(3)'))
               })
 
-              it('calls the "onNewColumnConfirm" passing the new lane', () => {
+              it('calls the "onNewColumnConfirm" passing the new column', () => {
                 expect(onNewColumnConfirm).toHaveBeenCalledTimes(1)
                 expect(onNewColumnConfirm).toHaveBeenCalledWith({ title: 'Column Added by user', cards: [] })
               })
 
               it('renders the new column using the id returned on "onNewColumnConfirm"', () => {
-                expect(subject.queryAllByTestId('lane')).toHaveLength(3)
+                expect(subject.queryAllByTestId('column')).toHaveLength(3)
               })
 
               it('renders the column placeholder as the last column to add a new column', () => {
@@ -952,7 +952,7 @@ describe('<Board />', () => {
                 expect(onColumnNew).toHaveBeenCalledTimes(1)
                 expect(onColumnNew).toHaveBeenCalledWith(
                   {
-                    lanes: [
+                    columns: [
                       expect.objectContaining({ id: 1 }),
                       expect.objectContaining({ id: 2 }),
                       expect.objectContaining({ id: 999 })
@@ -963,16 +963,16 @@ describe('<Board />', () => {
               })
             })
 
-            describe('when the user cancels the new lane adding', () => {
+            describe('when the user cancels the new column adding', () => {
               beforeEach(() => {
                 fireEvent.click(subject.queryByText('Cancel'))
               })
 
               it('does not add any new column', () => {
-                expect(subject.queryAllByTestId('lane')).toHaveLength(2)
+                expect(subject.queryAllByTestId('column')).toHaveLength(2)
               })
 
-              it('renders the lane placeholder as the last lane to add a new lane', () => {
+              it('renders the column placeholder as the last column to add a new column', () => {
                 expect(subject.queryByText('➕')).toBeInTheDocument()
               })
             })
@@ -980,22 +980,22 @@ describe('<Board />', () => {
         })
       })
 
-      describe('about custom lane adder', () => {
-        describe('when the component receives a custom lane adder', () => {
+      describe('about custom column adder', () => {
+        describe('when the component receives a custom column adder', () => {
           let onColumnNew, renderColumnAdder
 
           describe('when the component does not receive "allowAddColumn" prop', () => {
             beforeEach(() => {
               renderColumnAdder = jest.fn(() => (
                 <div>
-                  <input data-testid='laneAdder' />
+                  <input data-testid='columnAdder' />
                 </div>
               ))
 
               mount({ renderColumnAdder })
 
               it('does not renders the custom render adder', () => {
-                expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+                expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
               })
             })
           })
@@ -1004,16 +1004,16 @@ describe('<Board />', () => {
             beforeEach(() => {
               onColumnNew = jest.fn()
               renderColumnAdder = jest.fn(({ addColumn }) => (
-                <div data-testid='laneAdder'>
-                  <button onClick={() => addColumn({ id: 99, title: 'New lane', cards: [] })}>Add lane</button>
+                <div data-testid='columnAdder'>
+                  <button onClick={() => addColumn({ id: 99, title: 'New column', cards: [] })}>Add column</button>
                 </div>
               ))
 
               mount({ children: board, renderColumnAdder, allowAddColumn: true, onColumnNew })
             })
 
-            it('renders the custom lane adder as the last lane to add a new lane', () => {
-              expect(subject.queryByTestId('laneAdder')).toBeInTheDocument()
+            it('renders the custom column adder as the last column to add a new column', () => {
+              expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
             })
 
             it('passes the "addColumn" to the "renderColumnAdder" prop', () => {
@@ -1024,23 +1024,23 @@ describe('<Board />', () => {
             describe('when the "addColumn" callback is called', () => {
               beforeEach(() => fireEvent.click(within(subject.queryByTestId('columnAdder')).queryByText('Add column')))
 
-              it('renders the new lane', () => {
-                const lane = subject.queryAllByTestId('lane')
+              it('renders the new column', () => {
+                const column = subject.queryAllByTestId('column')
                 expect(column).toHaveLength(3)
-                expect(lane[2]).toHaveTextContent('New lane')
+                expect(column[2]).toHaveTextContent('New column')
               })
 
               it('calls the "onColumnNew" callback passing both the updated board and the added column', () => {
                 expect(onColumnNew).toHaveBeenCalledTimes(1)
                 expect(onColumnNew).toHaveBeenCalledWith(
                   {
-                    lanes: [
+                    columns: [
                       expect.objectContaining({ id: 1 }),
                       expect.objectContaining({ id: 2 }),
-                      expect.objectContaining({ id: 99, title: 'New lane' })
+                      expect.objectContaining({ id: 99, title: 'New column' })
                     ]
                   },
-                  expect.objectContaining({ id: 99, title: 'New lane' })
+                  expect.objectContaining({ id: 99, title: 'New column' })
                 )
               })
             })
@@ -1049,7 +1049,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about the lane removing', () => {
+    describe('about the column removing', () => {
       beforeEach(() => {
         onColumnRemove = jest.fn()
       })
@@ -1062,22 +1062,22 @@ describe('<Board />', () => {
             expect(onColumnRemove).not.toHaveBeenCalled()
           })
 
-          describe('when the user clicks to remove a lane', () => {
+          describe('when the user clicks to remove a column', () => {
             beforeEach(() => {
               const removeColumnButton = within(subject.queryAllByTestId('column')[0]).queryByText('×')
               fireEvent.click(removeColumnButton)
             })
 
-            it('removes the lane', () => {
-              const lane = subject.queryAllByTestId('lane')
+            it('removes the column', () => {
+              const column = subject.queryAllByTestId('column')
               expect(column).toHaveLength(1)
-              expect(lane[0]).toHaveTextContent('Column Doing')
+              expect(column[0]).toHaveTextContent('Column Doing')
             })
 
-            it('calls the "onColumnRemove" callback passing both the updated board and the removed lane', () => {
+            it('calls the "onColumnRemove" callback passing both the updated board and the removed column', () => {
               expect(onColumnRemove).toHaveBeenCalledTimes(1)
               expect(onColumnRemove).toHaveBeenCalledWith(
-                { lanes: [expect.objectContaining({ id: 2 })] },
+                { columns: [expect.objectContaining({ id: 2 })] },
                 expect.objectContaining({ id: 1 })
               )
             })
@@ -1085,7 +1085,7 @@ describe('<Board />', () => {
         })
       })
 
-      describe('when the component receives a custom header lane template', () => {
+      describe('when the component receives a custom header column template', () => {
         let renderColumnHeader
 
         beforeEach(() => {
@@ -1098,7 +1098,7 @@ describe('<Board />', () => {
           expect(onColumnRemove).not.toHaveBeenCalled()
         })
 
-        it('passes the lane and the lane bag to the "renderColumnHeader"', () => {
+        it('passes the column and the column bag to the "renderColumnHeader"', () => {
           expect(renderColumnHeader).toHaveBeenCalledWith(
             expect.objectContaining({ id: 1, title: 'Column Backlog' }),
             expect.objectContaining({ removeColumn: expect.any(Function), renameColumn: expect.any(Function) })
@@ -1108,16 +1108,16 @@ describe('<Board />', () => {
         describe('when the "removeColumn" callback is called', () => {
           beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog')))
 
-          it('removes the lane', () => {
-            const lane = subject.queryAllByTestId('lane')
+          it('removes the column', () => {
+            const column = subject.queryAllByTestId('column')
             expect(column).toHaveLength(1)
-            expect(lane[0]).toHaveTextContent('Column Doing')
+            expect(column[0]).toHaveTextContent('Column Doing')
           })
 
-          it('calls the "onColumnRemove" callback passing both the updated board and the removed lane', () => {
+          it('calls the "onColumnRemove" callback passing both the updated board and the removed column', () => {
             expect(onColumnRemove).toHaveBeenCalledTimes(1)
             expect(onColumnRemove).toHaveBeenCalledWith(
-              { lanes: [expect.objectContaining({ id: 2 })] },
+              { columns: [expect.objectContaining({ id: 2 })] },
               expect.objectContaining({ id: 1 })
             )
           })
@@ -1125,7 +1125,7 @@ describe('<Board />', () => {
       })
     })
 
-    describe('about the lane renaming', () => {
+    describe('about the column renaming', () => {
       describe('when the component use the default header template', () => {
         describe('when the component receives the "allowRenameColumn" prop', () => {
           beforeEach(() => {
@@ -1137,14 +1137,14 @@ describe('<Board />', () => {
             expect(onColumnRename).not.toHaveBeenCalled()
           })
 
-          describe('when the user renames a lane', () => {
+          describe('when the user renames a column', () => {
             beforeEach(() => {
-              fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Column Backlog'))
+              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog'))
               fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
               fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
 
-            it('renames the lane', () => {
+            it('renames the column', () => {
               expect(subject.queryByText('Column Backlog')).not.toBeInTheDocument()
               expect(subject.queryByText('New title')).toBeInTheDocument()
             })
@@ -1153,7 +1153,7 @@ describe('<Board />', () => {
               expect(onColumnRename).toHaveBeenCalledTimes(1)
               expect(onColumnRename).toHaveBeenCalledWith(
                 {
-                  lanes: [
+                  columns: [
                     expect.objectContaining({ id: 1, title: 'New title' }),
                     expect.objectContaining({ id: 2, title: 'Column Doing' })
                   ]
@@ -1174,13 +1174,13 @@ describe('<Board />', () => {
             expect(onColumnRename).not.toHaveBeenCalled()
           })
 
-          it('does not show the button on lane header to remove the lane', () => {
-            expect(subject.queryAllByTestId('lane')[0].querySelector('button')).not.toBeInTheDocument()
+          it('does not show the button on column header to remove the column', () => {
+            expect(subject.queryAllByTestId('column')[0].querySelector('button')).not.toBeInTheDocument()
           })
         })
       })
 
-      describe('when the component receives a custom header lane template', () => {
+      describe('when the component receives a custom header column template', () => {
         beforeEach(() => {
           const renderColumnHeader = ({ title }, { renameColumn }) => (
             <div onClick={() => renameColumn('New title')}>{title}</div>
@@ -1194,17 +1194,17 @@ describe('<Board />', () => {
         })
 
         describe('when the "renameColumn" callback is called', () => {
-          beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('lane')[0]).queryByText('Column Backlog')))
+          beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog')))
 
           it('renames the column', () => {
-            expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
+            expect(subject.queryAllByTestId('column')[0]).toHaveTextContent('New title')
           })
 
           it('calls the "onColumnRename" callback passing both the updated board and the renamed column', () => {
             expect(onColumnRename).toHaveBeenCalledTimes(1)
             expect(onColumnRename).toHaveBeenCalledWith(
               {
-                lanes: [
+                columns: [
                   expect.objectContaining({ id: 1, title: 'New title' }),
                   expect.objectContaining({ id: 2, title: 'Column Doing' })
                 ]
@@ -1229,13 +1229,13 @@ describe('<Board />', () => {
             expect(onCardRemove).not.toHaveBeenCalled()
           })
 
-          describe('when the user clicks to remove a card from a lane', () => {
+          describe('when the user clicks to remove a card from a column', () => {
             beforeEach(() => {
               const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
               fireEvent.click(removeCardButton)
             })
 
-            it('removes the card from the lane', () => {
+            it('removes the card from the column', () => {
               const cards = subject.queryAllByText(/^Card title/)
               expect(cards).toHaveLength(2)
               expect(cards[0]).toHaveTextContent('Card title 2')
@@ -1246,7 +1246,7 @@ describe('<Board />', () => {
               expect(onCardRemove).toHaveBeenCalledTimes(1)
               expect(onCardRemove).toHaveBeenCalledWith(
                 {
-                  lanes: [
+                  columns: [
                     expect.objectContaining({ id: 1, cards: [expect.objectContaining({ id: 2 })] }),
                     expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 3 })] })
                   ]
@@ -1282,7 +1282,7 @@ describe('<Board />', () => {
         describe('when the "removeCard" callback is called', () => {
           beforeEach(() => fireEvent.click(subject.queryByText('Card title 1')))
 
-          it('removes the card from the lane', () => {
+          it('removes the card from the column', () => {
             const cards = subject.queryAllByText(/^Card title/)
             expect(cards).toHaveLength(2)
             expect(cards[0]).toHaveTextContent('Card title 2')
@@ -1293,7 +1293,7 @@ describe('<Board />', () => {
             expect(onCardRemove).toHaveBeenCalledTimes(1)
             expect(onCardRemove).toHaveBeenCalledWith(
               {
-                lanes: [
+                columns: [
                   expect.objectContaining({ title: 'Column Backlog' }),
                   expect.objectContaining({ title: 'Column Doing' })
                 ]
@@ -1307,7 +1307,7 @@ describe('<Board />', () => {
     })
 
     describe('about the card adding', () => {
-      describe('when the component receives a custom header lane template', () => {
+      describe('when the component receives a custom header column template', () => {
         const renderColumnHeader = jest.fn((_, { addCard }) => {
           return <button onClick={() => addCard({ id: 99, title: 'New card' })}>New card</button>
         })
@@ -1323,7 +1323,7 @@ describe('<Board />', () => {
           expect(onCardNew).not.toHaveBeenCalled()
         })
 
-        it('passes the lane and the lane bag to the "renderColumnHeader"', () => {
+        it('passes the column and the column bag to the "renderColumnHeader"', () => {
           mount({ renderColumnHeader, onCardNew })
           expect(renderColumnHeader).toHaveBeenCalledWith(
             expect.objectContaining({ id: 1, title: 'Column Backlog' }),
@@ -1342,8 +1342,8 @@ describe('<Board />', () => {
               fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
             })
 
-            it('adds a new card on the bottom of the lane', () => {
-              const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            it('adds a new card on the bottom of the column', () => {
+              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('New card')
             })
@@ -1352,7 +1352,7 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
                 },
                 expect.objectContaining({
                   id: 1,
@@ -1367,7 +1367,7 @@ describe('<Board />', () => {
             })
           })
 
-          describe('when the position is specified to add the card on the top of the lane', () => {
+          describe('when the position is specified to add the card on the top of the column', () => {
             beforeEach(() => {
               const renderColumnHeader = jest.fn((_, { addCard }) => {
                 return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'top' })}>New card</button>
@@ -1376,8 +1376,8 @@ describe('<Board />', () => {
               fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
             })
 
-            it('adds a new card on the top of the lane', () => {
-              const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            it('adds a new card on the top of the column', () => {
+              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
               expect(cards[0]).toHaveTextContent('New card')
             })
@@ -1386,7 +1386,7 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
                 },
                 expect.objectContaining({
                   id: 1,
@@ -1401,7 +1401,7 @@ describe('<Board />', () => {
             })
           })
 
-          describe('when the position is specified to add the card on the bottom of the lane', () => {
+          describe('when the position is specified to add the card on the bottom of the column', () => {
             beforeEach(() => {
               const renderColumnHeader = jest.fn((_, { addCard }) => {
                 return (
@@ -1412,8 +1412,8 @@ describe('<Board />', () => {
               fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
             })
 
-            it('adds a new card on the bottom of the lane', () => {
-              const cards = within(subject.queryAllByTestId('lane')[0]).queryAllByTestId('card')
+            it('adds a new card on the bottom of the column', () => {
+              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('New card')
             })
@@ -1422,7 +1422,7 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  lanes: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
                 },
                 expect.objectContaining({
                   id: 1,
