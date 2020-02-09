@@ -56,7 +56,7 @@
   },
   "scripts": {
     "build": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
-    "build:publish": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js && yarn publish --access public",
+    "prepublishOnly": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
