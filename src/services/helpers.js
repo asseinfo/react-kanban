@@ -49,12 +49,12 @@ function removeLane(board, lane) {
   return { ...board, lanes: board.lanes.filter(({ id }) => id !== lane.id) }
 }
 
-function renameLane(board, lane, newTitle) {
-  const renamedLanes = replaceElementOfArray(board.lanes)({
+function changeLane(board, lane, newLane) {
+  const changedLanes = replaceElementOfArray(board.lanes)({
     when: ({ id }) => id === lane.id,
-    for: value => ({ ...value, title: newTitle })
+    for: value => ({ ...value, ...newLane })
   })
-  return { ...board, lanes: renamedLanes }
+  return { ...board, lanes: changedLanes }
 }
 
 function addCard(board, inLane, card, { on } = {}) {
@@ -75,4 +75,4 @@ function removeCard(board, fromLane, card) {
   return { ...board, lanes: filteredLanes }
 }
 
-export { moveLane, moveCard, addLane, removeLane, renameLane, addCard, removeCard }
+export { moveLane, moveCard, addLane, removeLane, changeLane, addCard, removeCard }

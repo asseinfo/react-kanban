@@ -8,7 +8,7 @@ import { when, partialRight } from '@services/utils'
 import DefaultLaneHeader from './components/DefaultLaneHeader'
 import DefaultCard from './components/DefaultCard'
 import { getCard, getCoordinates, isALaneMove } from './services'
-import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from '@services/helpers'
+import { moveCard, moveLane, addLane, removeLane, changeLane, addCard, removeCard } from '@services/helpers'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -71,7 +71,7 @@ function UncontrolledBoard({
   }
 
   function handleLaneRename(lane, title) {
-    const boardWithRenamedLane = renameLane(board, lane, title)
+    const boardWithRenamedLane = changeLane(board, lane, { title })
     onLaneRename(boardWithRenamedLane, { ...lane, title })
     setBoard(boardWithRenamedLane)
   }
