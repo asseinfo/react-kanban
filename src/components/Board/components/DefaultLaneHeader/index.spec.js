@@ -72,7 +72,7 @@ describe('<DefaultLaneHeader />', () => {
 
       describe('when the user moves the mouse over the title', () => {
         it('does not show a mouse pointer', () => {
-          expect(subject.queryByText('Lane title')).not.toHaveStyle('cursor: pointer')
+          expect(subject.queryByText('Lane title')).not.toHaveStyle({ cursor: 'pointer' })
         })
       })
 
@@ -95,7 +95,7 @@ describe('<DefaultLaneHeader />', () => {
 
       describe('when the user moves the mouse over the title', () => {
         it('shows a mouse pointer', () => {
-          expect(subject.queryByText('Lane title')).toHaveStyle('cursor: pointer')
+          expect(subject.queryByText('Lane title')).toHaveStyle({ cursor: 'pointer' })
         })
       })
 
@@ -127,8 +127,8 @@ describe('<DefaultLaneHeader />', () => {
             fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
           })
 
-          it('toggles the input for the new lane title', () => {
-            expect(subject.queryByText('New title')).toBeInTheDocument()
+          it('toggles the input for the lane title', () => {
+            expect(subject.queryByText('Lane title')).toBeInTheDocument()
             expect(subject.container.querySelector('input')).not.toBeInTheDocument()
           })
 
@@ -143,7 +143,7 @@ describe('<DefaultLaneHeader />', () => {
             fireEvent.click(subject.queryByText('Cancel', { selector: 'button' }))
           })
 
-          it('cancels the renaming', () => {
+          it('toggles the input for the lane title', () => {
             expect(subject.queryByText('Lane title')).toBeInTheDocument()
             expect(subject.container.querySelector('input')).not.toBeInTheDocument()
           })

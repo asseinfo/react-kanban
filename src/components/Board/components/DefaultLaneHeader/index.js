@@ -47,19 +47,17 @@ function useRenameMode(state) {
 
 export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRenameLane, onLaneRename }) {
   const [renameMode, toggleRenameMode] = useRenameMode(false)
-  const [title, setTitle] = useState(lane.title)
   const [titleInput, setTitleInput] = useState('')
 
   function handleRenameLane(event) {
     event.preventDefault()
 
     onLaneRename(lane, titleInput)
-    setTitle(titleInput)
     toggleRenameMode()
   }
 
   function handleRenameMode() {
-    setTitleInput(title)
+    setTitleInput(lane.title)
     toggleRenameMode()
   }
 
@@ -85,7 +83,7 @@ export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRe
       ) : (
         <>
           <LaneTitle allowRenameLane={allowRenameLane} onClick={handleRenameMode}>
-            {title}
+            {lane.title}
           </LaneTitle>
           {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
         </>

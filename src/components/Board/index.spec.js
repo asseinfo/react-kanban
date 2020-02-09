@@ -456,6 +456,11 @@ describe('<Board />', () => {
               fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
 
+            it('does not rename the lane', () => {
+              expect(subject.queryByText('Lane Backlog')).toBeInTheDocument()
+              expect(subject.queryByText('New title')).not.toBeInTheDocument()
+            })
+
             it('calls the "onLaneRename" callback passing the lane to be renamed', () => {
               expect(onLaneRename).toHaveBeenCalledTimes(1)
               expect(onLaneRename).toHaveBeenCalledWith(
@@ -1135,7 +1140,8 @@ describe('<Board />', () => {
             })
 
             it('renames the lane', () => {
-              expect(subject.queryAllByTestId('lane')[0]).toHaveTextContent('New title')
+              expect(subject.queryByText('Lane Backlog')).not.toBeInTheDocument()
+              expect(subject.queryByText('New title')).toBeInTheDocument()
             })
 
             it('calls the "onLaneRename" callback passing both the updated board and the renamed lane', () => {
