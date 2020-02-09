@@ -1,30 +1,30 @@
 function getCoordinates(event, board) {
   if (event.destination === null) return {}
 
-  const laneSource = { fromPosition: event.source.index }
-  const laneDestination = { toPosition: event.destination.index }
+  const columnSource = { fromPosition: event.source.index }
+  const columnDestination = { toPosition: event.destination.index }
 
-  if (isALaneMove(event.type)) {
-    return { source: laneSource, destination: laneDestination }
+  if (isAColumnMove(event.type)) {
+    return { source: columnSource, destination: columnDestination }
   }
 
   return {
-    source: { ...laneSource, fromLaneId: getLane(board, event.source.droppableId).id },
-    destination: { ...laneDestination, toLaneId: getLane(board, event.destination.droppableId).id }
+    source: { ...columnSource, fromColumnId: getColumn(board, event.source.droppableId).id },
+    destination: { ...columnDestination, toColumnId: getColumn(board, event.destination.droppableId).id }
   }
 }
 
-function isALaneMove(type) {
+function isAColumnMove(type) {
   return type === 'BOARD'
 }
 
 function getCard(board, sourceCoordinate) {
-  const lane = board.lanes.find(lane => lane.id === sourceCoordinate.fromLaneId)
-  return lane.cards[sourceCoordinate.fromPosition]
+  const column = board.columns.find(column => column.id === sourceCoordinate.fromColumnId)
+  return column.cards[sourceCoordinate.fromPosition]
 }
 
-function getLane(board, droppableId) {
-  return board.lanes.find(({ id }) => String(id) === droppableId)
+function getColumn(board, droppableId) {
+  return board.columns.find(({ id }) => String(id) === droppableId)
 }
 
-export { getCard, getCoordinates, isALaneMove }
+export { getCard, getCoordinates, isAColumnMove }

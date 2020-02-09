@@ -5,74 +5,74 @@ import {
   replaceElementOfArray
 } from '@services/utils'
 
-function reorderCardsOnLane(lane, reorderCards) {
-  return { ...lane, cards: reorderCards(lane.cards) }
+function reorderCardsOnColumn(column, reorderCards) {
+  return { ...column, cards: reorderCards(column.cards) }
 }
 
-function moveLane(board, { fromPosition }, { toPosition }) {
-  return { ...board, lanes: changeElementOfPositionInArray(board.lanes, fromPosition, toPosition) }
+function moveColumn(board, { fromPosition }, { toPosition }) {
+  return { ...board, columns: changeElementOfPositionInArray(board.columns, fromPosition, toPosition) }
 }
 
-function moveCard(board, { fromPosition, fromLaneId }, { toPosition, toLaneId }) {
-  const sourceLane = board.lanes.find(lane => lane.id === fromLaneId)
-  const destinationLane = board.lanes.find(lane => lane.id === toLaneId)
+function moveCard(board, { fromPosition, fromColumnId }, { toPosition, toColumnId }) {
+  const sourceColumn = board.columns.find(column => column.id === fromColumnId)
+  const destinationColumn = board.columns.find(column => column.id === toColumnId)
 
-  const reorderLanesOnBoard = reorderLanesMapper => ({ ...board, lanes: board.lanes.map(reorderLanesMapper) })
-  const reorderCardsOnSourceLane = reorderCardsOnLane.bind(null, sourceLane)
-  const reorderCardsOnDestinationLane = reorderCardsOnLane.bind(null, destinationLane)
+  const reorderColumnsOnBoard = reorderColumnsMapper => ({ ...board, columns: board.columns.map(reorderColumnsMapper) })
+  const reorderCardsOnSourceColumn = reorderCardsOnColumn.bind(null, sourceColumn)
+  const reorderCardsOnDestinationColumn = reorderCardsOnColumn.bind(null, destinationColumn)
 
-  if (sourceLane.id === destinationLane.id) {
-    const reorderedCardsOnLane = reorderCardsOnSourceLane(cards => {
+  if (sourceColumn.id === destinationColumn.id) {
+    const reorderedCardsOnColumn = reorderCardsOnSourceColumn(cards => {
       return changeElementOfPositionInArray(cards, fromPosition, toPosition)
     })
-    return reorderLanesOnBoard(lane => (lane.id === sourceLane.id ? reorderedCardsOnLane : lane))
+    return reorderColumnsOnBoard(column => (column.id === sourceColumn.id ? reorderedCardsOnColumn : column))
   } else {
-    const reorderedCardsOnSourceLane = reorderCardsOnSourceLane(cards => {
+    const reorderedCardsOnSourceColumn = reorderCardsOnSourceColumn(cards => {
       return removeFromArrayAtPosition(cards, fromPosition)
     })
-    const reorderedCardsOnDestinationLane = reorderCardsOnDestinationLane(cards => {
-      return addInArrayAtPosition(cards, sourceLane.cards[fromPosition], toPosition)
+    const reorderedCardsOnDestinationColumn = reorderCardsOnDestinationColumn(cards => {
+      return addInArrayAtPosition(cards, sourceColumn.cards[fromPosition], toPosition)
     })
-    return reorderLanesOnBoard(lane => {
-      if (lane.id === sourceLane.id) return reorderedCardsOnSourceLane
-      if (lane.id === destinationLane.id) return reorderedCardsOnDestinationLane
-      return lane
+    return reorderColumnsOnBoard(column => {
+      if (column.id === sourceColumn.id) return reorderedCardsOnSourceColumn
+      if (column.id === destinationColumn.id) return reorderedCardsOnDestinationColumn
+      return column
     })
   }
 }
 
-function addLane(board, lane) {
-  return { ...board, lanes: addInArrayAtPosition(board.lanes, lane, board.lanes.length) }
+function addColumn(board, column) {
+  return { ...board, columns: addInArrayAtPosition(board.columns, column, board.columns.length) }
 }
 
-function removeLane(board, lane) {
-  return { ...board, lanes: board.lanes.filter(({ id }) => id !== lane.id) }
+function removeColumn(board, column) {
+  return { ...board, columns: board.columns.filter(({ id }) => id !== column.id) }
 }
 
-function changeLane(board, lane, newLane) {
-  const changedLanes = replaceElementOfArray(board.lanes)({
-    when: ({ id }) => id === lane.id,
-    for: value => ({ ...value, ...newLane })
+function changeColumn(board, column, newColumn) {
+  const changedColumns = replaceElementOfArray(board.columns)({
+    when: ({ id }) => id === column.id,
+    for: value => ({ ...value, ...newColumn })
   })
-  return { ...board, lanes: changedLanes }
+  return { ...board, columns: changedColumns }
 }
 
-function addCard(board, inLane, card, { on } = {}) {
-  const laneToAdd = board.lanes.find(({ id }) => id === inLane.id)
-  const cards = addInArrayAtPosition(laneToAdd.cards, card, on === 'top' ? 0 : laneToAdd.cards.length)
-  const lanes = replaceElementOfArray(board.lanes)({
-    when: ({ id }) => inLane.id === id,
+function addCard(board, inColumn, card, { on } = {}) {
+  const columnToAdd = board.columns.find(({ id }) => id === inColumn.id)
+  const cards = addInArrayAtPosition(columnToAdd.cards, card, on === 'top' ? 0 : columnToAdd.cards.length)
+  const columns = replaceElementOfArray(board.columns)({
+    when: ({ id }) => inColumn.id === id,
     for: value => ({ ...value, cards })
   })
-  return { ...board, lanes }
+  return { ...board, columns }
 }
 
-function removeCard(board, fromLane, card) {
-  const laneToRemove = board.lanes.find(({ id }) => id === fromLane.id)
-  const filteredCards = laneToRemove.cards.filter(({ id }) => card.id !== id)
-  const laneWithoutCard = { ...laneToRemove, cards: filteredCards }
-  const filteredLanes = board.lanes.map(lane => (fromLane.id === lane.id ? laneWithoutCard : lane))
-  return { ...board, lanes: filteredLanes }
+function removeCard(board, fromColumn, card) {
+  const columnToRemove = board.columns.find(({ id }) => id === fromColumn.id)
+  const filteredCards = columnToRemove.cards.filter(({ id }) => card.id !== id)
+  const columnWithoutCard = { ...columnToRemove, cards: filteredCards }
+  const filteredColumns = board.columns.map(column => (fromColumn.id === column.id ? columnWithoutCard : column))
+  return { ...board, columns: filteredColumns }
 }
 
-export { moveLane, moveCard, addLane, removeLane, changeLane, addCard, removeCard }
+export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard }

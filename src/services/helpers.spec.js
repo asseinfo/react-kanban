@@ -1,18 +1,18 @@
-import { moveLane, moveCard, addLane, removeLane, changeLane, addCard, removeCard } from './helpers'
+import { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard } from './helpers'
 
-describe('#moveLane', () => {
-  it('returns a board with the lane moved to the specified position', () => {
+describe('#moveColumn', () => {
+  it('returns a board with the column moved to the specified position', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     }
 
-    const orderedBoard = moveLane(board, { fromPosition: 0 }, { toPosition: 1 })
+    const orderedBoard = moveColumn(board, { fromPosition: 0 }, { toPosition: 1 })
 
     expect(orderedBoard).toEqual({
-      lanes: [
+      columns: [
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }
       ]
@@ -21,19 +21,19 @@ describe('#moveLane', () => {
 })
 
 describe('#moveCard', () => {
-  describe('when the card is moved in the same lane', () => {
-    it('returns a board with the card moved in the same lane to the specified position', () => {
+  describe('when the card is moved in the same column', () => {
+    it('returns a board with the card moved in the same column to the specified position', () => {
       const board = {
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
         ]
       }
 
-      const orderedBoard = moveCard(board, { fromPosition: 0, fromLaneId: 1 }, { toPosition: 2, toLaneId: 1 })
+      const orderedBoard = moveCard(board, { fromPosition: 0, fromColumnId: 1 }, { toPosition: 2, toColumnId: 1 })
 
       expect(orderedBoard).toEqual({
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 2 }, { id: 3 }, { id: 1 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
         ]
@@ -41,20 +41,20 @@ describe('#moveCard', () => {
     })
   })
 
-  describe('when the card is moved from a lane to another lane', () => {
-    it('returns a board with the card moved to another lane to the specified position', () => {
+  describe('when the card is moved from a column to another column', () => {
+    it('returns a board with the card moved to another column to the specified position', () => {
       const board = {
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
           { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] }
         ]
       }
 
-      const orderedBoard = moveCard(board, { fromPosition: 0, fromLaneId: 1 }, { toPosition: 1, toLaneId: 2 })
+      const orderedBoard = moveCard(board, { fromPosition: 0, fromColumnId: 1 }, { toPosition: 1, toColumnId: 2 })
 
       expect(orderedBoard).toEqual({
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 1 }, { id: 5 }, { id: 6 }] },
           { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] }
@@ -64,19 +64,19 @@ describe('#moveCard', () => {
   })
 })
 
-describe('#addLane', () => {
-  it('returns a board with the new lane at the specified position', () => {
+describe('#addColumn', () => {
+  it('returns a board with the new column at the specified position', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     }
 
-    const boardWithTheNewLane = addLane(board, { id: 3, cards: [{ id: 7 }] })
+    const boardWithTheNewColumn = addColumn(board, { id: 3, cards: [{ id: 7 }] })
 
-    expect(boardWithTheNewLane).toEqual({
-      lanes: [
+    expect(boardWithTheNewColumn).toEqual({
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
         { id: 3, cards: [{ id: 7 }] }
@@ -85,36 +85,36 @@ describe('#addLane', () => {
   })
 })
 
-describe('#removeLane', () => {
-  it('returns a board without the specified lane', () => {
+describe('#removeColumn', () => {
+  it('returns a board without the specified column', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     }
 
-    const boardWithoutTheLane = removeLane(board, { id: 2 })
+    const boardWithoutTheColumn = removeColumn(board, { id: 2 })
 
-    expect(boardWithoutTheLane).toEqual({
-      lanes: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
+    expect(boardWithoutTheColumn).toEqual({
+      columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
     })
   })
 })
 
-describe('#changeLane', () => {
-  it('returns a board with the specified lane changed according to passed lane', () => {
+describe('#changeColumn', () => {
+  it('returns a board with the specified column changed according to passed column', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, title: 'Doing', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     }
 
-    const boardWithTheModifiedLane = changeLane(board, { id: 1 }, { title: 'New title' })
+    const boardWithTheModifiedColumn = changeColumn(board, { id: 1 }, { title: 'New title' })
 
-    expect(boardWithTheModifiedLane).toEqual({
-      lanes: [
+    expect(boardWithTheModifiedColumn).toEqual({
+      columns: [
         { id: 1, title: 'New title', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
@@ -125,20 +125,20 @@ describe('#changeLane', () => {
 // TODO I'm not happy with this and with the remove card method
 // How can we handle this better?
 describe('#addCard', () => {
-  describe('when the card is added on top of the lane', () => {
-    it('returns a board with the new card in the specified lane at the specified position', () => {
+  describe('when the card is added on top of the column', () => {
+    it('returns a board with the new card in the specified column at the specified position', () => {
       const board = {
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
         ]
       }
-      const lane = { id: 2 }
+      const column = { id: 2 }
 
-      const boardWithTheNewLane = addCard(board, lane, { id: 7 }, { on: 'top' })
+      const boardWithTheNewColumn = addCard(board, column, { id: 7 }, { on: 'top' })
 
-      expect(boardWithTheNewLane).toEqual({
-        lanes: [
+      expect(boardWithTheNewColumn).toEqual({
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 7 }, { id: 4 }, { id: 5 }, { id: 6 }] }
         ]
@@ -146,20 +146,20 @@ describe('#addCard', () => {
     })
   })
 
-  describe('when the card is added on bottom of the lane', () => {
-    it('returns a board with the new card in the specified lane at the specified position', () => {
+  describe('when the card is added on bottom of the column', () => {
+    it('returns a board with the new card in the specified column at the specified position', () => {
       const board = {
-        lanes: [
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
         ]
       }
-      const inLane = { id: 2 }
+      const inColumn = { id: 2 }
 
-      const boardWithTheNewLane = addCard(board, inLane, { id: 7 }, { on: 'bottom' })
+      const boardWithTheNewColumn = addCard(board, inColumn, { id: 7 }, { on: 'bottom' })
 
-      expect(boardWithTheNewLane).toEqual({
-        lanes: [
+      expect(boardWithTheNewColumn).toEqual({
+        columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }] }
         ]
@@ -171,17 +171,17 @@ describe('#addCard', () => {
 describe('#removeCard', () => {
   it('returns a board without the specified card', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
     }
-    const fromLane = { id: 1 }
+    const fromColumn = { id: 1 }
 
-    const boardWithoutTheCard = removeCard(board, fromLane, { id: 2 })
+    const boardWithoutTheCard = removeCard(board, fromColumn, { id: 2 })
 
     expect(boardWithoutTheCard).toEqual({
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
       ]
