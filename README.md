@@ -35,7 +35,7 @@ Import the lib and use it on your project:
 import Board from '@lourenci/react-kanban'
 
 const board = {
-  lanes: [
+  columns: [
     {
       id: 1,
       title: 'Backlog',
@@ -43,7 +43,7 @@ const board = {
         {
           id: 1,
           title: 'Add card',
-          description: 'Add capability to add a card in a lane'
+          description: 'Add capability to add a card in a column'
         },
       ]
     },
@@ -54,7 +54,7 @@ const board = {
         {
           id: 2,
           title: 'Drag-n-drop support',
-          description: 'Move a card between the lanes'
+          description: 'Move a card between the columns'
         },
       ]
     }
@@ -81,16 +81,16 @@ We expose some APIs that you can import to help you to work with the controlled 
 
 To use them, you just need to import them together with your board:
 ```js
-import Board, { addCard, addLane, ... } from '@lourenci/react-kanban'
+import Board, { addCard, addColumn, ... } from '@lourenci/react-kanban'
 ```
 
 **All the helpers you need to pass your board and they will return a new board to pass to your state:**
 ```js
-import Board, { addLane } from '@lourenci/react-kanban'
+import Board, { addColumn } from '@lourenci/react-kanban'
 ...
 const [board, setBoard] = useState(initialBoard)
 ...
-const newBoard = addLane(board, newLane)
+const newBoard = addColumn(board, newColumn)
 setBoard(newBoard)
 ...
 <Board>{board}</Board>
@@ -102,9 +102,9 @@ setBoard(newBoard)
 
 ```js
 {
-  lanes: [{
-    id: ${unique-required-laneId},
-    title: {$required-laneTitle**},
+  columns: [{
+    id: ${unique-required-columnId},
+    title: {$required-columnTitle**},
     cards: [{
       id: ${unique-required-cardId},
       title: ${required-cardTitle*}
@@ -116,7 +116,7 @@ setBoard(newBoard)
 
 \* The `title` and the `description` are required if you are using the card's default template. You can render your own card template through the [`renderCard`](#rendercard) prop.
 
-** The `title` is required if you are using the lane's default template. You can render your own lane template through the [`renderLaneHeader`](#renderlaneheader) prop.
+** The `title` is required if you are using the column's default template. You can render your own column template through the [`renderColumnHeader`](#rendercolumnheader) prop.
 
 ### ⚙️ Props
 
@@ -125,22 +125,22 @@ setBoard(newBoard)
 | [`children`](#children) (required if controlled) | The board to render | ✅ | 🚫 |
 | [`initialBoard`](#initialboard) (required if uncontrolled) | The board to render | 🚫 | ✅ |
 | [`onCardDragEnd`](#oncarddragend) | Callback that will be called when the card move ends | ✅ | ✅ |
-| [`onLaneDragEnd`](#onlanedragend) | Callback that will be called when the lane move ends | ✅ | ✅ |
+| [`onColumnDragEnd`](#oncolumndragend) | Callback that will be called when the column move ends | ✅ | ✅ |
 | [`renderCard`](#rendercard)| A card to be rendered instead of the default card | ✅ | ✅ |
-| [`renderLaneHeader`](#renderlaneheader) | A lane header to be rendered instead of the default lane header | ✅ | ✅ |
-| [`allowAddLane`](#allowaddlane) | Allow a new lane be added by the user | ✅ | ✅ |
-| [`onNewLaneConfirm`](#onnewlaneconfirm) (required if use the default lane adder template)  | Callback that will be called when a new lane is confirmed by the user through the default lane adder template | ✅ | ✅ |
-| [`onLaneNew`](#onlanenew) (required if `allowAddLane` or when [`addLane`](#renderlaneadder) is called)  | Callback that will be called when a new lane is added through the default lane adder template | 🚫 | ✅ |
-| [`renderLaneAdder`](#renderlaneadder) | A lane adder to be rendered instead of the default lane adder template | ✅ | ✅ |
-| [`disableLaneDrag`](#disablelanedrag) | Disable the lane move | ✅ | ✅ |
+| [`renderColumnHeader`](#rendercolumnheader) | A column header to be rendered instead of the default column header | ✅ | ✅ |
+| [`allowAddColumn`](#allowaddcolumn) | Allow a new column be added by the user | ✅ | ✅ |
+| [`onNewColumnConfirm`](#onnewcolumnconfirm) (required if use the default column adder template)  | Callback that will be called when a new column is confirmed by the user through the default column adder template | ✅ | ✅ |
+| [`onColumnNew`](#oncolumnnew) (required if `allowAddColumn` or when [`addColumn`](#rendercolumnadder) is called)  | Callback that will be called when a new column is added through the default column adder template | 🚫 | ✅ |
+| [`renderColumnAdder`](#rendercolumnadder) | A column adder to be rendered instead of the default column adder template | ✅ | ✅ |
+| [`disableColumnDrag`](#disablecolumndrag) | Disable the column move | ✅ | ✅ |
 | [`disableCardDrag`](#disablecarddrag) | Disable the card move | ✅ | ✅ |
-| [`allowRemoveLane`](#allowremovelane) | Allow to remove a lane in default lane header | ✅ | ✅ |
-| [`onLaneRemove`](#onlaneremove) (required if `allowRemoveLane` or when [`removeLane`](#renderlaneheader) is called) | Callback that will be called when a lane is removed | ✅ | ✅ |
-| [`allowRenameLane`](#allowrenamelane) | Allow to rename a lane in default lane header | ✅ | ✅ |
-| [`onLaneRename`](#onlanerename) (required if `allowRenameLane` or when [`renameLane`](#renderlaneheader) is called) | Callback that will be called when a lane is renamed | ✅ | ✅ |
+| [`allowRemoveColumn`](#allowremovecolumn) | Allow to remove a column in default column header | ✅ | ✅ |
+| [`onColumnRemove`](#oncolumnremove) (required if `allowRemoveColumn` or when [`removeColumn`](#rendercolumnheader) is called) | Callback that will be called when a column is removed | ✅ | ✅ |
+| [`allowRenameColumn`](#allowrenamecolumn) | Allow to rename a column in default column header | ✅ | ✅ |
+| [`onColumnRename`](#oncolumnrename) (required if `allowRenameColumn` or when [`renameColumn`](#rendercolumnheader) is called) | Callback that will be called when a column is renamed | ✅ | ✅ |
 | [`allowRemoveCard`](#allowremovecard) | Allow to remove a card in default card template | ✅ | ✅ |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`) | Callback that will be called when a card is removed | ✅ | ✅ |
-| [`onCardNew`](#oncardnew) (required if [`addCard`](#renderlaneheader) is called) | Callback that will be called when a new card is added | 🚫 | ✅ |
+| [`onCardNew`](#oncardnew) (required if [`addCard`](#rendercolumnheader) is called) | Callback that will be called when a new card is added | 🚫 | ✅ |
 
 #### `children`
 
@@ -157,34 +157,35 @@ When the user moves a card, this callback will be called passing these parameter
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
 | `card`       | The moved card                                         |
-| `source`     | An object with the card source `{ fromLaneId, fromPosition }`     |
-| `destination`| An object with the card destination `{ toLaneId, toPosition }`|
+| `source`     | An object with the card source `{ fromColumnId, fromPosition }`     |
+| `destination`| An object with the card destination `{ toColumnId, toPosition }`|
 
 ##### Source and destination
 
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
-| `fromLaneId`| Lane source id.
-| `toLaneId`| Lane destination id.|
-| `fromPosition` | Card's index in lane source's array.|
-| `toPosition` | Card's index in lane destination's array.|
+| `fromColumnId`| Column source id.
+| `toColumnId`| Column destination id.|
+| `fromPosition` | Card's index in column source's array.|
+| `toPosition` | Card's index in column destination's array.|
 
 
-#### `onLaneDragEnd`
-When the user moves a lane, this callback will be called passing these parameters:
+#### `onColumnDragEnd`
+When the user moves a column, this callback will be called passing these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
 | `board`      | The modified board                                     |
-| `source`     | An object with the lane source `{ fromPosition }`     |
-| `destination`| An object with the lane destination `{ toPosition }`|
+| `column`       | The moved column                                         |
+| `source`     | An object with the column source `{ fromPosition }`     |
+| `destination`| An object with the column destination `{ toPosition }`|
 
 ##### Source and destination
 
 | Prop    | Description                                                            |
 |---------|------------------------------------------------------------------------|
-| `fromPosition` | Lane index before the moving.|
-| `toPosition` | Lane index after the moving.|
+| `fromPosition` | Column index before the moving.|
+| `toPosition` | Column index after the moving.|
 
 #### `renderCard`
 Use this if you want to render your own card. You have to pass a function and return your card component.
@@ -198,7 +199,7 @@ The function will receive these parameters:
 ##### `cardBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `removeCard*` | Call this function to remove the card from the lane    |
+| `removeCard*` | Call this function to remove the card from the column    |
 | `dragging`   | Whether the card is being dragged or not               |
 
 \* It's unavailable when the board is controlled.
@@ -206,9 +207,9 @@ The function will receive these parameters:
 Ex.:
 ```js
 const board = {
-  lanes: [{
-    id: ${unique-required-laneId},
-    title: ${laneTitle},
+  columns: [{
+    id: ${unique-required-columnId},
+    title: ${columnTitle},
     cards: [{
       id: ${unique-required-cardId},
       dueDate: ${cardDueDate},
@@ -229,34 +230,34 @@ const board = {
 </Board>
 ```
 
-#### `renderLaneHeader`
-Use this if you want to render your own lane header. You have to pass a function and return your lane header component.
+#### `renderColumnHeader`
+Use this if you want to render your own column header. You have to pass a function and return your column header component.
 The function will receive these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
-| `lane`       | The lane props                                         |
-| `laneBag`    | A bag with some helper functions to work with the lane |
+| `column`       | The column props                                         |
+| `columnBag`    | A bag with some helper functions to work with the column |
 
-##### `laneBag`
+##### `columnBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `removeLane*` | Call this function to remove the lane from the board   |
-| `renameLane*` | Call this function with a title to rename the lane     |
-| `addCard*`    | Call this function with a new card to add it in the lane |
+| `removeColumn*` | Call this function to remove the column from the board   |
+| `renameColumn*` | Call this function with a title to rename the column     |
+| `addCard*`    | Call this function with a new card to add it in the column |
 
-**`addCard`**: As a second argument you can pass an option to define where in the lane you want to add the card:
-* `{ on: 'top' }`: to add on the top of the lane.
-* `{ on: 'bottom' }`: to add on the bottom of the lane (default).
+**`addCard`**: As a second argument you can pass an option to define where in the column you want to add the card:
+* `{ on: 'top' }`: to add on the top of the column.
+* `{ on: 'bottom' }`: to add on the bottom of the column (default).
 
 \* It's unavailable when the board is controlled.
 
 Ex.:
 ```js
 const board = {
-  lanes: [{
-    id: ${unique-required-laneId},
-    title: ${laneTitle},
+  columns: [{
+    id: ${unique-required-columnId},
+    title: ${columnTitle},
     wip: ${wip},
     cards: [{
       id: ${unique-required-cardId},
@@ -267,103 +268,103 @@ const board = {
 }
 
 <Board
-  renderLaneHeader={({ title }, { removeLane, renameLane, addCard }) => (
-    <YourLaneHeader>
+  renderColumnHeader={({ title }, { removeColumn, renameColumn, addCard }) => (
+    <YourColumnHeader>
       {title}
-      <button type='button' onClick={removeLane}>Remove Lane</button>
-      <button type='button' onClick={() => renameLane('New title')}>Rename Lane</button>
+      <button type='button' onClick={removeColumn}>Remove Column</button>
+      <button type='button' onClick={() => renameColumn('New title')}>Rename Column</button>
       <button type='button' onClick={() => addCard({ id: 99, title: 'New Card' })}>Add Card</button>
-    </YourLaneHeader
+    </YourColumnHeader
   )}
 >
   {board}
 </Board>
 ```
 
-#### `allowAddLane`
-Allow the user to add a new lane directly by the board.
+#### `allowAddColumn`
+Allow the user to add a new column directly by the board.
 
-#### `onNewLaneConfirm`
-When the user confirms a new lane through the default lane adder template, this callback will be called with a draft of a lane with the title typed by the user.
+#### `onNewColumnConfirm`
+When the user confirms a new column through the default column adder template, this callback will be called with a draft of a column with the title typed by the user.
 
-If your board is uncontrolled you **must** return the new lane with its new id in this callback.
+If your board is uncontrolled you **must** return the new column with its new id in this callback.
 
-If your board is controlled use this to get the new lane title.
+If your board is controlled use this to get the new column title.
 
 Ex.:
 ```js
-function onLaneNew (newLane) {
-  const newLane = { id: ${required-new-unique-laneId}, ...newLane }
-  return newLane
+function onColumnNew (newColumn) {
+  const newColumn = { id: ${required-new-unique-columnId}, ...newColumn }
+  return newColumn
 }
 
-<Board initialBoard={board} allowAddLane onLaneNew={onLaneNew} />
+<Board initialBoard={board} allowAddColumn onColumnNew={onColumnNew} />
 ```
 
-#### `onLaneNew`
-When the user adds a new lane through the default lane adder template, this callback will be called passing the updated board and the new lane.
+#### `onColumnNew`
+When the user adds a new column through the default column adder template, this callback will be called passing the updated board and the new column.
 
 This callback will not be called in an uncontrolled board.
 
-#### `renderLaneAdder`
-Use this if you want to render your own lane adder. You have to pass a function and return your lane adder component.
+#### `renderColumnAdder`
+Use this if you want to render your own column adder. You have to pass a function and return your column adder component.
 The function will receive these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
-| `laneBag`    | A bag with some helper functions                       |
+| `columnBag`    | A bag with some helper functions                       |
 
-##### `laneBag`
+##### `columnBag`
 | function     | Description                                            |
 |--------------|------------------------------------------------------- |
-| `addLane*`    | Call this function with a new lane to add the new lane |
+| `addColumn*`    | Call this function with a new column to add the new column |
 
 \* It's unavailable when the board is controlled.
 
 Ex.:
 ```js
-const LaneAdder = ({ addLane }) {
+const ColumnAdder = ({ addColumn }) {
   return (
-    <div onClick={()=> addLane({id: ${required-new-unique-laneId}, title: 'Title', cards:[]})}>
-      Add lane
+    <div onClick={()=> addColumn({id: ${required-new-unique-columnId}, title: 'Title', cards:[]})}>
+      Add column
     </div>
   )
 }
 
 <Board
-  allowAddLane
-  renderLaneAdder={({ addLane }) => <LaneAdder addLane={addLane} />}
+  allowAddColumn
+  renderColumnAdder={({ addColumn }) => <ColumnAdder addColumn={addColumn} />}
   {board}
 </Board>
 ```
 
-#### `disableLaneDrag`
-Disallow the user from move a lane.
+#### `disableColumnDrag`
+Disallow the user from move a column.
 
 #### `disableCardDrag`
 Disallow the user from move a card.
 
-#### `allowRemoveLane`
-When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to remove a lane.
+#### `allowRemoveColumn`
+When using the default header template, when you don't pass a template through the `renderColumnHeader`, it will allow the user to remove a column.
 
-#### `onLaneRemove`
-When the user removes a lane, this callback will be called passing these parameters:
-
-| Arg          | Description                                            |
-|--------------|------------------------------------------------------- |
-| `board`      | The board without the removed lane                     |
-| `lane`       | The removed lane                                       |
-
-#### `allowRenameLane`
-When using the default header template, when you don't pass a template through the `renderLaneHeader`, it will allow the user to rename a lane.
-
-#### `onLaneRename`
-When the user renames a lane, this callback will be called passing these parameters:
+#### `onColumnRemove`
+When the user removes a column, this callback will be called passing these parameters:
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
-| `board`      | The board with the renamed lane                        |
-| `lane`       | The renamed lane                                       |
+| `board`      | The board without the removed column                     |
+| `column`       | The removed column                                       |
+
+#### `allowRenameColumn`
+When using the default header template, when you don't pass a template through the `renderColumnHeader`, it will allow the user to rename a column.
+
+#### `onColumnRename`
+When the user renames a column, this callback will be called passing these parameters:
+
+| Arg          | Description                                            |
+|--------------|------------------------------------------------------- |
+| `board`      | The board with the renamed column                        |
+| `column`       | The renamed column                                       |
 
 #### `allowRemoveCard`
 When using the default card template, when you don't pass a template through the `renderCard`, it will allow the user to remove a card.
@@ -373,66 +374,66 @@ When the user removes a card, this callback will be called passing these paramet
 
 | Arg          | Description                                            |
 |--------------|------------------------------------------------------- |
-| `board`      | The board without the removed lane                     |
-| `lane`       | The lane without the removed card                      |
+| `board`      | The board without the removed column                     |
+| `column`       | The column without the removed card                      |
 | `card`       | The removed card                                       |
 
 
 ### 🔩 Helpers to be used with an controlled board
 
-#### `moveLane`
+#### `moveColumn`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `{ fromPosition }` | Index of lane to be moved |
-| `{ toPosition }` | Index destination of lane to be moved |
+| `{ fromPosition }` | Index of column to be moved |
+| `{ toPosition }` | Index destination of column to be moved |
 
 #### `moveCard`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `{ fromPosition, fromLaneId }` | Index and laneId of card to be moved |
-| `{ toPosition, toLaneId }` | Index and laneId of the card destination  |
+| `{ fromPosition, fromColumnId }` | Index and columnId of card to be moved |
+| `{ toPosition, toColumnId }` | Index and columnId of the card destination  |
 
-#### `addLane`
-
-| Arg | Description                                                            |
-|-|-|
-| `board` | Your board |
-| `lane` | Lane to be added |
-
-#### `removeLane`
+#### `addColumn`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `lane` | Lane to be removed |
+| `column` | Column to be added |
 
-#### `renameLane`
+#### `removeColumn`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `lane` | Lane to be renamed |
-| `newtitle` | New title of the lane |
+| `column` | Column to be removed |
+
+#### `changeColumn`
+
+| Arg | Description                                                            |
+|-|-|
+| `board` | Your board |
+| `column` | Column to be renamed |
+| `object` | Pass a object to be merged with the column. You can add new props and/or change the existing ones |
 
 #### `addCard`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `inLane` | Lane to add the card be added |
+| `inColumn` | Column to add the card be added |
 | `card` | Card to be added |
-| `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the lane (`bottom` is default) |
+| `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the column (`bottom` is default) |
 
 #### `removeCard`
 
 | Arg | Description                                                            |
 |-|-|
 | `board` | Your board |
-| `fromLane` | Lane where the card is |
+| `fromColumn` | Column where the card is |
 | `card` | Card to be removed |
 
 ## 🧪 Tests

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import CursorPointer from '../CursorPointer'
 
-const LaneHeaderSkeleton = styled.div`
+const ColumnHeaderSkeleton = styled.div`
   padding-bottom: 10px;
   font-weight: bold;
   display: flex;
@@ -31,8 +31,8 @@ const Input = styled.input`
   }
 `
 
-function LaneTitle({ allowRenameLane, onClick, children: title }) {
-  return allowRenameLane ? <CursorPointer onClick={onClick}>{title}</CursorPointer> : <span>{title}</span>
+function ColumnTitle({ allowRenameColumn, onClick, children: title }) {
+  return allowRenameColumn ? <CursorPointer onClick={onClick}>{title}</CursorPointer> : <span>{title}</span>
 }
 
 function useRenameMode(state) {
@@ -45,28 +45,26 @@ function useRenameMode(state) {
   return [renameMode, toggleRenameMode]
 }
 
-export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRenameLane, onLaneRename }) {
+export default function({ children: column, allowRemoveColumn, onColumnRemove, allowRenameColumn, onColumnRename }) {
   const [renameMode, toggleRenameMode] = useRenameMode(false)
-  const [title, setTitle] = useState(lane.title)
   const [titleInput, setTitleInput] = useState('')
 
-  function handleRenameLane(event) {
+  function handleRenameColumn(event) {
     event.preventDefault()
 
-    onLaneRename(lane, titleInput)
-    setTitle(titleInput)
+    onColumnRename(column, titleInput)
     toggleRenameMode()
   }
 
   function handleRenameMode() {
-    setTitleInput(title)
+    setTitleInput(column.title)
     toggleRenameMode()
   }
 
   return (
-    <LaneHeaderSkeleton>
+    <ColumnHeaderSkeleton>
       {renameMode ? (
-        <form onSubmit={handleRenameLane}>
+        <form onSubmit={handleRenameColumn}>
           <span>
             <Input
               type='text'
@@ -84,12 +82,12 @@ export default function({ children: lane, allowRemoveLane, onLaneRemove, allowRe
         </form>
       ) : (
         <>
-          <LaneTitle allowRenameLane={allowRenameLane} onClick={handleRenameMode}>
-            {title}
-          </LaneTitle>
-          {allowRemoveLane && <span onClick={() => onLaneRemove(lane)}>×</span>}
+          <ColumnTitle allowRenameColumn={allowRenameColumn} onClick={handleRenameMode}>
+            {column.title}
+          </ColumnTitle>
+          {allowRemoveColumn && <span onClick={() => onColumnRemove(column)}>×</span>}
         </>
       )}
-    </LaneHeaderSkeleton>
+    </ColumnHeaderSkeleton>
   )
 }

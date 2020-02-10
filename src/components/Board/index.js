@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
-import Lane from './components/Lane'
-import LaneAdder from './components/LaneAdder'
+import Column from './components/Column'
+import ColumnAdder from './components/ColumnAdder'
 import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
-import DefaultLaneHeader from './components/DefaultLaneHeader'
+import DefaultColumnHeader from './components/DefaultColumnHeader'
 import DefaultCard from './components/DefaultCard'
-import { getCard, getCoordinates, isALaneMove } from './services'
-import { moveCard, moveLane, addLane, removeLane, renameLane, addCard, removeCard } from '@services/helpers'
+import { getCard, getCoordinates, isAColumnMove } from './services'
+import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
 const StyledBoard = styled.div`
   padding: 5px;
@@ -17,11 +17,11 @@ const StyledBoard = styled.div`
   align-items: flex-start;
 `
 
-const Lanes = styled.div`
+const Columns = styled.div`
   white-space: nowrap;
 `
 
-const DroppableBoard = withDroppable(Lanes)
+const DroppableBoard = withDroppable(Columns)
 
 function Board(props) {
   return props.initialBoard ? <UncontrolledBoard {...props} /> : <ControlledBoard {...props} />
@@ -30,73 +30,74 @@ function Board(props) {
 function UncontrolledBoard({
   initialBoard,
   onCardDragEnd,
-  onLaneDragEnd,
-  allowAddLane,
-  renderLaneAdder,
-  onNewLaneConfirm,
-  onLaneRemove,
-  renderLaneHeader,
-  allowRemoveLane,
-  allowRenameLane,
-  onLaneRename,
+  onColumnDragEnd,
+  allowAddColumn,
+  renderColumnAdder,
+  onNewColumnConfirm,
+  onColumnRemove,
+  renderColumnHeader,
+  allowRemoveColumn,
+  allowRenameColumn,
+  onColumnRename,
   onCardNew,
   renderCard,
   allowRemoveCard,
   onCardRemove,
-  onLaneNew,
+  onColumnNew,
   disableCardDrag,
-  disableLaneDrag,
+  disableColumnDrag,
   allowAddCard,
   onNewCardConfirm
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
-  const handleOnLaneDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveLane, notifyCallback: onLaneDragEnd })
+  const handleOnColumnDragEnd = partialRight(handleOnDragEnd, {
+    moveCallback: moveColumn,
+    notifyCallback: onColumnDragEnd
+  })
 
-  function handleOnDragEnd({ source, destination, card }, { moveCallback, notifyCallback }) {
+  function handleOnDragEnd({ source, destination, subject }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
-    when(notifyCallback)(callback =>
-      card ? callback(reorderedBoard, card, source, destination) : callback(reorderedBoard, source, destination)
-    )
+    when(notifyCallback)(callback => callback(reorderedBoard, subject, source, destination))
     setBoard(reorderedBoard)
   }
 
-  async function handleLaneAdd(newLane) {
-    const lane = renderLaneAdder ? newLane : await onNewLaneConfirm(newLane)
-    const boardWithNewLane = addLane(board, lane)
-    onLaneNew(boardWithNewLane, lane)
-    setBoard(boardWithNewLane)
+  async function handleColumnAdd(newColumn) {
+    const column = renderColumnAdder ? newColumn : await onNewColumnConfirm(newColumn)
+    const boardWithNewColumn = addColumn(board, column)
+    onColumnNew(boardWithNewColumn, column)
+    setBoard(boardWithNewColumn)
   }
 
-  function handleLaneRemove(lane) {
-    const filteredBoard = removeLane(board, lane)
-    onLaneRemove(filteredBoard, lane)
+  function handleColumnRemove(column) {
+    const filteredBoard = removeColumn(board, column)
+    onColumnRemove(filteredBoard, column)
     setBoard(filteredBoard)
   }
 
-  function handleLaneRename(lane, title) {
-    const boardWithRenamedLane = renameLane(board, lane, title)
-    onLaneRename(boardWithRenamedLane, { ...lane, title })
-    setBoard(boardWithRenamedLane)
+  function handleColumnRename(column, title) {
+    const boardWithRenamedColumn = changeColumn(board, column, { title })
+    onColumnRename(boardWithRenamedColumn, { ...column, title })
+    setBoard(boardWithRenamedColumn)
   }
 
-  async function handleCardAdd(lane, card, options = {}) {
-    const newCard = onNewCardConfirm && !renderLaneHeader && (await onNewCardConfirm(card))
-    const boardWithNewCard = addCard(board, lane, newCard || card, options)
+  async function handleCardAdd(column, card, options = {}) {
+    const newCard = onNewCardConfirm && !renderColumnHeader && (await onNewCardConfirm(card))
+    const boardWithNewCard = addCard(board, column, newCard || card, options)
 
     onCardNew(
       boardWithNewCard,
-      boardWithNewCard.lanes.find(({ id }) => id === lane.id),
+      boardWithNewCard.columns.find(({ id }) => id === column.id),
       newCard || card
     )
     setBoard(boardWithNewCard)
   }
 
-  function handleCardRemove(lane, card) {
-    const boardWithoutCard = removeCard(board, lane, card)
+  function handleCardRemove(column, card) {
+    const boardWithoutCard = removeCard(board, column, card)
     onCardRemove(
       boardWithoutCard,
-      boardWithoutCard.lanes.find(({ id }) => id === lane.id),
+      boardWithoutCard.columns.find(({ id }) => id === column.id),
       card
     )
     setBoard(boardWithoutCard)
@@ -105,40 +106,40 @@ function UncontrolledBoard({
   return (
     <BoardContainer
       onCardDragEnd={handleOnCardDragEnd}
-      onLaneDragEnd={handleOnLaneDragEnd}
-      renderLaneAdder={() => {
-        if (!allowAddLane) return null
-        if (renderLaneAdder) return renderLaneAdder({ addLane: handleLaneAdd })
-        if (!onNewLaneConfirm) return null
-        return <LaneAdder onConfirm={title => handleLaneAdd({ title, cards: [] })} />
+      onColumnDragEnd={handleOnColumnDragEnd}
+      renderColumnAdder={() => {
+        if (!allowAddColumn) return null
+        if (renderColumnAdder) return renderColumnAdder({ addColumn: handleColumnAdd })
+        if (!onNewColumnConfirm) return null
+        return <ColumnAdder onConfirm={title => handleColumnAdd({ title, cards: [] })} />
       }}
-      {...(renderLaneHeader && {
-        renderLaneHeader: lane =>
-          renderLaneHeader(lane, {
-            removeLane: handleLaneRemove.bind(null, lane),
-            renameLane: handleLaneRename.bind(null, lane),
-            addCard: handleCardAdd.bind(null, lane)
+      {...(renderColumnHeader && {
+        renderColumnHeader: column =>
+          renderColumnHeader(column, {
+            removeColumn: handleColumnRemove.bind(null, column),
+            renameColumn: handleColumnRename.bind(null, column),
+            addCard: handleCardAdd.bind(null, column)
           })
       })}
-      renderCard={(lane, card, dragging) => {
-        if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, lane, card), dragging })
+      renderCard={(column, card, dragging) => {
+        if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, column, card), dragging })
         return (
           <DefaultCard
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
-            onCardRemove={card => handleCardRemove(lane, card)}
+            onCardRemove={card => handleCardRemove(column, card)}
           >
             {card}
           </DefaultCard>
         )
       }}
-      allowRemoveLane={allowRemoveLane}
-      onLaneRemove={handleLaneRemove}
-      allowRenameLane={allowRenameLane}
-      onLaneRename={handleLaneRename}
-      disableLaneDrag={disableLaneDrag}
+      allowRemoveColumn={allowRemoveColumn}
+      onColumnRemove={handleColumnRemove}
+      allowRenameColumn={allowRenameColumn}
+      onColumnRename={handleColumnRename}
+      disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
-      onCardAdd={(lane, card) => handleCardAdd(lane, card, allowAddCard)}
+      onCardAdd={(column, card) => handleCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
     >
       {board}
@@ -149,41 +150,40 @@ function UncontrolledBoard({
 function ControlledBoard({
   children: board,
   onCardDragEnd,
-  onLaneDragEnd,
-  allowAddLane,
-  renderLaneAdder,
-  onNewLaneConfirm,
-  onLaneRemove,
-  renderLaneHeader,
-  allowRemoveLane,
-  allowRenameLane,
-  onLaneRename,
+  onColumnDragEnd,
+  allowAddColumn,
+  renderColumnAdder,
+  onNewColumnConfirm,
+  onColumnRemove,
+  renderColumnHeader,
+  allowRemoveColumn,
+  allowRenameColumn,
+  onColumnRename,
   renderCard,
   allowRemoveCard,
   onCardRemove,
   disableCardDrag,
-  disableLaneDrag
+  disableColumnDrag
 }) {
-  function handleOnCardDragEnd({ source, destination, card }) {
-    when(onCardDragEnd)(callback => callback(card, source, destination))
-  }
+  const handleOnCardDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onCardDragEnd })
+  const handleOnColumnDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onColumnDragEnd })
 
-  function handleOnLaneDragEnd({ source, destination }) {
-    when(onLaneDragEnd)(callback => callback(source, destination))
+  function handleOnDragEnd({ source, destination, subject }, { notifyCallback }) {
+    when(notifyCallback)(callback => callback(subject, source, destination))
   }
 
   return (
     <BoardContainer
       onCardDragEnd={handleOnCardDragEnd}
-      onLaneDragEnd={handleOnLaneDragEnd}
-      renderLaneAdder={() => {
-        if (!allowAddLane) return null
-        if (renderLaneAdder) return renderLaneAdder()
-        if (!onNewLaneConfirm) return null
-        return <LaneAdder onConfirm={title => onNewLaneConfirm({ title, cards: [] })} />
+      onColumnDragEnd={handleOnColumnDragEnd}
+      renderColumnAdder={() => {
+        if (!allowAddColumn) return null
+        if (renderColumnAdder) return renderColumnAdder()
+        if (!onNewColumnConfirm) return null
+        return <ColumnAdder onConfirm={title => onNewColumnConfirm({ title, cards: [] })} />
       }}
-      {...(renderLaneHeader && { renderLaneHeader: renderLaneHeader })}
-      renderCard={(_lane, card, dragging) => {
+      {...(renderColumnHeader && { renderColumnHeader: renderColumnHeader })}
+      renderCard={(_column, card, dragging) => {
         if (renderCard) return renderCard(card, { dragging })
         return (
           <DefaultCard dragging={dragging} allowRemoveCard={allowRemoveCard} onCardRemove={onCardRemove}>
@@ -191,11 +191,11 @@ function ControlledBoard({
           </DefaultCard>
         )
       }}
-      allowRemoveLane={allowRemoveLane}
-      onLaneRemove={onLaneRemove}
-      allowRenameLane={allowRenameLane}
-      onLaneRename={onLaneRename}
-      disableLaneDrag={disableLaneDrag}
+      allowRemoveColumn={allowRemoveColumn}
+      onColumnRemove={onColumnRemove}
+      allowRenameColumn={allowRenameColumn}
+      onColumnRename={onColumnRename}
+      disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
     >
       {board}
@@ -206,15 +206,15 @@ function ControlledBoard({
 function BoardContainer({
   children: board,
   renderCard,
-  disableLaneDrag,
+  disableColumnDrag,
   disableCardDrag,
-  renderLaneHeader,
-  renderLaneAdder,
-  allowRemoveLane,
-  onLaneRemove,
-  allowRenameLane,
-  onLaneRename,
-  onLaneDragEnd,
+  renderColumnHeader,
+  renderColumnAdder,
+  allowRemoveColumn,
+  onColumnRemove,
+  allowRenameColumn,
+  onColumnRename,
+  onColumnDragEnd,
   onCardDragEnd,
   onCardAdd,
   allowAddCard
@@ -223,44 +223,44 @@ function BoardContainer({
     const coordinates = getCoordinates(event, board)
     if (!coordinates.source) return
 
-    isALaneMove(event.type)
-      ? onLaneDragEnd(coordinates)
-      : onCardDragEnd({ ...coordinates, card: getCard(board, coordinates.source) })
+    isAColumnMove(event.type)
+      ? onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
+      : onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
   }
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <StyledBoard>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
-          {board.lanes.map((lane, index) => (
-            <Lane
-              key={lane.id}
+          {board.columns.map((column, index) => (
+            <Column
+              key={column.id}
               index={index}
               renderCard={renderCard}
-              renderLaneHeader={lane =>
-                renderLaneHeader ? (
-                  renderLaneHeader(lane)
+              renderColumnHeader={column =>
+                renderColumnHeader ? (
+                  renderColumnHeader(column)
                 ) : (
-                  <DefaultLaneHeader
-                    allowRemoveLane={allowRemoveLane}
-                    onLaneRemove={onLaneRemove}
-                    allowRenameLane={allowRenameLane}
-                    onLaneRename={onLaneRename}
+                  <DefaultColumnHeader
+                    allowRemoveColumn={allowRemoveColumn}
+                    onColumnRemove={onColumnRemove}
+                    allowRenameColumn={allowRenameColumn}
+                    onColumnRename={onColumnRename}
                   >
-                    {lane}
-                  </DefaultLaneHeader>
+                    {column}
+                  </DefaultColumnHeader>
                 )
               }
-              disableLaneDrag={disableLaneDrag}
+              disableColumnDrag={disableColumnDrag}
               disableCardDrag={disableCardDrag}
               onCardAdd={onCardAdd}
               allowAddCard={allowAddCard}
             >
-              {lane}
-            </Lane>
+              {column}
+            </Column>
           ))}
         </DroppableBoard>
-        {renderLaneAdder()}
+        {renderColumnAdder()}
       </StyledBoard>
     </DragDropContext>
   )

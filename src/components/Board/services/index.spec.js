@@ -1,4 +1,4 @@
-import { getCard, isALaneMove, getCoordinates } from './'
+import { getCard, isAColumnMove, getCoordinates } from './'
 
 describe('#getCoordinates', () => {
   describe('when the event does not have destination', () => {
@@ -7,21 +7,21 @@ describe('#getCoordinates', () => {
     })
   })
 
-  describe('when the event is a lane move', () => {
+  describe('when the event is a column move', () => {
     const event = {
       type: 'BOARD',
       source: { index: 0, droppableId: 0 },
       destination: { index: 1, droppableId: 1 }
     }
 
-    it('returns the lane coordinates', () => {
+    it('returns the column coordinates', () => {
       expect(getCoordinates(event)).toEqual({ destination: { toPosition: 1 }, source: { fromPosition: 0 } })
     })
   })
 
   describe('when the event is a card move', () => {
     const board = {
-      lanes: [
+      columns: [
         { id: 1, cards: [{ id: 1 }] },
         { id: '2', cards: [{ id: 2 }] }
       ]
@@ -35,33 +35,33 @@ describe('#getCoordinates', () => {
 
     it('returns the card coordinates', () => {
       expect(getCoordinates(event, board)).toEqual({
-        source: { fromLaneId: 1, fromPosition: 0 },
-        destination: { toLaneId: '2', toPosition: 1 }
+        source: { fromColumnId: 1, fromPosition: 0 },
+        destination: { toColumnId: '2', toPosition: 1 }
       })
     })
   })
 })
 
-describe('#isALaneMove', () => {
+describe('#isAColumnMove', () => {
   describe('when the type is "BOARD"', () => {
     it('returns true', () => {
-      expect(isALaneMove('BOARD')).toEqual(true)
+      expect(isAColumnMove('BOARD')).toEqual(true)
     })
   })
 
   describe('when the type is not "BOARD"', () => {
     it('returns false', () => {
-      expect(isALaneMove('IS_NOT_BOARD')).toEqual(false)
+      expect(isAColumnMove('IS_NOT_BOARD')).toEqual(false)
     })
   })
 })
 
 describe('#getCard', () => {
   const board = {
-    lanes: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
+    columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
   }
 
   it('returns the card of the board from the given source', () => {
-    expect(getCard(board, { fromLaneId: 1, fromPosition: 1 })).toEqual({ id: 2 })
+    expect(getCard(board, { fromColumnId: 1, fromPosition: 1 })).toEqual({ id: 2 })
   })
 })

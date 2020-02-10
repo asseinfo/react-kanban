@@ -18,9 +18,9 @@ const AddCardButton = styled.button`
   font-weight: bold;
 `
 
-export default function CardAdder({ lane, onConfirm }) {
+export default function CardAdder({ column, onConfirm }) {
   function confirmCard(card) {
-    onConfirm(lane, card)
+    onConfirm(column, card)
     setAddingCard(false)
   }
 

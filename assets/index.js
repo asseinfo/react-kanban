@@ -4,10 +4,10 @@ import Board from '../src'
 import getUrlParams from './services/getUrlParams'
 
 const board = {
-  lanes: [
+  columns: [
     {
-      id: 1,
-      title: 'Lane Backlog',
+      id: '0206c8d7-4d48-4d97-b867-86fc2d21074d',
+      title: 'Column Backlog',
       cards: [
         {
           id: 1,
@@ -53,7 +53,7 @@ const board = {
     },
     {
       id: 2,
-      title: 'Lane Doing',
+      title: 'Column Doing',
       cards: [
         {
           id: 9,
@@ -68,8 +68,8 @@ const board = {
 render(
   <Board
     {...getUrlParams()}
-    onLaneRemove={console.log}
-    onLaneRename={console.log}
+    onColumnRemove={console.log}
+    onColumnRename={console.log}
     onCardRemove={console.log}
     initialBoard={board}
   />,

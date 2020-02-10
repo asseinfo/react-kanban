@@ -1,13 +1,13 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import Lane, { StyledLane } from './'
+import Column, { StyledColumn } from './'
 
-describe('<Lane />', () => {
+describe('<Column />', () => {
   let subject
 
   const renderCard = jest.fn((_, { title }) => <div>{title}</div>)
 
-  const lane = {
+  const column = {
     id: 1,
     title: 'Backlog',
     cards: [
@@ -24,11 +24,11 @@ describe('<Lane />', () => {
     ]
   }
 
-  function mount({ children = lane, ...otherProps } = {}) {
+  function mount({ children = column, ...otherProps } = {}) {
     subject = render(
-      <Lane {...otherProps} renderLaneHeader={() => <div>Backlog</div>} renderCard={renderCard}>
+      <Column {...otherProps} renderColumnHeader={() => <div>Backlog</div>} renderCard={renderCard}>
         {children}
-      </Lane>
+      </Column>
     )
     return subject
   }
@@ -40,26 +40,26 @@ describe('<Lane />', () => {
 
   beforeEach(reset)
 
-  it('renders a lane', () => {
+  it('renders a column', () => {
     expect(mount().container.querySelector('div')).toBeInTheDocument()
   })
 
-  it("renders the lane's header", () => {
+  it("renders the column's header", () => {
     expect(mount().queryByText(/^Backlog$/)).toBeInTheDocument()
   })
 
-  describe("about the lane's card", () => {
+  describe("about the column's card", () => {
     beforeEach(() => mount())
 
-    it('renders the specified cards in the lane ordered by its specified position', () => {
+    it('renders the specified cards in the column ordered by its specified position', () => {
       const cards = subject.queryAllByText(/^Card title/)
       expect(cards).toHaveLength(2)
       expect(cards[0]).toHaveTextContent(/^Card title 1/)
       expect(cards[1]).toHaveTextContent(/^Card title 2/)
     })
 
-    it('calls the "renderCard" passing the lane, the card and whether the card is dragging or not', () => {
-      expect(renderCard).toHaveBeenCalledWith(lane, expect.objectContaining({ id: 1, title: 'Card title 1' }), false)
+    it('calls the "renderCard" passing the column, the card and whether the card is dragging or not', () => {
+      expect(renderCard).toHaveBeenCalledWith(column, expect.objectContaining({ id: 1, title: 'Card title 1' }), false)
     })
   })
 
@@ -101,7 +101,7 @@ describe('<Lane />', () => {
 
           it('calls the onCardAdd prop passing the values', () => {
             expect(onCardAdd).toHaveBeenCalledTimes(1)
-            expect(onCardAdd).toHaveBeenCalledWith(lane, { title: 'Card title', description: 'Description' })
+            expect(onCardAdd).toHaveBeenCalledWith(column, { title: 'Card title', description: 'Description' })
           })
         })
 
@@ -117,8 +117,8 @@ describe('<Lane />', () => {
   })
 })
 
-describe('<StyledLane />', () => {
-  it('renders a lane', () => {
-    expect(render(<StyledLane />).container.querySelector('div')).toBeInTheDocument()
+describe('<StyledColumn />', () => {
+  it('renders a column', () => {
+    expect(render(<StyledColumn />).container.querySelector('div')).toBeInTheDocument()
   })
 })
