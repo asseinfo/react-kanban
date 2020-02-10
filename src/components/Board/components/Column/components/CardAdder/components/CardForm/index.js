@@ -36,21 +36,17 @@ const StyledFormButtons = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 5px;
-  button{
-    background-color: #eee;
-    border: 1px solid #ccc;
-    border: none;
-    padding: 5px;
-    width:80%
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  button:hover {
+`
+
+const StyledButton = styled.button`
+  background-color: #eee;
+  border: none;
+  padding: 5px;
+  width: 80%;
+  &:hover {
     transition: 0.3s;
+    cursor: pointer;
     background-color: #ccc;
-  }
-  button:first-of-type{
-    margin-right:15px;
   }
 `
 
@@ -71,15 +67,15 @@ function CardForm({ onConfirm, onCancel }) {
         <CardTitle name='title' autoFocus defaultValue='Title' ref={inputCardTitle} />
         <CardDescription name='description' defaultValue='Description' ref={inputCardDescription} />
         <StyledFormButtons>
-          <button type='submit'> Add </button>
-          <button
+          <StyledButton type='submit'> Add </StyledButton>
+          <StyledButton
             onClick={event => {
               event.preventDefault()
               onCancel()
             }}
           >
             Cancel
-          </button>
+          </StyledButton>
         </StyledFormButtons>
       </form>
     </DefaultCard>
