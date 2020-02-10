@@ -4,11 +4,11 @@ import CardAdder from './'
 
 describe('<CardAdder />', () => {
   let subject, onConfirm
-  const lane = { id: 1 }
+  const column = { id: 1 }
   function mount() {
     onConfirm = jest.fn()
 
-    subject = render(<CardAdder lane={lane} onConfirm={onConfirm} />)
+    subject = render(<CardAdder column={column} onConfirm={onConfirm} />)
   }
 
   beforeEach(mount)
@@ -43,9 +43,9 @@ describe('<CardAdder />', () => {
         fireEvent.click(subject.queryByText('Add'))
       })
 
-      it('calls the "onConfirm" prop passing the new card and the lane', () => {
+      it('calls the "onConfirm" prop passing the new card and the column', () => {
         expect(onConfirm).toHaveBeenCalledTimes(1)
-        expect(onConfirm).toHaveBeenCalledWith(lane, { title: 'Card Added by user', description: 'Description' })
+        expect(onConfirm).toHaveBeenCalledWith(column, { title: 'Card Added by user', description: 'Description' })
       })
 
       it('hides the input', () => {
