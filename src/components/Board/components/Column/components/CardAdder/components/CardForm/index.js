@@ -56,7 +56,7 @@ const StyledFormButtons = styled.div`
   }
 `
 
-function LaneForm({ onConfirm, onCancel }) {
+function CardForm({ onConfirm, onCancel }) {
   const inputCardTitle = React.createRef()
   const inputCardDescription = React.createRef()
 
@@ -92,4 +92,4 @@ function LaneForm({ onConfirm, onCancel }) {
   )
 }
 
-export default LaneForm
+export default CardForm
