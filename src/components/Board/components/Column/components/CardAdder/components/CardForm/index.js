@@ -15,24 +15,22 @@ const DefaultCard = styled(CardSkeleton)`
   }
 `
 
-const CardTitle = styled.div`
-  input {
-    font-weight: bold;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 5px;
-    font-weight: bold;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0px;
-  }
+const CardTitle = styled.input`
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px;
 `
 
-const CardDescription = styled.div`
+const CardDescription = styled.input`
   input {
     width: 100%;
   }
-  padding-top: 10px;
+  margin-top: 10px;
 `
 const StyledFormButtons = styled.div`
   display: flex;
@@ -70,12 +68,8 @@ function CardForm({ onConfirm, onCancel }) {
   return (
     <DefaultCard>
       <form onSubmit={addCard}>
-        <CardTitle>
-          <input name='title' autoFocus defaultValue='Title' ref={inputCardTitle} />
-        </CardTitle>
-        <CardDescription>
-          <input name='description' defaultValue='Description' ref={inputCardDescription} />
-        </CardDescription>
+        <CardTitle name='title' autoFocus defaultValue='Title' ref={inputCardTitle} />
+        <CardDescription name='description' defaultValue='Description' ref={inputCardDescription} />
         <StyledFormButtons>
           <button type='submit'> Add </button>
           <button
