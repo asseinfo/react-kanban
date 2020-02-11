@@ -10,7 +10,7 @@ const board = {
       title: 'Column Backlog',
       cards: [
         {
-          id: 1,
+          id: '0206c8d7-4d48-4d97-b867-86fc2d21075d',
           title: 'Card title 1',
           description: 'Card content'
         },
