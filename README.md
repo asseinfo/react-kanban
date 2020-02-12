@@ -476,7 +476,7 @@ function onCardNew (newCard) {
   return newCard
 }
 
-<Board initialBoard={board} allowAddCard onCardNew={onCardNew} />
+<Board initialBoard={board} allowAddCard onNewCardConfirm={onCardNew} onCardNew={console.log} />
 ```
 
 #### `removeCard`
