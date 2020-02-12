@@ -51,7 +51,7 @@
     "start-server-and-test": "1.10.8",
     "styled-components": "5.0.1",
     "webpack": "4.41.5",
-    "webpack-cli": "3.3.10",
+    "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   },
   "scripts": {
