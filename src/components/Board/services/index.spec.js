@@ -1,4 +1,4 @@
-import { getCard, isAColumnMove, getCoordinates } from './'
+import { getCard, isAColumnMove, getCoordinates, isValidColumnCoordinates } from './'
 
 describe('#getCoordinates', () => {
   describe('when the event does not have destination', () => {
@@ -63,5 +63,29 @@ describe('#getCard', () => {
 
   it('returns the card of the board from the given source', () => {
     expect(getCard(board, { fromColumnId: 1, fromPosition: 1 })).toEqual({ id: 2 })
+  })
+})
+
+describe('#isValidColumnCoordinates', () => {
+  describe('when coordinates does not have same source and destination', () => {
+    const validColumnCoordinates = {
+      source: { fromPosition: 0 },
+      destination: { toPosition: 1 }
+    }
+
+    it('returns true', () => {
+      expect(isValidColumnCoordinates(validColumnCoordinates)).toEqual(true)
+    })
+  })
+
+  describe('when coordinates has same source and destination', () => {
+    const invalidColumnCoordinates = {
+      source: { fromPosition: 0 },
+      destination: { toPosition: 0 }
+    }
+
+    it('returns false', () => {
+      expect(isValidColumnCoordinates(invalidColumnCoordinates)).toEqual(false)
+    })
   })
 })
