@@ -7,7 +7,7 @@ import withDroppable from '../withDroppable'
 import { when, partialRight } from '@services/utils'
 import DefaultColumnHeader from './components/DefaultColumnHeader'
 import DefaultCard from './components/DefaultCard'
-import { getCard, getCoordinates, isAColumnMove, isValidColumnCoordinates } from './services'
+import { getCard, getCoordinates, isAColumnMove, isValidColumnCoordinates, isValidCardCoordinates } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
 const StyledBoard = styled.div`
@@ -218,7 +218,8 @@ function BoardContainer({
     isAColumnMove(event.type)
       ? isValidColumnCoordinates(coordinates) &&
         onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
-      : onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
+      : isValidCardCoordinates(coordinates) &&
+        onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
   }
 
   return (

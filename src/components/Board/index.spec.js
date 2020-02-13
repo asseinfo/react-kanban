@@ -99,6 +99,21 @@ describe('<Board />', () => {
           })
         })
 
+        describe('whe the user moves a card to the same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({
+                source: { droppableId: '1', index: 0 },
+                destination: { droppableId: '1', index: 0 }
+              })
+            })
+          })
+
+          it('does not call onCardDragEnd callback', () => {
+            expect(onCardDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
         describe('when the user moves a card to another position', () => {
           beforeEach(() => {
             act(() => {
@@ -629,6 +644,21 @@ describe('<Board />', () => {
         describe('when the user cancels the card moving', () => {
           beforeEach(() => {
             callbacks.onDragEnd({ source: null, destination: null })
+          })
+
+          it('does not call onCardDragEnd callback', () => {
+            expect(onCardDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
+        describe('whe the user moves a card to the same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({
+                source: { droppableId: '1', index: 0 },
+                destination: { droppableId: '1', index: 0 }
+              })
+            })
           })
 
           it('does not call onCardDragEnd callback', () => {

@@ -1,4 +1,4 @@
-import { getCard, isAColumnMove, getCoordinates, isValidColumnCoordinates } from './'
+import { getCard, isAColumnMove, getCoordinates, isValidColumnCoordinates, isValidCardCoordinates } from './'
 
 describe('#getCoordinates', () => {
   describe('when the event does not have destination', () => {
@@ -86,6 +86,43 @@ describe('#isValidColumnCoordinates', () => {
 
     it('returns false', () => {
       expect(isValidColumnCoordinates(invalidColumnCoordinates)).toEqual(false)
+    })
+  })
+})
+
+describe('#isValidCardCoordinates', () => {
+  describe('when coordinates does not have same source and destination', () => {
+    describe('when the source column is different from the destination column', () => {
+      const validCardCoordinates = {
+        source: { fromPosition: 0, fromColumnId: 0 },
+        destination: { toPosition: 0, toColumnId: 1 }
+      }
+
+      it('returns true', () => {
+        expect(isValidCardCoordinates(validCardCoordinates)).toEqual(true)
+      })
+    })
+
+    describe('when the source position is different from the destination position', () => {
+      const validCardCoordinates = {
+        source: { fromPosition: 0, fromColumnId: 0 },
+        destination: { toPosition: 1, toColumnId: 0 }
+      }
+
+      it('returns true', () => {
+        expect(isValidCardCoordinates(validCardCoordinates)).toEqual(true)
+      })
+    })
+  })
+
+  describe('when coordinates has same source and destination', () => {
+    const validCardCoordinates = {
+      source: { fromPosition: 0, fromColumnId: 0 },
+      destination: { toPosition: 0, toColumnId: 0 }
+    }
+
+    it('returns false', () => {
+      expect(isValidCardCoordinates(validCardCoordinates)).toEqual(false)
     })
   })
 })
