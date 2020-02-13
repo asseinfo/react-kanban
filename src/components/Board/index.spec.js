@@ -99,6 +99,21 @@ describe('<Board />', () => {
           })
         })
 
+        describe('whe the user moves a card to the same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({
+                source: { droppableId: '1', index: 0 },
+                destination: { droppableId: '1', index: 0 }
+              })
+            })
+          })
+
+          it('does not call onCardDragEnd callback', () => {
+            expect(onCardDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
         describe('when the user moves a card to another position', () => {
           beforeEach(() => {
             act(() => {
@@ -131,6 +146,18 @@ describe('<Board />', () => {
         describe('when the user cancels the column moving', () => {
           beforeEach(() => {
             callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
+          })
+
+          it('does not call onColumnDragEnd callback', () => {
+            expect(onColumnDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
+        describe('when the user moves a column to same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 0 }, type: 'BOARD' })
+            })
           })
 
           it('does not call onColumnDragEnd callback', () => {
@@ -624,6 +651,21 @@ describe('<Board />', () => {
           })
         })
 
+        describe('whe the user moves a card to the same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({
+                source: { droppableId: '1', index: 0 },
+                destination: { droppableId: '1', index: 0 }
+              })
+            })
+          })
+
+          it('does not call onCardDragEnd callback', () => {
+            expect(onCardDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
         describe('when the user moves a card to another position', () => {
           beforeEach(() => {
             act(() => {
@@ -688,6 +730,18 @@ describe('<Board />', () => {
         describe('when the user cancels the column moving', () => {
           beforeEach(() => {
             callbacks.onDragEnd({ source: null, destination: null, type: 'BOARD' })
+          })
+
+          it('does not call onColumnDragEnd callback', () => {
+            expect(onColumnDragEnd).not.toHaveBeenCalled()
+          })
+        })
+
+        describe('when the user moves a column to same position', () => {
+          beforeEach(() => {
+            act(() => {
+              callbacks.onDragEnd({ source: { index: 0 }, destination: { index: 0 }, type: 'BOARD' })
+            })
           })
 
           it('does not call onColumnDragEnd callback', () => {

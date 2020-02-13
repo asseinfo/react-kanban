@@ -1,4 +1,10 @@
-import { getCard, isAColumnMove, getCoordinates } from './'
+import {
+  getCard,
+  isAColumnMove,
+  getCoordinates,
+  isMovingAColumnToAnotherPosition,
+  isMovingACardToAnotherPosition
+} from './'
 
 describe('#getCoordinates', () => {
   describe('when the event does not have destination', () => {
@@ -63,5 +69,66 @@ describe('#getCard', () => {
 
   it('returns the card of the board from the given source', () => {
     expect(getCard(board, { fromColumnId: 1, fromPosition: 1 })).toEqual({ id: 2 })
+  })
+})
+
+describe('#isMovingAColumnToAnotherPosition', () => {
+  describe('when coordinates does not have same source and destination', () => {
+    const validColumnCoordinates = {
+      source: { fromPosition: 0 },
+      destination: { toPosition: 1 }
+    }
+
+    it('returns true', () => {
+      expect(isMovingAColumnToAnotherPosition(validColumnCoordinates)).toEqual(true)
+    })
+  })
+
+  describe('when coordinates has same source and destination', () => {
+    const invalidColumnCoordinates = {
+      source: { fromPosition: 0 },
+      destination: { toPosition: 0 }
+    }
+
+    it('returns false', () => {
+      expect(isMovingAColumnToAnotherPosition(invalidColumnCoordinates)).toEqual(false)
+    })
+  })
+})
+
+describe('#isMovingACardToAnotherPosition', () => {
+  describe('when coordinates does not have same source and destination', () => {
+    describe('when the source column is different from the destination column', () => {
+      const validCardCoordinates = {
+        source: { fromPosition: 0, fromColumnId: 0 },
+        destination: { toPosition: 0, toColumnId: 1 }
+      }
+
+      it('returns true', () => {
+        expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(true)
+      })
+    })
+
+    describe('when the source position is different from the destination position', () => {
+      const validCardCoordinates = {
+        source: { fromPosition: 0, fromColumnId: 0 },
+        destination: { toPosition: 1, toColumnId: 0 }
+      }
+
+      it('returns true', () => {
+        expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(true)
+      })
+    })
+  })
+
+  describe('when coordinates has same source and destination', () => {
+    const validCardCoordinates = {
+      source: { fromPosition: 0, fromColumnId: 0 },
+      destination: { toPosition: 0, toColumnId: 0 }
+    }
+
+    it('returns false', () => {
+      expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(false)
+    })
   })
 })
