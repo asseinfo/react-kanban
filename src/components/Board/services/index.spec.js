@@ -1,4 +1,10 @@
-import { getCard, isAColumnMove, getCoordinates, isValidColumnCoordinates, isValidCardCoordinates } from './'
+import {
+  getCard,
+  isAColumnMove,
+  getCoordinates,
+  isMovingAColumnToAnotherPosition,
+  isMovingACardToAnotherPosition
+} from './'
 
 describe('#getCoordinates', () => {
   describe('when the event does not have destination', () => {
@@ -66,7 +72,7 @@ describe('#getCard', () => {
   })
 })
 
-describe('#isValidColumnCoordinates', () => {
+describe('#isMovingAColumnToAnotherPosition', () => {
   describe('when coordinates does not have same source and destination', () => {
     const validColumnCoordinates = {
       source: { fromPosition: 0 },
@@ -74,7 +80,7 @@ describe('#isValidColumnCoordinates', () => {
     }
 
     it('returns true', () => {
-      expect(isValidColumnCoordinates(validColumnCoordinates)).toEqual(true)
+      expect(isMovingAColumnToAnotherPosition(validColumnCoordinates)).toEqual(true)
     })
   })
 
@@ -85,12 +91,12 @@ describe('#isValidColumnCoordinates', () => {
     }
 
     it('returns false', () => {
-      expect(isValidColumnCoordinates(invalidColumnCoordinates)).toEqual(false)
+      expect(isMovingAColumnToAnotherPosition(invalidColumnCoordinates)).toEqual(false)
     })
   })
 })
 
-describe('#isValidCardCoordinates', () => {
+describe('#isMovingACardToAnotherPosition', () => {
   describe('when coordinates does not have same source and destination', () => {
     describe('when the source column is different from the destination column', () => {
       const validCardCoordinates = {
@@ -99,7 +105,7 @@ describe('#isValidCardCoordinates', () => {
       }
 
       it('returns true', () => {
-        expect(isValidCardCoordinates(validCardCoordinates)).toEqual(true)
+        expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(true)
       })
     })
 
@@ -110,7 +116,7 @@ describe('#isValidCardCoordinates', () => {
       }
 
       it('returns true', () => {
-        expect(isValidCardCoordinates(validCardCoordinates)).toEqual(true)
+        expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(true)
       })
     })
   })
@@ -122,7 +128,7 @@ describe('#isValidCardCoordinates', () => {
     }
 
     it('returns false', () => {
-      expect(isValidCardCoordinates(validCardCoordinates)).toEqual(false)
+      expect(isMovingACardToAnotherPosition(validCardCoordinates)).toEqual(false)
     })
   })
 })

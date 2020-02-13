@@ -27,15 +27,15 @@ function getColumn(board, droppableId) {
   return board.columns.find(({ id }) => String(id) === droppableId)
 }
 
-function isValidColumnCoordinates(coordinates) {
+function isMovingAColumnToAnotherPosition(coordinates) {
   return coordinates.source.fromPosition !== coordinates.destination.toPosition
 }
 
-function isValidCardCoordinates(coordinates) {
+function isMovingACardToAnotherPosition(coordinates) {
   return !(
     coordinates.source.fromPosition === coordinates.destination.toPosition &&
     coordinates.source.fromColumnId === coordinates.destination.toColumnId
   )
 }
 
-export { getCard, getCoordinates, isAColumnMove, isValidColumnCoordinates, isValidCardCoordinates }
+export { getCard, getCoordinates, isAColumnMove, isMovingAColumnToAnotherPosition, isMovingACardToAnotherPosition }
