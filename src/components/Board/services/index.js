@@ -27,4 +27,15 @@ function getColumn(board, droppableId) {
   return board.columns.find(({ id }) => String(id) === droppableId)
 }
 
-export { getCard, getCoordinates, isAColumnMove }
+function isMovingAColumnToAnotherPosition(coordinates) {
+  return coordinates.source.fromPosition !== coordinates.destination.toPosition
+}
+
+function isMovingACardToAnotherPosition(coordinates) {
+  return !(
+    coordinates.source.fromPosition === coordinates.destination.toPosition &&
+    coordinates.source.fromColumnId === coordinates.destination.toColumnId
+  )
+}
+
+export { getCard, getCoordinates, isAColumnMove, isMovingAColumnToAnotherPosition, isMovingACardToAnotherPosition }

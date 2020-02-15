@@ -1,11 +1,22 @@
 name: Test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+      - name: Set ENV for codeclimate
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/$GITHUB_HEAD_REF:refs/remotes/origin/$GITHUB_HEAD_REF
+          echo "::set-env name=GIT_BRANCH::$GITHUB_HEAD_REF"
+          echo "::set-env name=GIT_COMMIT_SHA::$(git rev-parse origin/$GITHUB_HEAD_REF)"
+        if: github.event_name == 'pull_request'
       - name: setup codeclimate
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -71,6 +82,12 @@ jobs:
       - uses: actions/download-artifact@v1
         with:
           name: coverage
+      - name: Set ENV for codeclimate
+        run: |
+          git fetch --no-tags --prune --depth=1 origin +refs/heads/$GITHUB_HEAD_REF:refs/remotes/origin/$GITHUB_HEAD_REF
+          echo "::set-env name=GIT_BRANCH::$GITHUB_HEAD_REF"
+          echo "::set-env name=GIT_COMMIT_SHA::$(git rev-parse origin/$GITHUB_HEAD_REF)"
+        if: github.event_name == 'pull_request'
       - name: upload codeclimate coverage
         run: |
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
