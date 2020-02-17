@@ -42,7 +42,9 @@ const StyledButton = styled.button`
   background-color: #eee;
   border: none;
   padding: 5px;
-  width: 80%;
+  width: 45%;
+  margin-top: 5px;
+  border-radius: 3px;
   &:hover {
     transition: 0.3s;
     cursor: pointer;
