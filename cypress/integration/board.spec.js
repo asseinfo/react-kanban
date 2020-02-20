@@ -23,9 +23,7 @@ describe('Board Page', function() {
           cy.get(firstCardSelector)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 40, which: 40, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 40, which: 40, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 32, which: 32, force: true })
         })
 
@@ -44,7 +42,6 @@ describe('Board Page', function() {
           cy.get(firstCardSelector)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 39, which: 39, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 32, which: 32, force: true })
         })
 
@@ -64,9 +61,7 @@ describe('Board Page', function() {
           cy.get(firstCardSelector)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 40, which: 40, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 40, which: 40, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 32, which: 32, force: true })
         })
 
@@ -89,7 +84,6 @@ describe('Board Page', function() {
           cy.get(firstColumn)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 39, which: 39, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 32, which: 32, force: true })
         })
 
@@ -109,7 +103,6 @@ describe('Board Page', function() {
           cy.get(firstColumn)
             .trigger('keydown', { keyCode: 32, which: 32 })
             .trigger('keydown', { keyCode: 39, which: 39, force: true })
-            .wait(500)
             .trigger('keydown', { keyCode: 32, which: 32, force: true })
         })
 
