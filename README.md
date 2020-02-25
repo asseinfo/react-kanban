@@ -1,5 +1,5 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/c602758e03850fdb8b64/maintainability)](https://codeclimate.com/github/lourenci/react-kanban/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c602758e03850fdb8b64/test_coverage)](https://codeclimate.com/github/lourenci/react-kanban/test_coverage)
+[![Test Coverage](https://codecov.io/gh/lourenci/react-kanban/branch/master/graph/badge.svg)](https://codecov.io/gh/lourenci/react-kanban)
 [![Build Status](https://github.com/lourenci/react-kanban/workflows/Test/badge.svg?branch=master)](https://github.com/lourenci/react-kanban/actions?query=branch%3Amaster+workflow%3ATest)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 

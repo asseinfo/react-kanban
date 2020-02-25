@@ -2,7 +2,4 @@ plugins:
   fixme:
     enabled: true
 exclude_patterns:
-- "**"
-- "!src/**/*.js"
 - "**/*.spec.js"
-- "src/index.js"
