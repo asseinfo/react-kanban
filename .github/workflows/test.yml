@@ -23,12 +23,12 @@ jobs:
         yarn
         yarn lint
         yarn test --coverageDirectory unit-coverage
-      - uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: unit-coverage/lcov.info
-          flags: jest-specs
-          fail_ci_if_error: true
+    - uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: unit-coverage/lcov.info
+        flags: jest-specs
+        fail_ci_if_error: true
   cypress:
     runs-on: ubuntu-16.04
     needs: build
