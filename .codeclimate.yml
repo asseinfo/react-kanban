@@ -1,5 +1,8 @@
 plugins:
   fixme:
     enabled: true
+  eslint:
+    enabled: true
+    channel: "eslint-6"
 exclude_patterns:
 - "**/*.spec.js"
