@@ -9,7 +9,6 @@ on:
 jobs:
   linter-and-unit:
     runs-on: ubuntu-latest
-    needs: build
     env:
       NODE_ENV: 'test'
     steps:
@@ -31,7 +30,6 @@ jobs:
         fail_ci_if_error: true
   cypress:
     runs-on: ubuntu-16.04
-    needs: build
     env:
       NODE_ENV: 'test'
     steps:
