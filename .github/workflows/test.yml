@@ -6,6 +6,9 @@ on:
     - master
   pull_request:
 
+env:
+  CODECOV_TOKEN: 46e41731-ff3e-45d4-8aea-eaec50c8c806
+
 jobs:
   linter-and-unit:
     runs-on: ubuntu-latest
@@ -24,7 +27,7 @@ jobs:
         yarn test --coverageDirectory unit-coverage
     - uses: codecov/codecov-action@v1
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ env.CODECOV_TOKEN }}
         file: unit-coverage/lcov.info
         flags: jestspecs
         fail_ci_if_error: true
@@ -43,7 +46,7 @@ jobs:
       - run: yarn nyc report --reporter=text-summary
       - uses: codecov/codecov-action@v1
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ env.CODECOV_TOKEN }}
           file: coverage/lcov.info
           flags: cypressspecs
           fail_ci_if_error: true
