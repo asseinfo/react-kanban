@@ -58,9 +58,9 @@ function CardForm({ onConfirm, onCancel }) {
 
   function addCard(event) {
     event.preventDefault()
-    when(inputCardTitle.current.value)(() =>
-      onConfirm({ title: inputCardTitle.current.value, description: inputCardDescription.current.value })
-    )
+    when(inputCardTitle.current.value)(value => {
+      onConfirm({ title: value, description: inputCardDescription.current.value })
+    })
   }
 
   return (
