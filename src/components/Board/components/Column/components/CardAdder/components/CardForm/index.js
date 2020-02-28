@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { when } from '@services/utils'
-import CardSkeleton from '../../../../../CardSkeleton'
+import CardSkeleton from '@components/Board/components/CardSkeleton'
 
 const DefaultCard = styled(CardSkeleton)`
   border-radius: 3px;
