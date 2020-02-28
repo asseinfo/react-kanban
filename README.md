@@ -146,7 +146,7 @@ setBoard(newBoard)
 | [`onColumnRename`](#oncolumnrename) (required if `allowRenameColumn` or when [`renameColumn`](#rendercolumnheader) is called) | Callback that will be called when a column is renamed                                                             | ✅         | ✅           |
 | [`allowRemoveCard`](#allowremovecard)                                                                                         | Allow to remove a card in default card template                                                                   | ✅         | ✅           |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`)                                                               | Callback that will be called when a card is removed                                                               | ✅         | ✅           |
-| [`allowAddCard`](#allowaddcard)                                                                                               | Allow to add a card, expect a object with the position to add the card in the colum.                              | 🚫         | ✅           |
+| [`allowAddCard`](#allowaddcard)                                                                                               | Allow to add a card. Expect an object with the position to add the card in the column.                              | 🚫         | ✅           |
 | [`onCardNew`](#oncardnew) (required if `allowAddCard` or when [`addCard`](#rendercolumnheader) is called)                     | Callback that will be called when a new card is added                                                             | 🚫         | ✅           |
 | [`onNewCardConfirm`](#onnewcardconfirm) (required if `allowAddCard`)                                                          | Callback that will be called when a new card is confirmed by the user through the default card adder template     | 🚫         | ✅           |
 
@@ -460,7 +460,12 @@ When the user removes a card, this callback will be called passing these paramet
 
 #### `allowAddCard`
 
-Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column. But you can specify if you want to add at the top passing a object with 'on' prop. Ex: `allowAddCard:{ on: 'top' }`.
+Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column, but you can specify whether you want to add at the top or at the bottom of the board by passing an object with 'on' prop. 
+
+E.g.:
+<Board allowAddCard /> // at the bottom by default
+<Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
+<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
 
 #### `onNewCardConfirm`
 
