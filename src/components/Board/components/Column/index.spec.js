@@ -64,10 +64,10 @@ describe('<Column />', () => {
   })
 
   describe('about the card adding', () => {
-    const onCardAdd = jest.fn()
+    const onCardNew = jest.fn()
 
     describe('when the component does not receive the "allowAddCard" prop', () => {
-      beforeEach(() => mount({ onCardAdd }))
+      beforeEach(() => mount({ onCardNew }))
 
       it('does not show the add card button', () => {
         expect(subject.queryByText('+')).not.toBeInTheDocument()
@@ -75,7 +75,7 @@ describe('<Column />', () => {
     })
 
     describe('when the component receives the "allowAddCard" prop', () => {
-      beforeEach(() => mount({ onCardAdd, allowAddCard: true }))
+      beforeEach(() => mount({ onCardNew, allowAddCard: true }))
 
       it('shows the add card button', () => {
         expect(subject.queryByText('+')).toBeVisible()
@@ -99,9 +99,9 @@ describe('<Column />', () => {
             fireEvent.click(subject.queryByText('Add'))
           })
 
-          it('calls the onCardAdd prop passing the values', () => {
-            expect(onCardAdd).toHaveBeenCalledTimes(1)
-            expect(onCardAdd).toHaveBeenCalledWith(column, { title: 'Card title', description: 'Description' })
+          it('calls the onCardNew prop passing the values', () => {
+            expect(onCardNew).toHaveBeenCalledTimes(1)
+            expect(onCardNew).toHaveBeenCalledWith(column, { title: 'Card title', description: 'Description' })
           })
         })
 

@@ -145,7 +145,7 @@ function UncontrolledBoard({
       onColumnRename={handleColumnRename}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
-      onCardAdd={(column, card) => handleCardAdd(column, card, allowAddCard)}
+      onCardNew={(column, card) => handleCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
     >
       {board}
@@ -222,7 +222,7 @@ function BoardContainer({
   onColumnRename,
   onColumnDragEnd,
   onCardDragEnd,
-  onCardAdd,
+  onCardNew,
   allowAddCard
 }) {
   function handleOnDragEnd(event) {
@@ -231,9 +231,9 @@ function BoardContainer({
 
     isAColumnMove(event.type)
       ? isMovingAColumnToAnotherPosition(coordinates) &&
-        onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
+      onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
       : isMovingACardToAnotherPosition(coordinates) &&
-        onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
+      onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
   }
 
   return (
@@ -249,19 +249,19 @@ function BoardContainer({
                 renderColumnHeader ? (
                   renderColumnHeader(column)
                 ) : (
-                  <DefaultColumnHeader
-                    allowRemoveColumn={allowRemoveColumn}
-                    onColumnRemove={onColumnRemove}
-                    allowRenameColumn={allowRenameColumn}
-                    onColumnRename={onColumnRename}
-                  >
-                    {column}
-                  </DefaultColumnHeader>
-                )
+                    <DefaultColumnHeader
+                      allowRemoveColumn={allowRemoveColumn}
+                      onColumnRemove={onColumnRemove}
+                      allowRenameColumn={allowRenameColumn}
+                      onColumnRename={onColumnRename}
+                    >
+                      {column}
+                    </DefaultColumnHeader>
+                  )
               }
               disableColumnDrag={disableColumnDrag}
               disableCardDrag={disableCardDrag}
-              onCardAdd={onCardAdd}
+              onCardNew={onCardNew}
               allowAddCard={allowAddCard}
             >
               {column}
