@@ -70,12 +70,7 @@ function CardForm({ onConfirm, onCancel }) {
         <CardDescription name='description' defaultValue='Description' ref={inputCardDescription} />
         <StyledFormButtons>
           <StyledButton type='submit'>Add</StyledButton>
-          <StyledButton
-            onClick={event => {
-              event.preventDefault()
-              onCancel()
-            }}
-          >
+          <StyledButton type='button' onClick={onCancel}>
             Cancel
           </StyledButton>
         </StyledFormButtons>

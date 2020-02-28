@@ -1691,7 +1691,7 @@ describe('<Board />', () => {
               expect(cards[0]).toHaveTextContent('Card description')
             })
 
-            it('calls the "onCardNew" callback passing the updated board, the updated column and the new card, () => {
+            it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
