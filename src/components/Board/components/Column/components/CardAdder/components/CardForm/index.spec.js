@@ -22,7 +22,7 @@ describe('<CardForm />', () => {
     expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
   })
 
-  it('focus on the title input', () => {
+  it('focuses on the title input', () => {
     expect(subject.container.querySelector('input[name="title"]')).toHaveFocus()
   })
 

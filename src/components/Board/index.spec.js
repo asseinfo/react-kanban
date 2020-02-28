@@ -1493,8 +1493,8 @@ describe('<Board />', () => {
         })
       })
 
-      describe('when the component does not receives a custom header column template', () => {
-        describe('when the component does not receives "allowAddCard" prop', () => {
+      describe('when the component does not receive a custom header column template', () => {
+        describe('when the component does not receive "allowAddCard" prop', () => {
           let onCardNew, onNewCardConfirm
 
           beforeEach(() => {
@@ -1512,7 +1512,7 @@ describe('<Board />', () => {
           })
         })
 
-        describe('when the component does not receives "onNewCardConfirm" prop', () => {
+        describe('when the component does not receive the "onNewCardConfirm" prop', () => {
           beforeEach(() => {
             mount({ allowAddCard: true })
           })
@@ -1522,7 +1522,7 @@ describe('<Board />', () => {
           })
         })
 
-        describe('when the component receives the "allowAddCard" and "onNewCardConfirm" prosp', () => {
+        describe('when the component receives both the "allowAddCard" and "onNewCardConfirm" props', () => {
           let onCardNew, onNewCardConfirm
 
           afterEach(() => {
@@ -1587,7 +1587,7 @@ describe('<Board />', () => {
                   expect(cards[2]).toHaveTextContent('Card title')
                 })
 
-                it('calls the "onCardNew" passing the modified board and the added card', () => {
+                it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
                   expect(onCardNew).toHaveBeenCalledTimes(1)
                   expect(onCardNew).toHaveBeenCalledWith(
                     {
@@ -1691,7 +1691,7 @@ describe('<Board />', () => {
               expect(cards[0]).toHaveTextContent('Card description')
             })
 
-            it('calls the "onCardNew" passing the modified board and the added card', () => {
+            it('calls the "onCardNew" callback passing the updated board, the updated column and the new card, () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
@@ -1779,7 +1779,7 @@ describe('<Board />', () => {
               expect(cards[2]).toHaveTextContent('Card description')
             })
 
-            it('calls the "onCardNew" passing the modified board and the added card', () => {
+            it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {

@@ -69,7 +69,7 @@ function CardForm({ onConfirm, onCancel }) {
         <CardTitle name='title' autoFocus defaultValue='Title' ref={inputCardTitle} />
         <CardDescription name='description' defaultValue='Description' ref={inputCardDescription} />
         <StyledFormButtons>
-          <StyledButton type='submit'> Add </StyledButton>
+          <StyledButton type='submit'>Add</StyledButton>
           <StyledButton
             onClick={event => {
               event.preventDefault()
