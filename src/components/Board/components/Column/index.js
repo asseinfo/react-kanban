@@ -51,8 +51,8 @@ function Column({
                 </Card>
               ))
             ) : (
-                <CardSkeleton />
-              )}
+              <CardSkeleton />
+            )}
           </DroppableColumn>
         </StyledColumn>
       )}
