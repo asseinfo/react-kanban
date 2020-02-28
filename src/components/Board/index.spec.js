@@ -39,6 +39,7 @@ describe('<Board />', () => {
   }
 
   afterEach(() => {
+    jest.clearAllMocks()
     subject = onCardDragEnd = onColumnDragEnd = onColumnRemove = onCardRemove = undefined
   })
 
@@ -1495,17 +1496,14 @@ describe('<Board />', () => {
 
       describe('when the component does not receive a custom header column template', () => {
         describe('when the component does not receive "allowAddCard" prop', () => {
-          let onCardNew, onNewCardConfirm
+          const onCardNew = jest.fn()
+          const onNewCardConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
 
           beforeEach(() => {
-            onCardNew = jest.fn()
-            onNewCardConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
             mount({ allowAddCard: false, onNewCardConfirm, onCardNew })
           })
 
-          afterEach(() => {
-            jest.clearAllMocks()
-          })
+          afterEach(jest.clearAllMocks)
 
           it('does not render the card adder', () => {
             expect(subject.queryByText('+')).not.toBeInTheDocument()
@@ -1514,7 +1512,7 @@ describe('<Board />', () => {
 
         describe('when the component does not receive the "onNewCardConfirm" prop', () => {
           beforeEach(() => {
-            mount({ allowAddCard: true })
+            mount({ allowAddCard: true, onCardNew: () => {} })
           })
 
           it('does not render the column adder', () => {
@@ -1523,17 +1521,11 @@ describe('<Board />', () => {
         })
 
         describe('when the component receives both the "allowAddCard" and "onNewCardConfirm" props', () => {
-          let onCardNew, onNewCardConfirm
-
-          afterEach(() => {
-            onCardNew = undefined
-            onNewCardConfirm = undefined
-          })
+          const onCardNew = jest.fn()
+          const onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
 
           describe('when the position is not specified', () => {
             beforeEach(() => {
-              onCardNew = jest.fn()
-              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
               mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
             })
 
@@ -1662,8 +1654,6 @@ describe('<Board />', () => {
 
           describe('when the position is specified to add the card on the top of the column', () => {
             beforeEach(async () => {
-              onCardNew = jest.fn()
-              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
               mount({ allowAddCard: { on: 'top' }, onNewCardConfirm, onCardNew })
               fireEvent.click(subject.queryAllByText('+')[0])
 
@@ -1750,8 +1740,6 @@ describe('<Board />', () => {
 
           describe('when the position is specified to add the card on the bottom of the column', () => {
             beforeEach(async () => {
-              onCardNew = jest.fn()
-              onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
               mount({ allowAddCard: { on: 'bottom' }, onNewCardConfirm, onCardNew })
               fireEvent.click(subject.queryAllByText('+')[0])
 
