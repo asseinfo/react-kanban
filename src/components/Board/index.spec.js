@@ -1495,10 +1495,10 @@ describe('<Board />', () => {
       })
 
       describe('when the component does not receive a custom header column template', () => {
-        describe('when the component does not receive "allowAddCard" prop', () => {
-          const onCardNew = jest.fn()
-          const onNewCardConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
+        const onCardNew = jest.fn()
+        const onNewCardConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
 
+        describe('when the component does not receive "allowAddCard" prop', () => {
           beforeEach(() => {
             mount({ allowAddCard: false, onNewCardConfirm, onCardNew })
           })
@@ -1521,9 +1521,6 @@ describe('<Board />', () => {
         })
 
         describe('when the component receives both the "allowAddCard" and "onNewCardConfirm" props', () => {
-          const onCardNew = jest.fn()
-          const onNewCardConfirm = jest.fn(card => new Promise(resolve => resolve({ id: 999, ...card })))
-
           describe('when the position is not specified', () => {
             beforeEach(() => {
               mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
