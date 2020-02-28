@@ -89,7 +89,7 @@ function UncontrolledBoard({
 
   async function handleCardAdd(column, card, options = {}) {
     const newCard = renderColumnHeader ? card : await onNewCardConfirm(card)
-    const boardWithNewCard = addCard(board, column, newCard || card, options)
+    const boardWithNewCard = addCard(board, column, newCard, options)
 
     onCardNew(
       boardWithNewCard,
