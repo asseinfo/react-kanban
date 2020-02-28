@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from 'styled-components'
 import { when } from '@services/utils'
 import CardSkeleton from '../../../../../CardSkeleton'
@@ -53,8 +53,8 @@ const StyledButton = styled.button`
 `
 
 function CardForm({ onConfirm, onCancel }) {
-  const inputCardTitle = React.createRef()
-  const inputCardDescription = React.createRef()
+  const inputCardTitle = useRef()
+  const inputCardDescription = useRef()
 
   function addCard(event) {
     event.preventDefault()
