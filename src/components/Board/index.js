@@ -87,16 +87,20 @@ function UncontrolledBoard({
     setBoard(boardWithRenamedColumn)
   }
 
-  async function handleCardAdd(column, card, options = {}) {
-    const newCard = renderColumnHeader ? card : await onNewCardConfirm(card)
-    const boardWithNewCard = addCard(board, column, newCard, options)
+  function handleCardAdd(column, card, options = {}) {
+    const boardWithNewCard = addCard(board, column, card, options)
 
     onCardNew(
       boardWithNewCard,
       boardWithNewCard.columns.find(({ id }) => id === column.id),
-      newCard
+      card
     )
     setBoard(boardWithNewCard)
+  }
+
+  async function handleDraftCardAdd(column, card, options = {}) {
+    const newCard = await onNewCardConfirm(card)
+    handleCardAdd(column, newCard, options)
   }
 
   function handleCardRemove(column, card) {
@@ -145,7 +149,7 @@ function UncontrolledBoard({
       onColumnRename={handleColumnRename}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
-      onCardNew={(column, card) => handleCardAdd(column, card, allowAddCard)}
+      onCardNew={(column, card) => handleDraftCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
     >
       {board}
