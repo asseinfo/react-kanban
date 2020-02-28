@@ -88,13 +88,13 @@ function UncontrolledBoard({
   }
 
   async function handleCardAdd(column, card, options = {}) {
-    const newCard = onNewCardConfirm && !renderColumnHeader && (await onNewCardConfirm(card))
+    const newCard = renderColumnHeader ? card : await onNewCardConfirm(card)
     const boardWithNewCard = addCard(board, column, newCard || card, options)
 
     onCardNew(
       boardWithNewCard,
       boardWithNewCard.columns.find(({ id }) => id === column.id),
-      newCard || card
+      newCard
     )
     setBoard(boardWithNewCard)
   }
@@ -231,9 +231,9 @@ function BoardContainer({
 
     isAColumnMove(event.type)
       ? isMovingAColumnToAnotherPosition(coordinates) &&
-      onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
+        onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
       : isMovingACardToAnotherPosition(coordinates) &&
-      onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
+        onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
   }
 
   return (
@@ -249,15 +249,15 @@ function BoardContainer({
                 renderColumnHeader ? (
                   renderColumnHeader(column)
                 ) : (
-                    <DefaultColumnHeader
-                      allowRemoveColumn={allowRemoveColumn}
-                      onColumnRemove={onColumnRemove}
-                      allowRenameColumn={allowRenameColumn}
-                      onColumnRename={onColumnRename}
-                    >
-                      {column}
-                    </DefaultColumnHeader>
-                  )
+                  <DefaultColumnHeader
+                    allowRemoveColumn={allowRemoveColumn}
+                    onColumnRemove={onColumnRemove}
+                    allowRenameColumn={allowRenameColumn}
+                    onColumnRename={onColumnRename}
+                  >
+                    {column}
+                  </DefaultColumnHeader>
+                )
               }
               disableColumnDrag={disableColumnDrag}
               disableCardDrag={disableCardDrag}
