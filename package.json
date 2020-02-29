@@ -55,7 +55,6 @@
     "webpack-dev-server": "3.10.3"
   },
   "scripts": {
-    "build": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
     "prepublishOnly": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
