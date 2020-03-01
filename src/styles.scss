@@ -1,0 +1,33 @@
+.react-kanban-board {
+  padding: 5px;
+}
+
+.react-kanban-card {
+  @extend .react-kanban-card-skeleton;
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 7px;
+}
+
+.react-kanban-card-skeleton {
+  box-sizing: border-box;
+  max-width: 250px;
+  min-width: 250px;
+}
+
+.react-kanban-card--dragging {
+  box-shadow: 2px 2px grey;
+}
+
+.react-kanban-card__description {
+  padding-top: 10px;
+}
+
+.react-kanban-card__title {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}

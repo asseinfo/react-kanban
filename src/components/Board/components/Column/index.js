@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
-import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
 
 export const StyledColumn = styled.div`
@@ -15,9 +14,11 @@ export const StyledColumn = styled.div`
   vertical-align: top;
 `
 
-const DroppableColumn = withDroppable(styled.div`
-  min-height: 28px;
-`)
+const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
+  <div ref={ref} style={{ minHeight: '28px' }} {...props} />
+))
+
+const DroppableColumn = withDroppable(ColumnEmptyPlaceholder)
 
 function Column({ children, index: columnIndex, renderCard, renderColumnHeader, disableColumnDrag, disableCardDrag }) {
   return (
@@ -40,7 +41,7 @@ function Column({ children, index: columnIndex, renderCard, renderColumnHeader, 
                 </Card>
               ))
             ) : (
-              <CardSkeleton />
+              <div className='react-kanban-card-skeleton' />
             )}
           </DroppableColumn>
         </StyledColumn>

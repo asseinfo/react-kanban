@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import CursorPointer from '../CursorPointer'
 
 const ColumnHeaderSkeleton = styled.div`
   padding-bottom: 10px;
@@ -32,7 +31,13 @@ const Input = styled.input`
 `
 
 function ColumnTitle({ allowRenameColumn, onClick, children: title }) {
-  return allowRenameColumn ? <CursorPointer onClick={onClick}>{title}</CursorPointer> : <span>{title}</span>
+  return allowRenameColumn ? (
+    <span style={{ cursor: 'pointer' }} onClick={onClick}>
+      {title}
+    </span>
+  ) : (
+    <span>{title}</span>
+  )
 }
 
 function useRenameMode(state) {

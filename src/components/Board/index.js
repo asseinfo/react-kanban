@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 import Column from './components/Column'
 import ColumnAdder from './components/ColumnAdder'
@@ -16,16 +15,7 @@ import {
 } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
-const StyledBoard = styled.div`
-  padding: 5px;
-  overflow-y: hidden;
-  display: flex;
-  align-items: flex-start;
-`
-
-const Columns = styled.div`
-  white-space: nowrap;
-`
+const Columns = React.forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
 
 const DroppableBoard = withDroppable(Columns)
 
@@ -230,7 +220,7 @@ function BoardContainer({
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <StyledBoard>
+      <div style={{ overflowY: 'hidden', display: 'flex', alignItems: 'flex-start' }} className='react-kanban-board'>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           {board.columns.map((column, index) => (
             <Column
@@ -259,7 +249,7 @@ function BoardContainer({
           ))}
         </DroppableBoard>
         {renderColumnAdder()}
-      </StyledBoard>
+      </div>
     </DragDropContext>
   )
 }
