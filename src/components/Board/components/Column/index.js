@@ -1,18 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 import withDroppable from '../../../withDroppable'
-
-export const StyledColumn = styled.div`
-  height: 100%;
-  display: inline-block;
-  padding: 15px;
-  border-radius: 2px;
-  background-color: #eee;
-  margin: 5px;
-  vertical-align: top;
-`
 
 const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
   <div ref={ref} style={{ minHeight: '28px' }} {...props} />
@@ -24,7 +13,13 @@ function Column({ children, index: columnIndex, renderCard, renderColumnHeader, 
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {columnProvided => (
-        <StyledColumn ref={columnProvided.innerRef} {...columnProvided.draggableProps} data-testid='column'>
+        <div
+          ref={columnProvided.innerRef}
+          {...columnProvided.draggableProps}
+          style={{ height: '100%', display: 'inline-block', verticalAlign: 'top' }}
+          className='react-kanban-column'
+          data-testid='column'
+        >
           <div {...columnProvided.dragHandleProps} data-testid='column-header'>
             {renderColumnHeader(children)}
           </div>
@@ -44,7 +39,7 @@ function Column({ children, index: columnIndex, renderCard, renderColumnHeader, 
               <div className='react-kanban-card-skeleton' />
             )}
           </DroppableColumn>
-        </StyledColumn>
+        </div>
       )}
     </Draggable>
   )

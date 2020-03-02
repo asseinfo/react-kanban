@@ -1,18 +1,8 @@
 import React from 'react'
-import styled from 'styled-components'
-import { StyledColumn } from '../../../Column'
 import { when } from '@services/utils'
 
-const StyledColumnForm = styled(StyledColumn)`
-  min-width: 230px;
-
-  form {
-    display: flex;
-    justify-content: space-between;
-  }
-`
-
 function ColumnForm({ onConfirm, onCancel }) {
+  // FIXME use hook
   const inputColumnTitle = React.createRef()
 
   function addColumn(event) {
@@ -22,15 +12,15 @@ function ColumnForm({ onConfirm, onCancel }) {
   }
 
   return (
-    <StyledColumnForm>
-      <form onSubmit={addColumn}>
+    <div className='react-kanban-column' style={{ minWidth: '230px' }}>
+      <form style={{ display: 'flex', justifyContent: 'space-between' }} onSubmit={addColumn}>
         <input type='text' ref={inputColumnTitle} autoFocus />
         <button type='submit'>Add</button>
         <button type='button' onClick={onCancel}>
           Cancel
         </button>
       </form>
-    </StyledColumnForm>
+    </div>
   )
 }
 
