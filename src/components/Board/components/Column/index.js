@@ -2,6 +2,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 import withDroppable from '../../../withDroppable'
+import style from './style.scss'
 
 const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
   <div ref={ref} style={{ minHeight: '28px' }} {...props} />
@@ -16,8 +17,7 @@ function Column({ children, index: columnIndex, renderCard, renderColumnHeader, 
         <div
           ref={columnProvided.innerRef}
           {...columnProvided.draggableProps}
-          style={{ height: '100%', display: 'inline-block', verticalAlign: 'top' }}
-          className='react-kanban-column'
+          className={`${style.column} react-kanban-column`}
           data-testid='column'
         >
           <div {...columnProvided.dragHandleProps} data-testid='column-header'>
