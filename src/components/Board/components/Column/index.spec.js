@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Column, { StyledColumn } from './'
+import Column from './'
 
 describe('<Column />', () => {
   let subject
@@ -61,11 +61,5 @@ describe('<Column />', () => {
     it('calls the "renderCard" passing the column, the card and whether the card is dragging or not', () => {
       expect(renderCard).toHaveBeenCalledWith(column, expect.objectContaining({ id: 1, title: 'Card title 1' }), false)
     })
-  })
-})
-
-describe('<StyledColumn />', () => {
-  it('renders a column', () => {
-    expect(render(<StyledColumn />).container.querySelector('div')).toBeInTheDocument()
   })
 })
