@@ -5,6 +5,7 @@ module.exports = {
   testMatch: ['<rootDir>/src/**/*.spec.js'],
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   moduleNameMapper: {
-    '^@services/(.*)$': '<rootDir>/src/services/$1'
+    '^@services/(.*)$': '<rootDir>/src/services/$1',
+    '\\.s?css$': 'identity-obj-proxy'
   }
 }
