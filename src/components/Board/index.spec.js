@@ -1521,247 +1521,41 @@ describe('<Board />', () => {
         })
 
         describe('when the component receives both the "allowAddCard" and "onNewCardConfirm" props', () => {
-          describe('when the position is not specified', () => {
-            beforeEach(() => {
+          describe('when the user adds a new card', () => {
+            beforeEach(async () => {
               mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
+
+              fireEvent.click(subject.queryAllByText('+')[0])
+              fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                target: { value: 'Card title' }
+              })
+              fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                target: { value: 'Card description' }
+              })
+              fireEvent.click(subject.queryByText('Add'))
+              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
             })
 
-            it('renders the card adder placeholder on each column', () => {
+            it('calls the "onNewCardConfirm" passing the new card', () => {
+              expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+              expect(onNewCardConfirm).toHaveBeenCalledWith({
+                title: 'Card title',
+                description: 'Card description'
+              })
+            })
+
+            it('renders the new card using the id returned on "onNewCardConfirm"', () => {
+              expect(subject.queryAllByTestId('card')).toHaveLength(4)
+            })
+
+            it('renders the card placeholder', () => {
               expect(subject.queryAllByText('+')).toHaveLength(2)
-            })
-
-            describe('when the user clicks to add a new card', () => {
-              beforeEach(() => fireEvent.click(subject.queryAllByText('+')[0]))
-
-              it('hides the card adder placeholder', () => {
-                expect(subject.queryAllByText('+')).toHaveLength(1)
-              })
-
-              it('renders the input asking for a card title and description', () => {
-                expect(subject.container.querySelector('input[name="title"]')).toBeInTheDocument()
-                expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
-              })
-
-              describe('when the user confirms the new card', () => {
-                beforeEach(async () => {
-                  fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                    target: { value: 'Card title' }
-                  })
-                  fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                    target: { value: 'Card description' }
-                  })
-                  fireEvent.click(subject.queryByText('Add'))
-                  await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
-                })
-
-                it('calls the "onNewCardConfirm" passing the new card', () => {
-                  expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-                  expect(onNewCardConfirm).toHaveBeenCalledWith({
-                    title: 'Card title',
-                    description: 'Card description'
-                  })
-                })
-
-                it('renders the new card using the id returned on "onNewCardConfirm"', () => {
-                  expect(subject.queryAllByTestId('card')).toHaveLength(4)
-                })
-
-                it('renders the card placeholder', () => {
-                  expect(subject.queryAllByText('+')).toHaveLength(2)
-                })
-
-                it('adds a new card on the bottom of the column', () => {
-                  const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
-                  expect(cards).toHaveLength(3)
-                  expect(cards[2]).toHaveTextContent('Card title')
-                })
-
-                it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
-                  expect(onCardNew).toHaveBeenCalledTimes(1)
-                  expect(onCardNew).toHaveBeenCalledWith(
-                    {
-                      columns: [
-                        {
-                          id: 1,
-                          title: 'Column Backlog',
-                          cards: [
-                            {
-                              id: 1,
-                              title: 'Card title 1',
-                              description: 'Card content'
-                            },
-                            {
-                              id: 2,
-                              title: 'Card title 2',
-                              description: 'Card content'
-                            },
-                            { id: 999, title: 'Card title', description: 'Card description' }
-                          ]
-                        },
-                        {
-                          id: 2,
-                          title: 'Column Doing',
-                          cards: [
-                            {
-                              id: 3,
-                              title: 'Card title 3',
-                              description: 'Card content'
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      id: 1,
-                      title: 'Column Backlog',
-                      cards: [
-                        {
-                          id: 1,
-                          title: 'Card title 1',
-                          description: 'Card content'
-                        },
-                        {
-                          id: 2,
-                          title: 'Card title 2',
-                          description: 'Card content'
-                        },
-                        { id: 999, title: 'Card title', description: 'Card description' }
-                      ]
-                    },
-                    expect.objectContaining({ id: 999 })
-                  )
-                })
-              })
-
-              describe('when the user cancels the card adding', () => {
-                beforeEach(() => {
-                  fireEvent.click(subject.queryByText('Cancel'))
-                })
-
-                it('does not add any card', () => {
-                  expect(subject.queryAllByTestId('card')).toHaveLength(3)
-                })
-
-                it('renders the cadd placeholder', () => {
-                  expect(subject.queryAllByText('+')).toHaveLength(2)
-                })
-              })
-            })
-          })
-
-          describe('when the position is specified to add the card on the top of the column', () => {
-            beforeEach(async () => {
-              mount({ allowAddCard: { on: 'top' }, onNewCardConfirm, onCardNew })
-              fireEvent.click(subject.queryAllByText('+')[0])
-
-              fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                target: { value: 'Card title' }
-              })
-              fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                target: { value: 'Card description' }
-              })
-              fireEvent.click(subject.queryByText('Add'))
-              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
-            })
-
-            it('calls the "onNewCardConfirm" passing the new card', () => {
-              expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-              expect(onNewCardConfirm).toHaveBeenCalledWith({
-                title: 'Card title',
-                description: 'Card description'
-              })
-            })
-
-            it('adds a new card on the top of the column', () => {
-              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
-              expect(cards).toHaveLength(3)
-              expect(cards[0]).toHaveTextContent('Card description')
-            })
-
-            it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
-              expect(onCardNew).toHaveBeenCalledTimes(1)
-              expect(onCardNew).toHaveBeenCalledWith(
-                {
-                  columns: [
-                    {
-                      id: 1,
-                      title: 'Column Backlog',
-                      cards: [
-                        { id: 999, title: 'Card title', description: 'Card description' },
-                        {
-                          id: 1,
-                          title: 'Card title 1',
-                          description: 'Card content'
-                        },
-                        {
-                          id: 2,
-                          title: 'Card title 2',
-                          description: 'Card content'
-                        }
-                      ]
-                    },
-                    {
-                      id: 2,
-                      title: 'Column Doing',
-                      cards: [
-                        {
-                          id: 3,
-                          title: 'Card title 3',
-                          description: 'Card content'
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  id: 1,
-                  title: 'Column Backlog',
-                  cards: [
-                    { id: 999, title: 'Card title', description: 'Card description' },
-                    {
-                      id: 1,
-                      title: 'Card title 1',
-                      description: 'Card content'
-                    },
-                    {
-                      id: 2,
-                      title: 'Card title 2',
-                      description: 'Card content'
-                    }
-                  ]
-                },
-                expect.objectContaining({ id: 999 })
-              )
-            })
-          })
-
-          describe('when the position is specified to add the card on the bottom of the column', () => {
-            beforeEach(async () => {
-              mount({ allowAddCard: { on: 'bottom' }, onNewCardConfirm, onCardNew })
-              fireEvent.click(subject.queryAllByText('+')[0])
-
-              fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                target: { value: 'Card title' }
-              })
-              fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                target: { value: 'Card description' }
-              })
-              fireEvent.click(subject.queryByText('Add'))
-              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
-            })
-
-            it('calls the "onNewCardConfirm" passing the new card', () => {
-              expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-              expect(onNewCardConfirm).toHaveBeenCalledWith({
-                title: 'Card title',
-                description: 'Card description'
-              })
             })
 
             it('adds a new card on the bottom of the column', () => {
               const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
-              expect(cards[2]).toHaveTextContent('Card description')
+              expect(cards[2]).toHaveTextContent('Card title')
             })
 
             it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
@@ -1818,6 +1612,190 @@ describe('<Board />', () => {
                 },
                 expect.objectContaining({ id: 999 })
               )
+            })
+          })
+
+          describe('about the card position when the it is added', () => {
+            describe('when the position is not specified', () => {
+              beforeEach(() => {
+                mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
+              })
+
+              it('renders the card adder placeholder on each column', () => {
+                expect(subject.queryAllByText('+')).toHaveLength(2)
+              })
+            })
+
+            describe('when the position is specified to add the card on the top of the column', () => {
+              beforeEach(async () => {
+                mount({ allowAddCard: { on: 'top' }, onNewCardConfirm, onCardNew })
+                fireEvent.click(subject.queryAllByText('+')[0])
+
+                fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                  target: { value: 'Card title' }
+                })
+                fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                  target: { value: 'Card description' }
+                })
+                fireEvent.click(subject.queryByText('Add'))
+                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+              })
+
+              it('calls the "onNewCardConfirm" passing the new card', () => {
+                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+                expect(onNewCardConfirm).toHaveBeenCalledWith({
+                  title: 'Card title',
+                  description: 'Card description'
+                })
+              })
+
+              it('adds a new card on the top of the column', () => {
+                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                expect(cards).toHaveLength(3)
+                expect(cards[0]).toHaveTextContent('Card description')
+              })
+
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+                expect(onCardNew).toHaveBeenCalledTimes(1)
+                expect(onCardNew).toHaveBeenCalledWith(
+                  {
+                    columns: [
+                      {
+                        id: 1,
+                        title: 'Column Backlog',
+                        cards: [
+                          { id: 999, title: 'Card title', description: 'Card description' },
+                          {
+                            id: 1,
+                            title: 'Card title 1',
+                            description: 'Card content'
+                          },
+                          {
+                            id: 2,
+                            title: 'Card title 2',
+                            description: 'Card content'
+                          }
+                        ]
+                      },
+                      {
+                        id: 2,
+                        title: 'Column Doing',
+                        cards: [
+                          {
+                            id: 3,
+                            title: 'Card title 3',
+                            description: 'Card content'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    id: 1,
+                    title: 'Column Backlog',
+                    cards: [
+                      { id: 999, title: 'Card title', description: 'Card description' },
+                      {
+                        id: 1,
+                        title: 'Card title 1',
+                        description: 'Card content'
+                      },
+                      {
+                        id: 2,
+                        title: 'Card title 2',
+                        description: 'Card content'
+                      }
+                    ]
+                  },
+                  expect.objectContaining({ id: 999 })
+                )
+              })
+            })
+
+            describe('when the position is specified to add the card on the bottom of the column', () => {
+              beforeEach(async () => {
+                mount({ allowAddCard: { on: 'bottom' }, onNewCardConfirm, onCardNew })
+                fireEvent.click(subject.queryAllByText('+')[0])
+
+                fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                  target: { value: 'Card title' }
+                })
+                fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                  target: { value: 'Card description' }
+                })
+                fireEvent.click(subject.queryByText('Add'))
+                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+              })
+
+              it('calls the "onNewCardConfirm" passing the new card', () => {
+                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+                expect(onNewCardConfirm).toHaveBeenCalledWith({
+                  title: 'Card title',
+                  description: 'Card description'
+                })
+              })
+
+              it('adds a new card on the bottom of the column', () => {
+                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                expect(cards).toHaveLength(3)
+                expect(cards[2]).toHaveTextContent('Card description')
+              })
+
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+                expect(onCardNew).toHaveBeenCalledTimes(1)
+                expect(onCardNew).toHaveBeenCalledWith(
+                  {
+                    columns: [
+                      {
+                        id: 1,
+                        title: 'Column Backlog',
+                        cards: [
+                          {
+                            id: 1,
+                            title: 'Card title 1',
+                            description: 'Card content'
+                          },
+                          {
+                            id: 2,
+                            title: 'Card title 2',
+                            description: 'Card content'
+                          },
+                          { id: 999, title: 'Card title', description: 'Card description' }
+                        ]
+                      },
+                      {
+                        id: 2,
+                        title: 'Column Doing',
+                        cards: [
+                          {
+                            id: 3,
+                            title: 'Card title 3',
+                            description: 'Card content'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    id: 1,
+                    title: 'Column Backlog',
+                    cards: [
+                      {
+                        id: 1,
+                        title: 'Card title 1',
+                        description: 'Card content'
+                      },
+                      {
+                        id: 2,
+                        title: 'Card title 2',
+                        description: 'Card content'
+                      },
+                      { id: 999, title: 'Card title', description: 'Card description' }
+                    ]
+                  },
+                  expect.objectContaining({ id: 999 })
+                )
+              })
             })
           })
         })

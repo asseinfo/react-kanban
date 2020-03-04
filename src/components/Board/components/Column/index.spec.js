@@ -84,10 +84,6 @@ describe('<Column />', () => {
       describe('when the user clicks on the add card button', () => {
         beforeEach(() => fireEvent.click(subject.queryByText('+')))
 
-        it('shows the add card form', () => {
-          expect(subject.container.querySelector('form')).toBeVisible()
-        })
-
         describe('when the user confirm a new card', () => {
           beforeEach(() => {
             fireEvent.change(subject.container.querySelector('input[name="title"]'), {
@@ -102,14 +98,6 @@ describe('<Column />', () => {
           it('calls the onCardNew prop passing the values', () => {
             expect(onCardNew).toHaveBeenCalledTimes(1)
             expect(onCardNew).toHaveBeenCalledWith(column, { title: 'Card title', description: 'Description' })
-          })
-        })
-
-        describe('when the user cancels the card adding', () => {
-          beforeEach(() => fireEvent.click(subject.queryByText('Cancel')))
-
-          it('hides the add card form', () => {
-            expect(subject.container.querySelector('form')).not.toBeInTheDocument()
           })
         })
       })
