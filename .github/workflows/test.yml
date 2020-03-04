@@ -15,7 +15,7 @@ jobs:
     env:
       NODE_ENV: 'test'
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
@@ -36,7 +36,7 @@ jobs:
     env:
       NODE_ENV: 'test'
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: yarn
       - run: NODE_ENV=cypress yarn server &
       - uses: cypress-io/github-action@v1
