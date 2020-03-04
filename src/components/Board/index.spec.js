@@ -1629,14 +1629,6 @@ describe('<Board />', () => {
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
               })
 
-              it('calls the "onNewCardConfirm" passing the new card', () => {
-                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-                expect(onNewCardConfirm).toHaveBeenCalledWith({
-                  title: 'Card title',
-                  description: 'Card description'
-                })
-              })
-
               it('adds a new card on the bottom of the column', () => {
                 const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
                 expect(cards).toHaveLength(3)
@@ -1715,14 +1707,6 @@ describe('<Board />', () => {
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
               })
 
-              it('calls the "onNewCardConfirm" passing the new card', () => {
-                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-                expect(onNewCardConfirm).toHaveBeenCalledWith({
-                  title: 'Card title',
-                  description: 'Card description'
-                })
-              })
-
               it('adds a new card on the top of the column', () => {
                 const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
                 expect(cards).toHaveLength(3)
@@ -1799,14 +1783,6 @@ describe('<Board />', () => {
                 })
                 fireEvent.click(subject.queryByText('Add'))
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
-              })
-
-              it('calls the "onNewCardConfirm" passing the new card', () => {
-                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
-                expect(onNewCardConfirm).toHaveBeenCalledWith({
-                  title: 'Card title',
-                  description: 'Card description'
-                })
               })
 
               it('adds a new card on the bottom of the column', () => {
