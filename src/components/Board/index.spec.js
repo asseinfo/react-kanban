@@ -1503,8 +1503,6 @@ describe('<Board />', () => {
             mount({ allowAddCard: false, onNewCardConfirm, onCardNew })
           })
 
-          afterEach(jest.clearAllMocks)
-
           it('does not render the card adder', () => {
             expect(subject.queryByText('+')).not.toBeInTheDocument()
           })
@@ -1617,12 +1615,88 @@ describe('<Board />', () => {
 
           describe('about the card position when the it is added', () => {
             describe('when the position is not specified', () => {
-              beforeEach(() => {
+              beforeEach(async () => {
                 mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
+                fireEvent.click(subject.queryAllByText('+')[0])
+
+                fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+                  target: { value: 'Card title' }
+                })
+                fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+                  target: { value: 'Card description' }
+                })
+                fireEvent.click(subject.queryByText('Add'))
+                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
               })
 
-              it('renders the card adder placeholder on each column', () => {
-                expect(subject.queryAllByText('+')).toHaveLength(2)
+              it('calls the "onNewCardConfirm" passing the new card', () => {
+                expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
+                expect(onNewCardConfirm).toHaveBeenCalledWith({
+                  title: 'Card title',
+                  description: 'Card description'
+                })
+              })
+
+              it('adds a new card on the bottom of the column', () => {
+                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                expect(cards).toHaveLength(3)
+                expect(cards[2]).toHaveTextContent('Card description')
+              })
+
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+                expect(onCardNew).toHaveBeenCalledTimes(1)
+                expect(onCardNew).toHaveBeenCalledWith(
+                  {
+                    columns: [
+                      {
+                        id: 1,
+                        title: 'Column Backlog',
+                        cards: [
+                          {
+                            id: 1,
+                            title: 'Card title 1',
+                            description: 'Card content'
+                          },
+                          {
+                            id: 2,
+                            title: 'Card title 2',
+                            description: 'Card content'
+                          },
+                          { id: 999, title: 'Card title', description: 'Card description' }
+                        ]
+                      },
+                      {
+                        id: 2,
+                        title: 'Column Doing',
+                        cards: [
+                          {
+                            id: 3,
+                            title: 'Card title 3',
+                            description: 'Card content'
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    id: 1,
+                    title: 'Column Backlog',
+                    cards: [
+                      {
+                        id: 1,
+                        title: 'Card title 1',
+                        description: 'Card content'
+                      },
+                      {
+                        id: 2,
+                        title: 'Card title 2',
+                        description: 'Card content'
+                      },
+                      { id: 999, title: 'Card title', description: 'Card description' }
+                    ]
+                  },
+                  expect.objectContaining({ id: 999 })
+                )
               })
             })
 
