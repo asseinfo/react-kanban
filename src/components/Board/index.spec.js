@@ -1550,7 +1550,7 @@ describe('<Board />', () => {
               expect(subject.queryAllByText('+')).toHaveLength(2)
             })
 
-            it('adds a new card on the bottom of the column', () => {
+            it('adds a new card on column', () => {
               const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('Card title')
@@ -1613,7 +1613,7 @@ describe('<Board />', () => {
             })
           })
 
-          describe('about the card position when the it is added', () => {
+          describe('about the card position when it is added', () => {
             describe('when the position is not specified', () => {
               beforeEach(async () => {
                 mount({ allowAddCard: true, onNewCardConfirm, onCardNew })
