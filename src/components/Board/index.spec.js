@@ -1635,7 +1635,7 @@ describe('<Board />', () => {
                 expect(cards[2]).toHaveTextContent('Card description')
               })
 
-              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card on the end of the card array', () => {
                 expect(onCardNew).toHaveBeenCalledTimes(1)
                 expect(onCardNew).toHaveBeenCalledWith(
                   {
@@ -1713,7 +1713,7 @@ describe('<Board />', () => {
                 expect(cards[0]).toHaveTextContent('Card description')
               })
 
-              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card on the start of the array', () => {
                 expect(onCardNew).toHaveBeenCalledTimes(1)
                 expect(onCardNew).toHaveBeenCalledWith(
                   {
@@ -1791,7 +1791,7 @@ describe('<Board />', () => {
                 expect(cards[2]).toHaveTextContent('Card description')
               })
 
-              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card', () => {
+              it('calls the "onCardNew" callback passing the updated board, the updated column and the new card on the end of the array', () => {
                 expect(onCardNew).toHaveBeenCalledTimes(1)
                 expect(onCardNew).toHaveBeenCalledWith(
                   {
