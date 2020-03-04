@@ -467,6 +467,12 @@ E.g.:
 <Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
 <Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
 
+#### `onCardNew`
+
+When the user adds a new card through the default card adder template, this callback will be called passing the updated board and the new card.
+
+This callback will not be called in an uncontrolled board.
+
 #### `onNewCardConfirm`
 
 When the user confirms a new card through the default card adder template, this callback will be called with a draft of a card with the title and the description typed by the user.
