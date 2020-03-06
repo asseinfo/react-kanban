@@ -38,3 +38,52 @@
   background-color: #eee;
   margin: 5px;
 }
+
+.react-kanban-card-adder {
+  @extend .react-kanban-card-skeleton;
+  border-radius: 3px;
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 7px;
+  input {
+    border: 0px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+}
+
+.react-kanban-card-adder__title {
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.react-kanban-card-adder__description {
+  width: 100%;
+  margin-top: 10px;
+  &:focus {
+    outline: none;
+  }
+}
+
+.react-kanban-card-adder__button {
+  background-color: #eee;
+  border: none;
+  padding: 5px;
+  width: 45%;
+  margin-top: 5px;
+  border-radius: 3px;
+  &:hover {
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: #ccc;
+  }
+}
