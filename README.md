@@ -146,7 +146,9 @@ setBoard(newBoard)
 | [`onColumnRename`](#oncolumnrename) (required if `allowRenameColumn` or when [`renameColumn`](#rendercolumnheader) is called) | Callback that will be called when a column is renamed                                                             | ✅         | ✅           |
 | [`allowRemoveCard`](#allowremovecard)                                                                                         | Allow to remove a card in default card template                                                                   | ✅         | ✅           |
 | [`onCardRemove`](#oncardremove) (required if `allowRemoveCard`)                                                               | Callback that will be called when a card is removed                                                               | ✅         | ✅           |
-| [`onCardNew`](#oncardnew) (required if [`addCard`](#rendercolumnheader) is called)                                            | Callback that will be called when a new card is added                                                             | 🚫         | ✅           |
+| [`allowAddCard`](#allowaddcard)                                                                                               | Allow to add a card. Expect an object with the position to add the card in the column.                            | 🚫         | ✅           |
+| [`onCardNew`](#oncardnew) (required if `allowAddCard` or when [`addCard`](#rendercolumnheader) is called)                     | Callback that will be called when a new card is added through the default card adder template                     | 🚫         | ✅           |
+| [`onNewCardConfirm`](#onnewcardconfirm) (required if `allowAddCard`)                                                          | Callback that will be called when a new card is confirmed by the user through the default card adder template     | 🚫         | ✅           |
 
 #### `children`
 
@@ -456,6 +458,36 @@ When the user removes a card, this callback will be called passing these paramet
 | `card`                 | Card to be added                                                                    |
 | `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the column (`bottom` is default) |
 
+#### `allowAddCard`
+
+Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column, but you can specify whether you want to add at the top or at the bottom of the board by passing an object with 'on' prop.
+
+E.g.:
+<Board allowAddCard /> // at the bottom by default
+<Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
+<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
+
+#### `onCardNew`
+
+When the user adds a new card through the default card adder template, this callback will be called passing the updated board and the new card.
+
+#### `onNewCardConfirm`
+
+When the user confirms a new card through the default card adder template, this callback will be called with a draft of a card with the title and the description typed by the user.
+
+You **must** return the new card with its new id in this callback.
+
+Ex.:
+
+```js
+function onCardNew (newCard) {
+  const newCard = { id: ${required-new-unique-cardId}, ...newCard }
+  return newCard
+}
+
+<Board initialBoard={board} allowAddCard onNewCardConfirm={onCardNew} onCardNew={console.log} />
+```
+
 #### `removeCard`
 
 | Arg          | Description              |
@@ -533,18 +565,17 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt="Leandro Lourenci"/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://glebbahmutov.com/"><img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;" alt="Gleb Bahmutov"/><br /><sub><b>Gleb Bahmutov</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=bahmutov" title="Tests">⚠️</a></td>
-    <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt="Matheus Sabino"/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt="Pedro Javier Nicolás"/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
-    <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars3.githubusercontent.com/u/25781749?v=4" width="100px;" alt="Matheus Poli"/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Tests">⚠️</a> <a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Documentation">📖</a></td>
-    <td align="center"><a href="https://github.com/sousajunior"><img src="https://avatars0.githubusercontent.com/u/17458197?v=4" width="100px;" alt="Carlinhos de Sousa Junior"/><br /><sub><b>Carlinhos de Sousa Junior</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=sousajunior" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=sousajunior" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://blog.lourenci.com/"><img src="https://avatars3.githubusercontent.com/u/2339362?v=4" width="100px;" alt=""/><br /><sub><b>Leandro Lourenci</b></sub></a><br /><a href="#question-lourenci" title="Answering Questions">💬</a> <a href="https://github.com/lourenci/react-kanban/issues?q=author%3Alourenci" title="Bug reports">🐛</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Documentation">📖</a> <a href="#example-lourenci" title="Examples">💡</a> <a href="https://github.com/lourenci/react-kanban/commits?author=lourenci" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://glebbahmutov.com/"><img src="https://avatars1.githubusercontent.com/u/2212006?v=4" width="100px;" alt=""/><br /><sub><b>Gleb Bahmutov</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=bahmutov" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/mathesouza"><img src="https://avatars0.githubusercontent.com/u/20099472?v=4" width="100px;" alt=""/><br /><sub><b>Matheus Sabino</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Documentation">📖</a> <a href="https://github.com/lourenci/react-kanban/commits?author=mathesouza" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/dizzyrobin"><img src="https://avatars0.githubusercontent.com/u/21962999?v=4" width="100px;" alt=""/><br /><sub><b>Pedro Javier Nicolás</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=dizzyrobin" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/MatheusPoliCamilo"><img src="https://avatars3.githubusercontent.com/u/25781749?v=4" width="100px;" alt=""/><br /><sub><b>Matheus Poli</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Tests">⚠️</a> <a href="https://github.com/lourenci/react-kanban/commits?author=MatheusPoliCamilo" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/sousajunior"><img src="https://avatars0.githubusercontent.com/u/17458197?v=4" width="100px;" alt=""/><br /><sub><b>Carlinhos de Sousa Junior</b></sub></a><br /><a href="https://github.com/lourenci/react-kanban/commits?author=sousajunior" title="Code">💻</a> <a href="https://github.com/lourenci/react-kanban/commits?author=sousajunior" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
-
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

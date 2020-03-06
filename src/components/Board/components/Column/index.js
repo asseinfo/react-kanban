@@ -2,6 +2,7 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
 import withDroppable from '../../../withDroppable'
+import CardAdder from './components/CardAdder'
 import style from './style.scss'
 
 const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
@@ -10,7 +11,16 @@ const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
 
 const DroppableColumn = withDroppable(ColumnEmptyPlaceholder)
 
-function Column({ children, index: columnIndex, renderCard, renderColumnHeader, disableColumnDrag, disableCardDrag }) {
+function Column({
+  children,
+  index: columnIndex,
+  renderCard,
+  renderColumnHeader,
+  disableColumnDrag,
+  disableCardDrag,
+  onCardNew,
+  allowAddCard
+}) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {columnProvided => (
@@ -23,6 +33,7 @@ function Column({ children, index: columnIndex, renderCard, renderColumnHeader, 
           <div {...columnProvided.dragHandleProps} data-testid='column-header'>
             {renderColumnHeader(children)}
           </div>
+          {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
           <DroppableColumn droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (

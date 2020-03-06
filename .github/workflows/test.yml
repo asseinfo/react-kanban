@@ -6,16 +6,13 @@ on:
     - master
   pull_request:
 
-env:
-  CODECOV_TOKEN: 46e41731-ff3e-45d4-8aea-eaec50c8c806
-
 jobs:
   linter-and-unit:
     runs-on: ubuntu-latest
     env:
       NODE_ENV: 'test'
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js 12.x
       uses: actions/setup-node@v1
       with:
@@ -27,7 +24,6 @@ jobs:
         yarn test --coverageDirectory unit-coverage
     - uses: codecov/codecov-action@v1
       with:
-        token: ${{ env.CODECOV_TOKEN }}
         file: unit-coverage/lcov.info
         flags: jestspecs
         fail_ci_if_error: true
@@ -36,7 +32,7 @@ jobs:
     env:
       NODE_ENV: 'test'
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - run: yarn
       - run: NODE_ENV=cypress yarn server &
       - uses: cypress-io/github-action@v1
@@ -46,7 +42,6 @@ jobs:
       - run: yarn nyc report --reporter=text-summary
       - uses: codecov/codecov-action@v1
         with:
-          token: ${{ env.CODECOV_TOKEN }}
           file: coverage/lcov.info
           flags: cypressspecs
           fail_ci_if_error: true

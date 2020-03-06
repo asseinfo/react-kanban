@@ -41,7 +41,9 @@ function UncontrolledBoard({
   onCardRemove,
   onColumnNew,
   disableCardDrag,
-  disableColumnDrag
+  disableColumnDrag,
+  allowAddCard,
+  onNewCardConfirm
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
@@ -77,12 +79,18 @@ function UncontrolledBoard({
 
   function handleCardAdd(column, card, options = {}) {
     const boardWithNewCard = addCard(board, column, card, options)
+
     onCardNew(
       boardWithNewCard,
       boardWithNewCard.columns.find(({ id }) => id === column.id),
       card
     )
     setBoard(boardWithNewCard)
+  }
+
+  async function handleDraftCardAdd(column, card, options = {}) {
+    const newCard = await onNewCardConfirm(card)
+    handleCardAdd(column, newCard, options)
   }
 
   function handleCardRemove(column, card) {
@@ -131,6 +139,8 @@ function UncontrolledBoard({
       onColumnRename={handleColumnRename}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
+      onCardNew={(column, card) => handleDraftCardAdd(column, card, allowAddCard)}
+      allowAddCard={allowAddCard && onNewCardConfirm}
     >
       {board}
     </BoardContainer>
@@ -205,7 +215,9 @@ function BoardContainer({
   allowRenameColumn,
   onColumnRename,
   onColumnDragEnd,
-  onCardDragEnd
+  onCardDragEnd,
+  onCardNew,
+  allowAddCard
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event, board)
@@ -243,6 +255,8 @@ function BoardContainer({
               }
               disableColumnDrag={disableColumnDrag}
               disableCardDrag={disableCardDrag}
+              onCardNew={onCardNew}
+              allowAddCard={allowAddCard}
             >
               {column}
             </Column>

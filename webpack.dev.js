@@ -21,7 +21,8 @@ module.exports = {
   plugins: [new MiniCssExtractPlugin(), new HtmlWebpackPlugin({ template: './assets/index.html' })],
   resolve: {
     alias: {
-      '@services': path.resolve(__dirname, 'src/services/')
+      '@services': path.resolve(__dirname, 'src/services/'),
+      '@components': path.resolve(__dirname, 'src/components/')
     }
   },
   devtool: 'inline-source-map',
