@@ -13,26 +13,26 @@ function CardForm({ onConfirm, onCancel }) {
   }
 
   return (
-    <div className='react-kanban-card-adder'>
+    <div className='react-kanban-card-adder-form'>
       <form onSubmit={addCard}>
         <input
-          className='react-kanban-card-adder__title'
+          className='react-kanban-card-adder-form__title'
           name='title'
           autoFocus
           defaultValue='Title'
           ref={inputCardTitle}
         />
         <input
-          className='react-kanban-card-adder__description'
+          className='react-kanban-card-adder-form__description'
           name='description'
           defaultValue='Description'
           ref={inputCardDescription}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
-          <button className='react-kanban-card-adder__button' type='submit'>
+          <button className='react-kanban-card-adder-form__button' type='submit'>
             Add
           </button>
-          <button className='react-kanban-card-adder__button' type='button' onClick={onCancel}>
+          <button className='react-kanban-card-adder-form__button' type='button' onClick={onCancel}>
             Cancel
           </button>
         </div>
