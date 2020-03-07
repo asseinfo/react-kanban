@@ -1,34 +1,4 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-
-const ColumnHeaderSkeleton = styled.div`
-  padding-bottom: 10px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-
-  span:nth-child(2) {
-    cursor: pointer;
-  }
-`
-
-const DefaultButton = styled.button`
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
-
-  :hover,
-  :focus,
-  :active {
-    background-color: #e6e6e6;
-  }
-`
-
-const Input = styled.input`
-  :focus {
-    outline: none;
-  }
-`
 
 function ColumnTitle({ allowRenameColumn, onClick, children: title }) {
   return allowRenameColumn ? (
@@ -67,11 +37,11 @@ export default function({ children: column, allowRemoveColumn, onColumnRemove, a
   }
 
   return (
-    <ColumnHeaderSkeleton>
+    <div className='react-kanban-column-header'>
       {renameMode ? (
         <form onSubmit={handleRenameColumn}>
           <span>
-            <Input
+            <input
               type='text'
               value={titleInput}
               onChange={({ target: { value } }) => setTitleInput(value)}
@@ -79,10 +49,12 @@ export default function({ children: column, allowRemoveColumn, onColumnRemove, a
             />
           </span>
           <span>
-            <DefaultButton type='submit'>Rename</DefaultButton>
-            <DefaultButton type='button' onClick={handleRenameMode}>
+            <button className='react-kanban-column-header__button' type='submit'>
+              Rename
+            </button>
+            <button className='react-kanban-column-header__button' type='button' onClick={handleRenameMode}>
               Cancel
-            </DefaultButton>
+            </button>
           </span>
         </form>
       ) : (
@@ -93,6 +65,6 @@ export default function({ children: column, allowRemoveColumn, onColumnRemove, a
           {allowRemoveColumn && <span onClick={() => onColumnRemove(column)}>×</span>}
         </>
       )}
-    </ColumnHeaderSkeleton>
+    </div>
   )
 }
