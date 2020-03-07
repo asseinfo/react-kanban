@@ -18,7 +18,7 @@ function ColumnAdder({ onConfirm }) {
       onClick={() => setAddingColumn(true)}
       role='button'
     >
-      +
+      ➕
     </div>
   )
 }
