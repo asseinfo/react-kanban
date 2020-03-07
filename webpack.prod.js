@@ -3,9 +3,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    styles: './src/styles.scss'
+  },
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     library: 'ReactKanban',
     libraryTarget: 'umd'
@@ -15,7 +18,7 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, { loader: 'css-loader', options: { modules: 'global' } }, 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       }
     ]
   },

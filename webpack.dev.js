@@ -14,7 +14,7 @@ module.exports = {
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, { loader: 'css-loader', options: { modules: 'global' } }, 'sass-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       }
     ]
   },
