@@ -16,16 +16,15 @@ Yet another Kanban/Trello board lib for React.
 ## ❓ Why?
 
 - 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
-- 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
+- 🎮 Having fun: Play with Hooks 🎣 and ~~Styled Components~~.
 - ♿️ Accessible: Keyboard and mobile friendly.
 - 🔌 Pluggable: For use in projects.
 
 ## 🛠 Install and usage
 
-Since this project use Hooks and Styled Components, you have to install them:
+Since this project use Hooks, you have to install them:
 
 - `react>=16.8.5`
-- `styled-components>=4`
 
 After, Install the lib on your project:
 
@@ -37,6 +36,7 @@ Import the lib and use it on your project:
 
 ```js
 import Board from '@lourenci/react-kanban'
+import '@lourenci/react-kanban/dist/styles.css'
 
 const board = {
   columns: [
