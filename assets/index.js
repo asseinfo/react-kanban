@@ -65,14 +65,20 @@ const board = {
     }
   ]
 }
-
+var teste = 99
 render(
-  <Board
-    {...getUrlParams()}
-    onColumnRemove={console.log}
-    onColumnRename={console.log}
-    onCardRemove={console.log}
-    initialBoard={board}
-  />,
+  <div style={{ backgroundColor: '#ccc' }}>
+    <Board
+      {...getUrlParams()}
+      onColumnRemove={console.log}
+      onColumnRename={console.log}
+      onCardRemove={console.log}
+      initialBoard={board}
+      allowAddCard
+      onNewCardConfirm={card => ({ id: teste++, ...card })}
+      onCardNew={console.log}
+      allowRenameColumn
+    />
+  </div>,
   document.getElementById('app')
 )

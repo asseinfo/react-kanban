@@ -34,7 +34,7 @@
 
 .react-kanban-column {
   padding: 15px;
-  border-radius: 2px;
+  border-radius: 3px;
   background-color: #eee;
   margin: 5px;
   input {
@@ -78,8 +78,6 @@
   border-bottom: 1px solid #eee;
   padding-bottom: 5px;
   font-weight: bold;
-  display: flex;
-  justify-content: space-between;
   width: 100%;
   padding: 0px;
   &:focus {
@@ -112,23 +110,28 @@
 .react-kanban-column-header {
   padding-bottom: 10px;
   font-weight: bold;
+}
 
-  input {
-    &:focus {
-      outline: none;
-    }
-  }
+.react-kanban-column-header-form__input{
+    max-height: 20px;
+    background-color: inherit;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: bold;
 }
 
 .react-kanban-column-header__button {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: #e6e6e6;
+  background-color: #fff;
+  border: none;
+  padding: 5px;
+  width: 45%;
+  margin-top: 5px;
+  border-radius: 3px;
+  &:hover {
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: #ccc;
   }
 }
 
