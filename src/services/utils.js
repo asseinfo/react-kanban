@@ -39,11 +39,18 @@ function replaceElementOfArray(array) {
   }
 }
 
+function pickPropOut(object, prop) {
+  return Object.keys(object).reduce((obj, key) => {
+    return key === prop ? obj : { ...obj, [key]: object[key] }
+  }, {})
+}
+
 export {
   addInArrayAtPosition,
   removeFromArrayAtPosition,
   changeElementOfPositionInArray,
   when,
   replaceElementOfArray,
-  partialRight
+  partialRight,
+  pickPropOut
 }

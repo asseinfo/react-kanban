@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import Column, { StyledColumn } from './'
+import Column from './'
 
 describe('<Column />', () => {
   let subject
@@ -102,11 +102,5 @@ describe('<Column />', () => {
         })
       })
     })
-  })
-})
-
-describe('<StyledColumn />', () => {
-  it('renders a column', () => {
-    expect(render(<StyledColumn />).container.querySelector('div')).toBeInTheDocument()
   })
 })

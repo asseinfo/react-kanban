@@ -6,6 +6,7 @@ module.exports = {
   setupFilesAfterEnv: ['@testing-library/jest-dom/extend-expect'],
   moduleNameMapper: {
     '^@services/(.*)$': '<rootDir>/src/services/$1',
-    '^@components/(.*)$': '<rootDir>/src/components/$1'
+    '^@components/(.*)$': '<rootDir>/src/components/$1',
+    '\\.s?css$': 'identity-obj-proxy'
   }
 }

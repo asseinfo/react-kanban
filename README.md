@@ -16,16 +16,15 @@ Yet another Kanban/Trello board lib for React.
 ## ❓ Why?
 
 - 👊 Reliable: 100% tested on CI; 100% coverage; 100% SemVer.
-- 🎮 Having fun: Play with Hooks 🎣 and Styled Components 💅🏻.
+- 🎮 Having fun: Play with Hooks 🎣 and ~~Styled Components~~.
 - ♿️ Accessible: Keyboard and mobile friendly.
 - 🔌 Pluggable: For use in projects.
 
 ## 🛠 Install and usage
 
-Since this project use Hooks and Styled Components, you have to install them:
+Since this project use Hooks, you have to install them:
 
 - `react>=16.8.5`
-- `styled-components>=4`
 
 After, Install the lib on your project:
 
@@ -37,6 +36,7 @@ Import the lib and use it on your project:
 
 ```js
 import Board from '@lourenci/react-kanban'
+import '@lourenci/react-kanban/dist/styles.css'
 
 const board = {
   columns: [
@@ -495,6 +495,30 @@ function onCardNew (newCard) {
 | `board`      | Your board               |
 | `fromColumn` | Column where the card is |
 | `card`       | Card to be removed       |
+
+## 💅🏻 Styling
+
+**🚧 WIP \* This might change in the future.**
+
+You can either style all the board or import our style and override the styles you want:
+
+| Class |
+| ----- |
+| `react-kanban-board` |
+| `react-kanban-card` |
+| `react-kanban-card-skeleton` |
+| `react-kanban-card--dragging` |
+| `react-kanban-card__description` |
+| `react-kanban-card__title` |
+| `react-kanban-column` |
+| `react-kanban-card-adder-form` |
+| `react-kanban-card-adder-button` |
+| `react-kanban-card-adder-form__title` |
+| `react-kanban-card-adder-form__description` |
+| `react-kanban-card-adder-form__button` |
+| `react-kanban-column-header` |
+| `react-kanban-column-header__button` |
+| `react-kanban-column-adder-button` |
 
 ## 🧪 Tests
 
