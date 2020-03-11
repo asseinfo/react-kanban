@@ -496,6 +496,10 @@ function onCardNew (newCard) {
 | `fromColumn` | Column where the card is |
 | `card`       | Card to be removed       |
 
+## 💅🏻 Styling
+
+This might be our next major release. For the time being, you can use it in the [`beta` branch](https://github.com/lourenci/react-kanban/tree/beta). We are eager for your feedback.
+
 ## 🧪 Tests
 
 ### Unit
