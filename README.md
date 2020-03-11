@@ -29,7 +29,7 @@ Since this project use Hooks, you have to install them:
 After, Install the lib on your project:
 
 ```bash
-yarn add @lourenci/react-kanban
+yarn add @lourenci/react-kanban@beta
 ```
 
 Import the lib and use it on your project:
