@@ -9,9 +9,9 @@ Yet another Kanban/Trello board lib for React.
 
 ### ▶️ Demo
 
-[Usage](https://5k7py44kl.codesandbox.io/)
+[Usage](https://nvjp3.csb.app/)
 
-[![Edit react-kanban-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/5k7py44kl?fontsize=14)
+[![Edit react-kanban-demo](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/react-kanban-demo-nvjp3)
 
 ## ❓ Why?
 
