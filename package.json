@@ -22,7 +22,7 @@
     "@cypress/code-coverage": "1.12.2",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "9.5.0",
-    "all-contributors-cli": "6.14.0",
+    "all-contributors-cli": "6.14.1",
     "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
     "babel-plugin-istanbul": "6.0.0",
