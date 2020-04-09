@@ -50,7 +50,7 @@
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "semantic-release": "17.0.4",
-    "start-server-and-test": "1.10.8",
+    "start-server-and-test": "1.10.11",
     "styled-components": "5.0.1",
     "webpack": "4.42.0",
     "webpack-cli": "3.3.11",
