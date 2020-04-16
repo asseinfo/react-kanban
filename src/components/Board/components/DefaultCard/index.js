@@ -28,7 +28,7 @@ const CardDescription = styled.div`
   padding-top: 10px;
 `
 
-export default function({ children: card, dragging, allowRemoveCard, onCardRemove }) {
+export default function ({ children: card, dragging, allowRemoveCard, onCardRemove }) {
   return (
     <DefaultCard dragging={dragging}>
       <span>

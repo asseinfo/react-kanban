@@ -4,7 +4,7 @@ import {
   changeElementOfPositionInArray,
   when,
   replaceElementOfArray,
-  partialRight
+  partialRight,
 } from './utils'
 
 describe('#addInArrayAtPosition', () => {
@@ -63,7 +63,7 @@ describe('#when', () => {
     describe('when the predicate is true', () => {
       it('calls the callback passing the value', () => {
         const callback = jest.fn()
-        when(1, value => value === 1)(callback)
+        when(1, (value) => value === 1)(callback)
 
         expect(callback).toHaveBeenCalledTimes(1)
         expect(callback).toHaveBeenCalledWith(1)
@@ -73,7 +73,7 @@ describe('#when', () => {
     describe('when the predicate is false', () => {
       it('does not call the callback', () => {
         const callback = jest.fn()
-        when(1, value => value !== 1)(callback)
+        when(1, (value) => value !== 1)(callback)
 
         expect(callback).not.toHaveBeenCalled()
       })
@@ -83,8 +83,8 @@ describe('#when', () => {
 
 describe('#replaceElementOfArray', () => {
   it('returns an array with the specified element replacing an element that matches the predicate', () => {
-    const predicate = value => value === 2
-    expect(replaceElementOfArray([0, 1, 2, 3])({ when: predicate, for: _ => 999 })).toEqual([0, 1, 999, 3])
+    const predicate = (value) => value === 2
+    expect(replaceElementOfArray([0, 1, 2, 3])({ when: predicate, for: (_) => 999 })).toEqual([0, 1, 999, 3])
   })
 })
 

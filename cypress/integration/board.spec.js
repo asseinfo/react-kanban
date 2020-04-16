@@ -1,5 +1,5 @@
-describe('Board Page', function() {
-  it('renders a board with its columns and cards', function() {
+describe('Board Page', function () {
+  it('renders a board with its columns and cards', function () {
     cy.get('[data-testid="column"]').should('have.length', 2)
     cy.get('[data-testid="column"]:eq(0) > div:eq(0)').should('have.text', 'Column Backlog')
     cy.get('[data-testid="column"]:eq(1) > div:eq(0)').should('have.text', 'Column Doing')
