@@ -5,7 +5,7 @@ function withDroppable(Component) {
   return function WrapperComponent({ children, ...droppableProps }) {
     return (
       <Droppable {...droppableProps}>
-        {provided => (
+        {(provided) => (
           <Component ref={provided.innerRef} {...provided.droppableProps}>
             {children}
             {provided.placeholder}

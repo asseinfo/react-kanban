@@ -9,7 +9,7 @@ describe('<Card />', () => {
   const card = {
     id: 1,
     title: 'Card title',
-    description: 'Card content'
+    description: 'Card content',
   }
 
   const defaultCard = jest.fn(() => <div>Card title</div>)

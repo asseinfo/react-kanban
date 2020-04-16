@@ -28,11 +28,11 @@ function Column({
   disableColumnDrag,
   disableCardDrag,
   onCardNew,
-  allowAddCard
+  allowAddCard,
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
-      {columnProvided => (
+      {(columnProvided) => (
         <StyledColumn ref={columnProvided.innerRef} {...columnProvided.draggableProps} data-testid='column'>
           <div {...columnProvided.dragHandleProps} data-testid='column-header'>
             {renderColumnHeader(children)}
@@ -44,7 +44,7 @@ function Column({
                 <Card
                   key={card.id}
                   index={index}
-                  renderCard={dragging => renderCard(children, card, dragging)}
+                  renderCard={(dragging) => renderCard(children, card, dragging)}
                   disableCardDrag={disableCardDrag}
                 >
                   {card}

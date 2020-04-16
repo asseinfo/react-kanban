@@ -12,7 +12,7 @@ import {
   getCoordinates,
   isAColumnMove,
   isMovingAColumnToAnotherPosition,
-  isMovingACardToAnotherPosition
+  isMovingACardToAnotherPosition,
 } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
@@ -53,18 +53,18 @@ function UncontrolledBoard({
   disableCardDrag,
   disableColumnDrag,
   allowAddCard,
-  onNewCardConfirm
+  onNewCardConfirm,
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, {
     moveCallback: moveColumn,
-    notifyCallback: onColumnDragEnd
+    notifyCallback: onColumnDragEnd,
   })
 
   function handleOnDragEnd({ source, destination, subject }, { moveCallback, notifyCallback }) {
     const reorderedBoard = moveCallback(board, source, destination)
-    when(notifyCallback)(callback => callback(reorderedBoard, subject, source, destination))
+    when(notifyCallback)((callback) => callback(reorderedBoard, subject, source, destination))
     setBoard(reorderedBoard)
   }
 
@@ -121,15 +121,15 @@ function UncontrolledBoard({
         if (!allowAddColumn) return null
         if (renderColumnAdder) return renderColumnAdder({ addColumn: handleColumnAdd })
         if (!onNewColumnConfirm) return null
-        return <ColumnAdder onConfirm={title => handleColumnAdd({ title, cards: [] })} />
+        return <ColumnAdder onConfirm={(title) => handleColumnAdd({ title, cards: [] })} />
       }}
       {...(renderColumnHeader && {
-        renderColumnHeader: column =>
+        renderColumnHeader: (column) =>
           renderColumnHeader(column, {
             removeColumn: handleColumnRemove.bind(null, column),
             renameColumn: handleColumnRename.bind(null, column),
-            addCard: handleCardAdd.bind(null, column)
-          })
+            addCard: handleCardAdd.bind(null, column),
+          }),
       })}
       renderCard={(column, card, dragging) => {
         if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, column, card), dragging })
@@ -137,7 +137,7 @@ function UncontrolledBoard({
           <DefaultCard
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
-            onCardRemove={card => handleCardRemove(column, card)}
+            onCardRemove={(card) => handleCardRemove(column, card)}
           >
             {card}
           </DefaultCard>
@@ -173,13 +173,13 @@ function ControlledBoard({
   allowRemoveCard,
   onCardRemove,
   disableCardDrag,
-  disableColumnDrag
+  disableColumnDrag,
 }) {
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onColumnDragEnd })
 
   function handleOnDragEnd({ source, destination, subject }, { notifyCallback }) {
-    when(notifyCallback)(callback => callback(subject, source, destination))
+    when(notifyCallback)((callback) => callback(subject, source, destination))
   }
 
   return (
@@ -190,7 +190,7 @@ function ControlledBoard({
         if (!allowAddColumn) return null
         if (renderColumnAdder) return renderColumnAdder()
         if (!onNewColumnConfirm) return null
-        return <ColumnAdder onConfirm={title => onNewColumnConfirm({ title, cards: [] })} />
+        return <ColumnAdder onConfirm={(title) => onNewColumnConfirm({ title, cards: [] })} />
       }}
       {...(renderColumnHeader && { renderColumnHeader: renderColumnHeader })}
       renderCard={(_column, card, dragging) => {
@@ -227,7 +227,7 @@ function BoardContainer({
   onColumnDragEnd,
   onCardDragEnd,
   onCardNew,
-  allowAddCard
+  allowAddCard,
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event, board)
@@ -249,7 +249,7 @@ function BoardContainer({
               key={column.id}
               index={index}
               renderCard={renderCard}
-              renderColumnHeader={column =>
+              renderColumnHeader={(column) =>
                 renderColumnHeader ? (
                   renderColumnHeader(column)
                 ) : (

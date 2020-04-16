@@ -15,14 +15,14 @@ describe('<Board />', () => {
           {
             id: 1,
             title: 'Card title 1',
-            description: 'Card content'
+            description: 'Card content',
           },
           {
             id: 2,
             title: 'Card title 2',
-            description: 'Card content'
-          }
-        ]
+            description: 'Card content',
+          },
+        ],
       },
       {
         id: 2,
@@ -31,11 +31,11 @@ describe('<Board />', () => {
           {
             id: 3,
             title: 'Card title 3',
-            description: 'Card content'
-          }
-        ]
-      }
-    ]
+            description: 'Card content',
+          },
+        ],
+      },
+    ],
   }
 
   afterEach(() => {
@@ -105,7 +105,7 @@ describe('<Board />', () => {
             act(() => {
               callbacks.onDragEnd({
                 source: { droppableId: '1', index: 0 },
-                destination: { droppableId: '1', index: 0 }
+                destination: { droppableId: '1', index: 0 },
               })
             })
           })
@@ -120,7 +120,7 @@ describe('<Board />', () => {
             act(() => {
               callbacks.onDragEnd({
                 source: { droppableId: '1', index: 0 },
-                destination: { droppableId: '1', index: 1 }
+                destination: { droppableId: '1', index: 1 },
               })
             })
           })
@@ -196,14 +196,14 @@ describe('<Board />', () => {
               {
                 id: 1,
                 title: 'Card title',
-                content: 'Card content'
+                content: 'Card content',
               },
               {
                 id: 2,
                 title: 'Card title',
-                content: 'Card content'
-              }
-            ]
+                content: 'Card content',
+              },
+            ],
           },
           {
             id: 2,
@@ -212,11 +212,11 @@ describe('<Board />', () => {
               {
                 id: 3,
                 title: 'Card title',
-                content: 'Card content'
-              }
-            ]
-          }
-        ]
+                content: 'Card content',
+              },
+            ],
+          },
+        ],
       }
 
       afterEach(() => {
@@ -225,7 +225,7 @@ describe('<Board />', () => {
 
       describe('when it receives a "renderCard" prop', () => {
         beforeEach(() => {
-          renderCard = jest.fn(cardContent => (
+          renderCard = jest.fn((cardContent) => (
             <div>
               {cardContent.id} - {cardContent.title} - {cardContent.content}
             </div>
@@ -258,9 +258,9 @@ describe('<Board />', () => {
             id: 1,
             title: 'Column Backlog',
             wip: 1,
-            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-          }
-        ]
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }],
+          },
+        ],
       }
 
       afterEach(() => {
@@ -269,7 +269,7 @@ describe('<Board />', () => {
 
       describe('when the component receives a "renderColumnHeader" prop', () => {
         beforeEach(() => {
-          renderColumnHeader = jest.fn(columnContent => (
+          renderColumnHeader = jest.fn((columnContent) => (
             <div>
               {columnContent.title} ({columnContent.wip})
             </div>
@@ -289,7 +289,7 @@ describe('<Board />', () => {
             id: 1,
             title: 'Column Backlog',
             wip: 1,
-            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }],
           })
         })
       })
@@ -361,7 +361,7 @@ describe('<Board />', () => {
             describe('when the user confirms the new column', () => {
               beforeEach(() => {
                 fireEvent.change(subject.container.querySelector('input'), {
-                  target: { value: 'Column Added by user' }
+                  target: { value: 'Column Added by user' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
               })
@@ -657,7 +657,7 @@ describe('<Board />', () => {
             act(() => {
               callbacks.onDragEnd({
                 source: { droppableId: '1', index: 0 },
-                destination: { droppableId: '1', index: 0 }
+                destination: { droppableId: '1', index: 0 },
               })
             })
           })
@@ -672,7 +672,7 @@ describe('<Board />', () => {
             act(() => {
               callbacks.onDragEnd({
                 source: { droppableId: '1', index: 0 },
-                destination: { droppableId: '1', index: 1 }
+                destination: { droppableId: '1', index: 1 },
               })
             })
           })
@@ -687,14 +687,14 @@ describe('<Board />', () => {
                     {
                       id: 2,
                       title: 'Card title 2',
-                      description: 'Card content'
+                      description: 'Card content',
                     },
                     {
                       id: 1,
                       title: 'Card title 1',
-                      description: 'Card content'
-                    }
-                  ]
+                      description: 'Card content',
+                    },
+                  ],
                 },
                 {
                   id: 2,
@@ -703,11 +703,11 @@ describe('<Board />', () => {
                     {
                       id: 3,
                       title: 'Card title 3',
-                      description: 'Card content'
-                    }
-                  ]
-                }
-              ]
+                      description: 'Card content',
+                    },
+                  ],
+                },
+              ],
             }
             expect(onCardDragEnd).toHaveBeenCalledTimes(1)
             expect(onCardDragEnd).toHaveBeenCalledWith(
@@ -767,9 +767,9 @@ describe('<Board />', () => {
                     {
                       id: 3,
                       title: 'Card title 3',
-                      description: 'Card content'
-                    }
-                  ]
+                      description: 'Card content',
+                    },
+                  ],
                 },
                 {
                   id: 1,
@@ -778,16 +778,16 @@ describe('<Board />', () => {
                     {
                       id: 1,
                       title: 'Card title 1',
-                      description: 'Card content'
+                      description: 'Card content',
                     },
                     {
                       id: 2,
                       title: 'Card title 2',
-                      description: 'Card content'
-                    }
-                  ]
-                }
-              ]
+                      description: 'Card content',
+                    },
+                  ],
+                },
+              ],
             }
 
             expect(onColumnDragEnd).toHaveBeenCalledTimes(1)
@@ -813,14 +813,14 @@ describe('<Board />', () => {
               {
                 id: 1,
                 title: 'Card title',
-                content: 'Card content'
+                content: 'Card content',
               },
               {
                 id: 2,
                 title: 'Card title',
-                content: 'Card content'
-              }
-            ]
+                content: 'Card content',
+              },
+            ],
           },
           {
             id: 2,
@@ -829,11 +829,11 @@ describe('<Board />', () => {
               {
                 id: 3,
                 title: 'Card title',
-                content: 'Card content'
-              }
-            ]
-          }
-        ]
+                content: 'Card content',
+              },
+            ],
+          },
+        ],
       }
 
       afterEach(() => {
@@ -842,7 +842,7 @@ describe('<Board />', () => {
 
       describe('when it receives a "renderCard" prop', () => {
         beforeEach(() => {
-          renderCard = jest.fn(cardContent => (
+          renderCard = jest.fn((cardContent) => (
             <div>
               {cardContent.id} - {cardContent.title} - {cardContent.content}
             </div>
@@ -874,9 +874,9 @@ describe('<Board />', () => {
             id: 1,
             title: 'Column Backlog',
             wip: 1,
-            cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
-          }
-        ]
+            cards: [{ id: 2, title: 'Card title', content: 'Card content' }],
+          },
+        ],
       }
 
       afterEach(() => {
@@ -885,7 +885,7 @@ describe('<Board />', () => {
 
       describe('when the component receives a "renderColumnHeader" prop', () => {
         beforeEach(() => {
-          renderColumnHeader = jest.fn(columnContent => (
+          renderColumnHeader = jest.fn((columnContent) => (
             <div>
               {columnContent.title} ({columnContent.wip})
             </div>
@@ -906,7 +906,7 @@ describe('<Board />', () => {
               id: 1,
               title: 'Column Backlog',
               wip: 1,
-              cards: [{ id: 2, title: 'Card title', content: 'Card content' }]
+              cards: [{ id: 2, title: 'Card title', content: 'Card content' }],
             },
             { removeColumn: expect.any(Function), renameColumn: expect.any(Function), addCard: expect.any(Function) }
           )
@@ -930,7 +930,7 @@ describe('<Board />', () => {
 
           beforeEach(() => {
             onColumnNew = jest.fn()
-            onNewColumnConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
+            onNewColumnConfirm = jest.fn((column) => new Promise((resolve) => resolve({ id: 999, ...column })))
             mount({ allowAddColumn: false, onNewColumnConfirm, onColumnNew })
           })
           afterEach(() => {
@@ -958,7 +958,7 @@ describe('<Board />', () => {
 
           beforeEach(() => {
             onColumnNew = jest.fn()
-            onNewColumnConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
+            onNewColumnConfirm = jest.fn((column) => new Promise((resolve) => resolve({ id: 999, ...column })))
             mount({ allowAddColumn: true, onNewColumnConfirm, onColumnNew })
           })
           afterEach(() => {
@@ -984,7 +984,7 @@ describe('<Board />', () => {
             describe('when the user confirms the new column', () => {
               beforeEach(async () => {
                 fireEvent.change(subject.container.querySelector('input'), {
-                  target: { value: 'Column Added by user' }
+                  target: { value: 'Column Added by user' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
                 await waitForElement(() => subject.container.querySelector('[data-testid="column"]:nth-child(3)'))
@@ -1010,8 +1010,8 @@ describe('<Board />', () => {
                     columns: [
                       expect.objectContaining({ id: 1 }),
                       expect.objectContaining({ id: 2 }),
-                      expect.objectContaining({ id: 999 })
-                    ]
+                      expect.objectContaining({ id: 999 }),
+                    ],
                   },
                   { id: 999, title: 'Column Added by user', cards: [] }
                 )
@@ -1092,8 +1092,8 @@ describe('<Board />', () => {
                     columns: [
                       expect.objectContaining({ id: 1 }),
                       expect.objectContaining({ id: 2 }),
-                      expect.objectContaining({ id: 99, title: 'New column' })
-                    ]
+                      expect.objectContaining({ id: 99, title: 'New column' }),
+                    ],
                   },
                   expect.objectContaining({ id: 99, title: 'New column' })
                 )
@@ -1210,8 +1210,8 @@ describe('<Board />', () => {
                 {
                   columns: [
                     expect.objectContaining({ id: 1, title: 'New title' }),
-                    expect.objectContaining({ id: 2, title: 'Column Doing' })
-                  ]
+                    expect.objectContaining({ id: 2, title: 'Column Doing' }),
+                  ],
                 },
                 expect.objectContaining({ id: 1, title: 'New title' })
               )
@@ -1261,8 +1261,8 @@ describe('<Board />', () => {
               {
                 columns: [
                   expect.objectContaining({ id: 1, title: 'New title' }),
-                  expect.objectContaining({ id: 2, title: 'Column Doing' })
-                ]
+                  expect.objectContaining({ id: 2, title: 'Column Doing' }),
+                ],
               },
               expect.objectContaining({ id: 1, title: 'New title' })
             )
@@ -1303,8 +1303,8 @@ describe('<Board />', () => {
                 {
                   columns: [
                     expect.objectContaining({ id: 1, cards: [expect.objectContaining({ id: 2 })] }),
-                    expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 3 })] })
-                  ]
+                    expect.objectContaining({ id: 2, cards: [expect.objectContaining({ id: 3 })] }),
+                  ],
                 },
                 expect.objectContaining({ id: 1, title: 'Column Backlog' }),
                 expect.objectContaining({ id: 1, title: 'Card title 1' })
@@ -1350,8 +1350,8 @@ describe('<Board />', () => {
               {
                 columns: [
                   expect.objectContaining({ title: 'Column Backlog' }),
-                  expect.objectContaining({ title: 'Column Doing' })
-                ]
+                  expect.objectContaining({ title: 'Column Doing' }),
+                ],
               },
               expect.objectContaining({ id: 1, title: 'Column Backlog' }),
               expect.objectContaining({ id: 1, title: 'Card title 1' })
@@ -1385,7 +1385,7 @@ describe('<Board />', () => {
             expect.objectContaining({
               removeColumn: expect.any(Function),
               renameColumn: expect.any(Function),
-              addCard: expect.any(Function)
+              addCard: expect.any(Function),
             })
           )
         })
@@ -1407,15 +1407,15 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })],
                 },
                 expect.objectContaining({
                   id: 1,
                   cards: [
                     expect.objectContaining({ id: 1 }),
                     expect.objectContaining({ id: 2 }),
-                    expect.objectContaining({ id: 99 })
-                  ]
+                    expect.objectContaining({ id: 99 }),
+                  ],
                 }),
                 expect.objectContaining({ id: 99 })
               )
@@ -1441,15 +1441,15 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })],
                 },
                 expect.objectContaining({
                   id: 1,
                   cards: [
                     expect.objectContaining({ id: 99 }),
                     expect.objectContaining({ id: 1 }),
-                    expect.objectContaining({ id: 2 })
-                  ]
+                    expect.objectContaining({ id: 2 }),
+                  ],
                 }),
                 expect.objectContaining({ id: 99 })
               )
@@ -1477,15 +1477,15 @@ describe('<Board />', () => {
               expect(onCardNew).toHaveBeenCalledTimes(1)
               expect(onCardNew).toHaveBeenCalledWith(
                 {
-                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })]
+                  columns: [expect.objectContaining({ id: 1 }), expect.objectContaining({ id: 2 })],
                 },
                 expect.objectContaining({
                   id: 1,
                   cards: [
                     expect.objectContaining({ id: 1 }),
                     expect.objectContaining({ id: 2 }),
-                    expect.objectContaining({ id: 99 })
-                  ]
+                    expect.objectContaining({ id: 99 }),
+                  ],
                 }),
                 expect.objectContaining({ id: 99 })
               )
@@ -1496,7 +1496,7 @@ describe('<Board />', () => {
 
       describe('when the component does not receive a custom header column template', () => {
         const onCardNew = jest.fn()
-        const onNewCardConfirm = jest.fn(column => new Promise(resolve => resolve({ id: 999, ...column })))
+        const onNewCardConfirm = jest.fn((column) => new Promise((resolve) => resolve({ id: 999, ...column })))
 
         describe('when the component does not receive "allowAddCard" prop', () => {
           beforeEach(() => {
@@ -1525,10 +1525,10 @@ describe('<Board />', () => {
 
               fireEvent.click(subject.queryAllByText('+')[0])
               fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                target: { value: 'Card title' }
+                target: { value: 'Card title' },
               })
               fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                target: { value: 'Card description' }
+                target: { value: 'Card description' },
               })
               fireEvent.click(subject.queryByText('Add'))
               await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
@@ -1538,7 +1538,7 @@ describe('<Board />', () => {
               expect(onNewCardConfirm).toHaveBeenCalledTimes(1)
               expect(onNewCardConfirm).toHaveBeenCalledWith({
                 title: 'Card title',
-                description: 'Card description'
+                description: 'Card description',
               })
             })
 
@@ -1568,15 +1568,15 @@ describe('<Board />', () => {
                         {
                           id: 1,
                           title: 'Card title 1',
-                          description: 'Card content'
+                          description: 'Card content',
                         },
                         {
                           id: 2,
                           title: 'Card title 2',
-                          description: 'Card content'
+                          description: 'Card content',
                         },
-                        { id: 999, title: 'Card title', description: 'Card description' }
-                      ]
+                        { id: 999, title: 'Card title', description: 'Card description' },
+                      ],
                     },
                     {
                       id: 2,
@@ -1585,11 +1585,11 @@ describe('<Board />', () => {
                         {
                           id: 3,
                           title: 'Card title 3',
-                          description: 'Card content'
-                        }
-                      ]
-                    }
-                  ]
+                          description: 'Card content',
+                        },
+                      ],
+                    },
+                  ],
                 },
                 {
                   id: 1,
@@ -1598,15 +1598,15 @@ describe('<Board />', () => {
                     {
                       id: 1,
                       title: 'Card title 1',
-                      description: 'Card content'
+                      description: 'Card content',
                     },
                     {
                       id: 2,
                       title: 'Card title 2',
-                      description: 'Card content'
+                      description: 'Card content',
                     },
-                    { id: 999, title: 'Card title', description: 'Card description' }
-                  ]
+                    { id: 999, title: 'Card title', description: 'Card description' },
+                  ],
                 },
                 expect.objectContaining({ id: 999 })
               )
@@ -1620,10 +1620,10 @@ describe('<Board />', () => {
                 fireEvent.click(subject.queryAllByText('+')[0])
 
                 fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                  target: { value: 'Card title' }
+                  target: { value: 'Card title' },
                 })
                 fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                  target: { value: 'Card description' }
+                  target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
@@ -1647,15 +1647,15 @@ describe('<Board />', () => {
                           {
                             id: 1,
                             title: 'Card title 1',
-                            description: 'Card content'
+                            description: 'Card content',
                           },
                           {
                             id: 2,
                             title: 'Card title 2',
-                            description: 'Card content'
+                            description: 'Card content',
                           },
-                          { id: 999, title: 'Card title', description: 'Card description' }
-                        ]
+                          { id: 999, title: 'Card title', description: 'Card description' },
+                        ],
                       },
                       {
                         id: 2,
@@ -1664,11 +1664,11 @@ describe('<Board />', () => {
                           {
                             id: 3,
                             title: 'Card title 3',
-                            description: 'Card content'
-                          }
-                        ]
-                      }
-                    ]
+                            description: 'Card content',
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     id: 1,
@@ -1677,15 +1677,15 @@ describe('<Board />', () => {
                       {
                         id: 1,
                         title: 'Card title 1',
-                        description: 'Card content'
+                        description: 'Card content',
                       },
                       {
                         id: 2,
                         title: 'Card title 2',
-                        description: 'Card content'
+                        description: 'Card content',
                       },
-                      { id: 999, title: 'Card title', description: 'Card description' }
-                    ]
+                      { id: 999, title: 'Card title', description: 'Card description' },
+                    ],
                   },
                   expect.objectContaining({ id: 999 })
                 )
@@ -1698,10 +1698,10 @@ describe('<Board />', () => {
                 fireEvent.click(subject.queryAllByText('+')[0])
 
                 fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                  target: { value: 'Card title' }
+                  target: { value: 'Card title' },
                 })
                 fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                  target: { value: 'Card description' }
+                  target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
@@ -1726,14 +1726,14 @@ describe('<Board />', () => {
                           {
                             id: 1,
                             title: 'Card title 1',
-                            description: 'Card content'
+                            description: 'Card content',
                           },
                           {
                             id: 2,
                             title: 'Card title 2',
-                            description: 'Card content'
-                          }
-                        ]
+                            description: 'Card content',
+                          },
+                        ],
                       },
                       {
                         id: 2,
@@ -1742,11 +1742,11 @@ describe('<Board />', () => {
                           {
                             id: 3,
                             title: 'Card title 3',
-                            description: 'Card content'
-                          }
-                        ]
-                      }
-                    ]
+                            description: 'Card content',
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     id: 1,
@@ -1756,14 +1756,14 @@ describe('<Board />', () => {
                       {
                         id: 1,
                         title: 'Card title 1',
-                        description: 'Card content'
+                        description: 'Card content',
                       },
                       {
                         id: 2,
                         title: 'Card title 2',
-                        description: 'Card content'
-                      }
-                    ]
+                        description: 'Card content',
+                      },
+                    ],
                   },
                   expect.objectContaining({ id: 999 })
                 )
@@ -1776,10 +1776,10 @@ describe('<Board />', () => {
                 fireEvent.click(subject.queryAllByText('+')[0])
 
                 fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-                  target: { value: 'Card title' }
+                  target: { value: 'Card title' },
                 })
                 fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-                  target: { value: 'Card description' }
+                  target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
                 await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
@@ -1803,15 +1803,15 @@ describe('<Board />', () => {
                           {
                             id: 1,
                             title: 'Card title 1',
-                            description: 'Card content'
+                            description: 'Card content',
                           },
                           {
                             id: 2,
                             title: 'Card title 2',
-                            description: 'Card content'
+                            description: 'Card content',
                           },
-                          { id: 999, title: 'Card title', description: 'Card description' }
-                        ]
+                          { id: 999, title: 'Card title', description: 'Card description' },
+                        ],
                       },
                       {
                         id: 2,
@@ -1820,11 +1820,11 @@ describe('<Board />', () => {
                           {
                             id: 3,
                             title: 'Card title 3',
-                            description: 'Card content'
-                          }
-                        ]
-                      }
-                    ]
+                            description: 'Card content',
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     id: 1,
@@ -1833,15 +1833,15 @@ describe('<Board />', () => {
                       {
                         id: 1,
                         title: 'Card title 1',
-                        description: 'Card content'
+                        description: 'Card content',
                       },
                       {
                         id: 2,
                         title: 'Card title 2',
-                        description: 'Card content'
+                        description: 'Card content',
                       },
-                      { id: 999, title: 'Card title', description: 'Card description' }
-                    ]
+                      { id: 999, title: 'Card title', description: 'Card description' },
+                    ],
                   },
                   expect.objectContaining({ id: 999 })
                 )
