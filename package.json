@@ -15,9 +15,9 @@
     "styled-components": ">=3"
   },
   "devDependencies": {
-    "@babel/core": "7.9.0",
+    "@babel/core": "7.9.6",
     "@babel/plugin-proposal-optional-chaining": "7.9.0",
-    "@babel/preset-env": "7.9.5",
+    "@babel/preset-env": "7.9.6",
     "@babel/preset-react": "7.9.4",
     "@cypress/code-coverage": "3.7.0",
     "@testing-library/jest-dom": "5.5.0",
