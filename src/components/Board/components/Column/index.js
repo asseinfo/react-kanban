@@ -8,6 +8,7 @@ import CardAdder from './components/CardAdder'
 
 export const StyledColumn = styled.div`
   height: 100%;
+  min-height: 28px;
   display: inline-block;
   padding: 15px;
   border-radius: 2px;
@@ -17,7 +18,8 @@ export const StyledColumn = styled.div`
 `
 
 const DroppableColumn = withDroppable(styled.div`
-  min-height: 28px;
+  height: inherit;
+  min-height: inherit;
 `)
 
 function Column({
@@ -28,11 +30,11 @@ function Column({
   disableColumnDrag,
   disableCardDrag,
   onCardNew,
-  allowAddCard,
+  allowAddCard
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
-      {(columnProvided) => (
+      {columnProvided => (
         <StyledColumn ref={columnProvided.innerRef} {...columnProvided.draggableProps} data-testid='column'>
           <div {...columnProvided.dragHandleProps} data-testid='column-header'>
             {renderColumnHeader(children)}
@@ -44,7 +46,7 @@ function Column({
                 <Card
                   key={card.id}
                   index={index}
-                  renderCard={(dragging) => renderCard(children, card, dragging)}
+                  renderCard={dragging => renderCard(children, card, dragging)}
                   disableCardDrag={disableCardDrag}
                 >
                   {card}
