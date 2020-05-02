@@ -8,6 +8,7 @@ import CardAdder from './components/CardAdder'
 
 export const StyledColumn = styled.div`
   height: 100%;
+  min-height: 28px;
   display: inline-block;
   padding: 15px;
   border-radius: 2px;
@@ -17,7 +18,8 @@ export const StyledColumn = styled.div`
 `
 
 const DroppableColumn = withDroppable(styled.div`
-  min-height: 28px;
+  height: inherit;
+  min-height: inherit;
 `)
 
 function Column({
