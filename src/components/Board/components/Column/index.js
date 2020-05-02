@@ -6,7 +6,7 @@ import CardAdder from './components/CardAdder'
 import { pickPropOut } from '@services/utils'
 
 const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
-  <div ref={ref} style={{ minHeight: '28px' }} {...props} />
+  <div ref={ref} style={{ minHeight: 'inherit', height: 'inherit' }} {...props} />
 ))
 
 const DroppableColumn = withDroppable(ColumnEmptyPlaceholder)
@@ -32,6 +32,7 @@ function Column({
             {...draggablePropsWithoutStyle}
             style={{
               height: '100%',
+              minHeight: '28px',
               display: 'inline-block',
               verticalAlign: 'top',
               ...columnProvided.draggableProps.style
