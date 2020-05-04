@@ -278,8 +278,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column-header/)).toHaveLength(1)
-          expect(subject.queryByTestId('column-header-1')).toHaveTextContent(/^Column Backlog \(1\)$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
         it('passes the column content to the "renderColumnHeader" prop', () => {
@@ -297,8 +297,8 @@ describe('<Board />', () => {
         beforeEach(() => mount({ children: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column-header/)).toHaveLength(1)
-          expect(subject.queryByTestId('column-header-1')).toHaveTextContent(/^Column Backlog$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
     })
@@ -889,8 +889,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column-header/)).toHaveLength(1)
-          expect(subject.queryByTestId('column-header-1')).toHaveTextContent(/^Column Backlog \(1\)$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
         it('passes the column content, the "removeColumn" and the "renameColumn" to the "renderColumnHeader" prop', () => {
@@ -911,8 +911,8 @@ describe('<Board />', () => {
         beforeEach(() => mount({ initialBoard: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column-header/)).toHaveLength(1)
-          expect(subject.queryByTestId('column-header-1')).toHaveTextContent(/^Column Backlog$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
     })
