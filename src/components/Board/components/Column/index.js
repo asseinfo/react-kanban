@@ -35,8 +35,12 @@ function Column({
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {(columnProvided) => (
-        <StyledColumn ref={columnProvided.innerRef} {...columnProvided.draggableProps} data-testid='column'>
-          <div {...columnProvided.dragHandleProps} data-testid='column-header'>
+        <StyledColumn
+          ref={columnProvided.innerRef}
+          {...columnProvided.draggableProps}
+          data-testid={`column-${children.id}`}
+        >
+          <div {...columnProvided.dragHandleProps} data-testid={`column-header-${children.id}`}>
             {renderColumnHeader(children)}
           </div>
           {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
