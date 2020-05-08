@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { render, within, act, fireEvent, waitForElement } from '@testing-library/react'
+import { render, within, act, fireEvent, screen } from '@testing-library/react'
 import Board from './'
 import { callbacks } from 'react-beautiful-dnd'
 import { moveCard } from '@services/helpers'
@@ -65,9 +65,9 @@ describe('<Board />', () => {
     }
 
     it('renders a board according to the children prop', () => {
-      const { queryByText } = mount()
+      const { queryByText, queryByTestId } = mount()
 
-      const column = within(queryByText(/^Column Backlog$/).closest('[data-testid="column"]'))
+      const column = within(queryByTestId('column-1'))
       const cards = column.queryAllByText(/^Card title/)
 
       expect(cards).toHaveLength(2)
@@ -235,9 +235,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom cards on the board's column", () => {
-          const cards = subject.queryAllByTestId('card')
+          const cards = subject.queryAllByText(/\d+ - Card title - Card content$/)
           expect(cards).toHaveLength(3)
-          expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
         })
 
         // FIXME It shouldn't be receiving the bag, just the dragging prop?! Maybe, just a typo in spec.
@@ -279,8 +278,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
-          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog \(1\)$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
         it('passes the column content to the "renderColumnHeader" prop', () => {
@@ -298,8 +297,8 @@ describe('<Board />', () => {
         beforeEach(() => mount({ children: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
-          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
     })
@@ -441,7 +440,7 @@ describe('<Board />', () => {
 
           describe('when the user clicks to remove a column', () => {
             beforeEach(() => {
-              const removeColumnButton = within(subject.queryAllByTestId('column')[0]).queryByText('×')
+              const removeColumnButton = within(subject.queryByTestId('column-1')).queryByText('×')
               fireEvent.click(removeColumnButton)
             })
 
@@ -482,7 +481,7 @@ describe('<Board />', () => {
 
           describe('when the user renames a column', () => {
             beforeEach(() => {
-              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog'))
+              fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('Column Backlog'))
               fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
               fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
@@ -513,7 +512,7 @@ describe('<Board />', () => {
           })
 
           it('does not show the button on column header to remove the column', () => {
-            expect(subject.queryAllByTestId('column')[0].querySelector('button')).not.toBeInTheDocument()
+            expect(subject.queryByTestId('column-1').querySelector('button')).not.toBeInTheDocument()
           })
         })
       })
@@ -546,7 +545,7 @@ describe('<Board />', () => {
 
           describe('when the user clicks to remove a card from a column', () => {
             beforeEach(() => {
-              const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
+              const removeCardButton = within(subject.queryByTestId('card-1')).queryByText('×')
               fireEvent.click(removeCardButton)
             })
 
@@ -600,9 +599,9 @@ describe('<Board />', () => {
     })
 
     it('does not rerender on initialBoard change', () => {
-      const { queryByText } = mount({ Component: UselessState })
+      const { queryByText, queryByTestId } = mount({ Component: UselessState })
 
-      const column = within(queryByText(/^Column Backlog$/).closest('[data-testid="column"]'))
+      const column = within(queryByTestId('column-1'))
       const cards = column.queryAllByText(/^Card title/)
 
       expect(cards).toHaveLength(2)
@@ -626,11 +625,7 @@ describe('<Board />', () => {
     })
 
     it('renders the specified cards in their columns', () => {
-      const column = within(
-        mount()
-          .queryByText(/^Column Backlog$/)
-          .closest('[data-testid="column"]')
-      )
+      const column = within(mount().queryByTestId('column-1'))
       const cards = column.queryAllByText(/^Card title/)
       expect(cards).toHaveLength(2)
     })
@@ -852,9 +847,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom cards on the board's column", () => {
-          const cards = subject.queryAllByTestId('card')
+          const cards = subject.queryAllByText(/\d+ - Card title - Card content$/)
           expect(cards).toHaveLength(3)
-          expect(cards[0]).toHaveTextContent(/^1 - Card title - Card content$/)
         })
 
         it('passes the card content and the card bag as a parameter to the renderCard prop', () => {
@@ -895,8 +889,8 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
-          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog \(1\)$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
         it('passes the column content, the "removeColumn" and the "renameColumn" to the "renderColumnHeader" prop', () => {
@@ -917,8 +911,8 @@ describe('<Board />', () => {
         beforeEach(() => mount({ initialBoard: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId('column-header')).toHaveLength(1)
-          expect(subject.queryByTestId('column-header')).toHaveTextContent(/^Column Backlog$/)
+          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
     })
@@ -987,7 +981,7 @@ describe('<Board />', () => {
                   target: { value: 'Column Added by user' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="column"]:nth-child(3)'))
+                await screen.findByTestId('column-999')
               })
 
               it('calls the "onNewColumnConfirm" passing the new column', () => {
@@ -996,7 +990,7 @@ describe('<Board />', () => {
               })
 
               it('renders the new column using the id returned on "onNewColumnConfirm"', () => {
-                expect(subject.queryAllByTestId('column')).toHaveLength(3)
+                expect(subject.queryAllByTestId(/column-\d+/)).toHaveLength(3)
               })
 
               it('renders the column placeholder as the last column to add a new column', () => {
@@ -1024,7 +1018,7 @@ describe('<Board />', () => {
               })
 
               it('does not add any new column', () => {
-                expect(subject.queryAllByTestId('column')).toHaveLength(2)
+                expect(subject.queryAllByTestId(/column-\d+/)).toHaveLength(2)
               })
 
               it('renders the column placeholder as the last column to add a new column', () => {
@@ -1080,7 +1074,7 @@ describe('<Board />', () => {
               beforeEach(() => fireEvent.click(within(subject.queryByTestId('columnAdder')).queryByText('Add column')))
 
               it('renders the new column', () => {
-                const column = subject.queryAllByTestId('column')
+                const column = subject.queryAllByTestId(/column-\d+/)
                 expect(column).toHaveLength(3)
                 expect(column[2]).toHaveTextContent('New column')
               })
@@ -1119,12 +1113,12 @@ describe('<Board />', () => {
 
           describe('when the user clicks to remove a column', () => {
             beforeEach(() => {
-              const removeColumnButton = within(subject.queryAllByTestId('column')[0]).queryByText('×')
+              const removeColumnButton = within(subject.queryByTestId('column-1')).queryByText('×')
               fireEvent.click(removeColumnButton)
             })
 
             it('removes the column', () => {
-              const column = subject.queryAllByTestId('column')
+              const column = subject.queryAllByTestId(/column-\d+/)
               expect(column).toHaveLength(1)
               expect(column[0]).toHaveTextContent('Column Doing')
             })
@@ -1161,10 +1155,10 @@ describe('<Board />', () => {
         })
 
         describe('when the "removeColumn" callback is called', () => {
-          beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog')))
+          beforeEach(() => fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('Column Backlog')))
 
           it('removes the column', () => {
-            const column = subject.queryAllByTestId('column')
+            const column = subject.queryAllByTestId(/column-\d+/)
             expect(column).toHaveLength(1)
             expect(column[0]).toHaveTextContent('Column Doing')
           })
@@ -1194,7 +1188,7 @@ describe('<Board />', () => {
 
           describe('when the user renames a column', () => {
             beforeEach(() => {
-              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog'))
+              fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('Column Backlog'))
               fireEvent.change(subject.container.querySelector('input'), { target: { value: 'New title' } })
               fireEvent.click(subject.queryByText('Rename', { selector: 'button' }))
             })
@@ -1230,7 +1224,7 @@ describe('<Board />', () => {
           })
 
           it('does not show the button on column header to remove the column', () => {
-            expect(subject.queryAllByTestId('column')[0].querySelector('button')).not.toBeInTheDocument()
+            expect(subject.queryByTestId('column-1').querySelector('button')).not.toBeInTheDocument()
           })
         })
       })
@@ -1249,10 +1243,10 @@ describe('<Board />', () => {
         })
 
         describe('when the "renameColumn" callback is called', () => {
-          beforeEach(() => fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('Column Backlog')))
+          beforeEach(() => fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('Column Backlog')))
 
           it('renames the column', () => {
-            expect(subject.queryAllByTestId('column')[0]).toHaveTextContent('New title')
+            expect(subject.queryByTestId('column-1')).toHaveTextContent('New title')
           })
 
           it('calls the "onColumnRename" callback passing both the updated board and the renamed column', () => {
@@ -1286,7 +1280,7 @@ describe('<Board />', () => {
 
           describe('when the user clicks to remove a card from a column', () => {
             beforeEach(() => {
-              const removeCardButton = within(subject.queryAllByTestId('card')[0]).queryByText('×')
+              const removeCardButton = within(subject.queryByTestId('card-1')).queryByText('×')
               fireEvent.click(removeCardButton)
             })
 
@@ -1394,11 +1388,11 @@ describe('<Board />', () => {
           describe('when the position is not specified', () => {
             beforeEach(() => {
               mount({ renderColumnHeader, onCardNew })
-              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
+              fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('New card'))
             })
 
             it('adds a new card on the bottom of the column', () => {
-              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+              const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('New card')
             })
@@ -1428,11 +1422,11 @@ describe('<Board />', () => {
                 return <button onClick={() => addCard({ id: 99, title: 'New card' }, { on: 'top' })}>New card</button>
               })
               mount({ renderColumnHeader, onCardNew })
-              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
+              fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('New card'))
             })
 
             it('adds a new card on the top of the column', () => {
-              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+              const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
               expect(cards).toHaveLength(3)
               expect(cards[0]).toHaveTextContent('New card')
             })
@@ -1464,11 +1458,11 @@ describe('<Board />', () => {
                 )
               })
               mount({ renderColumnHeader, onCardNew })
-              fireEvent.click(within(subject.queryAllByTestId('column')[0]).queryByText('New card'))
+              fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('New card'))
             })
 
             it('adds a new card on the bottom of the column', () => {
-              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+              const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('New card')
             })
@@ -1531,7 +1525,7 @@ describe('<Board />', () => {
                 target: { value: 'Card description' },
               })
               fireEvent.click(subject.queryByText('Add'))
-              await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+              await screen.findByTestId('card-999')
             })
 
             it('calls the "onNewCardConfirm" passing the new card', () => {
@@ -1543,7 +1537,7 @@ describe('<Board />', () => {
             })
 
             it('renders the new card using the id returned on "onNewCardConfirm"', () => {
-              expect(subject.queryAllByTestId('card')).toHaveLength(4)
+              expect(subject.queryAllByTestId(/card/)).toHaveLength(4)
             })
 
             it('renders the card placeholder', () => {
@@ -1551,7 +1545,7 @@ describe('<Board />', () => {
             })
 
             it('adds a new card on column', () => {
-              const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+              const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
               expect(cards).toHaveLength(3)
               expect(cards[2]).toHaveTextContent('Card title')
             })
@@ -1626,11 +1620,11 @@ describe('<Board />', () => {
                   target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+                await screen.findByTestId('card-999')
               })
 
               it('adds a new card on the bottom of the column', () => {
-                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
                 expect(cards).toHaveLength(3)
                 expect(cards[2]).toHaveTextContent('Card description')
               })
@@ -1704,11 +1698,11 @@ describe('<Board />', () => {
                   target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+                await screen.findByTestId('card-999')
               })
 
               it('adds a new card on the top of the column', () => {
-                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
                 expect(cards).toHaveLength(3)
                 expect(cards[0]).toHaveTextContent('Card description')
               })
@@ -1782,11 +1776,11 @@ describe('<Board />', () => {
                   target: { value: 'Card description' },
                 })
                 fireEvent.click(subject.queryByText('Add'))
-                await waitForElement(() => subject.container.querySelector('[data-testid="card"]:nth-child(3)'))
+                await screen.findByTestId('card-999')
               })
 
               it('adds a new card on the bottom of the column', () => {
-                const cards = within(subject.queryAllByTestId('column')[0]).queryAllByTestId('card')
+                const cards = within(subject.queryByTestId('column-1')).queryAllByTestId(/card/)
                 expect(cards).toHaveLength(3)
                 expect(cards[2]).toHaveTextContent('Card description')
               })

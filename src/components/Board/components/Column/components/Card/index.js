@@ -12,7 +12,12 @@ function Card({ children, index, renderCard, disableCardDrag }) {
     <Draggable draggableId={String(children.id)} index={index} isDragDisabled={disableCardDrag}>
       {(provided, { isDragging }) => {
         return (
-          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} data-testid='card'>
+          <div
+            ref={provided.innerRef}
+            {...provided.draggableProps}
+            {...provided.dragHandleProps}
+            data-testid={`card-${children.id}`}
+          >
             <CardTemplate>{renderCard(isDragging)}</CardTemplate>
           </div>
         )
