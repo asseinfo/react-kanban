@@ -397,10 +397,10 @@ describe('<Board />', () => {
               ))
 
               mount({ renderColumnAdder })
+            })
 
-              it('does not renders the custom render adder', () => {
-                expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
-              })
+            it('does not render the custom render adder', () => {
+              expect(subject.queryByTestId('columnAdder')).not.toBeInTheDocument()
             })
           })
 
@@ -1042,10 +1042,10 @@ describe('<Board />', () => {
               ))
 
               mount({ renderColumnAdder })
+            })
 
-              it('does not renders the custom render adder', () => {
-                expect(subject.queryByTestId('columnAdder')).toBeInTheDocument()
-              })
+            it('does not render the custom render adder', () => {
+              expect(subject.queryByTestId('columnAdder')).not.toBeInTheDocument()
             })
           })
 
