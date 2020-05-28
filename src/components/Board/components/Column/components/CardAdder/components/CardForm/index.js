@@ -24,6 +24,7 @@ const CardTitle = styled.input`
   justify-content: space-between;
   width: 100%;
   padding: 0px;
+  placeholder
 `
 
 const CardDescription = styled.input`
