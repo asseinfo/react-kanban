@@ -26,6 +26,8 @@ const DefaultButton = styled.button`
 `
 
 const Input = styled.input`
+  width: 118px;
+
   :focus {
     outline: none;
   }
