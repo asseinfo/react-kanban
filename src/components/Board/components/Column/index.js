@@ -41,7 +41,6 @@ function Column({
           data-testid={`column-${children.id}`}
         >
           <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
-          {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
           <DroppableColumn droppableId={String(children.id)}>
             {children.cards.length ? (
               children.cards.map((card, index) => (
@@ -58,6 +57,7 @@ function Column({
               <CardSkeleton />
             )}
           </DroppableColumn>
+          {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
         </StyledColumn>
       )}
     </Draggable>
