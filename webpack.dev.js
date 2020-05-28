@@ -11,15 +11,17 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.(t|j)sx?$/, exclude: /node_modules/, loader: 'ts-loader' },
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
-      }
+      },
+      { enforce: 'pre', test: /\.js$/, exclude: /node_modules/, loader: 'source-map-loader' }
     ]
   },
   plugins: [new MiniCssExtractPlugin(), new HtmlWebpackPlugin({ template: './assets/index.html' })],
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@services': path.resolve(__dirname, 'src/services/'),
       '@components': path.resolve(__dirname, 'src/components/')
