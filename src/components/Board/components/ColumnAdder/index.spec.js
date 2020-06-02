@@ -17,14 +17,14 @@ describe('<ColumnAdder />', () => {
   })
 
   it('renders the column placeholder to add a new column', () => {
-    expect(subject.queryByText('➕')).toBeInTheDocument()
+    expect(subject.queryByText('+')).toBeInTheDocument()
   })
 
   describe('when the user clicks to add a new column', () => {
-    beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+    beforeEach(() => fireEvent.click(subject.queryByText('+')))
 
     it('hides the column placeholder', () => {
-      expect(subject.queryByText('➕')).not.toBeInTheDocument()
+      expect(subject.queryByText('+')).not.toBeInTheDocument()
     })
 
     it('renders the input asking for a column name', () => {
@@ -47,7 +47,7 @@ describe('<ColumnAdder />', () => {
       })
 
       it('renders the column placeholder to add a new column', () => {
-        expect(subject.queryByText('➕')).toBeInTheDocument()
+        expect(subject.queryByText('+')).toBeInTheDocument()
       })
     })
 
@@ -65,7 +65,7 @@ describe('<ColumnAdder />', () => {
       })
 
       it('renders the column placeholder to add a new column', () => {
-        expect(subject.queryByText('➕')).toBeInTheDocument()
+        expect(subject.queryByText('+')).toBeInTheDocument()
       })
     })
   })

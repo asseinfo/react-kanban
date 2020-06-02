@@ -318,7 +318,7 @@ describe('<Board />', () => {
           })
 
           it('does not render the column adder', () => {
-            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
           })
         })
 
@@ -328,7 +328,7 @@ describe('<Board />', () => {
           })
 
           it('does not render the column adder', () => {
-            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
           })
         })
 
@@ -344,14 +344,14 @@ describe('<Board />', () => {
           })
 
           it('renders the column placeholder as the last column to add a new column', () => {
-            expect(subject.queryByText('➕')).toBeInTheDocument()
+            expect(subject.queryByText('+')).toBeInTheDocument()
           })
 
           describe('when the user clicks to add a new column', () => {
-            beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+            beforeEach(() => fireEvent.click(subject.queryByText('+')))
 
             it('hides the column placeholder', () => {
-              expect(subject.queryByText('➕')).not.toBeInTheDocument()
+              expect(subject.queryByText('+')).not.toBeInTheDocument()
             })
 
             it('renders the input asking for a column title', () => {
@@ -939,7 +939,7 @@ describe('<Board />', () => {
           })
 
           it('does not render the column adder', () => {
-            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
           })
         })
 
@@ -949,7 +949,7 @@ describe('<Board />', () => {
           })
 
           it('does not render the column adder', () => {
-            expect(subject.queryByText('➕')).not.toBeInTheDocument()
+            expect(subject.queryByText('+')).not.toBeInTheDocument()
           })
         })
 
@@ -967,14 +967,14 @@ describe('<Board />', () => {
           })
 
           it('renders the column placeholder as the last column to add a new column', () => {
-            expect(subject.queryByText('➕')).toBeInTheDocument()
+            expect(subject.queryByText('+')).toBeInTheDocument()
           })
 
           describe('when the user clicks to add a new column', () => {
-            beforeEach(() => fireEvent.click(subject.queryByText('➕')))
+            beforeEach(() => fireEvent.click(subject.queryByText('+')))
 
             it('hides the column placeholder', () => {
-              expect(subject.queryByText('➕')).not.toBeInTheDocument()
+              expect(subject.queryByText('+')).not.toBeInTheDocument()
             })
 
             it('renders the input asking for a column title', () => {
@@ -1000,7 +1000,7 @@ describe('<Board />', () => {
               })
 
               it('renders the column placeholder as the last column to add a new column', () => {
-                expect(subject.queryByText('➕')).toBeInTheDocument()
+                expect(subject.queryByText('+')).toBeInTheDocument()
               })
 
               it('calls the "onColumnNew" passing the modified board and the added column', () => {
@@ -1028,7 +1028,7 @@ describe('<Board />', () => {
               })
 
               it('renders the column placeholder as the last column to add a new column', () => {
-                expect(subject.queryByText('➕')).toBeInTheDocument()
+                expect(subject.queryByText('+')).toBeInTheDocument()
               })
             })
           })
