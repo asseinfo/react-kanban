@@ -40,15 +40,12 @@ function UncontrolledBoard({
   allowAddColumn,
   renderColumnAdder,
   onNewColumnConfirm,
-  onColumnRemove,
   renderColumnHeader,
   allowRemoveColumn,
   allowRenameColumn,
-  onColumnRename,
   onCardNew,
   renderCard,
   allowRemoveCard,
-  onCardRemove,
   onColumnNew,
   disableCardDrag,
   disableColumnDrag,
@@ -77,13 +74,15 @@ function UncontrolledBoard({
 
   function handleColumnRemove(column) {
     const filteredBoard = removeColumn(board, column)
-    onColumnRemove(filteredBoard, column)
+    console.log(filteredBoard)
+    console.log(column)
     setBoard(filteredBoard)
   }
 
   function handleColumnRename(column, title) {
     const boardWithRenamedColumn = changeColumn(board, column, { title })
-    onColumnRename(boardWithRenamedColumn, { ...column, title })
+    console.log(boardWithRenamedColumn)
+    console.log({ ...column, title })
     setBoard(boardWithRenamedColumn)
   }
 
@@ -105,11 +104,9 @@ function UncontrolledBoard({
 
   function handleCardRemove(column, card) {
     const boardWithoutCard = removeCard(board, column, card)
-    onCardRemove(
-      boardWithoutCard,
-      boardWithoutCard.columns.find(({ id }) => id === column.id),
-      card
-    )
+    console.log(boardWithoutCard)
+    console.log(boardWithoutCard.columns.find(({ id }) => id === column.id))
+    console.log(card)
     setBoard(boardWithoutCard)
   }
 
