@@ -72,6 +72,14 @@
         "code",
         "test"
       ]
+    },
+     {
+      "login": "anuradhabharti",
+      "name": "Anuradha Bharti",
+      "profile": "https://github.com/anuradhabharti",
+      "contributions": [
+        "code",
+      ]
     }
   ],
   "contributorsPerLine": 7,

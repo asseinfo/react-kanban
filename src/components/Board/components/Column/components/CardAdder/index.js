@@ -14,7 +14,6 @@ const AddCardButton = styled.button`
   }
   border-radius: 3px;
   font-size: 15px;
-  // margin-bottom: 5px;
   text-align: start;
   padding: 6px 4px;
   vertical-align: center;
