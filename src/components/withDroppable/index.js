@@ -9,7 +9,6 @@ function withDroppable(Component) {
           <Component ref={provided.innerRef} {...provided.droppableProps}>
             {children}
             {provided.placeholder}
-            {console.log(provided.placeholder)}
           </Component>
         )}
       </Droppable>
