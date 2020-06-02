@@ -121,24 +121,31 @@
 }
 
 .react-kanban-column-header__button {
-  color: #333333;
-  background-color: #ffffff;
-  border-color: #cccccc;
-
-  &:hover,
-  &:focus,
-  &:active {
-    background-color: #e6e6e6;
+  background-color: #fff;
+  border: none;
+  padding: 5px;
+  width: 45%;
+  margin-top: 5px;
+  border-radius: 3px;
+  &:hover {
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: #ccc;
   }
 }
 
-.react-kanban-column-adder-button {
-  border: 2px dashed #eee;
-  height: 132px;
-  margin: 5px;
-  font-size: 20px;
-  font-weight: bold;
-  &:hover {
-    cursor: pointer;
+.react-kanban-column-header-form {
+  border-radius: 3px;
+  input {
+    border: 0px;
+    font-family: inherit;
+    font-size: inherit;
   }
+}
+
+.react-kanban-column-header-form__title {
+  display: block;
+  width: 250px;
+  background-color: #eee;
+  font-weight: bold;
 }

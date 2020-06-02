@@ -65,10 +65,14 @@ const board = {
     }
   ]
 }
-
+var id = 99
 render(
   <Board
     {...getUrlParams()}
+    allowAddColumn
+    allowRenameColumn
+    onNewColumnConfirm={column => ({ ...column, id: id++ })}
+    onColumnNew={console.log}
     onColumnRemove={console.log}
     onColumnRename={console.log}
     onCardRemove={console.log}
