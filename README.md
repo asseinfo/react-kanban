@@ -29,7 +29,7 @@ Since this project use Hooks, you have to install them:
 After, Install the lib on your project:
 
 ```bash
-yarn add @lourenci/react-kanban@beta
+yarn add @lourenci/react-kanban
 ```
 
 Import the lib and use it on your project:
@@ -498,9 +498,7 @@ function onCardNew (newCard) {
 
 ## 💅🏻 Styling
 
-**🚧 WIP \* This might change in the future.**
-
-You can either style all the board or import our style and override the styles you want:
+You can either style all the board or import our style and override it with the styles you want:
 
 | Class |
 | ----- |
