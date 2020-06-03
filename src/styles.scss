@@ -2,6 +2,19 @@
   padding: 5px;
 }
 
+.react-kanban-form__button{
+  border: none;
+  padding: 5px;
+  width: 45%;
+  margin-top: 5px;
+  border-radius: 3px;
+  &:hover {
+    transition: 0.3s;
+    cursor: pointer;
+    background-color: #ccc;
+  }
+}
+
 .react-kanban-card {
   @extend .react-kanban-card-skeleton;
   border-radius: 3px;
@@ -94,17 +107,8 @@
 }
 
 .react-kanban-card-adder-form__button {
+  @extend .react-kanban-form__button;
   background-color: #eee;
-  border: none;
-  padding: 5px;
-  width: 45%;
-  margin-top: 5px;
-  border-radius: 3px;
-  &:hover {
-    transition: 0.3s;
-    cursor: pointer;
-    background-color: #ccc;
-  }
 }
 
 .react-kanban-column-header {
@@ -122,17 +126,8 @@
 }
 
 .react-kanban-column-header__button {
+  @extend .react-kanban-form__button;
   background-color: #fff;
-  border: none;
-  padding: 5px;
-  width: 45%;
-  margin-top: 5px;
-  border-radius: 3px;
-  &:hover {
-    transition: 0.3s;
-    cursor: pointer;
-    background-color: #ccc;
-  }
 }
 
 .react-kanban-column-adder-button {
