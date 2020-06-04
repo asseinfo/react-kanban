@@ -8,3 +8,5 @@ cypress/screenshots
 unit-coverage
 .projections.json
 .tool-versions
+package-lock.json
+.vscode/

@@ -51,6 +51,9 @@ function UncontrolledBoard({
   disableColumnDrag,
   allowAddCard,
   onNewCardConfirm,
+  onColumnRemove,
+  onColumnRename,
+  onCardRemove,
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
@@ -74,26 +77,23 @@ function UncontrolledBoard({
 
   function handleColumnRemove(column) {
     const filteredBoard = removeColumn(board, column)
-    console.log(filteredBoard)
-    console.log(column)
+    { onColumnRemove && onColumnRemove(filteredBoard, column)}  
     setBoard(filteredBoard)
   }
 
   function handleColumnRename(column, title) {
     const boardWithRenamedColumn = changeColumn(board, column, { title })
-    console.log(boardWithRenamedColumn)
-    console.log({ ...column, title })
+    { onColumnRename && onColumnRename(boardWithRenamedColumn, { ...column, title })}
     setBoard(boardWithRenamedColumn)
   }
 
   function handleCardAdd(column, card, options = {}) {
     const boardWithNewCard = addCard(board, column, card, options)
-
-    onCardNew(
-      boardWithNewCard,
-      boardWithNewCard.columns.find(({ id }) => id === column.id),
-      card
-    )
+    { onCardNew && onCardNew(
+        boardWithNewCard,
+        boardWithNewCard.columns.find(({ id }) => id === column.id),
+        card
+      )}
     setBoard(boardWithNewCard)
   }
 
@@ -104,9 +104,11 @@ function UncontrolledBoard({
 
   function handleCardRemove(column, card) {
     const boardWithoutCard = removeCard(board, column, card)
-    console.log(boardWithoutCard)
-    console.log(boardWithoutCard.columns.find(({ id }) => id === column.id))
-    console.log(card)
+    { onCardRemove && onCardRemove(
+        boardWithoutCard,
+        boardWithoutCard.columns.find(({ id }) => id === column.id),
+        card
+      )}
     setBoard(boardWithoutCard)
   }
 

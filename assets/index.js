@@ -68,6 +68,9 @@ const board = {
 render(
   <Board
     {...getUrlParams()}
+    onColumnRemove={console.log}
+    onColumnRename={console.log}
+    onCardRemove={console.log}
     initialBoard={board}
   />,
   document.getElementById('app')
