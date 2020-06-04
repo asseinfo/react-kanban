@@ -19,11 +19,11 @@ function Column({
   disableColumnDrag,
   disableCardDrag,
   onCardNew,
-  allowAddCard
+  allowAddCard,
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
-      {columnProvided => {
+      {(columnProvided) => {
         const draggablePropsWithoutStyle = pickPropOut(columnProvided.draggableProps, 'style')
 
         return (
@@ -35,14 +35,12 @@ function Column({
               minHeight: '28px',
               display: 'inline-block',
               verticalAlign: 'top',
-              ...columnProvided.draggableProps.style
+              ...columnProvided.draggableProps.style,
             }}
             className='react-kanban-column'
-            data-testid='column'
+            data-testid={`column-${children.id}`}
           >
-            <div {...columnProvided.dragHandleProps} data-testid='column-header'>
-              {renderColumnHeader(children)}
-            </div>
+            <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
             {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
             <DroppableColumn droppableId={String(children.id)}>
               {children.cards.length ? (
@@ -50,7 +48,7 @@ function Column({
                   <Card
                     key={card.id}
                     index={index}
-                    renderCard={dragging => renderCard(children, card, dragging)}
+                    renderCard={(dragging) => renderCard(children, card, dragging)}
                     disableCardDrag={disableCardDrag}
                   >
                     {card}

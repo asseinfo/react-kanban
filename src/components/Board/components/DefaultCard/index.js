@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function({ children: card, dragging, allowRemoveCard, onCardRemove }) {
+export default function ({ children: card, dragging, allowRemoveCard, onCardRemove }) {
   return (
     <div className={`react-kanban-card ${dragging ? 'react-kanban-card--dragging' : ''}`}>
       <span>

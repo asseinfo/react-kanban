@@ -20,7 +20,7 @@ function useRenameMode(state) {
   return [renameMode, toggleRenameMode]
 }
 
-export default function({ children: column, allowRemoveColumn, onColumnRemove, allowRenameColumn, onColumnRename }) {
+export default function ({ children: column, allowRemoveColumn, onColumnRemove, allowRenameColumn, onColumnRename }) {
   const [renameMode, toggleRenameMode] = useRenameMode(false)
   const [titleInput, setTitleInput] = useState('')
 
