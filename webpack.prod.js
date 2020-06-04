@@ -1,19 +1,29 @@
 const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.js',
+  entry: {
+    index: './src/index.js',
+    styles: './src/styles.scss'
+  },
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     library: 'ReactKanban',
     libraryTarget: 'umd'
   },
   module: {
-    rules: [{ test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }]
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+      }
+    ]
   },
+  plugins: [new MiniCssExtractPlugin()],
   externals: {
-    'styled-components': 'styled-components',
     react: 'react',
     'react-dom': 'react-dom',
     'react-is': 'react-is'

@@ -1,26 +1,15 @@
 import React from 'react'
-import styled from 'styled-components'
 import { Draggable } from 'react-beautiful-dnd'
 import Card from './components/Card'
-import CardSkeleton from '../CardSkeleton'
 import withDroppable from '../../../withDroppable'
 import CardAdder from './components/CardAdder'
+import { pickPropOut } from '@services/utils'
 
-export const StyledColumn = styled.div`
-  height: 100%;
-  min-height: 28px;
-  display: inline-block;
-  padding: 15px;
-  border-radius: 2px;
-  background-color: #eee;
-  margin: 5px;
-  vertical-align: top;
-`
+const ColumnEmptyPlaceholder = React.forwardRef((props, ref) => (
+  <div ref={ref} style={{ minHeight: 'inherit', height: 'inherit' }} {...props} />
+))
 
-const DroppableColumn = withDroppable(styled.div`
-  height: inherit;
-  min-height: inherit;
-`)
+const DroppableColumn = withDroppable(ColumnEmptyPlaceholder)
 
 function Column({
   children,
@@ -34,32 +23,44 @@ function Column({
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
-      {(columnProvided) => (
-        <StyledColumn
-          ref={columnProvided.innerRef}
-          {...columnProvided.draggableProps}
-          data-testid={`column-${children.id}`}
-        >
-          <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
-          {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
-          <DroppableColumn droppableId={String(children.id)}>
-            {children.cards.length ? (
-              children.cards.map((card, index) => (
-                <Card
-                  key={card.id}
-                  index={index}
-                  renderCard={(dragging) => renderCard(children, card, dragging)}
-                  disableCardDrag={disableCardDrag}
-                >
-                  {card}
-                </Card>
-              ))
-            ) : (
-              <CardSkeleton />
-            )}
-          </DroppableColumn>
-        </StyledColumn>
-      )}
+      {(columnProvided) => {
+        const draggablePropsWithoutStyle = pickPropOut(columnProvided.draggableProps, 'style')
+
+        return (
+          <div
+            ref={columnProvided.innerRef}
+            {...draggablePropsWithoutStyle}
+            style={{
+              height: '100%',
+              minHeight: '28px',
+              display: 'inline-block',
+              verticalAlign: 'top',
+              ...columnProvided.draggableProps.style,
+            }}
+            className='react-kanban-column'
+            data-testid={`column-${children.id}`}
+          >
+            <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
+            {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
+            <DroppableColumn droppableId={String(children.id)}>
+              {children.cards.length ? (
+                children.cards.map((card, index) => (
+                  <Card
+                    key={card.id}
+                    index={index}
+                    renderCard={(dragging) => renderCard(children, card, dragging)}
+                    disableCardDrag={disableCardDrag}
+                  >
+                    {card}
+                  </Card>
+                ))
+              ) : (
+                <div className='react-kanban-card-skeleton' />
+              )}
+            </DroppableColumn>
+          </div>
+        )
+      }}
     </Draggable>
   )
 }

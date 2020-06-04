@@ -1,20 +1,5 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import ColumnForm from './components/ColumnForm'
-
-const ColumnAdderPlaceholder = styled.div`
-  border: 2px dashed #eee;
-  min-width: 230px;
-  height: 132px;
-  margin: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
 
 function ColumnAdder({ onConfirm }) {
   const [isAddingColumn, setAddingColumn] = useState(false)
@@ -27,9 +12,14 @@ function ColumnAdder({ onConfirm }) {
   return isAddingColumn ? (
     <ColumnForm onConfirm={confirmColumn} onCancel={() => setAddingColumn(false)} />
   ) : (
-    <ColumnAdderPlaceholder onClick={() => setAddingColumn(true)} role='button'>
+    <div
+      style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '230px' }}
+      className='react-kanban-column-adder-button'
+      onClick={() => setAddingColumn(true)}
+      role='button'
+    >
       ➕
-    </ColumnAdderPlaceholder>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import Board from '../src'
 import getUrlParams from './services/getUrlParams'
+import '../src/styles.scss'
 
 const board = {
   columns: [
