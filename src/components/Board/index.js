@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
@@ -40,20 +41,20 @@ function UncontrolledBoard({
   allowAddColumn,
   renderColumnAdder,
   onNewColumnConfirm,
-  onColumnRemove,
   renderColumnHeader,
   allowRemoveColumn,
   allowRenameColumn,
-  onColumnRename,
   onCardNew,
   renderCard,
   allowRemoveCard,
-  onCardRemove,
   onColumnNew,
   disableCardDrag,
   disableColumnDrag,
   allowAddCard,
   onNewCardConfirm,
+  onColumnRemove,
+  onColumnRename,
+  onCardRemove,
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
@@ -77,24 +78,30 @@ function UncontrolledBoard({
 
   function handleColumnRemove(column) {
     const filteredBoard = removeColumn(board, column)
-    onColumnRemove(filteredBoard, column)
+    {
+      onColumnRemove && onColumnRemove(filteredBoard, column)
+    }
     setBoard(filteredBoard)
   }
 
   function handleColumnRename(column, title) {
     const boardWithRenamedColumn = changeColumn(board, column, { title })
-    onColumnRename(boardWithRenamedColumn, { ...column, title })
+    {
+      onColumnRename && onColumnRename(boardWithRenamedColumn, { ...column, title })
+    }
     setBoard(boardWithRenamedColumn)
   }
 
   function handleCardAdd(column, card, options = {}) {
     const boardWithNewCard = addCard(board, column, card, options)
-
-    onCardNew(
-      boardWithNewCard,
-      boardWithNewCard.columns.find(({ id }) => id === column.id),
-      card
-    )
+    {
+      onCardNew &&
+        onCardNew(
+          boardWithNewCard,
+          boardWithNewCard.columns.find(({ id }) => id === column.id),
+          card
+        )
+    }
     setBoard(boardWithNewCard)
   }
 
@@ -105,11 +112,14 @@ function UncontrolledBoard({
 
   function handleCardRemove(column, card) {
     const boardWithoutCard = removeCard(board, column, card)
-    onCardRemove(
-      boardWithoutCard,
-      boardWithoutCard.columns.find(({ id }) => id === column.id),
-      card
-    )
+    {
+      onCardRemove &&
+        onCardRemove(
+          boardWithoutCard,
+          boardWithoutCard.columns.find(({ id }) => id === column.id),
+          card
+        )
+    }
     setBoard(boardWithoutCard)
   }
 
