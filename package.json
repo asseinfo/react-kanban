@@ -57,7 +57,7 @@
     "react-dom": "16.13.1",
     "sass-loader": "8.0.2",
     "semantic-release": "17.0.8",
-    "start-server-and-test": "1.10.11",
+    "start-server-and-test": "1.11.0",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.11.0"
