@@ -3,7 +3,7 @@ import {
   isAColumnMove,
   getCoordinates,
   isMovingAColumnToAnotherPosition,
-  isMovingACardToAnotherPosition
+  isMovingACardToAnotherPosition,
 } from './'
 
 describe('#getCoordinates', () => {
@@ -17,7 +17,7 @@ describe('#getCoordinates', () => {
     const event = {
       type: 'BOARD',
       source: { index: 0, droppableId: 0 },
-      destination: { index: 1, droppableId: 1 }
+      destination: { index: 1, droppableId: 1 },
     }
 
     it('returns the column coordinates', () => {
@@ -29,20 +29,20 @@ describe('#getCoordinates', () => {
     const board = {
       columns: [
         { id: 1, cards: [{ id: 1 }] },
-        { id: '2', cards: [{ id: 2 }] }
-      ]
+        { id: '2', cards: [{ id: 2 }] },
+      ],
     }
 
     const event = {
       type: 'CARD',
       source: { index: 0, droppableId: '1' },
-      destination: { index: 1, droppableId: '2' }
+      destination: { index: 1, droppableId: '2' },
     }
 
     it('returns the card coordinates', () => {
       expect(getCoordinates(event, board)).toEqual({
         source: { fromColumnId: 1, fromPosition: 0 },
-        destination: { toColumnId: '2', toPosition: 1 }
+        destination: { toColumnId: '2', toPosition: 1 },
       })
     })
   })
@@ -64,7 +64,7 @@ describe('#isAColumnMove', () => {
 
 describe('#getCard', () => {
   const board = {
-    columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
+    columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }],
   }
 
   it('returns the card of the board from the given source', () => {
@@ -76,7 +76,7 @@ describe('#isMovingAColumnToAnotherPosition', () => {
   describe('when coordinates does not have same source and destination', () => {
     const validColumnCoordinates = {
       source: { fromPosition: 0 },
-      destination: { toPosition: 1 }
+      destination: { toPosition: 1 },
     }
 
     it('returns true', () => {
@@ -87,7 +87,7 @@ describe('#isMovingAColumnToAnotherPosition', () => {
   describe('when coordinates has same source and destination', () => {
     const invalidColumnCoordinates = {
       source: { fromPosition: 0 },
-      destination: { toPosition: 0 }
+      destination: { toPosition: 0 },
     }
 
     it('returns false', () => {
@@ -101,7 +101,7 @@ describe('#isMovingACardToAnotherPosition', () => {
     describe('when the source column is different from the destination column', () => {
       const validCardCoordinates = {
         source: { fromPosition: 0, fromColumnId: 0 },
-        destination: { toPosition: 0, toColumnId: 1 }
+        destination: { toPosition: 0, toColumnId: 1 },
       }
 
       it('returns true', () => {
@@ -112,7 +112,7 @@ describe('#isMovingACardToAnotherPosition', () => {
     describe('when the source position is different from the destination position', () => {
       const validCardCoordinates = {
         source: { fromPosition: 0, fromColumnId: 0 },
-        destination: { toPosition: 1, toColumnId: 0 }
+        destination: { toPosition: 1, toColumnId: 0 },
       }
 
       it('returns true', () => {
@@ -124,7 +124,7 @@ describe('#isMovingACardToAnotherPosition', () => {
   describe('when coordinates has same source and destination', () => {
     const validCardCoordinates = {
       source: { fromPosition: 0, fromColumnId: 0 },
-      destination: { toPosition: 0, toColumnId: 0 }
+      destination: { toPosition: 0, toColumnId: 0 },
     }
 
     it('returns false', () => {

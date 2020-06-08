@@ -1,5 +1,5 @@
 function compose(...fns) {
-  return arg => fns.reduce((acc, fn) => fn(acc), arg)
+  return (arg) => fns.reduce((acc, fn) => fn(acc), arg)
 }
 
 function partialRight(fn, ...args) {
@@ -34,8 +34,8 @@ function when(value, predicate = identity) {
 }
 
 function replaceElementOfArray(array) {
-  return function(options) {
-    return array.map(element => (options.when(element) ? options.for(element) : element))
+  return function (options) {
+    return array.map((element) => (options.when(element) ? options.for(element) : element))
   }
 }
 
@@ -52,5 +52,5 @@ export {
   when,
   replaceElementOfArray,
   partialRight,
-  pickPropOut
+  pickPropOut,
 }

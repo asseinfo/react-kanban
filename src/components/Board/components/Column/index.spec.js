@@ -14,14 +14,14 @@ describe('<Column />', () => {
       {
         id: 1,
         title: 'Card title 1',
-        description: 'Card content'
+        description: 'Card content',
       },
       {
         id: 2,
         title: 'Card title 2',
-        description: 'Card content'
-      }
-    ]
+        description: 'Card content',
+      },
+    ],
   }
 
   function mount({ children = column, ...otherProps } = {}) {
@@ -87,10 +87,10 @@ describe('<Column />', () => {
         describe('when the user confirm a new card', () => {
           beforeEach(() => {
             fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-              target: { value: 'Card title' }
+              target: { value: 'Card title' },
             })
             fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-              target: { value: 'Description' }
+              target: { value: 'Description' },
             })
             fireEvent.click(subject.queryByText('Add'))
           })

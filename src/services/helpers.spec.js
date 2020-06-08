@@ -5,8 +5,8 @@ describe('#moveColumn', () => {
     const board = {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     }
 
     const orderedBoard = moveColumn(board, { fromPosition: 0 }, { toPosition: 1 })
@@ -14,8 +14,8 @@ describe('#moveColumn', () => {
     expect(orderedBoard).toEqual({
       columns: [
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
-        { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }
-      ]
+        { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+      ],
     })
   })
 })
@@ -26,8 +26,8 @@ describe('#moveCard', () => {
       const board = {
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-        ]
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+        ],
       }
 
       const orderedBoard = moveCard(board, { fromPosition: 0, fromColumnId: 1 }, { toPosition: 2, toColumnId: 1 })
@@ -35,8 +35,8 @@ describe('#moveCard', () => {
       expect(orderedBoard).toEqual({
         columns: [
           { id: 1, cards: [{ id: 2 }, { id: 3 }, { id: 1 }] },
-          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-        ]
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+        ],
       })
     })
   })
@@ -47,8 +47,8 @@ describe('#moveCard', () => {
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
-          { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] }
-        ]
+          { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] },
+        ],
       }
 
       const orderedBoard = moveCard(board, { fromPosition: 0, fromColumnId: 1 }, { toPosition: 1, toColumnId: 2 })
@@ -57,8 +57,8 @@ describe('#moveCard', () => {
         columns: [
           { id: 1, cards: [{ id: 2 }, { id: 3 }] },
           { id: 2, cards: [{ id: 4 }, { id: 1 }, { id: 5 }, { id: 6 }] },
-          { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] }
-        ]
+          { id: 3, cards: [{ id: 7 }, { id: 8 }, { id: 9 }] },
+        ],
       })
     })
   })
@@ -69,8 +69,8 @@ describe('#addColumn', () => {
     const board = {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     }
 
     const boardWithTheNewColumn = addColumn(board, { id: 3, cards: [{ id: 7 }] })
@@ -79,8 +79,8 @@ describe('#addColumn', () => {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
-        { id: 3, cards: [{ id: 7 }] }
-      ]
+        { id: 3, cards: [{ id: 7 }] },
+      ],
     })
   })
 })
@@ -90,14 +90,14 @@ describe('#removeColumn', () => {
     const board = {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     }
 
     const boardWithoutTheColumn = removeColumn(board, { id: 2 })
 
     expect(boardWithoutTheColumn).toEqual({
-      columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }]
+      columns: [{ id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] }],
     })
   })
 })
@@ -107,8 +107,8 @@ describe('#changeColumn', () => {
     const board = {
       columns: [
         { id: 1, title: 'Doing', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     }
 
     const boardWithTheModifiedColumn = changeColumn(board, { id: 1 }, { title: 'New title' })
@@ -116,8 +116,8 @@ describe('#changeColumn', () => {
     expect(boardWithTheModifiedColumn).toEqual({
       columns: [
         { id: 1, title: 'New title', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     })
   })
 })
@@ -130,8 +130,8 @@ describe('#addCard', () => {
       const board = {
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-        ]
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+        ],
       }
       const column = { id: 2 }
 
@@ -140,8 +140,8 @@ describe('#addCard', () => {
       expect(boardWithTheNewColumn).toEqual({
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-          { id: 2, cards: [{ id: 7 }, { id: 4 }, { id: 5 }, { id: 6 }] }
-        ]
+          { id: 2, cards: [{ id: 7 }, { id: 4 }, { id: 5 }, { id: 6 }] },
+        ],
       })
     })
   })
@@ -151,8 +151,8 @@ describe('#addCard', () => {
       const board = {
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-        ]
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+        ],
       }
       const inColumn = { id: 2 }
 
@@ -161,8 +161,8 @@ describe('#addCard', () => {
       expect(boardWithTheNewColumn).toEqual({
         columns: [
           { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }] }
-        ]
+          { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }] },
+        ],
       })
     })
   })
@@ -173,8 +173,8 @@ describe('#removeCard', () => {
     const board = {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
-        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     }
     const fromColumn = { id: 1 }
 
@@ -183,8 +183,8 @@ describe('#removeCard', () => {
     expect(boardWithoutTheCard).toEqual({
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 3 }] },
-        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] }
-      ]
+        { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
     })
   })
 })

@@ -31,7 +31,7 @@ describe('<CardForm />', () => {
       beforeEach(() => {
         fireEvent.change(subject.container.querySelector('input[name="title"]'), { target: { value: 'Card title' } })
         fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-          target: { value: 'Description' }
+          target: { value: 'Description' },
         })
         fireEvent.click(subject.queryByText('Add'))
       })

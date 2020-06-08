@@ -35,10 +35,10 @@ describe('<CardAdder />', () => {
     describe('when the user confirms the new card', () => {
       beforeEach(() => {
         fireEvent.change(subject.container.querySelector('input[name="title"]'), {
-          target: { value: 'Card Added by user' }
+          target: { value: 'Card Added by user' },
         })
         fireEvent.change(subject.container.querySelector('input[name="description"]'), {
-          target: { value: 'Description' }
+          target: { value: 'Description' },
         })
         fireEvent.click(subject.queryByText('Add'))
       })
