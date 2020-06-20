@@ -5,6 +5,7 @@ import {
   when,
   replaceElementOfArray,
   partialRight,
+  pickPropOut,
 } from './utils'
 
 describe('#addInArrayAtPosition', () => {
@@ -94,5 +95,19 @@ describe('#partialRight', () => {
     partialRight(mock, 'right')('left')
     expect(mock).toHaveBeenCalledTimes(1)
     expect(mock).toHaveBeenCalledWith('left', 'right')
+  })
+})
+
+describe('#takePropOut', () => {
+  it('takes the prop out of the object', () => {
+    const object = { name: 'Leandro', surname: 'Lourenci' }
+    expect(pickPropOut(object, 'surname')).toEqual({ name: 'Leandro' })
+  })
+
+  describe('when the prop does not exist in the object', () => {
+    it('does not take any prop of the object', () => {
+      const object = { name: 'Leandro', surname: 'Lourenci' }
+      expect(pickPropOut(object, 'last')).toEqual({ name: 'Leandro', surname: 'Lourenci' })
+    })
   })
 })

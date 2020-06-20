@@ -36,7 +36,7 @@ describe('<DefaultCard />', () => {
       beforeEach(() => mount({ dragging: true }))
 
       it('applies the gray background color to the card', () => {
-        expect(subject.container.querySelector('div')).toHaveStyle('box-shadow: 2px 2px grey;')
+        expect(subject.container.querySelector('div')).toHaveClass('react-kanban-card--dragging')
       })
     })
 
@@ -44,7 +44,7 @@ describe('<DefaultCard />', () => {
       beforeEach(() => mount())
 
       it('does not apply the gray background color to the card', () => {
-        expect(subject.container.querySelector('div')).not.toHaveStyle('box-shadow: 2px 2px grey;')
+        expect(subject.container.querySelector('div')).not.toHaveClass('react-kanban-card--dragging')
       })
     })
   })
