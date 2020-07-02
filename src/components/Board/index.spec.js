@@ -1846,4 +1846,27 @@ describe('<Board />', () => {
       })
     })
   })
+
+  describe('when the board is uncontrolled', () => {
+    function mount({ Component = Board, initialBoard = board, ...props } = {}) {
+      return render(<Component initialBoard={initialBoard} {...props} />)
+    }
+
+    it('allows a card to be added when it receives the "allowAddCard" and the "onNewCardConfirm" props', async () => {
+      const onNewCardConfirm = jest.fn((column) => new Promise((resolve) => resolve({ id: 999, ...column })))
+      const subject = mount({ allowAddCard: true, onNewCardConfirm, onCardNew: () => {} })
+
+      fireEvent.click(subject.queryAllByText('+')[0])
+      fireEvent.change(subject.container.querySelector('input[name="title"]'), {
+        target: { value: 'Card title' },
+      })
+      fireEvent.change(subject.container.querySelector('input[name="description"]'), {
+        target: { value: 'Card description' },
+      })
+      fireEvent.click(subject.queryByText('Add'))
+
+      expect(await screen.findByTestId('card-999')).toBeInTheDocument()
+      expect(screen.queryAllByTestId(/card/)).toHaveLength(4)
+    })
+  })
 })
