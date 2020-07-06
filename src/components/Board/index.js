@@ -95,14 +95,11 @@ function UncontrolledBoard({
 
   function handleCardRemove(column, card) {
     const boardWithoutCard = removeCard(board, column, card)
-    {
-      onCardRemove &&
-        onCardRemove(
+        onCardRemove?.(
           boardWithoutCard,
           boardWithoutCard.columns.find(({ id }) => id === column.id),
           card
         )
-    }
     setBoard(boardWithoutCard)
   }
 
