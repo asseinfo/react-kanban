@@ -80,14 +80,11 @@ function UncontrolledBoard({
 
   function handleCardAdd(column, card, options = {}) {
     const boardWithNewCard = addCard(board, column, card, options)
-    {
-      onCardNew &&
-        onCardNew(
+        onCardNew?.(
           boardWithNewCard,
           boardWithNewCard.columns.find(({ id }) => id === column.id),
           card
         )
-    }
     setBoard(boardWithNewCard)
   }
 
