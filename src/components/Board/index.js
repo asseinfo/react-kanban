@@ -74,9 +74,7 @@ function UncontrolledBoard({
 
   function handleColumnRename(column, title) {
     const boardWithRenamedColumn = changeColumn(board, column, { title })
-    {
-      onColumnRename && onColumnRename(boardWithRenamedColumn, { ...column, title })
-    }
+      onColumnRename?.(boardWithRenamedColumn, { ...column, title })
     setBoard(boardWithRenamedColumn)
   }
 
