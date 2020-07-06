@@ -68,9 +68,7 @@ function UncontrolledBoard({
 
   function handleColumnRemove(column) {
     const filteredBoard = removeColumn(board, column)
-    {
-      onColumnRemove && onColumnRemove(filteredBoard, column)
-    }
+      onColumnRemove?.(filteredBoard, column)
     setBoard(filteredBoard)
   }
 
