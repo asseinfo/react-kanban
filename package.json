@@ -54,7 +54,7 @@
     "prettier": "2.0.5",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "sass-loader": "8.0.2",
+    "sass-loader": "9.0.3",
     "semantic-release": "17.0.8",
     "start-server-and-test": "1.11.0",
     "webpack": "4.43.0",
