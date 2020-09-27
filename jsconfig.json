@@ -1,15 +1,10 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "es6",
-    "target": "es5",
-    "jsx": "react",
-    "allowJs": true,
-    "moduleResolution": "node",
     "paths": {
       "@components/*": ["src/components/*"],
       "@services/*": ["src/services/*"]
     }
   },
-  "include": ["src/**/*"]
+  "exclude": ["node_modules", "dist", "coverage"]
 }
