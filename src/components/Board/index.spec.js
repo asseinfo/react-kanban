@@ -1847,7 +1847,7 @@ describe('<Board />', () => {
     })
 
     describe('renderCardAdder', () => {
-      it.only('allows the user to add a new card through a custom card adder', async () => {
+      it('allows the user to add a new card through a custom card adder', async () => {
         const board = {
           columns: [
             {
