@@ -1869,6 +1869,7 @@ describe('<Board />', () => {
         ))
 
         mount({
+          allowAddCard: true,
           initialBoard: board,
           renderCardAdder: renderCardAdder,
           onCardNew: jest.fn(),

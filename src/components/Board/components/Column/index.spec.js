@@ -107,7 +107,7 @@ describe('<Column />', () => {
   describe('renderCardAdder', () => {
     it('is used to render a custom card adder', () => {
       const renderCardAdder = jest.fn(({ column }) => <span>{`${column.title} card adder`}</span>)
-      mount({ renderCardAdder: renderCardAdder, onCardNew: jest.fn() })
+      mount({ allowAddCard: true, renderCardAdder: renderCardAdder, onCardNew: jest.fn() })
 
       expect(screen.getByText('Backlog card adder')).toBeInTheDocument()
       expect(renderCardAdder).toHaveBeenCalledWith({ column, onConfirm: expect.any(Function) })
