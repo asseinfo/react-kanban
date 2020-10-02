@@ -138,6 +138,7 @@ setBoard(newBoard)
 | [`onNewColumnConfirm`](#onnewcolumnconfirm) (required if use the default column adder template)                               | Callback that will be called when a new column is confirmed by the user through the default column adder template | ✅         | ✅           |
 | [`onColumnNew`](#oncolumnnew) (required if `allowAddColumn` or when [`addColumn`](#rendercolumnadder) is called)              | Callback that will be called when a new column is added through the default column adder template                 | 🚫         | ✅           |
 | [`renderColumnAdder`](#rendercolumnadder)                                                                                     | A column adder to be rendered instead of the default column adder template                                        | ✅         | ✅           |
+| [`renderCardAdder`](#rendercardadder)                                                                                         | A card adder to be rendered instead of the default card adder template                                            | 🚫         | ✅           |
 | [`disableColumnDrag`](#disablecolumndrag)                                                                                     | Disable the column move                                                                                           | ✅         | ✅           |
 | [`disableCardDrag`](#disablecarddrag)                                                                                         | Disable the card move                                                                                             | ✅         | ✅           |
 | [`allowRemoveColumn`](#allowremovecolumn)                                                                                     | Allow to remove a column in default column header                                                                 | ✅         | ✅           |
@@ -357,6 +358,40 @@ const ColumnAdder = ({ addColumn }) {
 <Board
   allowAddColumn
   renderColumnAdder={({ addColumn }) => <ColumnAdder addColumn={addColumn} />}
+  {board}
+</Board>
+```
+
+#### `renderCardAdder`
+
+Use this if you want to render your own card adder. You have to pass a function and return your card adder component.
+The function will receive these parameters:
+
+| Arg          | Description                                          |
+| -----------  | ---------------------------------------------------  |
+| `column`     | the column wich the card is being added              |
+
+| function     | Description                                                |
+| ------------ | ---------------------------------------------------------- |
+| `onConfirm`  | Call this function with a new card to add the new card |
+
+\* It's unavailable when the board is controlled.
+
+Ex.:
+
+```js
+const CardAdder = ({  }) {
+  return (
+    <div onClick={()=> onConfirm(column, {id: ${required-new-unique-columnId}, title: 'Title', description: 'description' })}>
+      Add column
+    </div>
+  )
+}
+
+<Board
+  onCardNew={()=> console.log('Card added')}
+  onNewCardConfirm={(card) => ({ ...card, id: ${required-new-unique-cardId} })}
+  renderCardAdder={({ column,onConfirm }) => <CardAdder column={column} onConfirm={onConfirm} />}
   {board}
 </Board>
 ```
