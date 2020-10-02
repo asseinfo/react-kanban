@@ -389,6 +389,7 @@ const CardAdder = ({  }) {
 }
 
 <Board
+  allowAddCard
   onCardNew={()=> console.log('Card added')}
   onNewCardConfirm={(card) => ({ ...card, id: ${required-new-unique-cardId} })}
   renderCardAdder={({ column,onConfirm }) => <CardAdder column={column} onConfirm={onConfirm} />}
