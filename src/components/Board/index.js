@@ -44,6 +44,7 @@ function UncontrolledBoard({
   disableColumnDrag,
   allowAddCard,
   onNewCardConfirm,
+  renderCardAdder,
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
@@ -141,6 +142,7 @@ function UncontrolledBoard({
       disableCardDrag={disableCardDrag}
       onCardNew={(column, card) => handleDraftCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
+      renderCardAdder={renderCardAdder}
     >
       {board}
     </BoardContainer>
@@ -218,6 +220,7 @@ function BoardContainer({
   onCardDragEnd,
   onCardNew,
   allowAddCard,
+  renderCardAdder,
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event, board)
@@ -257,6 +260,7 @@ function BoardContainer({
               disableCardDrag={disableCardDrag}
               onCardNew={onCardNew}
               allowAddCard={allowAddCard}
+              renderCardAdder={renderCardAdder}
             >
               {column}
             </Column>

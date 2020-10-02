@@ -1845,5 +1845,42 @@ describe('<Board />', () => {
         })
       })
     })
+
+    describe('renderCardAdder', () => {
+      it.only('allows the user to add a new card through a custom card adder', async () => {
+        const board = {
+          columns: [
+            {
+              id: 1,
+              title: 'Column Backlog',
+              cards: [],
+            },
+          ],
+        }
+
+        const onNewCardConfirm = jest.fn((card) => new Promise((resolve) => resolve({ id: 999, ...card })))
+        const renderCardAdder = jest.fn(({ children, onConfirm }) => (
+          <>
+            {`${children.title} card adder`}
+            <button onClick={() => onConfirm(children, { title: 'Added Title', description: 'Added description' })}>
+              Add card
+            </button>
+          </>
+        ))
+
+        mount({
+          initialBoard: board,
+          renderCardAdder: renderCardAdder,
+          onCardNew: jest.fn(),
+          onNewCardConfirm: onNewCardConfirm,
+        })
+
+        expect(screen.getByText('Column Backlog card adder')).toBeInTheDocument()
+
+        fireEvent.click(screen.getByText('Add card'))
+
+        expect(await screen.findByText('Added Title')).toBeInTheDocument()
+      })
+    })
   })
 })

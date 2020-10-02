@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import Column from './'
 
 describe('<Column />', () => {
@@ -101,6 +101,16 @@ describe('<Column />', () => {
           })
         })
       })
+    })
+  })
+
+  describe('renderCardAdder', () => {
+    it('is used to render a custom card adder', () => {
+      const renderCardAdder = jest.fn(({ children }) => <span>{`${children.title} card adder`}</span>)
+      mount({ renderCardAdder: renderCardAdder, onCardNew: jest.fn() })
+
+      expect(screen.getByText('Backlog card adder')).toBeInTheDocument()
+      expect(renderCardAdder).toHaveBeenCalledWith({ children: column, onConfirm: expect.any(Function) })
     })
   })
 })
