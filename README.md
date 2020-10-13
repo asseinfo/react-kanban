@@ -380,11 +380,9 @@ The function will receive these parameters:
 Ex.:
 
 ```js
-const CardAdder = ({  }) {
+const CardAdder = ({ column, addCard }) => {
   return (
-    <div onClick={()=> onConfirm(column, {id: ${required-new-unique-columnId}, title: 'Title', description: 'description' })}>
-      Add column
-    </div>
+    <button onClick={() => addCard(column, { title: 'Title', description: 'description' })}>Add card</button>
   )
 }
 
@@ -392,9 +390,9 @@ const CardAdder = ({  }) {
   allowAddCard
   onCardNew={()=> console.log('Card added')}
   onNewCardConfirm={(card) => ({ ...card, id: ${required-new-unique-cardId} })}
-  renderCardAdder={({ column, addCard }) => <CardAdder column={column} onConfirm={onConfirm} />}
-  {board}
-</Board>
+  renderCardAdder={CardAdder}
+  initialBoard={board}
+/>
 ```
 
 #### `disableColumnDrag`
