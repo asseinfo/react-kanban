@@ -110,7 +110,7 @@ describe('<Column />', () => {
       mount({ allowAddCard: true, renderCardAdder: renderCardAdder, onCardNew: jest.fn() })
 
       expect(screen.getByText('Backlog card adder')).toBeInTheDocument()
-      expect(renderCardAdder).toHaveBeenCalledWith({ column, onConfirm: expect.any(Function) })
+      expect(renderCardAdder).toHaveBeenCalledWith({ column, addCard: expect.any(Function) })
     })
   })
 })

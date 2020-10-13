@@ -43,7 +43,7 @@ function Column({
           >
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
             {allowAddCard &&
-              ((renderCardAdder && renderCardAdder({ column: children, onConfirm: onCardNew })) || (
+              ((renderCardAdder && renderCardAdder({ column: children, addCard: onCardNew })) || (
                 <CardAdder column={children} onConfirm={onCardNew} />
               ))}
             <DroppableColumn droppableId={String(children.id)}>

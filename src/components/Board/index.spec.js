@@ -1859,10 +1859,10 @@ describe('<Board />', () => {
         }
 
         const onNewCardConfirm = jest.fn((card) => new Promise((resolve) => resolve({ id: 999, ...card })))
-        const renderCardAdder = jest.fn(({ column, onConfirm }) => (
+        const renderCardAdder = jest.fn(({ column, addCard }) => (
           <>
             {`${column.title} card adder`}
-            <button onClick={() => onConfirm(column, { title: 'Added Title', description: 'Added description' })}>
+            <button onClick={() => addCard(column, { title: 'Added Title', description: 'Added description' })}>
               Add card
             </button>
           </>

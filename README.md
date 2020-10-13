@@ -364,7 +364,7 @@ const ColumnAdder = ({ addColumn }) {
 
 #### `renderCardAdder`
 
-Use this if you want to render your own card adder. You have to pass a function and return your card adder component.
+Use this if you want to render your own card adder. You have to pass a function and return your card adder component. Your custom card adder needs to call `onConfirm` at some point to add the card.
 The function will receive these parameters:
 
 | Arg          | Description                                          |
@@ -373,7 +373,7 @@ The function will receive these parameters:
 
 | function     | Description                                                |
 | ------------ | ---------------------------------------------------------- |
-| `onConfirm`  | Call this function with a new card to add the new card |
+| `addCard`  | Call this function with a new card to add the new card |
 
 \* It's unavailable when the board is controlled.
 
@@ -392,7 +392,7 @@ const CardAdder = ({  }) {
   allowAddCard
   onCardNew={()=> console.log('Card added')}
   onNewCardConfirm={(card) => ({ ...card, id: ${required-new-unique-cardId} })}
-  renderCardAdder={({ column,onConfirm }) => <CardAdder column={column} onConfirm={onConfirm} />}
+  renderCardAdder={({ column, addCard }) => <CardAdder column={column} onConfirm={onConfirm} />}
   {board}
 </Board>
 ```
