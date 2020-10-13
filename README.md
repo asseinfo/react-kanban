@@ -364,7 +364,7 @@ const ColumnAdder = ({ addColumn }) {
 
 #### `renderCardAdder`
 
-Use this if you want to render your own card adder. You have to pass a function and return your card adder component.
+Use this if you want to render your own card adder. You have to pass a function and return your card adder component. Your custom card adder needs to call `onConfirm` at some point to add the card.
 The function will receive these parameters:
 
 | Arg          | Description                                          |
