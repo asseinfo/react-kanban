@@ -1878,6 +1878,8 @@ describe('<Board />', () => {
 
         expect(screen.getByText('Column Backlog card adder')).toBeInTheDocument()
 
+        expect(screen.queryByText('Added Title')).not.toBeInTheDocument()
+
         fireEvent.click(screen.getByText('Add card'))
 
         expect(await screen.findByText('Added Title')).toBeInTheDocument()
