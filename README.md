@@ -373,7 +373,7 @@ The function will receive these parameters:
 
 | function     | Description                                                |
 | ------------ | ---------------------------------------------------------- |
-| `addCard`  | Call this function with a new card to add the new card |
+| `addCard`  | Call this function with a new card to add the new card. This function will call the #onNewCardConfirm |
 
 \* It's unavailable when the board is controlled.
 
