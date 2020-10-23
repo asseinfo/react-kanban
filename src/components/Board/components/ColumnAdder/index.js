@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ColumnForm from './components/ColumnForm'
 
 function ColumnAdder({ onConfirm }) {

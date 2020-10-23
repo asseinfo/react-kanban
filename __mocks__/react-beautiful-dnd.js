@@ -1,34 +1,36 @@
-import React from 'react'
+import { createRef } from 'react'
 
-function DragDropContext (props) {
+function DragDropContext(props) {
   callbacks.onDragEnd = props.onDragEnd
 
   return <>{props.children}</>
 }
 
 const droppableProvide = {
-  innerRef: React.createRef(),
+  innerRef: createRef(),
   droppableProps: {},
-  placeholder: <div id='placeholder' />
+  placeholder: <div id='placeholder' />,
 }
-function Droppable (props) {
+function Droppable(props) {
   return <>{props.children(droppableProvide)}</>
 }
 
 const draggableProvide = {
-  innerRef: React.createRef(),
+  innerRef: createRef(),
   draggableProps: {},
-  dragHandleProps: {}
+  dragHandleProps: {},
 }
 const draggableSnapshot = {
-  isDragging: false
+  isDragging: false,
 }
-function Draggable ({ children }) {
+function Draggable({ children }) {
   return <>{children(draggableProvide, draggableSnapshot)}</>
 }
 
 const callbacks = {
   onDragEnd: jest.fn(),
-  isDragging: isDragging => { draggableSnapshot.isDragging = isDragging }
+  isDragging: (isDragging) => {
+    draggableSnapshot.isDragging = isDragging
+  },
 }
 export { DragDropContext, Droppable, Draggable, callbacks }

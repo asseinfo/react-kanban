@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import { DragDropContext } from 'react-beautiful-dnd'
 import Column from './components/Column'
 import ColumnAdder from './components/ColumnAdder'
@@ -15,7 +15,7 @@ import {
 } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
-const Columns = React.forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
+const Columns = forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
 
 const DroppableBoard = withDroppable(Columns)
 

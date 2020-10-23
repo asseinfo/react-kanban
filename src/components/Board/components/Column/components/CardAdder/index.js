@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import CardForm from './components/CardForm'
 
 export default function CardAdder({ column, onConfirm }) {
