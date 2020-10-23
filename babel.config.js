@@ -1,12 +1,17 @@
 module.exports = {
   presets: [
-    '@babel/preset-react',
+    [
+      '@babel/preset-react',
+      {
+        runtime: 'automatic',
+      },
+    ],
     [
       '@babel/preset-env',
       {
-        exclude: ['transform-regenerator']
-      }
-    ]
+        exclude: ['transform-regenerator'],
+      },
+    ],
   ],
   plugins: ['@babel/plugin-proposal-optional-chaining'],
   env: {
@@ -14,10 +19,10 @@ module.exports = {
     // because Jest preset already includes it, and you will
     // get duplicate plugin error
     cypress: {
-      plugins: ['istanbul']
+      plugins: ['istanbul'],
     },
     production: {
-      plugins: ['react-remove-properties']
-    }
-  }
+      plugins: ['react-remove-properties'],
+    },
+  },
 }
