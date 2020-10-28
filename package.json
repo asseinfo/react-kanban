@@ -45,7 +45,7 @@
     "eslint-plugin-react": "7.20.6",
     "eslint-plugin-react-hooks": "4.0.8",
     "eslint-plugin-standard": "4.0.2",
-    "eslint-plugin-testing-library": "3.2.0",
+    "eslint-plugin-testing-library": "3.2.3",
     "html-webpack-plugin": "4.3.0",
     "identity-obj-proxy": "3.0.0",
     "istanbul-lib-coverage": "3.0.0",
