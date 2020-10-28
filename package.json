@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.11.6",
+    "@babel/eslint-parser": "7.12.1",
     "@babel/plugin-proposal-optional-chaining": "7.11.0",
     "@babel/preset-env": "7.11.5",
     "@babel/preset-react": "7.10.4",
@@ -24,7 +25,6 @@
     "@testing-library/react": "10.4.9",
     "@typescript-eslint/eslint-plugin": "4.6.0",
     "@typescript-eslint/parser": "4.6.0",
-    "babel-eslint": "10.1.0",
     "babel-loader": "8.1.0",
     "babel-plugin-istanbul": "6.0.0",
     "babel-plugin-react-remove-properties": "0.3.0",
