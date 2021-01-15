@@ -6,6 +6,7 @@ function Card({ children, index, renderCard, disableCardDrag }) {
       {(provided, { isDragging }) => {
         return (
           <div
+            className='card-wrapper'
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
