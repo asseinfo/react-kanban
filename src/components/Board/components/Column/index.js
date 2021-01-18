@@ -28,7 +28,7 @@ function Column({
     const card = cards[index]
 
     // We are rendering an extra item for the placeholder
-    // Do do this we increased our data set size to include one 'fake' item
+    // To do this we increased our data set size to include one 'fake' item
     if (!card) {
       return null
     }
@@ -70,11 +70,14 @@ function Column({
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
             {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
 
+            {/* got sources for virtual lists from this sandbox */}
+            {/* https://codesandbox.io/s/react-beautiful-dnd-react-virtualized-forked-ilbde?file=/src/App.js */}
             {virtualLists ? (
               <Droppable
                 droppableId={String(children.id)}
                 mode='virtual'
                 renderClone={(provided, snapshot, rubric) => {
+                  // This function is called to get a clone to be rendered while dragging.
                   const card = children.cards[rubric.source.index]
 
                   return (
@@ -107,10 +110,10 @@ function Column({
                                 // So we use the `ReactDOM.findDOMNode(ref)` escape hatch to get the ref
                                 if (ref) {
                                   // eslint-disable-next-line react/no-find-dom-node
-                                  const whatHasMyLifeComeTo = ReactDOM.findDOMNode(ref)
+                                  const foundNode = ReactDOM.findDOMNode(ref)
                                   // eslint-disable-next-line no-undef
-                                  if (whatHasMyLifeComeTo instanceof HTMLElement) {
-                                    droppableProvided.innerRef(whatHasMyLifeComeTo)
+                                  if (foundNode instanceof HTMLElement) {
+                                    droppableProvided.innerRef(foundNode)
                                   }
                                 }
                               }}
