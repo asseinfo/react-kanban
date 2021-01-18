@@ -164,6 +164,7 @@ function ControlledBoard({
   onCardRemove,
   disableCardDrag,
   disableColumnDrag,
+  virtualLists,
 }) {
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onColumnDragEnd })
@@ -197,6 +198,7 @@ function ControlledBoard({
       onColumnRename={onColumnRename}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
+      virtualLists={virtualLists}
     >
       {board}
     </BoardContainer>
@@ -218,6 +220,7 @@ function BoardContainer({
   onCardDragEnd,
   onCardNew,
   allowAddCard,
+  virtualLists,
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event, board)
@@ -238,6 +241,7 @@ function BoardContainer({
             <Column
               key={column.id}
               index={index}
+              virtualLists={virtualLists}
               renderCard={renderCard}
               renderColumnHeader={(column) =>
                 renderColumnHeader ? (

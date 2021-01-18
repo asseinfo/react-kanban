@@ -1,5 +1,7 @@
+import ReactDOM from 'react-dom'
 import { forwardRef } from 'react'
-import { Draggable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { List, AutoSizer } from 'react-virtualized'
 import Card from './components/Card'
 import withDroppable from '../../../withDroppable'
 import CardAdder from './components/CardAdder'
@@ -20,7 +22,32 @@ function Column({
   disableCardDrag,
   onCardNew,
   allowAddCard,
+  virtualLists,
 }) {
+  const getRowRender = (cards) => ({ index, style }) => {
+    const card = cards[index]
+
+    // We are rendering an extra item for the placeholder
+    // To do this we increased our data set size to include one 'fake' item
+    if (!card) {
+      return null
+    }
+
+    return (
+      <div style={style} key={card.id}>
+        <Card
+          key={card.id}
+          index={index}
+          style={style}
+          renderCard={(dragging) => renderCard(children, card, dragging)}
+          disableCardDrag={disableCardDrag}
+        >
+          {card}
+        </Card>
+      </div>
+    )
+  }
+
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {(columnProvided) => {
@@ -42,22 +69,81 @@ function Column({
           >
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
             {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
-            <DroppableColumn droppableId={String(children.id)}>
-              {children.cards.length ? (
-                children.cards.map((card, index) => (
-                  <Card
-                    key={card.id}
-                    index={index}
-                    renderCard={(dragging) => renderCard(children, card, dragging)}
-                    disableCardDrag={disableCardDrag}
-                  >
-                    {card}
-                  </Card>
-                ))
-              ) : (
-                <div className='react-kanban-card-skeleton' />
-              )}
-            </DroppableColumn>
+
+            {/* got sources for virtual lists from this sandbox */}
+            {/* https://codesandbox.io/s/react-beautiful-dnd-react-virtualized-forked-ilbde?file=/src/App.js */}
+            {virtualLists ? (
+              <Droppable
+                droppableId={String(children.id)}
+                mode='virtual'
+                renderClone={(provided, snapshot, rubric) => {
+                  // This function is called to get a clone to be rendered while dragging.
+                  const card = children.cards[rubric.source.index]
+
+                  return (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={{ ...provided.draggableProps.style }}
+                    >
+                      {renderCard(children, card, snapshot.isDragging)}
+                    </div>
+                  )
+                }}
+              >
+                {(droppableProvided, snapshot) => {
+                  const cardsCount = snapshot.isUsingPlaceholder ? children.cards.length + 1 : children.cards.length
+
+                  return (
+                    <div style={{ width: '300px', height: '500px' }} className='virtualized-column'>
+                      <AutoSizer>
+                        {({ width, height }) => {
+                          return (
+                            <List
+                              width={width}
+                              height={height}
+                              rowCount={cardsCount}
+                              rowHeight={80}
+                              ref={(ref) => {
+                                // react-virtualized has no way to get the list's ref that I can so
+                                // So we use the `ReactDOM.findDOMNode(ref)` escape hatch to get the ref
+                                if (ref) {
+                                  // eslint-disable-next-line react/no-find-dom-node
+                                  const foundNode = ReactDOM.findDOMNode(ref)
+                                  // eslint-disable-next-line no-undef
+                                  if (foundNode instanceof HTMLElement) {
+                                    droppableProvided.innerRef(foundNode)
+                                  }
+                                }
+                              }}
+                              rowRenderer={getRowRender(children.cards)}
+                            />
+                          )
+                        }}
+                      </AutoSizer>
+                    </div>
+                  )
+                }}
+              </Droppable>
+            ) : (
+              <DroppableColumn droppableId={String(children.id)}>
+                {children.cards.length ? (
+                  children.cards.map((card, index) => (
+                    <Card
+                      key={card.id}
+                      index={index}
+                      renderCard={(dragging) => renderCard(children, card, dragging)}
+                      disableCardDrag={disableCardDrag}
+                    >
+                      {card}
+                    </Card>
+                  ))
+                ) : (
+                  <div className='react-kanban-card-skeleton' />
+                )}
+              </DroppableColumn>
+            )}
           </div>
         )
       }}
