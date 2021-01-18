@@ -38,7 +38,6 @@ function Column({
         <Card
           key={card.id}
           index={index}
-          style={style}
           renderCard={(dragging) => renderCard(children, card, dragging)}
           disableCardDrag={disableCardDrag}
         >
