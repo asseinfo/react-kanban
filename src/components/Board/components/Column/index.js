@@ -22,8 +22,10 @@ function Column({
   disableCardDrag,
   onCardNew,
   allowAddCard,
-  virtualLists,
+  isVirtualList,
   rowHeight,
+  width,
+  height,
 }) {
   const getRowRender = (cards) => ({ index, style }) => {
     const card = cards[index]
@@ -72,7 +74,7 @@ function Column({
 
             {/* got sources for virtual lists from this sandbox */}
             {/* https://codesandbox.io/s/react-beautiful-dnd-react-virtualized-forked-ilbde?file=/src/App.js */}
-            {virtualLists ? (
+            {isVirtualList ? (
               <Droppable
                 droppableId={String(children.id)}
                 mode='virtual'
@@ -96,7 +98,7 @@ function Column({
                   const cardsCount = snapshot.isUsingPlaceholder ? children.cards.length + 1 : children.cards.length
 
                   return (
-                    <div style={{ width: '300px', height: '500px' }} className='virtualized-column'>
+                    <div style={{ width, height }} className='react-kanban-virtualized-cards-container'>
                       <AutoSizer>
                         {({ width, height }) => {
                           return (

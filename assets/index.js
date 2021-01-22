@@ -36,7 +36,7 @@ const board = {
 }
 
 render(
-  <Board virtualLists rowHeight={80} {...getUrlParams()}>
+  <Board isVirtualList rowHeight={80} width={100} height={500} {...getUrlParams()}>
     {board}
   </Board>,
   document.getElementById('app')

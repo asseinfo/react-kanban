@@ -44,6 +44,10 @@ function UncontrolledBoard({
   disableColumnDrag,
   allowAddCard,
   onNewCardConfirm,
+  isVirtualList,
+  rowHeight,
+  width,
+  height,
 }) {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
@@ -141,6 +145,10 @@ function UncontrolledBoard({
       disableCardDrag={disableCardDrag}
       onCardNew={(column, card) => handleDraftCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
+      isVirtualList={isVirtualList}
+      rowHeight={rowHeight}
+      width={width}
+      height={height}
     >
       {board}
     </BoardContainer>
@@ -164,8 +172,10 @@ function ControlledBoard({
   onCardRemove,
   disableCardDrag,
   disableColumnDrag,
-  virtualLists,
+  isVirtualList,
   rowHeight,
+  width,
+  height,
 }) {
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onColumnDragEnd })
@@ -199,8 +209,10 @@ function ControlledBoard({
       onColumnRename={onColumnRename}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
-      virtualLists={virtualLists}
+      isVirtualList={isVirtualList}
       rowHeight={rowHeight}
+      width={width}
+      height={height}
     >
       {board}
     </BoardContainer>
@@ -222,8 +234,10 @@ function BoardContainer({
   onCardDragEnd,
   onCardNew,
   allowAddCard,
-  virtualLists,
+  isVirtualList,
   rowHeight,
+  width,
+  height,
 }) {
   function handleOnDragEnd(event) {
     const coordinates = getCoordinates(event, board)
@@ -244,7 +258,9 @@ function BoardContainer({
             <Column
               key={column.id}
               index={index}
-              virtualLists={virtualLists}
+              isVirtualList={isVirtualList}
+              width={width}
+              height={height}
               rowHeight={rowHeight}
               renderCard={renderCard}
               renderColumnHeader={(column) =>
