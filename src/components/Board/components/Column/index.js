@@ -27,6 +27,17 @@ function Column({
   width,
   height,
 }) {
+  const getCard = (card, index) => (
+    <Card
+      key={card.id}
+      index={index}
+      renderCard={(dragging) => renderCard(children, card, dragging)}
+      disableCardDrag={disableCardDrag}
+    >
+      {card}
+    </Card>
+  )
+
   const getRowRender = (cards) => ({ index, style }) => {
     const card = cards[index]
 
@@ -38,14 +49,7 @@ function Column({
 
     return (
       <div style={style} key={card.id}>
-        <Card
-          key={card.id}
-          index={index}
-          renderCard={(dragging) => renderCard(children, card, dragging)}
-          disableCardDrag={disableCardDrag}
-        >
-          {card}
-        </Card>
+        {getCard(card, index)}
       </div>
     )
   }
@@ -131,16 +135,7 @@ function Column({
             ) : (
               <DroppableColumn droppableId={String(children.id)}>
                 {children.cards.length ? (
-                  children.cards.map((card, index) => (
-                    <Card
-                      key={card.id}
-                      index={index}
-                      renderCard={(dragging) => renderCard(children, card, dragging)}
-                      disableCardDrag={disableCardDrag}
-                    >
-                      {card}
-                    </Card>
-                  ))
+                  children.cards.map((card, index) => getCard(card, index))
                 ) : (
                   <div className='react-kanban-card-skeleton' />
                 )}
