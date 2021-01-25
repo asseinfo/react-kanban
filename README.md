@@ -149,6 +149,10 @@ setBoard(newBoard)
 | [`allowAddCard`](#allowaddcard)                                                                                               | Allow to add a card. Expect an object with the position to add the card in the column.                            | 🚫         | ✅           |
 | [`onCardNew`](#oncardnew) (required if `allowAddCard` or when [`addCard`](#rendercolumnheader) is called)                     | Callback that will be called when a new card is added through the default card adder template                     | 🚫         | ✅           |
 | [`onNewCardConfirm`](#onnewcardconfirm) (required if `allowAddCard`)                                                          | Callback that will be called when a new card is confirmed by the user through the default card adder template     | 🚫         | ✅           |
+| [`isVirtualList`](#isVirtualList)                                                                                             | Virtuzlie the lists                                                                                               | ✅         | ✅           |
+| [`rowHeight`](#rowHeight) (required if `isVirtualList`)                                                                       | Set the height of row in virtual list                                                                             | ✅         | ✅           |
+| [`width`](#width) (required if `isVirtualList`)                                                                               | Set the width of virtual list                                                                                     | ✅         | ✅           |
+| [`height`](#height) (required if `isVirtualList`)                                                                             | Set the height of virtual list                                                                                    | ✅         | ✅           |
 
 #### `children`
 
@@ -464,8 +468,8 @@ Allow the user to add a card in the column directly by the board. By default, it
 
 E.g.:
 <Board allowAddCard /> // at the bottom by default
-<Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
-<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
+<Board allowAddCard={{ on: 'bottom' }} /> // in the bottom of the column
+<Board allowAddCard={{ on: 'top' }} /> // at the top of the column
 
 #### `onCardNew`
 
@@ -488,6 +492,22 @@ function onCardNew (newCard) {
 <Board initialBoard={board} allowAddCard onNewCardConfirm={onCardNew} onCardNew={console.log} />
 ```
 
+#### `isVirtualList`
+
+Use this prop when you have a huge amount of cards, and you want to virtualize lists
+
+#### `rowHeight`
+
+Use this prop when you use `isVirtualList` prop, to set the height of each row in virtual list
+
+#### `width`
+
+Use this prop when you use `isVirtualList` prop, to set the width of virtual list
+
+#### `height`
+
+Use this prop when you use `isVirtualList` prop, to set the height of virtual list
+
 #### `removeCard`
 
 | Arg          | Description              |
@@ -500,23 +520,25 @@ function onCardNew (newCard) {
 
 You can either style all the board or import our style and override it with the styles you want:
 
-| Class |
-| ----- |
-| `react-kanban-board` |
-| `react-kanban-card` |
-| `react-kanban-card-skeleton` |
-| `react-kanban-card--dragging` |
-| `react-kanban-card__description` |
-| `react-kanban-card__title` |
-| `react-kanban-column` |
-| `react-kanban-card-adder-form` |
-| `react-kanban-card-adder-button` |
-| `react-kanban-card-adder-form__title` |
+| Class                                       |
+| ------------------------------------------- |
+| `react-kanban-board`                        |
+| `react-kanban-card`                         |
+| `react-kanban-card-skeleton`                |
+| `react-kanban-card--dragging`               |
+| `react-kanban-card__description`            |
+| `react-kanban-card__title`                  |
+| `react-kanban-card-wrapper`                 |
+| `react-kanban-column`                       |
+| `react-kanban-card-adder-form`              |
+| `react-kanban-card-adder-button`            |
+| `react-kanban-card-adder-form__title`       |
 | `react-kanban-card-adder-form__description` |
-| `react-kanban-card-adder-form__button` |
-| `react-kanban-column-header` |
-| `react-kanban-column-header__button` |
-| `react-kanban-column-adder-button` |
+| `react-kanban-card-adder-form__button`      |
+| `react-kanban-column-header`                |
+| `react-kanban-column-header__button`        |
+| `react-kanban-column-adder-button`          |
+| `react-kanban-virtualized-cards-container`  |
 
 ## 🧪 Tests
 
