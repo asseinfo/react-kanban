@@ -51,7 +51,7 @@
     "istanbul-lib-coverage": "3.0.0",
     "jest": "26.4.2",
     "jest-circus": "26.4.2",
-    "mini-css-extract-plugin": "0.9.0",
+    "mini-css-extract-plugin": "0.12.0",
     "node-sass": "4.14.1",
     "prettier": "2.0.5",
     "react": "17.0.1",
