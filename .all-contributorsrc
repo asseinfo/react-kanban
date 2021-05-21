@@ -72,6 +72,16 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "jrock2004",
+      "name": "John Costanzo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/655716?v=4",
+      "profile": "http://jcwebconcepts.net/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
