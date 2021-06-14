@@ -252,7 +252,7 @@ function BoardContainer({
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <div style={{ overflowY: 'hidden', display: 'flex', alignItems: 'flex-start' }} className='react-kanban-board'>
+      <div className='react-kanban-board'>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           {board.columns.map((column, index) => (
             <Column
