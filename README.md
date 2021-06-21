@@ -29,14 +29,14 @@ Since this project use Hooks, you have to install them:
 After, Install the lib on your project:
 
 ```bash
-yarn add @lourenci/react-kanban
+yarn add @asseinfo/react-kanban
 ```
 
 Import the lib and use it on your project:
 
 ```js
-import Board from '@lourenci/react-kanban'
-import '@lourenci/react-kanban/dist/styles.css'
+import Board from '@asseinfo/react-kanban'
+import '@asseinfo/react-kanban/dist/styles.css'
 
 const board = {
   columns: [
@@ -86,13 +86,13 @@ We expose some APIs that you can import to help you to work with the controlled 
 To use them, you just need to import them together with your board:
 
 ```js
-import Board, { addCard, addColumn, ... } from '@lourenci/react-kanban'
+import Board, { addCard, addColumn, ... } from '@asseinfo/react-kanban'
 ```
 
 **All the helpers you need to pass your board and they will return a new board to pass to your state:**
 
 ```js
-import Board, { addColumn } from '@lourenci/react-kanban'
+import Board, { addColumn } from '@asseinfo/react-kanban'
 ...
 const [board, setBoard] = useState(initialBoard)
 ...
