@@ -566,7 +566,7 @@ PRs are welcome:
   yarn start
   ```
 - Make your change.
-- Add yourself to the contributors table:
+- Please add yourself to the contributors table (we use [all contributors](https://allcontributors.org/docs/en/cli/installation) for that, we you will need that installed first):
   ```
   yarn contributors:add
   ```
