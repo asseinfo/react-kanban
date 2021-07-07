@@ -421,11 +421,13 @@ When the user removes a card, this callback will be called passing these paramet
 
 #### `moveCard`
 
+Use this on a controlled board, the "from" and "to" are the same ones passed to onCardDragEnd callback. You can used this within your onCardDragEnd call back to actually update your board as it will return a new board which you can save down into state. 
+
 | Arg                              | Description                                |
 | -------------------------------- | ------------------------------------------ |
 | `board`                          | Your board                                 |
-| `{ fromPosition, fromColumnId }` | Index and columnId of card to be moved     |
-| `{ toPosition, toColumnId }`     | Index and columnId of the card destination |
+| `{ fromPosition, fromColumnId }` |An object with the card source `{ fromColumnId, fromPosition }` which are the indexes of the cards current position  |
+| `{ toPosition, toColumnId }`   | An object with the card destination `{ fromColumnId, fromPosition }` which are the indexes of the cards new position |
 
 #### `addColumn`
 
@@ -566,7 +568,7 @@ PRs are welcome:
   yarn start
   ```
 - Make your change.
-- Add yourself to the contributors table:
+- Please add yourself to the contributors table (we use [all contributors](https://allcontributors.org/docs/en/cli/installation) for that, we you will need that installed first):
   ```
   yarn contributors:add
   ```
