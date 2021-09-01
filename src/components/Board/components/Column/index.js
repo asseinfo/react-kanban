@@ -30,13 +30,7 @@ function Column({
           <div
             ref={columnProvided.innerRef}
             {...draggablePropsWithoutStyle}
-            style={{
-              height: '100%',
-              minHeight: '28px',
-              display: 'inline-block',
-              verticalAlign: 'top',
-              ...columnProvided.draggableProps.style,
-            }}
+            style={{...columnProvided.draggableProps.style}}
             className='react-kanban-column'
             data-testid={`column-${children.id}`}
           >
