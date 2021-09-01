@@ -25,7 +25,6 @@
     "@testing-library/react": "10.4.9",
     "@typescript-eslint/eslint-plugin": "4.6.0",
     "@typescript-eslint/parser": "4.6.0",
-    "all-contributors-cli": "^6.20.0",
     "babel-loader": "8.1.0",
     "babel-plugin-istanbul": "6.0.0",
     "babel-plugin-react-remove-properties": "0.3.0",
@@ -72,6 +71,7 @@
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' 'cypress/**/*.js'",
+    "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "cypress": "cypress",
     "dev": "cross-env NODE_ENV=cypress start-test server 8080 'cypress open'"
