@@ -30,7 +30,7 @@ jobs:
         flags: jestspecs
         fail_ci_if_error: true
   cypress:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     env:
       NODE_ENV: 'test'
     steps:
