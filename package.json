@@ -72,7 +72,6 @@
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' 'cypress/**/*.js'",
-    "contributors:add": "all-contributors add",
     "start": "webpack-dev-server --open --config webpack.dev.js",
     "cypress": "cypress",
     "dev": "cross-env NODE_ENV=cypress start-test server 8080 'cypress open'"
