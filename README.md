@@ -29,14 +29,14 @@ Since this project use Hooks, you have to install them:
 After, Install the lib on your project:
 
 ```bash
-yarn add @lourenci/react-kanban
+yarn add @asseinfo/react-kanban
 ```
 
 Import the lib and use it on your project:
 
 ```js
-import Board from '@lourenci/react-kanban'
-import '@lourenci/react-kanban/dist/styles.css'
+import Board from '@asseinfo/react-kanban'
+import '@asseinfo/react-kanban/dist/styles.css'
 
 const board = {
   columns: [
@@ -86,13 +86,13 @@ We expose some APIs that you can import to help you to work with the controlled 
 To use them, you just need to import them together with your board:
 
 ```js
-import Board, { addCard, addColumn, ... } from '@lourenci/react-kanban'
+import Board, { addCard, addColumn, ... } from '@asseinfo/react-kanban'
 ```
 
 **All the helpers you need to pass your board and they will return a new board to pass to your state:**
 
 ```js
-import Board, { addColumn } from '@lourenci/react-kanban'
+import Board, { addColumn } from '@asseinfo/react-kanban'
 ...
 const [board, setBoard] = useState(initialBoard)
 ...
@@ -421,11 +421,13 @@ When the user removes a card, this callback will be called passing these paramet
 
 #### `moveCard`
 
+Use this on a controlled board, the "from" and "to" are the same ones passed to onCardDragEnd callback. You can used this within your onCardDragEnd call back to actually update your board as it will return a new board which you can save down into state. 
+
 | Arg                              | Description                                |
 | -------------------------------- | ------------------------------------------ |
 | `board`                          | Your board                                 |
-| `{ fromPosition, fromColumnId }` | Index and columnId of card to be moved     |
-| `{ toPosition, toColumnId }`     | Index and columnId of the card destination |
+| `{ fromPosition, fromColumnId }` |An object with the card source `{ fromColumnId, fromPosition }` which are the indexes of the cards current position  |
+| `{ toPosition, toColumnId }`   | An object with the card destination `{ fromColumnId, fromPosition }` which are the indexes of the cards new position |
 
 #### `addColumn`
 
@@ -566,7 +568,7 @@ PRs are welcome:
   yarn start
   ```
 - Make your change.
-- Add yourself to the contributors table:
+- Please add yourself to the contributors table (we use [all contributors](https://allcontributors.org/docs/en/cli/installation) for that, we you will need that installed first):
   ```
   yarn contributors:add
   ```

@@ -72,6 +72,17 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "PeteDuncanson",
+      "name": "Pete Duncanson",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1674590?v=4",
+      "profile": "https://github.com/PeteDuncanson",
+      "contributions": [
+        "code",
+        "doc",
+        "example"
+      ]
     }
   ],
   "contributorsPerLine": 7,
