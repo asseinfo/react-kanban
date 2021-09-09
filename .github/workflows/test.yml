@@ -30,14 +30,14 @@ jobs:
         flags: jestspecs
         fail_ci_if_error: true
   cypress:
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-latest
     env:
       NODE_ENV: 'test'
     steps:
       - uses: actions/checkout@v2
       - run: yarn
       - run: NODE_ENV=cypress yarn server &
-      - uses: cypress-io/github-action@v1
+      - uses: cypress-io/github-action@v2
         with:
           browser: chrome
           headless: true
