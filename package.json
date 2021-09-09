@@ -1,13 +1,13 @@
 {
-  "name": "@lourenci/react-kanban",
-  "version": "0.17.0",
+  "name": "@asseinfo/react-kanban",
+  "version": "2.1.0",
   "description": "Yet another Kanban/Trello board lib for React.",
   "main": "dist/index.js",
   "files": [
     "dist/index.js",
     "dist/styles.css"
   ],
-  "repository": "https://github.com/lourenci/react-kanban",
+  "repository": "https://github.com/asseinfo/react-kanban",
   "author": "Leandro Lourenci",
   "license": "MIT",
   "peerDependencies": {
