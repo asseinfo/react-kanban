@@ -278,7 +278,7 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId(/column/)).toBeInTheDocument()
           expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
@@ -297,7 +297,7 @@ describe('<Board />', () => {
         beforeEach(() => mount({ children: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId(/column/)).toBeInTheDocument()
           expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
@@ -889,7 +889,7 @@ describe('<Board />', () => {
         })
 
         it("renders the custom header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId(/column/)).toBeInTheDocument()
           expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog \(1\)/)
         })
 
@@ -911,7 +911,7 @@ describe('<Board />', () => {
         beforeEach(() => mount({ initialBoard: board }))
 
         it("renders the default header on the board's column", () => {
-          expect(subject.queryAllByTestId(/column/)).toHaveLength(1)
+          expect(subject.queryByTestId(/column/)).toBeInTheDocument()
           expect(subject.queryByTestId('column-1')).toHaveTextContent(/Column Backlog/)
         })
       })
@@ -1118,8 +1118,8 @@ describe('<Board />', () => {
             })
 
             it('removes the column', () => {
-              const column = subject.queryAllByTestId(/column-\d+/)
-              expect(column).toHaveLength(1)
+              const column = subject.queryByTestId(/column-\d+/)
+              expect(column).toBeInTheDocument()
               expect(column[0]).toHaveTextContent('Column Doing')
             })
 
@@ -1158,8 +1158,8 @@ describe('<Board />', () => {
           beforeEach(() => fireEvent.click(within(subject.queryByTestId('column-1')).queryByText('Column Backlog')))
 
           it('removes the column', () => {
-            const column = subject.queryAllByTestId(/column-\d+/)
-            expect(column).toHaveLength(1)
+            const column = subject.queryByTestId(/column-\d+/)
+            expect(column).toBeInTheDocument()
             expect(column[0]).toHaveTextContent('Column Doing')
           })
 
