@@ -24,7 +24,7 @@ jobs:
         yarn
         yarn lint
         yarn test --coverageDirectory unit-coverage
-    - uses: codecov/codecov-action@v1
+    - uses: codecov/codecov-action@v2
       with:
         file: unit-coverage/lcov.info
         flags: jestspecs
@@ -42,7 +42,7 @@ jobs:
           browser: chrome
           headless: true
       - run: yarn nyc report --reporter=text-summary
-      - uses: codecov/codecov-action@v1
+      - uses: codecov/codecov-action@v2
         with:
           file: coverage/lcov.info
           flags: cypressspecs
