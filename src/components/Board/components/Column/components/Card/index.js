@@ -11,7 +11,7 @@ function Card({ children, index, renderCard, disableCardDrag }) {
             {...provided.dragHandleProps}
             data-testid={`card-${children.id}`}
           >
-            <div className="react-kanban-card-container">{renderCard(isDragging)}</div>
+            <div className='react-kanban-card-container'>{renderCard(isDragging)}</div>
           </div>
         )
       }}
