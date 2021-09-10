@@ -1,6 +1,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/3b2815f4686bf55b8a23/maintainability)](https://codeclimate.com/github/asseinfo/react-kanban/maintainability)
 [![codecov](https://codecov.io/gh/asseinfo/react-kanban/branch/master/graph/badge.svg?token=05ZJPP7VNL)](https://codecov.io/gh/asseinfo/react-kanban)
-[![Build Status](https://github.com/lourenci/react-kanban/workflows/Test/badge.svg?branch=master)](https://github.com/lourenci/react-kanban/actions?query=branch%3Amaster+workflow%3ATest)
+[![Build Status](https://github.com/asseinfo/react-kanban/workflows/Test/badge.svg?branch=master)](https://github.com/asseinfo/react-kanban/actions?query=branch%3Amaster+workflow%3ATest)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Yet another Kanban/Trello board lib for React.
