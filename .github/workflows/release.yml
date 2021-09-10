@@ -20,8 +20,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GIT_AUTHOR_NAME: 'Leandro Lourenci'
-          GIT_AUTHOR_EMAIL: 'leandro@lourenci.com'
-          GIT_COMMITTER_NAME: 'Leandro Lourenci'
-          GIT_COMMITTER_EMAIL: 'leandro@lourenci.com'
         run: yarn semantic-release
