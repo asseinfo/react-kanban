@@ -30,7 +30,7 @@ function Column({
           <div
             ref={columnProvided.innerRef}
             {...draggablePropsWithoutStyle}
-            style={{...columnProvided.draggableProps.style}}
+            style={{ ...columnProvided.draggableProps.style }}
             className='react-kanban-column'
             data-testid={`column-${children.id}`}
           >
