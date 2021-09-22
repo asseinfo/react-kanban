@@ -409,6 +409,15 @@ When the user removes a card, this callback will be called passing these paramet
 | `column` | The column without the removed card  |
 | `card`   | The removed card                     |
 
+#### `allowAddCard`
+
+Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column, but you can specify whether you want to add at the top or at the bottom of the board by passing an object with 'on' prop.
+
+E.g.:
+<Board allowAddCard /> // at the bottom by default
+<Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
+<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
+
 ### 🔩 Helpers to be used with an controlled board
 
 #### `moveColumn`
@@ -421,7 +430,7 @@ When the user removes a card, this callback will be called passing these paramet
 
 #### `moveCard`
 
-Use this on a controlled board, the "from" and "to" are the same ones passed to onCardDragEnd callback. You can used this within your onCardDragEnd call back to actually update your board as it will return a new board which you can save down into state. 
+Use this on a controlled board, the "from" and "to" are the same ones passed to onCardDragEnd callback. You can used this within your onCardDragEnd call back to actually update your board as it will return a new board which you can save down into state.
 
 | Arg                              | Description                                |
 | -------------------------------- | ------------------------------------------ |
@@ -460,14 +469,13 @@ Use this on a controlled board, the "from" and "to" are the same ones passed to 
 | `card`                 | Card to be added                                                                    |
 | `{ on: 'bottom|top' }` | Whether the card will be added on top or bottom of the column (`bottom` is default) |
 
-#### `allowAddCard`
+#### `changeCard`
 
-Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column, but you can specify whether you want to add at the top or at the bottom of the board by passing an object with 'on' prop.
-
-E.g.:
-<Board allowAddCard /> // at the bottom by default
-<Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
-<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
+| Arg      | Description                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------------- |
+| `board`  | Your board                                                                                        |
+| `cardId` | Card's id to be changed
+| `object` | Pass a object to be merged with the card. You can add new props and/or change the existing ones   |
 
 #### `onCardNew`
 

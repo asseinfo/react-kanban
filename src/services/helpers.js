@@ -78,4 +78,14 @@ function removeCard(board, fromColumn, card) {
   return { ...board, columns: filteredColumns }
 }
 
-export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard }
+function changeCard(board, cardId, newCard) {
+  const changedCards = (cards) =>
+    replaceElementOfArray(cards)({
+      when: ({ id }) => id === cardId,
+      for: (card) => ({ ...card, ...newCard }),
+    })
+
+  return { ...board, columns: board.columns.map((column) => ({ ...column, cards: changedCards(column.cards) })) }
+}
+
+export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard, changeCard }
