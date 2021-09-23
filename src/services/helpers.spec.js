@@ -1,4 +1,4 @@
-import { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard } from './helpers'
+import { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard, changeCard } from './helpers'
 
 describe('#moveColumn', () => {
   it('returns a board with the column moved to the specified position', () => {
@@ -184,6 +184,26 @@ describe('#removeCard', () => {
       columns: [
         { id: 1, cards: [{ id: 1 }, { id: 3 }] },
         { id: 2, cards: [{ id: 4 }, { id: 5 }, { id: 6 }] },
+      ],
+    })
+  })
+})
+
+describe('#changeCard', () => {
+  it("changes the card's board", () => {
+    const board = {
+      columns: [
+        { id: 1, title: 'Doing', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5, foo: 'bar' }, { id: 6 }] },
+      ],
+    }
+
+    const boardWithTheModifiedCard = changeCard(board, 5, { title: 'New title' })
+
+    expect(boardWithTheModifiedCard).toEqual({
+      columns: [
+        { id: 1, title: 'Doing', cards: [{ id: 1 }, { id: 2 }, { id: 3 }] },
+        { id: 2, title: 'Done', cards: [{ id: 4 }, { id: 5, foo: 'bar', title: 'New title' }, { id: 6 }] },
       ],
     })
   })
