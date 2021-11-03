@@ -20,6 +20,8 @@ function Column({
   disableCardDrag,
   onCardNew,
   allowAddCard,
+  allowCardEdit,
+  onCardEdit,
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
