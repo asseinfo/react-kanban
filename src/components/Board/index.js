@@ -13,7 +13,16 @@ import {
   isMovingAColumnToAnotherPosition,
   isMovingACardToAnotherPosition,
 } from './services'
-import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
+import {
+  moveCard,
+  moveColumn,
+  addColumn,
+  removeColumn,
+  changeColumn,
+  addCard,
+  removeCard,
+  editCard,
+} from '@services/helpers'
 
 const Columns = forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
 
@@ -105,8 +114,9 @@ function UncontrolledBoard({
     setBoard(boardWithoutCard)
   }
 
-  function handleCardEdit(card, title, content) {
-    // handleCardEdit method
+  function handleCardEdit(column, card, title, content) {
+    const boardWithEditedCard = editCard(board, column, card, { title: 'test', content: 'test' })
+    setBoard(boardWithEditedCard)
   }
 
   return (
@@ -134,6 +144,8 @@ function UncontrolledBoard({
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
             onCardRemove={(card) => handleCardRemove(column, card)}
+            onCardEdit={(card) => handleCardEdit(column, card)}
+            allowEditCard={allowEditCard}
           >
             {card}
           </DefaultCard>
@@ -147,6 +159,8 @@ function UncontrolledBoard({
       disableCardDrag={disableCardDrag}
       onCardNew={(column, card) => handleDraftCardAdd(column, card, allowAddCard)}
       allowAddCard={allowAddCard && onNewCardConfirm}
+      allowEditCard={allowEditCard}
+      onCardEdit={handleCardEdit}
     >
       {board}
     </BoardContainer>
@@ -267,6 +281,7 @@ function BoardContainer({
               disableCardDrag={disableCardDrag}
               onCardNew={onCardNew}
               allowAddCard={allowAddCard}
+              onCardEdit={onCardEdit}
             >
               {column}
             </Column>

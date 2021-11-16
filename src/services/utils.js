@@ -23,6 +23,12 @@ function changeElementOfPositionInArray(array, from, to) {
   return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
 }
 
+function updateElementOfArray(array, element) {
+  const indexToUpdate = array.findIndex((arrElement) => arrElement.id === element.id)
+  array[indexToUpdate] = element
+  return array
+}
+
 function identity(value) {
   return value
 }
@@ -53,4 +59,5 @@ export {
   replaceElementOfArray,
   partialRight,
   pickPropOut,
+  updateElementOfArray,
 }

@@ -3,6 +3,7 @@ import {
   addInArrayAtPosition,
   changeElementOfPositionInArray,
   replaceElementOfArray,
+  updateElementOfArray,
 } from '@services/utils'
 
 function reorderCardsOnColumn(column, reorderCards) {
@@ -70,6 +71,16 @@ function addCard(board, inColumn, card, { on } = {}) {
   return { ...board, columns }
 }
 
+function editCard(board, inColumn, card, { title, content }) {
+  const columnToEdit = board.columns.find(({ id }) => id === inColumn.id)
+  const cards = updateElementOfArray(columnToEdit.cards, { ...card, title, description: content })
+  const columns = replaceElementOfArray(board.columns)({
+    when: ({ id }) => inColumn.id === id,
+    for: (value) => ({ ...value, cards }),
+  })
+  return { ...board, columns }
+}
+
 function removeCard(board, fromColumn, card) {
   const columnToRemove = board.columns.find(({ id }) => id === fromColumn.id)
   const filteredCards = columnToRemove.cards.filter(({ id }) => card.id !== id)
@@ -88,4 +99,4 @@ function changeCard(board, cardId, newCard) {
   return { ...board, columns: board.columns.map((column) => ({ ...column, cards: changedCards(column.cards) })) }
 }
 
-export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard, changeCard }
+export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard, changeCard, editCard }
