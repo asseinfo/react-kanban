@@ -114,8 +114,8 @@ function UncontrolledBoard({
     setBoard(boardWithoutCard)
   }
 
-  function handleCardEdit(column, card, title, content) {
-    const boardWithEditedCard = editCard(board, column, card, { title: 'test', content: 'test' })
+  function handleCardEdit(column, card, title, description) {
+    const boardWithEditedCard = editCard(board, column, card, { title, description })
     setBoard(boardWithEditedCard)
   }
 
@@ -144,7 +144,9 @@ function UncontrolledBoard({
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
             onCardRemove={(card) => handleCardRemove(column, card)}
-            onCardEdit={(card) => handleCardEdit(column, card)}
+            onCardEdit={(card, title, description) => {
+              handleCardEdit(column, card, title, description)
+            }}
             allowEditCard={allowEditCard}
           >
             {card}

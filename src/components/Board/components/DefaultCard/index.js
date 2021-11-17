@@ -5,7 +5,10 @@ import CardForm from '../Column/components/CardAdder/components/CardForm'
 export default function ({ children: card, dragging, allowRemoveCard, onCardRemove, allowEditCard, onCardEdit }) {
   const [edit, setEdit] = useState(false)
 
-  const confirmCard = () => {}
+  const confirmCard = (column) => {
+    onCardEdit(card, column.title, column.description)
+    setEdit(false)
+  }
 
   return !edit ? (
     <div className={`react-kanban-card ${dragging ? 'react-kanban-card--dragging' : ''}`}>

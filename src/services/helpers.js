@@ -71,9 +71,9 @@ function addCard(board, inColumn, card, { on } = {}) {
   return { ...board, columns }
 }
 
-function editCard(board, inColumn, card, { title, content }) {
+function editCard(board, inColumn, card, { title, description }) {
   const columnToEdit = board.columns.find(({ id }) => id === inColumn.id)
-  const cards = updateElementOfArray(columnToEdit.cards, { ...card, title, description: content })
+  const cards = updateElementOfArray(columnToEdit.cards, { ...card, title, description })
   const columns = replaceElementOfArray(board.columns)({
     when: ({ id }) => inColumn.id === id,
     for: (value) => ({ ...value, cards }),
