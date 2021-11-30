@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { when } from '@services/utils'
 
-function CardForm({ onConfirm, onCancel, initialValue }) {
+function CardForm({ onConfirm, onCancel, initialValue, isEdit }) {
   const inputCardTitle = useRef()
   const inputCardDescription = useRef()
 
@@ -30,7 +30,7 @@ function CardForm({ onConfirm, onCancel, initialValue }) {
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>
           <button className='react-kanban-card-adder-form__button' type='submit'>
-            Add
+            {isEdit ? 'Edit' : 'Add'}
           </button>
           <button className='react-kanban-card-adder-form__button' type='button' onClick={onCancel}>
             Cancel

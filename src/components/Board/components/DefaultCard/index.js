@@ -4,9 +4,13 @@ import CardForm from '../Column/components/CardAdder/components/CardForm'
 
 export default function ({ children: card, dragging, allowRemoveCard, onCardRemove, allowEditCard, onCardEdit }) {
   const [edit, setEdit] = useState(false)
+  const [initialTitle, setInitialTitle] = useState(card.title)
+  const [initialDescription, setInitialDescription] = useState(card.description)
 
   const confirmCard = (column) => {
     onCardEdit(card, column.title, column.description)
+    setInitialTitle(column.title)
+    setInitialDescription(column.description)
     setEdit(false)
   }
 
@@ -41,7 +45,8 @@ export default function ({ children: card, dragging, allowRemoveCard, onCardRemo
     <CardForm
       onConfirm={confirmCard}
       onCancel={() => setEdit(false)}
-      initialValue={{ title: card.title, description: card.description }}
+      initialValue={{ title: initialTitle, description: initialDescription }}
+      isEdit={edit}
     />
   )
 }
