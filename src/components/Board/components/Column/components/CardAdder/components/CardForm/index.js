@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { when } from '@services/utils'
 
-function CardForm({ onConfirm, onCancel }) {
+function CardForm({ onConfirm, onCancel, initialValue }) {
   const inputCardTitle = useRef()
   const inputCardDescription = useRef()
 
@@ -19,13 +19,13 @@ function CardForm({ onConfirm, onCancel }) {
           className='react-kanban-card-adder-form__title'
           name='title'
           autoFocus
-          defaultValue='Title'
+          defaultValue={(initialValue && initialValue.title) || 'Title'}
           ref={inputCardTitle}
         />
         <input
           className='react-kanban-card-adder-form__description'
           name='description'
-          defaultValue='Description'
+          defaultValue={(initialValue && initialValue.description) || 'Description'}
           ref={inputCardDescription}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>

@@ -38,6 +38,10 @@ export default function ({ children: card, dragging, allowRemoveCard, onCardRemo
       <div className='react-kanban-card__description'>{card.description}</div>
     </div>
   ) : (
-    <CardForm onConfirm={confirmCard} onCancel={() => setEdit(false)} />
+    <CardForm
+      onConfirm={confirmCard}
+      onCancel={() => setEdit(false)}
+      initialValue={{ title: card.title, description: card.description }}
+    />
   )
 }
