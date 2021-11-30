@@ -15,7 +15,7 @@ export default function ({ children: card, dragging, allowRemoveCard, onCardRemo
   }
 
   return !edit ? (
-    <div className={`react-kanban-card ${dragging ? 'react-kanban-card--dragging' : ''}`}>
+    <div onClick={() => setEdit(true)} className={`react-kanban-card ${dragging ? 'react-kanban-card--dragging' : ''}`}>
       <span>
         <div className='react-kanban-card__title'>
           <span>{card.title}</span>
