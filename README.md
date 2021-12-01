@@ -149,6 +149,8 @@ setBoard(newBoard)
 | [`allowAddCard`](#allowaddcard)                                                                                               | Allow to add a card. Expect an object with the position to add the card in the column.                            | 🚫         | ✅           |
 | [`onCardNew`](#oncardnew) (required if `allowAddCard` or when [`addCard`](#rendercolumnheader) is called)                     | Callback that will be called when a new card is added through the default card adder template                     | 🚫         | ✅           |
 | [`onNewCardConfirm`](#onnewcardconfirm) (required if `allowAddCard`)                                                          | Callback that will be called when a new card is confirmed by the user through the default card adder template     | 🚫         | ✅           |
+| [`allowEditCard`](#alloweditcard)                                                                                             | Allow to edit card                                                                                                | 🚫         | ✅           |
+| [`disableCardTitle`](#disablecardtitle)                                                                                       | Disables the title of all cards                                                                                   | ✅         | ✅           |
 
 #### `children`
 
@@ -416,7 +418,8 @@ Allow the user to add a card in the column directly by the board. By default, it
 E.g.:
 <Board allowAddCard /> // at the bottom by default
 <Board allowAddCard={{ on: 'bottom' }}  /> // in the bottom of the column
-<Board allowAddCard={{ on: 'top' }}  /> // at the top of the column
+<Board allowAddCard={{ on: 'top' }}
+/> // at the top of the column
 
 ### 🔩 Helpers to be used with an controlled board
 
@@ -506,6 +509,14 @@ function onCardNew (newCard) {
 | `fromColumn` | Column where the card is |
 | `card`       | Card to be removed       |
 
+##### `allowEditCard`
+
+Allow the user to edit card, edit icon appears (next to delete icon).
+
+##### `disableCardTitle`
+
+Disallow the user to see the card title (also add and edit). It disables all titles from all cards.
+
 ## 💅🏻 Styling
 
 You can either style all the board or import our style and override it with the styles you want:
@@ -517,9 +528,10 @@ You can either style all the board or import our style and override it with the 
 | `react-kanban-card-skeleton` |
 | `react-kanban-card--dragging` |
 | `react-kanban-card__description` |
+| `react-kanban-card__description-title__disabled` |
 | `react-kanban-card__title` |
 | `react-kanban-column` |
-| `react-kanban-card-adder-form` |
+| `react-kanban-card-adder-form`|
 | `react-kanban-card-adder-button` |
 | `react-kanban-card-adder-form__title` |
 | `react-kanban-card-adder-form__description` |
