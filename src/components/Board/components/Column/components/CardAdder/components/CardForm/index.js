@@ -1,27 +1,34 @@
 import { useRef } from 'react'
 import { when } from '@services/utils'
 
-function CardForm({ onConfirm, onCancel, initialValue, isEdit }) {
+function CardForm({ onConfirm, onCancel, initialValue, isEdit, disableCardTitle }) {
   const inputCardTitle = useRef()
   const inputCardDescription = useRef()
 
   function addCard(event) {
     event.preventDefault()
-    when(inputCardTitle.current.value)((value) => {
-      onConfirm({ title: value, description: inputCardDescription.current.value })
-    })
+    if (disableCardTitle)
+      when(inputCardDescription.current.value)((value) => {
+        onConfirm({ title: value, description: inputCardDescription.current.value })
+      })
+    else
+      when(inputCardTitle.current.value)((value) => {
+        onConfirm({ title: value, description: inputCardDescription.current.value })
+      })
   }
 
   return (
     <div className='react-kanban-card-adder-form'>
       <form onSubmit={addCard}>
-        <input
-          className='react-kanban-card-adder-form__title'
-          name='title'
-          autoFocus
-          defaultValue={(initialValue && initialValue.title) || 'Title'}
-          ref={inputCardTitle}
-        />
+        {!disableCardTitle && (
+          <input
+            className='react-kanban-card-adder-form__title'
+            name='title'
+            autoFocus
+            defaultValue={(initialValue && initialValue.title) || 'Title'}
+            ref={inputCardTitle}
+          />
+        )}
         <input
           className='react-kanban-card-adder-form__description'
           name='description'

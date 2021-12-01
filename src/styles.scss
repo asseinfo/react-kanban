@@ -22,6 +22,14 @@
 
 .react-kanban-card__description {
   padding-top: 10px;
+  span {
+    width: 100%;
+  }
+}
+
+.react-kanban-card__description-title__disabled {
+  justify-content: space-between;
+  display: flex;
 }
 
 .react-kanban-card__title {

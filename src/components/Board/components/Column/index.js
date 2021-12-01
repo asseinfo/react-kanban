@@ -20,8 +20,7 @@ function Column({
   disableCardDrag,
   onCardNew,
   allowAddCard,
-  allowCardEdit,
-  onCardEdit,
+  disableCardTitle,
 }) {
   return (
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
@@ -43,7 +42,7 @@ function Column({
             data-testid={`column-${children.id}`}
           >
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
-            {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
+            {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} disableCardTitle={disableCardTitle} />}
             <DroppableColumn droppableId={String(children.id)}>
               {children.cards.length ? (
                 children.cards.map((card, index) => (
