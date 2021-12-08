@@ -30,6 +30,12 @@ describe('<DefaultCard />', () => {
     expect(subject.queryByText('Description')).toBeVisible()
   })
 
+  it('renders a card without title and with its description', () => {
+    const subject = mount({ disableCardTitle: true })
+    expect(subject.queryByText('Card title')).not.toBeInTheDocument()
+    expect(subject.queryByText('Description')).toBeVisible()
+  })
+
   describe('about the style on dragging', () => {
     describe('when the component receives "dragging"', () => {
       beforeEach(() => mount({ dragging: true }))
