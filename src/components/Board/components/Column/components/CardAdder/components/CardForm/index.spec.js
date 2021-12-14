@@ -4,20 +4,29 @@ import CardForm from './'
 describe('<CardForm />', () => {
   let subject, onConfirm, onCancel
 
-  function mount() {
+  function mount(props) {
     onConfirm = jest.fn()
     onCancel = jest.fn()
 
-    subject = render(<CardForm onConfirm={onConfirm} onCancel={onCancel} />)
+    subject = render(<CardForm onConfirm={onConfirm} onCancel={onCancel} {...props} />)
+    return subject
   }
 
-  beforeEach(mount)
+  beforeEach(() => {
+    subject = mount()
+  })
   afterEach(() => {
     subject = onConfirm = onCancel = undefined
   })
 
   it('renders the card inputs', () => {
     expect(subject.container.querySelector('input[name="title"]')).toBeInTheDocument()
+    expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
+  })
+
+  it('renders only the card description input when disableCardTitle is true', () => {
+    const subject = mount({ disableCardTitle: true })
+    expect(subject.container.querySelector('input[name="title"]')).not.toBeInTheDocument()
     expect(subject.container.querySelector('input[name="description"]')).toBeInTheDocument()
   })
 
