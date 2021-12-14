@@ -9,7 +9,7 @@ function CardForm({ onConfirm, onCancel, initialValue, isEdit, disableCardTitle 
     event.preventDefault()
     if (disableCardTitle)
       when(inputCardDescription.current.value)((value) => {
-        onConfirm({ title: value, description: inputCardDescription.current.value })
+        onConfirm({ description: inputCardDescription.current.value })
       })
     else
       when(inputCardTitle.current.value)((value) => {
