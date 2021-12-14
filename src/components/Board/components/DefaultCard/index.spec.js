@@ -82,4 +82,22 @@ describe('<DefaultCard />', () => {
       })
     })
   })
+
+  describe('about the edit card icon', () => {
+    describe('when the component does not receive the "allowEditCard" prop', () => {
+      beforeEach(() => mount({ allowEditCard: false }))
+
+      it('does not show the edit icon', () => {
+        expect(subject.container.querySelector('svg')).not.toBeInTheDocument()
+      })
+    })
+
+    describe('when the component receives the "allowEditCard" prop', () => {
+      beforeEach(() => mount({ allowEditCard: true }))
+
+      it('shows the edit icon', () => {
+        expect(subject.container.querySelector('svg')).toBeInTheDocument()
+      })
+    })
+  })
 })
