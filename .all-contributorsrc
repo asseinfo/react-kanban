@@ -93,6 +93,18 @@
         "doc",
         "code"
       ]
+    },
+    {
+      "login": "makarewicz77",
+      "name": "makarewicz77",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48650400?v=4",
+      "profile": "https://github.com/makarewicz77",
+      "contributions": [
+        "code",
+        "doc",
+        "test",
+        "design"
+      ]
     }
   ],
   "contributorsPerLine": 7,
