@@ -28,7 +28,6 @@ export default function ({
         style={{ cursor: 'pointer' }}
         onClick={() => {
           setEdit(true)
-          onCardEdit(card)
         }}
       >
         {EditIcon()}
