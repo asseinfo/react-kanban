@@ -49,7 +49,7 @@ function Column({
                     key={card.id}
                     index={index}
                     renderCard={(dragging) => renderCard(children, card, dragging)}
-                    disableCardDrag={disableCardDrag}
+                    disableCardDrag={disableCardDrag || card.disableCardDrag}
                   >
                     {card}
                   </Card>

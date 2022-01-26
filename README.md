@@ -139,7 +139,7 @@ setBoard(newBoard)
 | [`onColumnNew`](#oncolumnnew) (required if `allowAddColumn` or when [`addColumn`](#rendercolumnadder) is called)              | Callback that will be called when a new column is added through the default column adder template                 | 🚫         | ✅           |
 | [`renderColumnAdder`](#rendercolumnadder)                                                                                     | A column adder to be rendered instead of the default column adder template                                        | ✅         | ✅           |
 | [`disableColumnDrag`](#disablecolumndrag)                                                                                     | Disable the column move                                                                                           | ✅         | ✅           |
-| [`disableCardDrag`](#disablecarddrag)                                                                                         | Disable the card move                                                                                             | ✅         | ✅           |
+| [`disableCardDrag`](#disablecarddrag)                                                                                         | Disable the card move for entire board                                                                            | ✅         | ✅           |
 | [`allowRemoveColumn`](#allowremovecolumn)                                                                                     | Allow to remove a column in default column header                                                                 | ✅         | ✅           |
 | [`onColumnRemove`](#oncolumnremove) (required if `allowRemoveColumn` or when [`removeColumn`](#rendercolumnheader) is called) | Callback that will be called when a column is removed                                                             | ✅         | ✅           |
 | [`allowRenameColumn`](#allowrenamecolumn)                                                                                     | Allow to rename a column in default column header                                                                 | ✅         | ✅           |
@@ -278,7 +278,8 @@ const board = {
     cards: [{
       id: ${unique-required-cardId},
       title: ${required-cardTitle},
-      description: ${required-cardDescription}
+      description: ${required-cardDescription},
+      disableCardDrag: ${optional-disableCardDrag}
     }]
   }]
 }
@@ -367,7 +368,7 @@ Disallow the user from move a column.
 
 #### `disableCardDrag`
 
-Disallow the user from move a card.
+Disallow the user from move a card (board scoped).
 
 #### `allowRemoveColumn`
 
