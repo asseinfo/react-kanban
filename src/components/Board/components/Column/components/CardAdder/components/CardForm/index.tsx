@@ -1,17 +1,15 @@
 import { useRef } from 'react'
 import { when } from '@services/utils'
 
-// @ts-expect-error TS(7031) FIXME: Binding element 'onConfirm' implicitly has an 'any... Remove this comment to see the full error message
-function CardForm({ onConfirm, onCancel }) {
+function CardForm({ onConfirm, onCancel }: any) {
   const inputCardTitle = useRef()
   const inputCardDescription = useRef()
 
-  // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
-  function addCard(event) {
+  function addCard(event: any) {
     event.preventDefault()
-    // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
-    when(inputCardTitle.current.value)((value) => {
-      // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+    when(inputCardTitle.current.value)((value: any) => {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       onConfirm({ title: value, description: inputCardDescription.current.value })
     })
   }
@@ -24,14 +22,14 @@ function CardForm({ onConfirm, onCancel }) {
           name='title'
           autoFocus
           defaultValue='Title'
-          // @ts-expect-error TS(2322) FIXME: Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
+          // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
           ref={inputCardTitle}
         />
         <input
           className='react-kanban-card-adder-form__description'
           name='description'
           defaultValue='Description'
-          // @ts-expect-error TS(2322) FIXME: Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
+          // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
           ref={inputCardDescription}
         />
         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '5px' }}>

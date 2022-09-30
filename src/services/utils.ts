@@ -1,60 +1,45 @@
-// @ts-expect-error TS(7019) FIXME: Rest parameter 'fns' implicitly has an 'any[]' typ... Remove this comment to see the full error message
-function compose(...fns) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'arg' implicitly has an 'any' type.
-  return (arg) => fns.reduce((acc, fn) => fn(acc), arg)
+function compose(...fns: any[]) {
+  return (arg: any) => fns.reduce((acc, fn) => fn(acc), arg)
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'fn' implicitly has an 'any' type.
-function partialRight(fn, ...args) {
-  // @ts-expect-error TS(7019) FIXME: Rest parameter 'leftArgs' implicitly has an 'any[]... Remove this comment to see the full error message
-  return (...leftArgs) => fn(...leftArgs, ...args)
+function partialRight(fn: any, ...args: any[]) {
+  return (...leftArgs: any[]) => fn(...leftArgs, ...args)
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'array' implicitly has an 'any' type.
-function addInArrayAtPosition(array, element, position) {
+function addInArrayAtPosition(array: any, element: any, position: any) {
   const arrayCopy = [...array]
   arrayCopy.splice(position, 0, element)
   return arrayCopy
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'array' implicitly has an 'any' type.
-function removeFromArrayAtPosition(array, position) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'acc' implicitly has an 'any' type.
-  return array.reduce((acc, value, idx) => (idx === position ? acc : [...acc, value]), [])
+function removeFromArrayAtPosition(array: any, position: any) {
+  return array.reduce((acc: any, value: any, idx: any) => (idx === position ? acc : [...acc, value]), [])
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'array' implicitly has an 'any' type.
-function changeElementOfPositionInArray(array, from, to) {
+function changeElementOfPositionInArray(array: any, from: any, to: any) {
   const removeFromArrayAtPositionFrom = partialRight(removeFromArrayAtPosition, from)
   const addInArrayAtPositionTo = partialRight(addInArrayAtPosition, array[from], to)
 
   return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'value' implicitly has an 'any' type.
-function identity(value) {
+function identity(value: any) {
   return value
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'value' implicitly has an 'any' type.
-function when(value, predicate = identity) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'callback' implicitly has an 'any' type.
-  return function callback(callback) {
+function when(value: any, predicate = identity) {
+  return function callback(callback: any) {
     if (predicate(value)) return callback(value)
   }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'array' implicitly has an 'any' type.
-function replaceElementOfArray(array) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'options' implicitly has an 'any' type.
-  return function (options) {
-    // @ts-expect-error TS(7006) FIXME: Parameter 'element' implicitly has an 'any' type.
-    return array.map((element) => (options.when(element) ? options.for(element) : element))
+function replaceElementOfArray(array: any) {
+  return function (options: any) {
+    return array.map((element: any) => (options.when(element) ? options.for(element) : element))
   }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'object' implicitly has an 'any' type.
-function pickPropOut(object, prop) {
+function pickPropOut(object: any, prop: any) {
   return Object.keys(object).reduce((obj, key) => {
     return key === prop ? obj : { ...obj, [key]: object[key] }
   }, {})

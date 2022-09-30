@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import CardForm from './components/CardForm'
 
-// @ts-expect-error TS(7031) FIXME: Binding element 'column' implicitly has an 'any' t... Remove this comment to see the full error message
-export default function CardAdder({ column, onConfirm }) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'card' implicitly has an 'any' type.
-  function confirmCard(card) {
+export default function CardAdder({ column, onConfirm }: any) {
+  function confirmCard(card: any) {
     onConfirm(column, card)
     setAddingCard(false)
   }

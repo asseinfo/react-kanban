@@ -1,6 +1,5 @@
-import { forwardRef, useState } from 'react'
-// @ts-expect-error TS(7016) FIXME: Could not find a declaration file for module 'reac... Remove this comment to see the full error message
-import { DragDropContext } from 'react-beautiful-dnd'
+import { FC, forwardRef, useState } from 'react'
+import { DragDropContext, DragDropContextProps } from 'react-beautiful-dnd'
 import Column from './components/Column'
 import ColumnAdder from './components/ColumnAdder'
 import withDroppable from '../withDroppable'
@@ -15,59 +14,39 @@ import {
   isMovingACardToAnotherPosition,
 } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
+import { Props } from '../../types'
 
-// @ts-expect-error TS(2322) FIXME: Type 'ForwardedRef<unknown>' is not assignable to ... Remove this comment to see the full error message
-const Columns = forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
+const Columns = forwardRef<HTMLDivElement>((props, ref) => (
+  <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />
+))
 
 const DroppableBoard = withDroppable(Columns)
-
-// @ts-expect-error TS(7006) FIXME: Parameter 'props' implicitly has an 'any' type.
-function Board(props) {
+const Board: FC<Props> = (props) => {
   return props.initialBoard ? <UncontrolledBoard {...props} /> : <ControlledBoard {...props} />
 }
 
-function UncontrolledBoard({
-  // @ts-expect-error TS(7031) FIXME: Binding element 'initialBoard' implicitly has an '... Remove this comment to see the full error message
+const UncontrolledBoard: FC<Props> = ({
   initialBoard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardDragEnd' implicitly has an ... Remove this comment to see the full error message
   onCardDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnDragEnd' implicitly has a... Remove this comment to see the full error message
   onColumnDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowAddColumn' implicitly has an... Remove this comment to see the full error message
   allowAddColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnAdder' implicitly has... Remove this comment to see the full error message
   renderColumnAdder,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onNewColumnConfirm' implicitly ha... Remove this comment to see the full error message
   onNewColumnConfirm,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRemove' implicitly has an... Remove this comment to see the full error message
   onColumnRemove,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnHeader' implicitly ha... Remove this comment to see the full error message
   renderColumnHeader,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRemoveColumn' implicitly has... Remove this comment to see the full error message
   allowRemoveColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRenameColumn' implicitly has... Remove this comment to see the full error message
   allowRenameColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRename' implicitly has an... Remove this comment to see the full error message
   onColumnRename,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardNew' implicitly has an 'any... Remove this comment to see the full error message
   onCardNew,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderCard' implicitly has an 'an... Remove this comment to see the full error message
   renderCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRemoveCard' implicitly has a... Remove this comment to see the full error message
   allowRemoveCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardRemove' implicitly has an '... Remove this comment to see the full error message
   onCardRemove,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnNew' implicitly has an 'a... Remove this comment to see the full error message
   onColumnNew,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableCardDrag' implicitly has a... Remove this comment to see the full error message
   disableCardDrag,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableColumnDrag' implicitly has... Remove this comment to see the full error message
   disableColumnDrag,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowAddCard' implicitly has an '... Remove this comment to see the full error message
   allowAddCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onNewCardConfirm' implicitly has ... Remove this comment to see the full error message
   onNewCardConfirm,
-}) {
+}) => {
   const [board, setBoard] = useState(initialBoard)
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { moveCallback: moveCard, notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, {
@@ -185,40 +164,24 @@ function UncontrolledBoard({
   )
 }
 
-function ControlledBoard({
-  // @ts-expect-error TS(7031) FIXME: Binding element 'board' implicitly has an 'any' ty... Remove this comment to see the full error message
+const ControlledBoard: FC<Props> = ({
   children: board,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardDragEnd' implicitly has an ... Remove this comment to see the full error message
   onCardDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnDragEnd' implicitly has a... Remove this comment to see the full error message
   onColumnDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowAddColumn' implicitly has an... Remove this comment to see the full error message
   allowAddColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnAdder' implicitly has... Remove this comment to see the full error message
   renderColumnAdder,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onNewColumnConfirm' implicitly ha... Remove this comment to see the full error message
   onNewColumnConfirm,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRemove' implicitly has an... Remove this comment to see the full error message
   onColumnRemove,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnHeader' implicitly ha... Remove this comment to see the full error message
   renderColumnHeader,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRemoveColumn' implicitly has... Remove this comment to see the full error message
   allowRemoveColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRenameColumn' implicitly has... Remove this comment to see the full error message
   allowRenameColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRename' implicitly has an... Remove this comment to see the full error message
   onColumnRename,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderCard' implicitly has an 'an... Remove this comment to see the full error message
   renderCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRemoveCard' implicitly has a... Remove this comment to see the full error message
   allowRemoveCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardRemove' implicitly has an '... Remove this comment to see the full error message
   onCardRemove,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableCardDrag' implicitly has a... Remove this comment to see the full error message
   disableCardDrag,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableColumnDrag' implicitly has... Remove this comment to see the full error message
   disableColumnDrag,
-}) {
+}) => {
   const handleOnCardDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onCardDragEnd })
   const handleOnColumnDragEnd = partialRight(handleOnDragEnd, { notifyCallback: onColumnDragEnd })
 
@@ -261,38 +224,23 @@ function ControlledBoard({
   )
 }
 
-function BoardContainer({
-  // @ts-expect-error TS(7031) FIXME: Binding element 'board' implicitly has an 'any' ty... Remove this comment to see the full error message
+const BoardContainer: FC<Props> = ({
   children: board,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderCard' implicitly has an 'an... Remove this comment to see the full error message
   renderCard,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableColumnDrag' implicitly has... Remove this comment to see the full error message
   disableColumnDrag,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'disableCardDrag' implicitly has a... Remove this comment to see the full error message
   disableCardDrag,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnHeader' implicitly ha... Remove this comment to see the full error message
   renderColumnHeader,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'renderColumnAdder' implicitly has... Remove this comment to see the full error message
   renderColumnAdder,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRemoveColumn' implicitly has... Remove this comment to see the full error message
   allowRemoveColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRemove' implicitly has an... Remove this comment to see the full error message
   onColumnRemove,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowRenameColumn' implicitly has... Remove this comment to see the full error message
   allowRenameColumn,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnRename' implicitly has an... Remove this comment to see the full error message
   onColumnRename,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onColumnDragEnd' implicitly has a... Remove this comment to see the full error message
   onColumnDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardDragEnd' implicitly has an ... Remove this comment to see the full error message
   onCardDragEnd,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'onCardNew' implicitly has an 'any... Remove this comment to see the full error message
   onCardNew,
-  // @ts-expect-error TS(7031) FIXME: Binding element 'allowAddCard' implicitly has an '... Remove this comment to see the full error message
   allowAddCard,
-}) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
-  function handleOnDragEnd(event) {
+}) => {
+  const handleOnDragEnd: DragDropContextProps['onDragEnd'] = (event) => {
     const coordinates = getCoordinates(event, board)
     if (!coordinates.source) return
 

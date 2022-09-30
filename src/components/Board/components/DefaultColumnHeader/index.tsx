@@ -1,7 +1,6 @@
 import { useState } from 'react'
 
-// @ts-expect-error TS(7031) FIXME: Binding element 'allowRenameColumn' implicitly has... Remove this comment to see the full error message
-function ColumnTitle({ allowRenameColumn, onClick, children: title }) {
+function ColumnTitle({ allowRenameColumn, onClick, children: title }: any) {
   return allowRenameColumn ? (
     <span style={{ cursor: 'pointer' }} onClick={onClick}>
       {title}
@@ -11,8 +10,7 @@ function ColumnTitle({ allowRenameColumn, onClick, children: title }) {
   )
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'state' implicitly has an 'any' type.
-function useRenameMode(state) {
+function useRenameMode(state: any) {
   const [renameMode, setRenameMode] = useState(state)
 
   function toggleRenameMode() {
@@ -22,13 +20,17 @@ function useRenameMode(state) {
   return [renameMode, toggleRenameMode]
 }
 
-// @ts-expect-error TS(7031) FIXME: Binding element 'column' implicitly has an 'any' t... Remove this comment to see the full error message
-export default function ({ children: column, allowRemoveColumn, onColumnRemove, allowRenameColumn, onColumnRename }) {
+export default function ({
+  children: column,
+  allowRemoveColumn,
+  onColumnRemove,
+  allowRenameColumn,
+  onColumnRename,
+}: any) {
   const [renameMode, toggleRenameMode] = useRenameMode(false)
   const [titleInput, setTitleInput] = useState('')
 
-  // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
-  function handleRenameColumn(event) {
+  function handleRenameColumn(event: any) {
     event.preventDefault()
 
     onColumnRename(column, titleInput)

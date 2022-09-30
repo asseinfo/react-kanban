@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import ColumnForm from './components/ColumnForm'
 
-// @ts-expect-error TS(7031) FIXME: Binding element 'onConfirm' implicitly has an 'any... Remove this comment to see the full error message
-function ColumnAdder({ onConfirm }) {
+function ColumnAdder({ onConfirm }: any) {
   const [isAddingColumn, setAddingColumn] = useState(false)
 
-  // @ts-expect-error TS(7006) FIXME: Parameter 'title' implicitly has an 'any' type.
-  function confirmColumn(title) {
+  function confirmColumn(title: any) {
     onConfirm(title)
     setAddingColumn(false)
   }

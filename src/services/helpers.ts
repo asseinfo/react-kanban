@@ -5,25 +5,19 @@ import {
   replaceElementOfArray,
 } from '@services/utils'
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-function reorderCardsOnColumn(column, reorderCards) {
+function reorderCardsOnColumn(column: any, reorderCards: any) {
   return { ...column, cards: reorderCards(column.cards) }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function moveColumn(board, { fromPosition }, { toPosition }) {
+function moveColumn(board: any, { fromPosition }: any, { toPosition }: any) {
   return { ...board, columns: changeElementOfPositionInArray(board.columns, fromPosition, toPosition) }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function moveCard(board, { fromPosition, fromColumnId }, { toPosition, toColumnId }) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-  const sourceColumn = board.columns.find((column) => column.id === fromColumnId)
-  // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-  const destinationColumn = board.columns.find((column) => column.id === toColumnId)
+function moveCard(board: any, { fromPosition, fromColumnId }: any, { toPosition, toColumnId }: any) {
+  const sourceColumn = board.columns.find((column: any) => column.id === fromColumnId)
+  const destinationColumn = board.columns.find((column: any) => column.id === toColumnId)
 
-  // @ts-expect-error TS(7006) FIXME: Parameter 'reorderColumnsMapper' implicitly has an... Remove this comment to see the full error message
-  const reorderColumnsOnBoard = (reorderColumnsMapper) => ({
+  const reorderColumnsOnBoard = (reorderColumnsMapper: any) => ({
     ...board,
     columns: board.columns.map(reorderColumnsMapper),
   })
@@ -31,23 +25,18 @@ function moveCard(board, { fromPosition, fromColumnId }, { toPosition, toColumnI
   const reorderCardsOnDestinationColumn = reorderCardsOnColumn.bind(null, destinationColumn)
 
   if (sourceColumn.id === destinationColumn.id) {
-    // @ts-expect-error TS(7006) FIXME: Parameter 'cards' implicitly has an 'any' type.
-    const reorderedCardsOnColumn = reorderCardsOnSourceColumn((cards) => {
+    const reorderedCardsOnColumn = reorderCardsOnSourceColumn((cards: any) => {
       return changeElementOfPositionInArray(cards, fromPosition, toPosition)
     })
-    // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-    return reorderColumnsOnBoard((column) => (column.id === sourceColumn.id ? reorderedCardsOnColumn : column))
+    return reorderColumnsOnBoard((column: any) => (column.id === sourceColumn.id ? reorderedCardsOnColumn : column))
   } else {
-    // @ts-expect-error TS(7006) FIXME: Parameter 'cards' implicitly has an 'any' type.
-    const reorderedCardsOnSourceColumn = reorderCardsOnSourceColumn((cards) => {
+    const reorderedCardsOnSourceColumn = reorderCardsOnSourceColumn((cards: any) => {
       return removeFromArrayAtPosition(cards, fromPosition)
     })
-    // @ts-expect-error TS(7006) FIXME: Parameter 'cards' implicitly has an 'any' type.
-    const reorderedCardsOnDestinationColumn = reorderCardsOnDestinationColumn((cards) => {
+    const reorderedCardsOnDestinationColumn = reorderCardsOnDestinationColumn((cards: any) => {
       return addInArrayAtPosition(cards, sourceColumn.cards[fromPosition], toPosition)
     })
-    // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-    return reorderColumnsOnBoard((column) => {
+    return reorderColumnsOnBoard((column: any) => {
       if (column.id === sourceColumn.id) return reorderedCardsOnSourceColumn
       if (column.id === destinationColumn.id) return reorderedCardsOnDestinationColumn
       return column
@@ -55,67 +44,63 @@ function moveCard(board, { fromPosition, fromColumnId }, { toPosition, toColumnI
   }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function addColumn(board, column) {
+function addColumn(board: any, column: any) {
   return { ...board, columns: addInArrayAtPosition(board.columns, column, board.columns.length) }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function removeColumn(board, column) {
-  // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-  return { ...board, columns: board.columns.filter(({ id }) => id !== column.id) }
+function removeColumn(board: any, column: any) {
+  return { ...board, columns: board.columns.filter(({ id }: any) => id !== column.id) }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function changeColumn(board, column, newColumn) {
+function changeColumn(board: any, column: any, newColumn: any) {
   const changedColumns = replaceElementOfArray(board.columns)({
-    // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-    when: ({ id }) => id === column.id,
-    // @ts-expect-error TS(7006) FIXME: Parameter 'value' implicitly has an 'any' type.
-    for: (value) => ({ ...value, ...newColumn }),
+    when: ({ id }: any) => id === column.id,
+    for: (value: any) => ({
+      ...value,
+      ...newColumn,
+    }),
   })
   return { ...board, columns: changedColumns }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function addCard(board, inColumn, card, { on }: any = {}) {
-  // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-  const columnToAdd = board.columns.find(({ id }) => id === inColumn.id)
+function addCard(board: any, inColumn: any, card: any, { on }: any = {}) {
+  const columnToAdd = board.columns.find(({ id }: any) => id === inColumn.id)
   const cards = addInArrayAtPosition(columnToAdd.cards, card, on === 'top' ? 0 : columnToAdd.cards.length)
   const columns = replaceElementOfArray(board.columns)({
-    // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-    when: ({ id }) => inColumn.id === id,
-    // @ts-expect-error TS(7006) FIXME: Parameter 'value' implicitly has an 'any' type.
-    for: (value) => ({ ...value, cards }),
+    when: ({ id }: any) => inColumn.id === id,
+    for: (value: any) => ({
+      ...value,
+      cards,
+    }),
   })
   return { ...board, columns }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function removeCard(board, fromColumn, card) {
-  // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-  const columnToRemove = board.columns.find(({ id }) => id === fromColumn.id)
-  // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-  const filteredCards = columnToRemove.cards.filter(({ id }) => card.id !== id)
+function removeCard(board: any, fromColumn: any, card: any) {
+  const columnToRemove = board.columns.find(({ id }: any) => id === fromColumn.id)
+  const filteredCards = columnToRemove.cards.filter(({ id }: any) => card.id !== id)
   const columnWithoutCard = { ...columnToRemove, cards: filteredCards }
-  // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-  const filteredColumns = board.columns.map((column) => (fromColumn.id === column.id ? columnWithoutCard : column))
+  const filteredColumns = board.columns.map((column: any) => (fromColumn.id === column.id ? columnWithoutCard : column))
   return { ...board, columns: filteredColumns }
 }
 
-// @ts-expect-error TS(7006) FIXME: Parameter 'board' implicitly has an 'any' type.
-function changeCard(board, cardId, newCard) {
-  // @ts-expect-error TS(7006) FIXME: Parameter 'cards' implicitly has an 'any' type.
-  const changedCards = (cards) =>
+function changeCard(board: any, cardId: any, newCard: any) {
+  const changedCards = (cards: any) =>
     replaceElementOfArray(cards)({
-      // @ts-expect-error TS(7031) FIXME: Binding element 'id' implicitly has an 'any' type.
-      when: ({ id }) => id === cardId,
-      // @ts-expect-error TS(7006) FIXME: Parameter 'card' implicitly has an 'any' type.
-      for: (card) => ({ ...card, ...newCard }),
+      when: ({ id }: any) => id === cardId,
+      for: (card: any) => ({
+        ...card,
+        ...newCard,
+      }),
     })
 
-  // @ts-expect-error TS(7006) FIXME: Parameter 'column' implicitly has an 'any' type.
-  return { ...board, columns: board.columns.map((column) => ({ ...column, cards: changedCards(column.cards) })) }
+  return {
+    ...board,
+    columns: board.columns.map((column: any) => ({
+      ...column,
+      cards: changedCards(column.cards),
+    })),
+  }
 }
 
 export { moveColumn, moveCard, addColumn, removeColumn, changeColumn, addCard, removeCard, changeCard }
