@@ -3,9 +3,11 @@
   "version": "2.1.0",
   "description": "Yet another Kanban/Trello board lib for React.",
   "main": "dist/index.js",
+  "types": "index.d.ts",
   "files": [
     "dist/index.js",
-    "dist/styles.css"
+    "dist/styles.css",
+    "index.d.ts"
   ],
   "repository": "https://github.com/asseinfo/react-kanban",
   "author": "Leandro Lourenci",
