@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import CardForm from './components/CardForm'
 
+// @ts-expect-error TS(7031) FIXME: Binding element 'column' implicitly has an 'any' t... Remove this comment to see the full error message
 export default function CardAdder({ column, onConfirm }) {
+  // @ts-expect-error TS(7006) FIXME: Parameter 'card' implicitly has an 'any' type.
   function confirmCard(card) {
     onConfirm(column, card)
     setAddingCard(false)
@@ -10,13 +12,10 @@ export default function CardAdder({ column, onConfirm }) {
   const [addingCard, setAddingCard] = useState(false)
 
   return (
-    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <>
       {addingCard ? (
-        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         <CardForm onConfirm={confirmCard} onCancel={() => setAddingCard(false)} />
       ) : (
-        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         <button className='react-kanban-card-adder-button' onClick={() => setAddingCard(!addingCard)}>
           +
         </button>

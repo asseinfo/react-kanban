@@ -1,18 +1,26 @@
 {
   "compilerOptions": {
-    "noEmit": true,
-    "baseUrl": ".",
-    "module": "es6",
-    "target": "es5",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "target": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["node"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
     "paths": {
+      "@/": ["src/*"],
       "@components/*": ["src/components/*"],
       "@services/*": ["src/services/*"]
     }
   },
-  "include": ["src/**/*", "index.d.ts"]
+  "include": ["src"]
 }

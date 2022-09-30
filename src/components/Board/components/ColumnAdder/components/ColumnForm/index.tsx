@@ -1,10 +1,12 @@
 import { createRef } from 'react'
 import { when } from '@services/utils'
 
+// @ts-expect-error TS(7031) FIXME: Binding element 'onConfirm' implicitly has an 'any... Remove this comment to see the full error message
 function ColumnForm({ onConfirm, onCancel }) {
   // FIXME use hook
   const inputColumnTitle = createRef()
 
+  // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
   function addColumn(event) {
     event.preventDefault()
 
@@ -12,15 +14,11 @@ function ColumnForm({ onConfirm, onCancel }) {
   }
 
   return (
-    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <div className='react-kanban-column' style={{ minWidth: '230px' }}>
-      {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
       <form style={{ display: 'flex', justifyContent: 'space-between' }} onSubmit={addColumn}>
-        {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
+        {/* @ts-expect-error TS(2322) FIXME: Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message */}
         <input type='text' ref={inputColumnTitle} autoFocus />
-        {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
         <button type='submit'>Add</button>
-        {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
         <button type='button' onClick={onCancel}>
           Cancel
         </button>
