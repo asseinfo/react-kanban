@@ -10,10 +10,10 @@ function ColumnAdder({ onConfirm }) {
   }
 
   return isAddingColumn ? (
-    // @ts-expect-error TS(2686) FIXME: 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <ColumnForm onConfirm={confirmColumn} onCancel={() => setAddingColumn(false)} />
   ) : (
-    // @ts-expect-error TS(2686) FIXME: 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <div
       style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minWidth: '230px' }}
       className='react-kanban-column-adder-button'

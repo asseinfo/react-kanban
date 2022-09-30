@@ -4,10 +4,11 @@
     "baseUrl": ".",
     "module": "es6",
     "target": "es5",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "strict": true,
     "paths": {
       "@components/*": ["src/components/*"],
       "@services/*": ["src/services/*"]

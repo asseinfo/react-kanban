@@ -10,13 +10,13 @@ export default function CardAdder({ column, onConfirm }) {
   const [addingCard, setAddingCard] = useState(false)
 
   return (
-    // @ts-expect-error TS(2686) FIXME: 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <>
       {addingCard ? (
-        // @ts-expect-error TS(2686) FIXME: 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
+        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         <CardForm onConfirm={confirmCard} onCancel={() => setAddingCard(false)} />
       ) : (
-        // @ts-expect-error TS(2686) FIXME: 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
+        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         <button className='react-kanban-card-adder-button' onClick={() => setAddingCard(!addingCard)}>
           +
         </button>
