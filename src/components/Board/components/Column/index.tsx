@@ -6,6 +6,7 @@ import CardAdder from './components/CardAdder'
 import { pickPropOut } from '@services/utils'
 
 const ColumnEmptyPlaceholder = forwardRef((props, ref) => (
+  // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
   <div ref={ref} style={{ minHeight: 'inherit', height: 'inherit' }} {...props} />
 ))
 
@@ -22,11 +23,13 @@ function Column({
   allowAddCard,
 }) {
   return (
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <Draggable draggableId={`column-draggable-${children.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {(columnProvided) => {
         const draggablePropsWithoutStyle = pickPropOut(columnProvided.draggableProps, 'style')
 
         return (
+          // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
           <div
             ref={columnProvided.innerRef}
             {...draggablePropsWithoutStyle}
@@ -40,11 +43,15 @@ function Column({
             className='react-kanban-column'
             data-testid={`column-${children.id}`}
           >
+            {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(children)}</div>
+            {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
             {allowAddCard && <CardAdder column={children} onConfirm={onCardNew} />}
+            {/* @ts-expect-error TS(2604): JSX element type 'DroppableColumn' does not have a... Remove this comment to see the full error message */}
             <DroppableColumn droppableId={String(children.id)}>
               {children.cards.length ? (
                 children.cards.map((card, index) => (
+                  // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
                   <Card
                     key={card.id}
                     index={index}
@@ -55,6 +62,7 @@ function Column({
                   </Card>
                 ))
               ) : (
+                // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
                 <div className='react-kanban-card-skeleton' />
               )}
             </DroppableColumn>

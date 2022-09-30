@@ -15,11 +15,13 @@ import {
 } from './services'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 
+// @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
 const Columns = forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: 'nowrap' }} {...props} />)
 
 const DroppableBoard = withDroppable(Columns)
 
 function Board(props) {
+  // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
   return props.initialBoard ? <UncontrolledBoard {...props} /> : <ControlledBoard {...props} />
 }
 
@@ -58,6 +60,7 @@ function UncontrolledBoard({
     setBoard(reorderedBoard)
   }
 
+  // @ts-expect-error TS(2705): An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async function handleColumnAdd(newColumn) {
     const column = renderColumnAdder ? newColumn : await onNewColumnConfirm(newColumn)
     const boardWithNewColumn = addColumn(board, column)
@@ -88,6 +91,7 @@ function UncontrolledBoard({
     setBoard(boardWithNewCard)
   }
 
+  // @ts-expect-error TS(2705): An async function or method in ES5/ES3 requires th... Remove this comment to see the full error message
   async function handleDraftCardAdd(column, card, options = {}) {
     const newCard = await onNewCardConfirm(card)
     handleCardAdd(column, newCard, options)
@@ -104,6 +108,7 @@ function UncontrolledBoard({
   }
 
   return (
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <BoardContainer
       onCardDragEnd={handleOnCardDragEnd}
       onColumnDragEnd={handleOnColumnDragEnd}
@@ -111,6 +116,7 @@ function UncontrolledBoard({
         if (!allowAddColumn) return null
         if (renderColumnAdder) return renderColumnAdder({ addColumn: handleColumnAdd })
         if (!onNewColumnConfirm) return null
+        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         return <ColumnAdder onConfirm={(title) => handleColumnAdd({ title, cards: [] })} />
       }}
       {...(renderColumnHeader && {
@@ -124,6 +130,7 @@ function UncontrolledBoard({
       renderCard={(column, card, dragging) => {
         if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, column, card), dragging })
         return (
+          // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
           <DefaultCard
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
@@ -173,6 +180,7 @@ function ControlledBoard({
   }
 
   return (
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <BoardContainer
       onCardDragEnd={handleOnCardDragEnd}
       onColumnDragEnd={handleOnColumnDragEnd}
@@ -180,12 +188,14 @@ function ControlledBoard({
         if (!allowAddColumn) return null
         if (renderColumnAdder) return renderColumnAdder()
         if (!onNewColumnConfirm) return null
+        // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
         return <ColumnAdder onConfirm={(title) => onNewColumnConfirm({ title, cards: [] })} />
       }}
       {...(renderColumnHeader && { renderColumnHeader: renderColumnHeader })}
       renderCard={(_column, card, dragging) => {
         if (renderCard) return renderCard(card, { dragging })
         return (
+          // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
           <DefaultCard dragging={dragging} allowRemoveCard={allowRemoveCard} onCardRemove={onCardRemove}>
             {card}
           </DefaultCard>
@@ -231,10 +241,14 @@ function BoardContainer({
   }
 
   return (
+    // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
     <DragDropContext onDragEnd={handleOnDragEnd}>
+      {/* @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message */}
       <div style={{ overflowY: 'hidden', display: 'flex', alignItems: 'flex-start' }} className='react-kanban-board'>
+        {/* @ts-expect-error TS(2604): JSX element type 'DroppableBoard' does not have an... Remove this comment to see the full error message */}
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           {board.columns.map((column, index) => (
+            // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
             <Column
               key={column.id}
               index={index}
@@ -243,6 +257,7 @@ function BoardContainer({
                 renderColumnHeader ? (
                   renderColumnHeader(column)
                 ) : (
+                  // @ts-expect-error TS(2686): 'React' refers to a UMD global, but the current fi... Remove this comment to see the full error message
                   <DefaultColumnHeader
                     allowRemoveColumn={allowRemoveColumn}
                     onColumnRemove={onColumnRemove}

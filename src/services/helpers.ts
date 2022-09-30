@@ -60,7 +60,7 @@ function changeColumn(board, column, newColumn) {
   return { ...board, columns: changedColumns }
 }
 
-function addCard(board, inColumn, card, { on } = {}) {
+function addCard(board, inColumn, card, { on }: any = {}) {
   const columnToAdd = board.columns.find(({ id }) => id === inColumn.id)
   const cards = addInArrayAtPosition(columnToAdd.cards, card, on === 'top' ? 0 : columnToAdd.cards.length)
   const columns = replaceElementOfArray(board.columns)({
