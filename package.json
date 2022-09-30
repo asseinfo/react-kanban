@@ -25,6 +25,8 @@
     "@cypress/code-coverage": "3.8.2",
     "@testing-library/jest-dom": "5.11.5",
     "@testing-library/react": "10.4.9",
+    "@types/react": "^18.0.21",
+    "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "4.6.0",
     "@typescript-eslint/parser": "4.6.0",
     "babel-loader": "8.1.0",
@@ -69,6 +71,7 @@
   },
   "scripts": {
     "prepublishOnly": "rm -rf dist/ && NODE_ENV=production webpack --config webpack.prod.js",
+    "dev:build": "webpack --config webpack.prod.js -w",
     "server": "webpack-dev-server --config webpack.dev.js",
     "test": "jest",
     "jest:watch": "jest --no-coverage --watch --runInBand --notify --notifyMode always",

@@ -11,50 +11,50 @@ declare module '@asseinfo/react-kanban' {
    * changeCard
    */
 
-  interface KanbanBoard {
-    columns: Column
+  export interface KanbanBoard {
+    columns: Column[]
   }
-  interface Card {
-    id: string
+  export interface Card {
+    id: string | number
     title: string
     description: string
     content?: JSX.Element // Not sure on this, if card props are different than a card
   }
-  interface Column {
-    id: string
+  export interface Column {
+    id: string | number
     title: string
     cards: Card[]
   }
-  interface DragEvent {
+  export interface DragEvent {
     fromPosition: string
     toPosition: string
   }
-  interface OnColumnDragEndEventLocation extends DragEvent {
+  export interface OnColumnDragEndEventLocation extends DragEvent {
     fromColumnId: string
     toColumnId: string
   }
-  interface OnDragEndEvent<TLocation> {
+  export interface OnDragEndEvent<TLocation> {
     board: KanbanBoard
     source: TLocation
     destination: TLocation
   }
 
-  interface OnCardDragEndEvent extends OnDragEndEvent<OnColumnDragEndEventLocation> {
+  export interface OnCardDragEndEvent extends OnDragEndEvent<OnColumnDragEndEventLocation> {
     card: Card
   }
 
-  interface OnColumnDragEndEvent extends OnDragEndEvent<DragEvent> {
+  export interface OnColumnDragEndEvent extends OnDragEndEvent<DragEvent> {
     column: Column
   }
 
-  interface CardBag {
+  export interface CardBag {
     /**  It's unavailable when the board is controlled. */
     removeCard?: () => void
     dragging: boolean
   }
-  type RenderCard = (card: Card, cardBag: CardBag) => JSX.Element
+  export type RenderCard = (card: Card, cardBag: CardBag) => JSX.Element
 
-  interface ColumnBag {
+  export interface ColumnBag {
     /** It's unavailable when the board is controlled */
     removeColumn?: () => void
     /** It's unavailable when the board is controlled */
@@ -65,21 +65,21 @@ declare module '@asseinfo/react-kanban' {
      * It's unavailable when the board is controlled */
     addCard?: (options?: { on: 'top' | 'bottom' }) => void
   }
-  type RenderColumnHeader = (column: Column, columnBag: ColumnBag) => JSX.Element
+  export type RenderColumnHeader = (column: Column, columnBag: ColumnBag) => JSX.Element
 
-  interface RenderColumnAdderColumnBag {
+  export interface RenderColumnAdderColumnBag {
     /** Call this function with a new column to add the new column
      *
      * It's unavailable when the board is controlled.
      */
     addColumn?: () => void
   }
-  type RenderColumnAdder = (columnBag: RenderColumnAdderColumnBag) => JSX.Element
+  export type RenderColumnAdder = (columnBag: RenderColumnAdderColumnBag) => JSX.Element
 
-  type OnColumnRemove = (board: KanbanBoard, column: Column) => void
-  type OnCardRemove = (board: KanbanBoard, column: Column, card: Card) => void
+  export type OnColumnRemove = (board: KanbanBoard, column: Column) => void
+  export type OnCardRemove = (board: KanbanBoard, column: Column, card: Card) => void
 
-  interface Props {
+  export interface Props {
     /** When using the default header template, when you don't pass a template through the renderColumnHeader, it will allow the user to remove a column. */
     allowRemoveColumn?: boolean
     /** When using the default header template, when you don't pass a template through the renderColumnHeader, it will allow the user to rename a column. */
@@ -95,6 +95,11 @@ declare module '@asseinfo/react-kanban' {
     /** Disallow the user from move a card. */
     disableCardDrag?: boolean
 
+    /** Required if uncontrolled, otherwise `children` is required.
+     * 
+     * Providing this will put you into **uncontrolled** mode
+     * @doc https://github.com/asseinfo/react-kanban#-controlled-and-uncontrolled
+     */
     initialBoard: KanbanBoard
     renderCard: RenderCard
 
@@ -124,7 +129,7 @@ declare module '@asseinfo/react-kanban' {
     renderColumnHeader: RenderColumnHeader
   }
 
-  const Board: FC<PropsWithChildren<Props>>
+  const Board: FC<PropsWithChildren<Partial<Props>>>
 
   export default Board
 }
