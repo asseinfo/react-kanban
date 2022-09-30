@@ -1,5 +1,2 @@
-import { Board } from './components/Board'
-
-export { Board }
-export default Board
+export { default } from './components/Board'
 export * from './services/helpers'

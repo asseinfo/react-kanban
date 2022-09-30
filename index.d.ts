@@ -1,16 +1,5 @@
 declare module '@asseinfo/react-kanban' {
   import { FC, PropsWithChildren } from 'react'
-  /** Helpers
-   * moveColumn,
-   * moveCard,
-   * addColumn,
-   * removeColumn,
-   * changeColumn,
-   * addCard,
-   * removeCard,
-   * changeCard
-   */
-
   export interface KanbanBoard {
     columns: Column[]
   }
@@ -29,7 +18,7 @@ declare module '@asseinfo/react-kanban' {
     fromPosition: string
     toPosition: string
   }
-  export interface OnColumnDragEndEventLocation extends DragEvent {
+  export interface OnCardDragEndEventLocation extends DragEvent {
     fromColumnId: string
     toColumnId: string
   }
@@ -37,14 +26,6 @@ declare module '@asseinfo/react-kanban' {
     board: KanbanBoard
     source: TLocation
     destination: TLocation
-  }
-
-  export interface OnCardDragEndEvent extends OnDragEndEvent<OnColumnDragEndEventLocation> {
-    card: Card
-  }
-
-  export interface OnColumnDragEndEvent extends OnDragEndEvent<DragEvent> {
-    column: Column
   }
 
   export interface CardBag {
@@ -80,12 +61,13 @@ declare module '@asseinfo/react-kanban' {
   export type OnCardRemove = (board: KanbanBoard, column: Column, card: Card) => void
 
   export interface Props {
+    allowRemoveLane?: boolean
     /** When using the default header template, when you don't pass a template through the renderColumnHeader, it will allow the user to remove a column. */
     allowRemoveColumn?: boolean
     /** When using the default header template, when you don't pass a template through the renderColumnHeader, it will allow the user to rename a column. */
     allowRenameColumn?: boolean
     /** Allow the user to add a card in the column directly by the board. By default, it adds the card on the bottom of the column, but you can specify whether you want to add at the top or at the bottom of the board by passing an object with 'on' prop. */
-    allowAddCard?: boolean
+    allowAddCard?: boolean | { on: 'top' | 'bottom' }
     allowAddColumn?: boolean
     /** When using the default card template, when you don't pass a template through the renderCard, it will allow the user to remove a card. */
     allowRemoveCard?: boolean
@@ -96,7 +78,7 @@ declare module '@asseinfo/react-kanban' {
     disableCardDrag?: boolean
 
     /** Required if uncontrolled, otherwise `children` is required.
-     * 
+     *
      * Providing this will put you into **uncontrolled** mode
      * @doc https://github.com/asseinfo/react-kanban#-controlled-and-uncontrolled
      */
@@ -106,8 +88,10 @@ declare module '@asseinfo/react-kanban' {
     onColumnRename: (board: KanbanBoard, column: Column) => void
 
     onColumnRemove: OnColumnRemove
-    onColumnDragEnd: (event: OnColumnDragEndEvent) => void
-    onCardDragEnd: (event: OnCardDragEndEvent) => void
+    onColumnDragEnd: (card: Card, source: DragEvent, destination: DragEvent) => void
+    /** Docs are inconsistent
+     * @issue https://github.com/asseinfo/react-kanban/issues/478 */
+    onCardDragEnd: (card: Card, source: OnCardDragEndEventLocation, destination: OnCardDragEndEventLocation) => void
     onCardNew: (board: KanbanBoard, card: Card) => void
     /** If your board is uncontrolled you must return the new column with its new id in this callback. */
     onNewColumnConfirm: (column: Column) => void | Column
@@ -121,15 +105,37 @@ declare module '@asseinfo/react-kanban' {
      *
      * You must return the new card with its new id in this callback.
      */
-    onNewCardConfirm: (card: Card) => Card
+    onNewCardConfirm: (card: Omit<Card, 'id'>) => Card
+    /** This isn't listed in the docs */
+    onLaneRemove?: () => void
+    /** This isn't listed in the docs */
+    onLaneRename?: () => void
 
     /** Use this if you want to render your own column adder. You have to pass a function and return your column adder component */
     renderColumnAdder: RenderColumnAdder
     /** Use this if you want to render your own column header. You have to pass a function and return your column header component. The function will receive these parameters: */
     renderColumnHeader: RenderColumnHeader
+    children?: KanbanBoard
   }
 
-  const Board: FC<PropsWithChildren<Partial<Props>>>
+  const Board: FC<Partial<Props>>
+
+  /** Helpers
+   * moveColumn,
+   * addColumn,
+   * removeColumn,
+   * changeColumn,
+   * addCard,
+   * removeCard,
+   * changeCard
+   */
+
+  /** */
+  export const moveCard: (
+    board: KanbanBoard,
+    source: OnCardDragEndEventLocation,
+    destination: OnCardDragEndEventLocation
+  ) => KanbanBoard
 
   export default Board
 }

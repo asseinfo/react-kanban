@@ -19,7 +19,7 @@ const Columns = forwardRef((props, ref) => <div ref={ref} style={{ whiteSpace: '
 
 const DroppableBoard = withDroppable(Columns)
 
-export function Board(props) {
+function Board(props) {
   return props.initialBoard ? <UncontrolledBoard {...props} /> : <ControlledBoard {...props} />
 }
 
@@ -268,3 +268,4 @@ function BoardContainer({
   )
 }
 
+export default Board
