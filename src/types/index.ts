@@ -12,13 +12,16 @@ export interface Column {
   title: string
   cards: Card[]
 }
-export interface DragEvent {
-  fromPosition: string
-  toPosition: string
+export interface Coordinates {
+  fromPosition: number
+  toPosition: number
 }
-export interface OnCardDragEndEventLocation extends DragEvent {
-  fromColumnId: string
-  toColumnId: string
+export interface DragEvent<TSubject> extends Coordinates {
+  subject: TSubject
+}
+export interface OnCardDragEndEventLocation<TSubject> extends DragEvent<TSubject> {
+  fromColumnId: string | number
+  toColumnId: string | number
 }
 export interface OnDragEndEvent<TLocation> {
   board: KanbanBoard
@@ -31,7 +34,8 @@ export interface CardBag {
   removeCard?: () => void
   dragging: boolean
 }
-export type RenderCard = (card: Card, cardBag: CardBag) => JSX.Element
+// export type RenderCard = (card: Card, cardBag: CardBag) => JSX.Element
+export type RenderCard = (isDragging: boolean) => JSX.Element
 
 export interface ColumnBag {
   /** It's unavailable when the board is controlled */
@@ -56,7 +60,8 @@ export interface RenderColumnAdderColumnBag {
 export type RenderColumnAdder = (columnBag: RenderColumnAdderColumnBag) => JSX.Element
 
 export type OnColumnRemove = (board: KanbanBoard, column: Column) => void
-export type OnCardRemove = (board: KanbanBoard, column: Column, card: Card) => void
+export type OnCardRemove = (card: Card) => void
+// export type OnCardRemove = (board: KanbanBoard, column: Column, card: Card) => void
 
 export interface Props {
   allowRemoveLane?: boolean

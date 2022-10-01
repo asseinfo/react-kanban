@@ -1,0 +1,18 @@
+{
+  "extends": ["plugin:jest/recommended", "plugin:jest/style"],
+  "env": {
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": ["*.spec.js"],
+      "extends": ["plugin:jest-dom/recommended", "plugin:testing-library/react"],
+      "rules": {
+        "testing-library/prefer-screen-queries": "warn",
+        "testing-library/prefer-presence-queries": "warn",
+        "testing-library/prefer-explicit-assert": "warn",
+        "testing-library/no-wait-for-empty-callback": "warn"
+      }
+    }
+  ]
+}

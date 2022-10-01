@@ -1,3 +1,4 @@
+import { KanbanBoard } from '@/types'
 import {
   removeFromArrayAtPosition,
   addInArrayAtPosition,
@@ -63,7 +64,7 @@ function changeColumn(board: any, column: any, newColumn: any) {
   return { ...board, columns: changedColumns }
 }
 
-function addCard(board: any, inColumn: any, card: any, { on }: any = {}) {
+function addCard(board: any, inColumn: any, card: any, { on }: any = {}): KanbanBoard {
   const columnToAdd = board.columns.find(({ id }: any) => id === inColumn.id)
   const cards = addInArrayAtPosition(columnToAdd.cards, card, on === 'top' ? 0 : columnToAdd.cards.length)
   const columns = replaceElementOfArray(board.columns)({
@@ -76,7 +77,7 @@ function addCard(board: any, inColumn: any, card: any, { on }: any = {}) {
   return { ...board, columns }
 }
 
-function removeCard(board: any, fromColumn: any, card: any) {
+function removeCard(board: any, fromColumn: any, card: any): KanbanBoard {
   const columnToRemove = board.columns.find(({ id }: any) => id === fromColumn.id)
   const filteredCards = columnToRemove.cards.filter(({ id }: any) => card.id !== id)
   const columnWithoutCard = { ...columnToRemove, cards: filteredCards }

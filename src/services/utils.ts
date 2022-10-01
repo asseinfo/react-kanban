@@ -23,34 +23,35 @@ function changeElementOfPositionInArray(array: any, from: any, to: any) {
   return compose(removeFromArrayAtPositionFrom, addInArrayAtPositionTo)(array)
 }
 
-function identity(value: any) {
+const identity = <TValue>(value: TValue): TValue => {
   return value
 }
 
-function when(value: any, predicate = identity) {
-  return function callback(callback: any) {
+export const when = <TValue>(value: TValue, predicate = identity) => {
+  return (callback: (...args: any) => void) => {
     if (predicate(value)) return callback(value)
   }
 }
+type NonNullable<T> = Exclude<T, null | undefined>
+export const when2 = <TValue>(
+  value: TValue,
+  callback: (verifiedValue: NonNullable<TValue>) => void,
+  predicate = identity
+) => {
+  const shouldRun = predicate(value) && !!value
+  if (shouldRun) callback(value as NonNullable<TValue>)
+}
 
-function replaceElementOfArray(array: any) {
+export const replaceElementOfArray = (array: any) => {
   return function (options: any) {
     return array.map((element: any) => (options.when(element) ? options.for(element) : element))
   }
 }
 
-function pickPropOut(object: any, prop: any) {
+export const pickPropOut = (object: any, prop: any) => {
   return Object.keys(object).reduce((obj, key) => {
     return key === prop ? obj : { ...obj, [key]: object[key] }
   }, {})
 }
 
-export {
-  addInArrayAtPosition,
-  removeFromArrayAtPosition,
-  changeElementOfPositionInArray,
-  when,
-  replaceElementOfArray,
-  partialRight,
-  pickPropOut,
-}
+export { addInArrayAtPosition, removeFromArrayAtPosition, changeElementOfPositionInArray, partialRight }
