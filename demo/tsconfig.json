@@ -2,12 +2,9 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["node", "jest"],
+    "types": ["vite/client", "node"],
     "allowJs": false,
-    "outDir": "dist",
-    "declaration": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -16,13 +13,13 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@services/*": ["src/services/*"]
+      "*": ["node_modules/*"],
+      "@/*": ["src/*"]
     }
   },
-  "include": ["src", "__tests__"]
+  "include": ["src", "vite.config.ts", "cypress"]
 }

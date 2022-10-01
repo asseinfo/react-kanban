@@ -1,34 +1,17 @@
 {
-  "parser": "@babel/eslint-parser",
-  "extends": [
-    "standard",
-    "standard-react",
-    "prettier/react",
-    "plugin:prettier/recommended"
-  ],
-  "plugins": ["react-hooks"],
+  "parser": "@typescript-eslint/parser",
+  "extends": ["react-app", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["prettier"],
   "rules": {
-    "react/prop-types": "off",
-    "react/jsx-uses-react": "off",
-    "react/react-in-jsx-scope": "off",
-    "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "error",
-    "no-nested-ternary": "error",
-    "require-await": "error",
-    "no-warning-comments": "warn"
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "parser": "@typescript-eslint/parser",
-      "extends": [
-        "plugin:@typescript-eslint/recommended"
-      ],
-      "rules": {
-        "@typescript-eslint/no-empty-function": "off",
-        "no-use-before-define": "off",
-        "@typescript-eslint/no-use-before-define": "error"
-      }
-    }
-  ]
+    "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": "error"
+    // "react/prop-types": "off",
+    // "react/jsx-uses-react": "off",
+    // "react/react-in-jsx-scope": "off",
+    // "react-hooks/rules-of-hooks": "error",
+    // "react-hooks/exhaustive-deps": "error",
+    // "no-nested-ternary": "error",
+    // "require-await": "error",
+    // "no-warning-comments": "warn"
+  }
 }
