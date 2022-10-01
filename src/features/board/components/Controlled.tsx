@@ -4,30 +4,26 @@ import { ColumnAdder } from '@/features/column-adder'
 import { DefaultCard } from '@/features/card'
 import { BoardContainer, OnDragEnd } from './Container'
 import { Card, Column, KanbanBoard } from '@/types'
+import { DefaultColumn } from '@/features/column'
 
-export const ControlledBoard: FC<Props> = ({
+export const ControlledBoard: FC<ControlledBoardProps> = ({
   children: board,
   onCardDragEnd,
   onColumnDragEnd,
-  allowAddColumn,
-  renderColumnAdder,
   onNewColumnConfirm,
   onColumnRemove,
-  renderColumnHeader,
-  allowRemoveColumn,
-  allowRenameColumn,
   onColumnRename,
-  renderCard,
-  allowRemoveCard,
   onCardRemove,
-  disableCardDrag,
-  disableColumnDrag,
+  renderColumnAdder,
+  renderColumnHeader,
+  renderCard,
+  allowAddColumn = true,
+  allowRemoveColumn = true,
+  allowRenameColumn = true,
+  allowRemoveCard = true,
+  disableCardDrag = false,
+  disableColumnDrag = false,
 }) => {
-  // when(notifyCallback)((callback) => callback(subject, source, destination))
-  // const handleOnColumnDragEnd = ({ source, destination, subject }: OnDragEnd<Column>) => {
-  //   when2(onColumnDragEnd, (onColumnDragEndVerified) => onColumnDragEndVerified(subject, source, destination))
-  // }
-
   const handleOnCardDragEnd = ({ source, destination, subject }: OnDragEnd<Card>) => {
     if (onCardDragEnd) {
       onCardDragEnd(subject, source, destination)
@@ -49,7 +45,20 @@ export const ControlledBoard: FC<Props> = ({
         if (!onNewColumnConfirm) return null
         return <ColumnAdder onConfirm={(title) => onNewColumnConfirm({ title, cards: [] })} />
       }}
-      renderColumnHeader={renderColumnHeader}
+      renderColumnHeader={
+        renderColumnHeader
+          ? renderColumnHeader
+          : (column) => (
+              <DefaultColumn
+                allowRemoveColumn={allowRemoveColumn}
+                onColumnRemove={(updatedColumn) => onColumnRemove?.(board, updatedColumn)}
+                allowRenameColumn={allowRenameColumn}
+                onColumnRename={(renamedColumn) => onColumnRename?.(board, renamedColumn)}
+              >
+                {column}
+              </DefaultColumn>
+            )
+      }
       renderCard={(_column, card, dragging) => {
         if (renderCard) return renderCard(card, { dragging })
         return (
@@ -59,9 +68,9 @@ export const ControlledBoard: FC<Props> = ({
         )
       }}
       allowRemoveColumn={allowRemoveColumn}
-      onColumnRemove={onColumnRemove}
+      onColumnRemove={(column) => onColumnRemove?.(board, column)}
       allowRenameColumn={allowRenameColumn}
-      onColumnRename={onColumnRename}
+      onColumnRename={(column) => onColumnRename?.(board, column)}
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
       // TODO: Check these
@@ -76,30 +85,38 @@ export const ControlledBoard: FC<Props> = ({
 }
 
 interface CardBag {
-  /**  It's unavailable when the board is controlled. */
-  removeCard?: () => void
   dragging: boolean
 }
-type OnDragEndNotification<TSubject> = (
+export type OnDragEndNotification<TSubject> = (
   subject: TSubject,
   source: OnDragEnd<TSubject>['source'],
   destination: OnDragEnd<TSubject>['destination']
 ) => void
-interface Props {
+export interface ControlledBoardProps {
   children: KanbanBoard
   onCardDragEnd?: OnDragEndNotification<Card>
   onColumnDragEnd?: OnDragEndNotification<Column>
-  allowAddColumn: boolean
-  renderColumnAdder: () => JSX.Element
-  onNewColumnConfirm: (column: Omit<Column, 'id'>) => Column
-  onColumnRemove: () => void
-  renderColumnHeader: () => JSX.Element
-  allowRemoveColumn: boolean
-  allowRenameColumn: boolean
-  onColumnRename: () => void
-  renderCard: (card: Card, cardBag: CardBag) => JSX.Element
-  allowRemoveCard: boolean
-  onCardRemove: () => void
-  disableCardDrag: boolean
-  disableColumnDrag: boolean
+  /** Validation in which you provide the ID of the newly created column */
+  onNewColumnConfirm?: (column: Omit<Column, 'id'>) => Column
+  onColumnRemove?: (board: KanbanBoard, column: Column) => void
+  onColumnRename?: (board: KanbanBoard, column: Column) => void
+  onCardRemove?: () => void
+  /** If not provided , will render the default column adder */
+  renderColumnAdder?: () => JSX.Element
+  /** If not provided , will render the default column header */
+  renderColumnHeader?: () => JSX.Element
+  /** If not provided , will render the default card */
+  renderCard?: (card: Card, cardBag: CardBag) => JSX.Element
+  /** @default true */
+  allowRemoveColumn?: boolean
+  /** @default true */
+  allowRenameColumn?: boolean
+  /** @default true */
+  allowRemoveCard?: boolean
+  /** @default true */
+  allowAddColumn?: boolean
+  /** @default false */
+  disableCardDrag?: boolean
+  /** @default false */
+  disableColumnDrag?: boolean
 }

@@ -28,7 +28,7 @@ export const DefaultColumn: FC<Props> = (props) => {
           <ColumnTitle allowRenameColumn={allowRenameColumn} onClick={handleCanRename}>
             {column.title}
           </ColumnTitle>
-          {allowRemoveColumn && <span onClick={() => onColumnRemove(column)}>X</span>}
+          {allowRemoveColumn && <span onClick={onColumnRemove ? () => onColumnRemove(column) : undefined}>X</span>}
         </>
       )}
     </div>

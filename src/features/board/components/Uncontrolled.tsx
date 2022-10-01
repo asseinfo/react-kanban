@@ -8,26 +8,26 @@ import { Card, Column, KanbanBoard } from '@/types'
 import { BoardContainer } from './Container'
 import { DefaultColumn } from '@/features/column'
 
-export const UncontrolledBoard: FC<Props> = ({
+export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
   initialBoard,
   onCardDragEnd,
   onColumnDragEnd,
-  allowAddColumn,
+  allowAddColumn = true,
   renderColumnAdder,
   onNewColumnConfirm,
   onColumnRemove,
   renderColumnHeader,
-  allowRemoveColumn,
-  allowRenameColumn,
+  allowRemoveColumn = true,
+  allowRenameColumn = true,
   onColumnRename,
   onCardNew,
   renderCard,
-  allowRemoveCard,
+  allowRemoveCard = true,
   onCardRemove,
   onColumnNew,
-  disableCardDrag,
-  disableColumnDrag,
-  allowAddCard,
+  disableCardDrag = false,
+  disableColumnDrag = false,
+  allowAddCard = true,
   onNewCardConfirm,
 }) => {
   const [board, setBoard] = useState(initialBoard)
@@ -44,19 +44,19 @@ export const UncontrolledBoard: FC<Props> = ({
     const column = renderColumnAdder ? newColumn : await onNewColumnConfirm?.(newColumn)
     if (!column) throw new Error('Cant add falsy column')
     const boardWithNewColumn = addColumn(board, column)
-    onColumnNew(boardWithNewColumn, column as Column)
+    onColumnNew?.(boardWithNewColumn, column as Column)
     setBoard(boardWithNewColumn)
   }
 
   const handleColumnRemove = (column: Column) => {
     const filteredBoard = removeColumn(board, column)
-    onColumnRemove(filteredBoard, column)
+    onColumnRemove?.(filteredBoard, column)
     setBoard(filteredBoard)
   }
 
   const handleColumnRename = (column: Column, title: string) => {
     const boardWithRenamedColumn = changeColumn(board, column, { title })
-    onColumnRename(boardWithRenamedColumn, { ...column, title })
+    onColumnRename?.(boardWithRenamedColumn, { ...column, title })
     setBoard(boardWithRenamedColumn)
   }
 
@@ -65,7 +65,7 @@ export const UncontrolledBoard: FC<Props> = ({
     const targetColumn = boardWithNewCard.columns.find(({ id }) => id === column.id)
     if (!targetColumn) throw new Error('Cannot find target column')
 
-    onCardNew(boardWithNewCard, targetColumn, card)
+    onCardNew?.(boardWithNewCard, targetColumn, card)
     setBoard(boardWithNewCard)
   }
 
@@ -79,7 +79,7 @@ export const UncontrolledBoard: FC<Props> = ({
     const boardWithoutCard = removeCard(board, column, card)
     const targetColumn = boardWithoutCard.columns.find(({ id }) => id === column.id)
     if (!targetColumn) throw new Error('Cannot find target column')
-    onCardRemove(boardWithoutCard, targetColumn, card)
+    onCardRemove?.(boardWithoutCard, targetColumn, card)
     setBoard(boardWithoutCard)
   }
 
@@ -112,9 +112,9 @@ export const UncontrolledBoard: FC<Props> = ({
           return (
             <DefaultColumn
               allowRemoveColumn={allowRemoveColumn}
-              onColumnRemove={(updatedColumn) => onColumnRemove(board, updatedColumn)}
+              onColumnRemove={(updatedColumn) => onColumnRemove?.(board, updatedColumn)}
               allowRenameColumn={allowRenameColumn}
-              onColumnRename={(renamedColumn) => onColumnRename(board, renamedColumn)}
+              onColumnRename={(renamedColumn) => onColumnRename?.(board, renamedColumn)}
             >
               {column}
             </DefaultColumn>
@@ -149,28 +149,41 @@ export const UncontrolledBoard: FC<Props> = ({
 
 type HandleColumnAdd = (newColumn: Column) => Promise<void>
 type BoundFunction = any
-interface Props {
+
+export interface UncontrolledBoardProps {
   initialBoard: KanbanBoard
-  onCardDragEnd: () => void
-  onColumnDragEnd: () => void
-  allowAddColumn: boolean
+  /** If not provided , will render the default column adder */
   renderColumnAdder?: (options: { addColumn: HandleColumnAdd }) => JSX.Element
-  onNewColumnConfirm?: (newColumn: Omit<Column, 'id'>) => Promise<Column>
-  onColumnRemove: (filteredBoard: KanbanBoard, column: Column) => void
-  renderColumnHeader: (
+  /** If not provided , will render the default column header */
+  renderColumnHeader?: (
     column: Column,
     options: { removeColumn: BoundFunction; renameColumn: BoundFunction; addCard: BoundFunction }
   ) => JSX.Element
-  allowRemoveColumn: boolean
-  allowRenameColumn: boolean
-  onColumnRename: (board: KanbanBoard, column: Column) => void
-  onCardNew: (board: KanbanBoard, column: Column, card: Card) => void
-  renderCard: (card: Card, options: { removeCard: BoundFunction; dragging: boolean }) => JSX.Element
-  allowRemoveCard: boolean
-  onCardRemove: (board: KanbanBoard, column: Column, card: Card) => void
-  onColumnNew: (board: KanbanBoard, column: Column) => void
-  disableCardDrag: boolean
-  disableColumnDrag: boolean
-  allowAddCard: boolean | { on: 'top' | 'bottom' }
+  /** If not provided , will render the default card */
+  renderCard?: (card: Card, options: { removeCard: BoundFunction; dragging: boolean }) => JSX.Element
+  onColumnRemove?: (filteredBoard: KanbanBoard, column: Column) => void
+  onColumnRename?: (board: KanbanBoard, column: Column) => void
+  onCardNew?: (board: KanbanBoard, column: Column, card: Card) => void
+  onCardRemove?: (board: KanbanBoard, column: Column, card: Card) => void
+  onColumnNew?: (board: KanbanBoard, column: Column) => void
+  /** Validation in which you provide the ID of the newly created card */
   onNewCardConfirm?: (card: Omit<Card, 'id'>) => Promise<Card>
+  /** Validation in which you provide the ID of the newly created column */
+  onNewColumnConfirm?: (newColumn: Omit<Column, 'id'>) => Promise<Column>
+  onCardDragEnd?: () => void
+  onColumnDragEnd?: () => void
+  /** @default false */
+  disableCardDrag?: boolean
+  /** @default false */
+  disableColumnDrag?: boolean
+  /** @default true */
+  allowAddCard?: boolean | { on: 'top' | 'bottom' }
+  /** @default true */
+  allowRemoveCard?: boolean
+  /** @default true */
+  allowRemoveColumn?: boolean
+  /** @default true */
+  allowRenameColumn?: boolean
+  /** @default true */
+  allowAddColumn?: boolean
 }

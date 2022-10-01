@@ -1,32 +1,48 @@
 import { FC } from 'react'
-import { Typography, Box } from '@mui/material'
-import { UncontrolledBoard } from '@caldwell619/react-kanban'
+import { Outlet, ReactLocation, Router } from '@tanstack/react-location'
+import { Box } from '@mui/material'
 import '@caldwell619/react-kanban/dist/styles.css'
 
-import { board } from './data'
+import { ControlledBoardDemo } from '@/features/controlled'
+import { UncontrolledBoardDemo } from '@/features/uncontrolled'
+import { CustomElementsBoardDemo } from '@/features/custom-elements'
+import { Header } from './components'
 
-const App: FC = () => {
+const location = new ReactLocation()
+
+export const App: FC = () => {
   return (
-    <Box>
-      <Typography>Yo</Typography>
-      {/* @ts-ignore */}
-      <UncontrolledBoard
-        initialBoard={board}
-        // allowRemoveLane
-        allowRenameColumn
-        allowRemoveCard
-        // onLaneRemove={console.log}
-        onCardRemove={console.log}
-        // onLaneRename={console.log}
-        allowAddCard={{ on: 'top' }}
-        onNewCardConfirm={async draftCard => ({
-          id: new Date().getTime(),
-          ...draftCard
-        })}
-        onCardNew={console.log}
-      />
-    </Box>
+    <Router
+      location={location}
+      basepath='/react-kanban'
+      routes={[
+        { path: '/', element: <Index /> },
+        {
+          path: 'controlled',
+          element: <ControlledBoardDemo />
+        },
+        {
+          path: 'uncontrolled',
+          element: <UncontrolledBoardDemo />
+        },
+        {
+          path: 'custom-elements',
+          element: <CustomElementsBoardDemo />
+        }
+      ]}
+    >
+      <Header />
+      <Box sx={{ padding: 3 }}>
+        <Outlet /> {/* Start rendering router matches */}
+      </Box>
+    </Router>
   )
 }
 
-export default App
+function Index() {
+  return (
+    <div>
+      <h3>Welcome Home!</h3>
+    </div>
+  )
+}

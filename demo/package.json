@@ -11,14 +11,15 @@
     "analyze": "ANALYZE=true yarn build"
   },
   "dependencies": {
-    "@caldwell619/react-kanban": "link:../",
     "@caldwell619/react-hooks": "^0.0.6",
+    "@caldwell619/react-kanban": "link:../",
     "@date-io/date-fns": "^2.11.0",
     "@emotion/react": "11.4.1",
     "@emotion/styled": "11.3.0",
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.59",
     "@mui/material": "^5.0.1",
+    "@tanstack/react-location": "^3.7.4",
     "date-fns": "^2.27.0",
     "deep-object-diff": "^1.1.0",
     "gh-pages": "^3.2.3",

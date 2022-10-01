@@ -9,7 +9,7 @@ export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCa
         <div className='react-kanban-card__title'>
           <span>{card.title}</span>
           {allowRemoveCard && (
-            <span style={{ cursor: 'pointer' }} onClick={() => onCardRemove(card)}>
+            <span style={{ cursor: 'pointer' }} onClick={onCardRemove ? () => onCardRemove(card) : undefined}>
               ×
             </span>
           )}
@@ -25,5 +25,5 @@ interface Props {
   children: Card
   dragging: boolean
   allowRemoveCard: boolean
-  onCardRemove: OnCardRemove
+  onCardRemove?: OnCardRemove
 }

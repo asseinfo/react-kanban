@@ -1,6 +1,6 @@
 import { DOMAttributes, InputHTMLAttributes, useState } from 'react'
 
-import { Column, KanbanBoard } from '@/types'
+import { Column } from '@/types'
 
 export const useRenameColumn = ({ onColumnRename, children: column }: Props) => {
   const [canRename, setCanRename] = useState<boolean>(false)
@@ -13,7 +13,7 @@ export const useRenameColumn = ({ onColumnRename, children: column }: Props) => 
   const handleRenameColumn: DOMAttributes<HTMLFormElement>['onSubmit'] = (event) => {
     event.preventDefault()
 
-    onColumnRename(column, titleInput)
+    onColumnRename?.(column, titleInput)
     toggleCanRename()
   }
 
@@ -39,7 +39,7 @@ export const useRenameColumn = ({ onColumnRename, children: column }: Props) => 
 export interface Props {
   children: Column
   allowRemoveColumn: boolean
-  onColumnRemove: (column: Column) => void
+  onColumnRemove?: (column: Column) => void
   allowRenameColumn: boolean
-  onColumnRename: (column: Column, titleInput: string) => void
+  onColumnRename?: (column: Column, titleInput: string) => void
 }

@@ -96,9 +96,9 @@ interface Props {
   renderColumnHeader: (column: ColumnType) => JSX.Element
   renderColumnAdder: () => JSX.Element | null
   allowRemoveColumn: boolean
-  onColumnRemove: (column: ColumnType) => void
+  onColumnRemove?: (column: ColumnType) => void
   allowRenameColumn: boolean
-  onColumnRename: (column: ColumnType, title: string) => void
+  onColumnRename?: (column: ColumnType, title: string) => void
   onColumnDragEnd: (event: OnDragEnd<ColumnType>) => void
   onCardDragEnd: (event: OnDragEnd<Card>) => void
   onCardNew: (column: ColumnType, card: Card) => void | Promise<void>
