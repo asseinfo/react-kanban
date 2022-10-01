@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "types": ["node"],
+    "types": ["node", "jest"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -22,5 +22,5 @@
       "@services/*": ["src/services/*"]
     }
   },
-  "include": ["src", "index.spec.tsx"]
+  "include": ["src"]
 }
