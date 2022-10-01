@@ -34,7 +34,6 @@ export const UncontrolledBoard: FC<Props> = ({
   // @ts-expect-error TS(7031) FIXME: Binding element 'source' implicitly has an 'any' t... Remove this comment to see the full error message
   const handleOnDragEnd = ({ source, destination, subject }, { moveCallback, notifyCallback }) => {
     const reorderedBoard = moveCallback(board, source, destination)
-    // @ts-expect-error TS(7006) FIXME: Parameter 'callback' implicitly has an 'any' type.
     when(notifyCallback)((callback) => callback(reorderedBoard, subject, source, destination))
     setBoard(reorderedBoard)
   }

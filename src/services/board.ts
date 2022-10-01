@@ -48,13 +48,13 @@ export const getColumnStrict = (board: KanbanBoard, droppableId: any): Column =>
   return column
 }
 
-export const isMovingAColumnToAnotherPosition = (coordinates: Coordinates) => {
-  return coordinates.source.fromPosition !== coordinates.destination.toPosition
+export const isMovingAColumnToAnotherPosition = (coordinates: Partial<Coordinates>) => {
+  return coordinates.source?.fromPosition !== coordinates.destination?.toPosition
 }
 
-export const isMovingACardToAnotherPosition = (coordinates: Coordinates) => {
+export const isMovingACardToAnotherPosition = (coordinates: Partial<Coordinates>) => {
   return !(
-    coordinates.source.fromPosition === coordinates.destination.toPosition &&
-    coordinates.source.fromColumnId === coordinates.destination.toColumnId
+    coordinates.source?.fromPosition === coordinates.destination?.toPosition &&
+    coordinates.source?.fromColumnId === coordinates.destination?.toColumnId
   )
 }

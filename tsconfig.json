@@ -4,7 +4,9 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["node", "jest"],
     "allowJs": false,
+    "outDir": "dist",
     "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -13,7 +15,6 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
@@ -22,5 +23,6 @@
       "@services/*": ["src/services/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["src/tests"]
 }

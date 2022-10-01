@@ -1,4 +1,7 @@
 #!/bin/sh
 
-# build
-tsc 
+yarn lint
+
+yarn build
+
+yarn sass src/styles.scss dist/styles.css
