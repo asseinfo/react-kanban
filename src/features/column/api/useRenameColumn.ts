@@ -1,6 +1,6 @@
 import { DOMAttributes, InputHTMLAttributes, useState } from 'react'
 
-import { Column } from '@/types'
+import { Column, KanbanBoard } from '@/types'
 
 export const useRenameColumn = ({ onColumnRename, children: column }: Props) => {
   const [canRename, setCanRename] = useState<boolean>(false)

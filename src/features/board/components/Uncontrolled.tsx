@@ -6,6 +6,7 @@ import { DefaultCard } from '@/features/card'
 import { moveCard, moveColumn, addColumn, removeColumn, changeColumn, addCard, removeCard } from '@services/helpers'
 import { Card, Column, KanbanBoard } from '@/types'
 import { BoardContainer } from './Container'
+import { DefaultColumn } from '@/features/column'
 
 export const UncontrolledBoard: FC<Props> = ({
   initialBoard,
@@ -101,11 +102,24 @@ export const UncontrolledBoard: FC<Props> = ({
       }}
       // TODO: Check because og this could be falsy, also no idea what bound thing is
       renderColumnHeader={(column) => {
-        return renderColumnHeader(column, {
-          removeColumn: handleColumnRemove.bind(null, column),
-          renameColumn: handleColumnRename.bind(null, column),
-          addCard: handleCardAdd.bind(null, column),
-        })
+        if (renderColumnHeader) {
+          return renderColumnHeader(column, {
+            removeColumn: handleColumnRemove.bind(null, column),
+            renameColumn: handleColumnRename.bind(null, column),
+            addCard: handleCardAdd.bind(null, column),
+          })
+        } else {
+          return (
+            <DefaultColumn
+              allowRemoveColumn={allowRemoveColumn}
+              onColumnRemove={(updatedColumn) => onColumnRemove(board, updatedColumn)}
+              allowRenameColumn={allowRenameColumn}
+              onColumnRename={(renamedColumn) => onColumnRename(board, renamedColumn)}
+            >
+              {column}
+            </DefaultColumn>
+          )
+        }
       }}
       renderCard={(column, card, dragging) => {
         if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, column, card), dragging })
@@ -157,6 +171,6 @@ interface Props {
   onColumnNew: (board: KanbanBoard, column: Column) => void
   disableCardDrag: boolean
   disableColumnDrag: boolean
-  allowAddCard: boolean
+  allowAddCard: boolean | { on: 'top' | 'bottom' }
   onNewCardConfirm?: (card: Omit<Card, 'id'>) => Promise<Card>
 }
