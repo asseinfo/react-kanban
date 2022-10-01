@@ -1,5 +1,6 @@
+import { DOMAttributes, InputHTMLAttributes, useState } from 'react'
+
 import { Column } from '@/types'
-import { DOMAttributes, FC, InputHTMLAttributes, useState } from 'react'
 
 export const useRenameColumn = ({ onColumnRename, children: column }: Props) => {
   const [canRename, setCanRename] = useState<boolean>(false)

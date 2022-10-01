@@ -1,7 +1,6 @@
 import { FC, createRef, MouseEventHandler } from 'react'
 
 import { when } from '@services/utils'
-import { Column } from '@/types'
 
 export const ColumnForm: FC<Props> = ({ onConfirm, onCancel }) => {
   // FIXME use hook

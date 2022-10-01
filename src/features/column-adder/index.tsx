@@ -1,6 +1,5 @@
 import { FC, useState } from 'react'
 
-import { Column } from '@/types'
 import { ColumnForm } from './components'
 
 export const ColumnAdder: FC<Props> = ({ onConfirm }) => {

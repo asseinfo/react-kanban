@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
-import withDroppable from '../../components/with-droppable'
+import { forwardRef } from 'react'
+import { withDroppable } from '../../features/with-droppable'
 
 // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('#withDroppable', () => {
@@ -7,10 +8,10 @@ describe('#withDroppable', () => {
 
   // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
   beforeEach(() => {
-    const Droppable = withDroppable('span')
+    const ref = forwardRef<HTMLSpanElement>(() => <span />)
+    const Droppable = withDroppable(ref)
     subject = render(
       <Droppable>
-        // @ts-expect-error TS(2304): Cannot find name 'div'.
         <div id='children' />
       </Droppable>
     )

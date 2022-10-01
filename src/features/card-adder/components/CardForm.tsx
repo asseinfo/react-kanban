@@ -1,7 +1,7 @@
 import { FC, MouseEventHandler, useRef } from 'react'
 
 import { when } from '@services/utils'
-import { Card, Column } from '@/types'
+import { Card } from '@/types'
 
 export const CardForm: FC<Props> = ({ onConfirm, onCancel }) => {
   const inputCardTitle = useRef()

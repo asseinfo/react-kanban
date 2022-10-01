@@ -65,7 +65,9 @@ export const ControlledBoard: FC<Props> = ({
       disableColumnDrag={disableColumnDrag}
       disableCardDrag={disableCardDrag}
       // TODO: Check these
-      onCardNew={() => {}}
+      onCardNew={() => {
+        //
+      }}
       allowAddCard
     >
       {board}
