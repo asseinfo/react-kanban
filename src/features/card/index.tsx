@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 
-import { Card as CardType, RenderCard } from '@/types'
+import { Card as CardType } from '@/types'
 
 export const Card: FC<Props> = ({ children: card, index, renderCard, disableCardDrag }) => {
   return (
@@ -22,6 +22,7 @@ export const Card: FC<Props> = ({ children: card, index, renderCard, disableCard
   )
 }
 
+type RenderCard = (isDragging: boolean) => JSX.Element
 interface Props {
   children: CardType
   index: number

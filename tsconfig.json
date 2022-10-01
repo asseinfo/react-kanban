@@ -24,6 +24,5 @@
       "@services/*": ["src/services/*"]
     }
   },
-  "include": ["src"],
-  "exclude": ["src/tests"]
+  "include": ["src", "__tests__"]
 }

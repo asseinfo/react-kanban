@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { Card, OnCardRemove } from '@/types'
+import { Card } from '@/types'
 
 export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCard, onCardRemove }) => {
   return (
@@ -20,6 +20,7 @@ export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCa
   )
 }
 
+type OnCardRemove = (card: Card) => void
 interface Props {
   children: Card
   dragging: boolean

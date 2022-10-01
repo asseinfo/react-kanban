@@ -3,7 +3,7 @@ import { FC } from 'react'
 import { ColumnAdder } from '@/features/column-adder'
 import { DefaultCard } from '@/features/card'
 import { BoardContainer, OnDragEnd } from './Container'
-import { Card, CardBag, Column, KanbanBoard } from '@/types'
+import { Card, Column, KanbanBoard } from '@/types'
 
 export const ControlledBoard: FC<Props> = ({
   children: board,
@@ -75,6 +75,11 @@ export const ControlledBoard: FC<Props> = ({
   )
 }
 
+interface CardBag {
+  /**  It's unavailable when the board is controlled. */
+  removeCard?: () => void
+  dragging: boolean
+}
 type OnDragEndNotification<TSubject> = (
   subject: TSubject,
   source: OnDragEnd<TSubject>['source'],

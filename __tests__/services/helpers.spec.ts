@@ -7,7 +7,7 @@ import {
   addCard,
   removeCard,
   changeCard,
-} from '../../services/helpers'
+} from '../../src/services/helpers'
 
 describe('#moveColumn', () => {
   it('returns a board with the column moved to the specified position', () => {
