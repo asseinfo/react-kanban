@@ -1,4 +1,4 @@
-import { KanbanBoard } from '@/types'
+import { Card, Column, KanbanBoard } from '@/types'
 import {
   removeFromArrayAtPosition,
   addInArrayAtPosition,
@@ -45,15 +45,19 @@ function moveCard(board: any, { fromPosition, fromColumnId }: any, { toPosition,
   }
 }
 
-function addColumn(board: any, column: any) {
+function addColumn<TCard extends Card>(board: KanbanBoard<TCard>, column: Partial<Column<TCard>>) {
   return { ...board, columns: addInArrayAtPosition(board.columns, column, board.columns.length) }
 }
 
-function removeColumn(board: any, column: any) {
+function removeColumn<TCard extends Card>(board: KanbanBoard<TCard>, column: Column<TCard>) {
   return { ...board, columns: board.columns.filter(({ id }: any) => id !== column.id) }
 }
 
-function changeColumn(board: any, column: any, newColumn: any) {
+function changeColumn<TCard extends Card>(
+  board: KanbanBoard<TCard>,
+  column: Column<TCard>,
+  newColumn: Partial<Column<TCard>>
+) {
   const changedColumns = replaceElementOfArray(board.columns)({
     when: ({ id }: any) => id === column.id,
     for: (value: any) => ({
@@ -64,8 +68,14 @@ function changeColumn(board: any, column: any, newColumn: any) {
   return { ...board, columns: changedColumns }
 }
 
-function addCard(board: any, inColumn: any, card: any, { on }: any = {}): KanbanBoard {
+function addCard<TCard extends Card>(
+  board: KanbanBoard<TCard>,
+  inColumn: any,
+  card: TCard,
+  { on }: any = {}
+): KanbanBoard<TCard> {
   const columnToAdd = board.columns.find(({ id }: any) => id === inColumn.id)
+  if (!columnToAdd) throw new Error(`Cannot find column with ID: ${inColumn.id}`)
   const cards = addInArrayAtPosition(columnToAdd.cards, card, on === 'top' ? 0 : columnToAdd.cards.length)
   const columns = replaceElementOfArray(board.columns)({
     when: ({ id }: any) => inColumn.id === id,
@@ -77,7 +87,7 @@ function addCard(board: any, inColumn: any, card: any, { on }: any = {}): Kanban
   return { ...board, columns }
 }
 
-function removeCard(board: any, fromColumn: any, card: any): KanbanBoard {
+function removeCard<TCard extends Card>(board: any, fromColumn: any, card: any): KanbanBoard<TCard> {
   const columnToRemove = board.columns.find(({ id }: any) => id === fromColumn.id)
   const filteredCards = columnToRemove.cards.filter(({ id }: any) => card.id !== id)
   const columnWithoutCard = { ...columnToRemove, cards: filteredCards }

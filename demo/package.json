@@ -29,13 +29,15 @@
     "react-dom": "^17.0.2",
     "react-error-boundary": "^3.1.4",
     "react-simple-code-editor": "^0.11.0",
-    "recoil": "^0.6.1"
+    "recoil": "^0.6.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/node": "^14.14.31",
     "@types/prismjs": "^1.26.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/uuid": "^8.3.4",
     "@vitejs/plugin-react": "^1.0.1",
     "eslint": "^7.32.0",
     "eslint-plugin-prettier": "^4.0.0",

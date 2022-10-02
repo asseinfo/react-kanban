@@ -1,8 +1,11 @@
-import { FC } from 'react'
-
 import { Card } from '@/types'
 
-export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCard, onCardRemove }) => {
+export const DefaultCard = function <TCard extends Card>({
+  children: card,
+  dragging,
+  allowRemoveCard,
+  onCardRemove,
+}: Props<TCard>) {
   return (
     <div className={`react-kanban-card ${dragging ? 'react-kanban-card--dragging' : ''}`}>
       <span>
@@ -10,7 +13,7 @@ export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCa
           <span>{card.title}</span>
           {allowRemoveCard && (
             <span style={{ cursor: 'pointer' }} onClick={onCardRemove ? () => onCardRemove(card) : undefined}>
-              ×
+              X
             </span>
           )}
         </div>
@@ -20,10 +23,9 @@ export const DefaultCard: FC<Props> = ({ children: card, dragging, allowRemoveCa
   )
 }
 
-type OnCardRemove = (card: Card) => void
-interface Props {
-  children: Card
+interface Props<TCard extends Card> {
+  children: TCard
   dragging: boolean
   allowRemoveCard: boolean
-  onCardRemove?: OnCardRemove
+  onCardRemove?: (card: TCard) => void
 }

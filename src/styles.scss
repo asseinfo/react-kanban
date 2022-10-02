@@ -120,6 +120,11 @@
   }
 }
 
+.react-kanban-column-header__spacer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .react-kanban-column-header__button {
   color: #333333;
   background-color: #ffffff;

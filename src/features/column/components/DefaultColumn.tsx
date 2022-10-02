@@ -1,9 +1,8 @@
-import { FC } from 'react'
-
+import { Card } from '@/types'
 import { Props, useRenameColumn } from '../api'
 import { ColumnTitle } from './ColumnTitle'
 
-export const DefaultColumn: FC<Props> = (props) => {
+export const DefaultColumn = function <TCard extends Card>(props: Props<TCard>) {
   const { children: column, allowRemoveColumn, allowRenameColumn, onColumnRemove } = props
   const { canRename, handleCanRename, titleBind, handleRenameColumn } = useRenameColumn(props)
 
@@ -24,12 +23,12 @@ export const DefaultColumn: FC<Props> = (props) => {
           </span>
         </form>
       ) : (
-        <>
+        <div className='react-kanban-column-header__spacer'>
           <ColumnTitle allowRenameColumn={allowRenameColumn} onClick={handleCanRename}>
             {column.title}
           </ColumnTitle>
           {allowRemoveColumn && <span onClick={onColumnRemove ? () => onColumnRemove(column) : undefined}>X</span>}
-        </>
+        </div>
       )}
     </div>
   )

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { ColumnAdder } from '@/features/column-adder'
 import { when, partialRight } from '@services/utils'
@@ -8,7 +8,7 @@ import { Card, Column, KanbanBoard } from '@/types'
 import { BoardContainer } from './Container'
 import { DefaultColumn } from '@/features/column'
 
-export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
+export const UncontrolledBoard = function <TCard extends Card>({
   initialBoard,
   onCardDragEnd,
   onColumnDragEnd,
@@ -29,7 +29,7 @@ export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
   disableColumnDrag = false,
   allowAddCard = true,
   onNewCardConfirm,
-}) => {
+}: UncontrolledBoardProps<TCard>) {
   const [board, setBoard] = useState(initialBoard)
 
   // @ts-expect-error TS(7031) FIXME: Binding element 'source' implicitly has an 'any' t... Remove this comment to see the full error message
@@ -39,29 +39,29 @@ export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
     setBoard(reorderedBoard)
   }
 
-  const handleColumnAdd = async (newColumn: Omit<Column, 'id'>) => {
+  const handleColumnAdd = async (newColumn: Omit<Column<TCard>, 'id'>) => {
     // TODO: Need to check if confirms fire w/o IDs
     const column = renderColumnAdder ? newColumn : await onNewColumnConfirm?.(newColumn)
     if (!column) throw new Error('Cant add falsy column')
-    const boardWithNewColumn = addColumn(board, column)
-    onColumnNew?.(boardWithNewColumn, column as Column)
+    const boardWithNewColumn = addColumn<TCard>(board, column)
+    onColumnNew?.(boardWithNewColumn, column as Column<TCard>)
     setBoard(boardWithNewColumn)
   }
 
-  const handleColumnRemove = (column: Column) => {
+  const handleColumnRemove = (column: Column<TCard>) => {
     const filteredBoard = removeColumn(board, column)
     onColumnRemove?.(filteredBoard, column)
     setBoard(filteredBoard)
   }
 
-  const handleColumnRename = (column: Column, title: string) => {
-    const boardWithRenamedColumn = changeColumn(board, column, { title })
+  const handleColumnRename = (column: Column<TCard>, title: string) => {
+    const boardWithRenamedColumn = changeColumn<TCard>(board, column, { title })
     onColumnRename?.(boardWithRenamedColumn, { ...column, title })
     setBoard(boardWithRenamedColumn)
   }
 
-  const handleCardAdd = (column: Column, card: Card, options = {}) => {
-    const boardWithNewCard = addCard(board, column, card, options)
+  const handleCardAdd = (column: Column<TCard>, card: TCard, options = {}) => {
+    const boardWithNewCard = addCard<TCard>(board, column, card, options)
     const targetColumn = boardWithNewCard.columns.find(({ id }) => id === column.id)
     if (!targetColumn) throw new Error('Cannot find target column')
 
@@ -69,14 +69,14 @@ export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
     setBoard(boardWithNewCard)
   }
 
-  const handleDraftCardAdd = async (column: Column, card: Card, options = {}) => {
+  const handleDraftCardAdd = async (column: Column<TCard>, card: TCard, options = {}) => {
     const newCard = await onNewCardConfirm?.(card)
     if (!newCard) throw new Error('Cant add falsy card')
     handleCardAdd(column, newCard, options)
   }
 
-  const handleCardRemove = (column: Column, card: Card) => {
-    const boardWithoutCard = removeCard(board, column, card)
+  const handleCardRemove = (column: Column<TCard>, card: TCard) => {
+    const boardWithoutCard = removeCard<TCard>(board, column, card)
     const targetColumn = boardWithoutCard.columns.find(({ id }) => id === column.id)
     if (!targetColumn) throw new Error('Cannot find target column')
     onCardRemove?.(boardWithoutCard, targetColumn, card)
@@ -124,7 +124,7 @@ export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
       renderCard={(column, card, dragging) => {
         if (renderCard) return renderCard(card, { removeCard: handleCardRemove.bind(null, column, card), dragging })
         return (
-          <DefaultCard
+          <DefaultCard<TCard>
             dragging={dragging}
             allowRemoveCard={allowRemoveCard}
             onCardRemove={(card) => handleCardRemove(column, card)}
@@ -147,29 +147,28 @@ export const UncontrolledBoard: FC<UncontrolledBoardProps> = ({
   )
 }
 
-type HandleColumnAdd = (newColumn: Column) => Promise<void>
 type BoundFunction = any
 
-export interface UncontrolledBoardProps {
-  initialBoard: KanbanBoard
+export interface UncontrolledBoardProps<TCard extends Card> {
+  initialBoard: KanbanBoard<TCard>
   /** If not provided , will render the default column adder */
-  renderColumnAdder?: (options: { addColumn: HandleColumnAdd }) => JSX.Element
+  renderColumnAdder?: (options: { addColumn: (newColumn: Column<TCard>) => Promise<void> }) => JSX.Element
   /** If not provided , will render the default column header */
   renderColumnHeader?: (
-    column: Column,
+    column: Column<TCard>,
     options: { removeColumn: BoundFunction; renameColumn: BoundFunction; addCard: BoundFunction }
   ) => JSX.Element
   /** If not provided , will render the default card */
-  renderCard?: (card: Card, options: { removeCard: BoundFunction; dragging: boolean }) => JSX.Element
-  onColumnRemove?: (filteredBoard: KanbanBoard, column: Column) => void
-  onColumnRename?: (board: KanbanBoard, column: Column) => void
-  onCardNew?: (board: KanbanBoard, column: Column, card: Card) => void
-  onCardRemove?: (board: KanbanBoard, column: Column, card: Card) => void
-  onColumnNew?: (board: KanbanBoard, column: Column) => void
+  renderCard?: (card: TCard, options: { removeCard: BoundFunction; dragging: boolean }) => JSX.Element
+  onColumnRemove?: (filteredBoard: KanbanBoard<TCard>, column: Column<TCard>) => void
+  onColumnRename?: (board: KanbanBoard<TCard>, column: Column<TCard>) => void
+  onCardNew?: (board: KanbanBoard<TCard>, column: Column<TCard>, card: TCard) => void
+  onCardRemove?: (board: KanbanBoard<TCard>, column: Column<TCard>, card: TCard) => void
+  onColumnNew?: (board: KanbanBoard<TCard>, column: Column<TCard>) => void
   /** Validation in which you provide the ID of the newly created card */
-  onNewCardConfirm?: (card: Omit<Card, 'id'>) => Promise<Card>
+  onNewCardConfirm?: (card: Omit<TCard, 'id'>) => Promise<TCard>
   /** Validation in which you provide the ID of the newly created column */
-  onNewColumnConfirm?: (newColumn: Omit<Column, 'id'>) => Promise<Column>
+  onNewColumnConfirm?: (newColumn: Omit<Column<TCard>, 'id'>) => Promise<Column<TCard>>
   onCardDragEnd?: () => void
   onColumnDragEnd?: () => void
   /** @default false */

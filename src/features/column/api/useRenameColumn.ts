@@ -1,8 +1,8 @@
 import { DOMAttributes, InputHTMLAttributes, useState } from 'react'
 
-import { Column } from '@/types'
+import { Column, Card } from '@/types'
 
-export const useRenameColumn = ({ onColumnRename, children: column }: Props) => {
+export const useRenameColumn = <TCard extends Card>({ onColumnRename, children: column }: Props<TCard>) => {
   const [canRename, setCanRename] = useState<boolean>(false)
 
   const toggleCanRename = () => {
@@ -36,10 +36,10 @@ export const useRenameColumn = ({ onColumnRename, children: column }: Props) => 
   }
 }
 
-export interface Props {
-  children: Column
+export interface Props<TCard extends Card> {
+  children: Column<TCard>
   allowRemoveColumn: boolean
-  onColumnRemove?: (column: Column) => void
+  onColumnRemove?: (column: Column<TCard>) => void
   allowRenameColumn: boolean
-  onColumnRename?: (column: Column, titleInput: string) => void
+  onColumnRename?: (column: Column<TCard>, titleInput: string) => void
 }

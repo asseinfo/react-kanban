@@ -4,7 +4,7 @@ import { styled, Link, Typography } from '@mui/material'
 export const Source: FC<Props> = ({ title, url }) => {
   return (
     <>
-      <Typography variant='h4'>
+      <Typography variant='h5'>
         {title}:{' '}
         <NotUglyLink href={url} target='_blank' rel='noopener'>
           Source

@@ -12,7 +12,10 @@ export interface Coordinates {
     toColumnId?: string | number
   }
 }
-export const getCoordinates = (event: DropResult, board: KanbanBoard): Partial<Coordinates> => {
+export const getCoordinates = <TCard extends Card>(
+  event: DropResult,
+  board: KanbanBoard<TCard>
+): Partial<Coordinates> => {
   if (event.destination === null) return {}
 
   const columnSource = { fromPosition: event.source.index }
@@ -23,8 +26,8 @@ export const getCoordinates = (event: DropResult, board: KanbanBoard): Partial<C
   }
 
   return {
-    source: { ...columnSource, fromColumnId: getColumnStrict(board, event.source.droppableId).id },
-    destination: { ...columnDestination, toColumnId: getColumnStrict(board, event.destination?.droppableId).id },
+    source: { ...columnSource, fromColumnId: getColumnStrict<TCard>(board, event.source.droppableId).id },
+    destination: { ...columnDestination, toColumnId: getColumnStrict<TCard>(board, event.destination?.droppableId).id },
   }
 }
 
@@ -32,18 +35,24 @@ export const isAColumnMove = (type: string) => {
   return type === 'BOARD'
 }
 
-export const getCard = (board: KanbanBoard, sourceCoordinate: Coordinates['source']): Card => {
+export const getCard = <TCard extends Card>(
+  board: KanbanBoard<TCard>,
+  sourceCoordinate: Coordinates['source']
+): TCard => {
   const column = board.columns.find((column: any) => column.id === sourceCoordinate.fromColumnId)
   if (!column) throw new Error(`Cannot find column: ${sourceCoordinate.fromColumnId}`)
   return column.cards[sourceCoordinate.fromPosition]
 }
 
-export const getColumn = (board: KanbanBoard, droppableId: string): Column | undefined => {
+export const getColumn = <TCard extends Card>(
+  board: KanbanBoard<TCard>,
+  droppableId: string
+): Column<TCard> | undefined => {
   return board.columns.find(({ id }: any) => String(id) === droppableId)
 }
 
-export const getColumnStrict = (board: KanbanBoard, droppableId: any): Column => {
-  const column = getColumn(board, droppableId)
+export const getColumnStrict = <TCard extends Card>(board: KanbanBoard<TCard>, droppableId: any): Column<TCard> => {
+  const column = getColumn<TCard>(board, droppableId)
   if (!column) throw new Error(`Cannot find column with ID: ${droppableId}`)
   return column
 }

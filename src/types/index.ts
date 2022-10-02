@@ -1,5 +1,5 @@
-export interface KanbanBoard {
-  columns: Column[]
+export interface KanbanBoard<TCard extends Card> {
+  columns: Column<TCard>[]
 }
 export interface Card {
   id: string | number
@@ -7,8 +7,8 @@ export interface Card {
   description: string
   content?: JSX.Element
 }
-export interface Column {
+export interface Column<TCard extends Card> {
   id: string | number
   title: string
-  cards: Card[]
+  cards: TCard[]
 }

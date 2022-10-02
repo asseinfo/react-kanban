@@ -1,4 +1,4 @@
-import { FC, forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 
 import { Card } from '../card'
@@ -13,7 +13,7 @@ const ColumnEmptyPlaceholder = forwardRef<HTMLDivElement>((props, ref) => (
 
 const DroppableColumn = withDroppable(ColumnEmptyPlaceholder)
 
-export const Column: FC<Props> = ({
+export const Column = function <TCard extends CardType>({
   children: column,
   index: columnIndex,
   renderCard,
@@ -22,7 +22,7 @@ export const Column: FC<Props> = ({
   disableCardDrag,
   onCardNew,
   allowAddCard,
-}) => {
+}: Props<TCard>) {
   return (
     <Draggable draggableId={`column-draggable-${column.id}`} index={columnIndex} isDragDisabled={disableColumnDrag}>
       {(columnProvided) => {
@@ -43,7 +43,7 @@ export const Column: FC<Props> = ({
             data-testid={`column-${column.id}`}
           >
             <div {...columnProvided.dragHandleProps}>{renderColumnHeader(column)}</div>
-            {allowAddCard && <CardAdder column={column} onConfirm={onCardNew} />}
+            {allowAddCard && <CardAdder<TCard> column={column} onConfirm={onCardNew} />}
             <DroppableColumn droppableId={String(column.id)}>
               {column.cards.length ? (
                 column.cards.map((card, index) => (
@@ -67,16 +67,20 @@ export const Column: FC<Props> = ({
   )
 }
 
-export type RenderColumnHeader = (column: ColumnType) => JSX.Element
-export type RenderCard = (column: ColumnType, card: CardType, dragging: boolean) => JSX.Element
-interface Props {
-  children: ColumnType
+export type RenderColumnHeader<TCard extends CardType> = (column: ColumnType<TCard>) => JSX.Element
+export type RenderCard<TCard extends CardType> = (
+  column: ColumnType<TCard>,
+  card: TCard,
+  dragging: boolean
+) => JSX.Element
+interface Props<TCard extends CardType> {
+  children: ColumnType<TCard>
   index: number
-  renderCard: RenderCard
-  renderColumnHeader: RenderColumnHeader
+  renderCard: RenderCard<TCard>
+  renderColumnHeader: RenderColumnHeader<TCard>
   disableColumnDrag: boolean
   disableCardDrag: boolean
-  onCardNew: (column: ColumnType, card: CardType) => void | Promise<void>
+  onCardNew: (column: ColumnType<TCard>, card: TCard) => void | Promise<void>
   allowAddCard: boolean | { on: 'top' | 'bottom' }
 }
 

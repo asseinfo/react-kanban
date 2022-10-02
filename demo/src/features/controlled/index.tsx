@@ -6,7 +6,7 @@ import { Source } from '@/components'
 
 export const ControlledBoardDemo: FC = () => {
   // You need to control the state yourself.
-  const [controlledBoard, setBoard] = useState<KanbanBoard>({ ...board })
+  const [controlledBoard, setBoard] = useState<KanbanBoard<Card>>({ ...board })
 
   const handleCardMove: OnDragEndNotification<Card> = (_card, source, destination) => {
     setBoard(currentBoard => {

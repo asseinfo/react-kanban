@@ -5,7 +5,8 @@ import '@caldwell619/react-kanban/dist/styles.css'
 
 import { ControlledBoardDemo } from '@/features/controlled'
 import { UncontrolledBoardDemo } from '@/features/uncontrolled'
-import { CustomElementsBoardDemo } from '@/features/custom-elements'
+import { JiraDemo } from '@/features/jira'
+import { NotionDemo } from '@/features/notion'
 import { Header } from './components'
 
 const location = new ReactLocation()
@@ -26,8 +27,12 @@ export const App: FC = () => {
           element: <UncontrolledBoardDemo />
         },
         {
-          path: 'custom-elements',
-          element: <CustomElementsBoardDemo />
+          path: 'jira',
+          element: <JiraDemo />
+        },
+        {
+          path: 'notion',
+          element: <NotionDemo />
         }
       ]}
     >

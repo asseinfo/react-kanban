@@ -1,9 +1,9 @@
-import { FC, MouseEventHandler, useRef } from 'react'
+import { MouseEventHandler, useRef } from 'react'
 
 import { when } from '@services/utils'
 import { Card } from '@/types'
 
-export const CardForm: FC<Props> = ({ onConfirm, onCancel }) => {
+export const CardForm = function <TCard = Card>({ onConfirm, onCancel }: Props<TCard>) {
   const inputCardTitle = useRef()
   const inputCardDescription = useRef()
 
@@ -47,8 +47,7 @@ export const CardForm: FC<Props> = ({ onConfirm, onCancel }) => {
   )
 }
 
-type OnConfirm = (card: Card) => void
-interface Props {
-  onConfirm: OnConfirm
+interface Props<TCard = Card> {
+  onConfirm: (card: TCard) => void
   onCancel: MouseEventHandler<HTMLButtonElement>
 }

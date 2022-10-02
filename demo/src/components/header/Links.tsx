@@ -1,36 +1,35 @@
 import { FC } from 'react'
-import { Link as NavLink } from '@tanstack/react-location'
-import { Link, styled } from '@mui/material'
+import { Link as LocationLink } from '@tanstack/react-location'
+import { Link as MuiLink, styled } from '@mui/material'
 
 export const Links: FC = () => {
   return (
     <>
-      <Link
-        component={() => (
-          <NotUglyLocationLink to='/controlled' getActiveProps={getActiveProps} activeOptions={{ exact: true }}>
-            Controlled
-          </NotUglyLocationLink>
-        )}
-      />
-      <Link
-        component={() => (
-          <NotUglyLocationLink to='/uncontrolled' getActiveProps={getActiveProps} activeOptions={{ exact: true }}>
-            Uncontrolled
-          </NotUglyLocationLink>
-        )}
-      />
-      <Link
-        component={() => (
-          <NotUglyLocationLink to='/custom-elements' getActiveProps={getActiveProps} activeOptions={{ exact: true }}>
-            Custom Elements
-          </NotUglyLocationLink>
-        )}
-      />
+      <NavigationLink url='/controlled' text='Controlled' />
+      <NavigationLink url='/uncontrolled' text='Uncontrolled' />
+      <NavigationLink url='/jira' text='Jira' />
+      <NavigationLink url='/notion' text='Notion' />
     </>
   )
 }
 
-const NotUglyLocationLink = styled(NavLink)`
+interface NavigationLinkProps {
+  url: string
+  text: string
+}
+const NavigationLink: FC<NavigationLinkProps> = ({ url, text }) => {
+  return (
+    <MuiLink
+      component={() => (
+        <NotUglyLocationLink to={url} getActiveProps={getActiveProps} activeOptions={{ exact: true }}>
+          {text}
+        </NotUglyLocationLink>
+      )}
+    />
+  )
+}
+
+const NotUglyLocationLink = styled(LocationLink)`
   text-decoration: none;
   color: white;
   margin-right: 20px;

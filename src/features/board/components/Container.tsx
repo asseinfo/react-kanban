@@ -1,4 +1,4 @@
-import { FC, forwardRef } from 'react'
+import { forwardRef } from 'react'
 import { DragDropContext, DragDropContextProps } from 'react-beautiful-dnd'
 
 import { Column } from '@/features/column'
@@ -20,7 +20,7 @@ const Columns = forwardRef<HTMLDivElement>((props, ref) => (
 ))
 const DroppableBoard = withDroppable(Columns)
 
-export const BoardContainer: FC<Props> = ({
+export const BoardContainer = function <TCard extends Card>({
   children: board,
   renderCard,
   disableColumnDrag,
@@ -35,16 +35,16 @@ export const BoardContainer: FC<Props> = ({
   onCardDragEnd,
   onCardNew,
   allowAddCard,
-}) => {
+}: Props<TCard>) {
   const handleOnDragEnd: DragDropContextProps['onDragEnd'] = (event) => {
-    const coordinates = getCoordinates(event, board)
+    const coordinates = getCoordinates<TCard>(event, board)
     if (!coordinates.source) return
 
     isAColumnMove(event.type)
       ? isMovingAColumnToAnotherPosition(coordinates) &&
         onColumnDragEnd({ ...coordinates, subject: board.columns[coordinates.source.fromPosition] })
       : isMovingACardToAnotherPosition(coordinates) &&
-        onCardDragEnd({ ...coordinates, subject: getCard(board, coordinates.source) })
+        onCardDragEnd({ ...coordinates, subject: getCard<TCard>(board, coordinates.source) })
   }
 
   return (
@@ -52,7 +52,7 @@ export const BoardContainer: FC<Props> = ({
       <div style={{ overflowY: 'hidden', display: 'flex', alignItems: 'flex-start' }} className='react-kanban-board'>
         <DroppableBoard droppableId='board-droppable' direction='horizontal' type='BOARD'>
           {board.columns.map((column, index) => (
-            <Column
+            <Column<TCard>
               key={column.id}
               index={index}
               renderCard={renderCard}
@@ -88,19 +88,19 @@ export const BoardContainer: FC<Props> = ({
 export interface OnDragEnd<TSubject> extends Partial<Coordinates> {
   subject: TSubject
 }
-interface Props {
-  children: KanbanBoard
-  renderCard: RenderCard
+interface Props<TCard extends Card> {
+  children: KanbanBoard<TCard>
+  renderCard: RenderCard<TCard>
   disableColumnDrag: boolean
   disableCardDrag: boolean
-  renderColumnHeader: (column: ColumnType) => JSX.Element
+  renderColumnHeader: (column: ColumnType<TCard>) => JSX.Element
   renderColumnAdder: () => JSX.Element | null
   allowRemoveColumn: boolean
-  onColumnRemove?: (column: ColumnType) => void
+  onColumnRemove?: (column: ColumnType<TCard>) => void
   allowRenameColumn: boolean
-  onColumnRename?: (column: ColumnType, title: string) => void
-  onColumnDragEnd: (event: OnDragEnd<ColumnType>) => void
-  onCardDragEnd: (event: OnDragEnd<Card>) => void
-  onCardNew: (column: ColumnType, card: Card) => void | Promise<void>
+  onColumnRename?: (column: ColumnType<TCard>, title: string) => void
+  onColumnDragEnd: (event: OnDragEnd<ColumnType<TCard>>) => void
+  onCardDragEnd: (event: OnDragEnd<TCard>) => void
+  onCardNew: (column: ColumnType<TCard>, card: TCard) => void | Promise<void>
   allowAddCard: boolean
 }

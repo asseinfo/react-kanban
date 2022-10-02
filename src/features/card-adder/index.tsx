@@ -1,10 +1,10 @@
-import { FC, useState } from 'react'
+import { useState } from 'react'
 
 import { Card, Column } from '@/types'
 import { CardForm } from './components'
 
-export const CardAdder: FC<Props> = ({ column, onConfirm }) => {
-  function confirmCard(card: Card) {
+export const CardAdder = function <TCard extends Card>({ column, onConfirm }: Props<TCard>) {
+  function confirmCard(card: TCard) {
     onConfirm(column, card)
     setAddingCard(false)
   }
@@ -24,9 +24,7 @@ export const CardAdder: FC<Props> = ({ column, onConfirm }) => {
   )
 }
 
-type OnConfirm = (column: Column, card: Card) => void
-
-interface Props {
-  column: Column
-  onConfirm: OnConfirm
+interface Props<TCard extends Card> {
+  column: Column<TCard>
+  onConfirm: (column: Column<TCard>, card: TCard) => void
 }
