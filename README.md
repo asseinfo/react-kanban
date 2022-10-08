@@ -1,4 +1,15 @@
-[![Maintainability](https://api.codeclimate.com/v1/badges/c602758e03850fdb8b64/maintainability)](https://codeclimate.com/github/lourenci/react-kanban/maintainability)
+## 🔴🔴🔴 THIS PROJECT IS DEPRECATED 🔴🔴🔴
+
+Unfortunately this project is deprecated and it is not maintained anymore.
+
+In the past, our core product was using `react-kanban` and indirectly we were improving this project. But nowadays we replaced it for another internal simplier version.
+
+As a small dev team, it's impossible for us to continue improving both sources without an external help.
+
+This source is going to continue available here, but, unfortunately, none effort is going to be done to improve the project.
+
+## react-kanban
+
 [![Test Coverage](https://codecov.io/gh/lourenci/react-kanban/branch/main/graph/badge.svg)](https://codecov.io/gh/lourenci/react-kanban)
 [![Build Status](https://github.com/lourenci/react-kanban/workflows/Test/badge.svg?branch=main)](https://github.com/lourenci/react-kanban/actions?query=branch%3Amain+workflow%3ATest)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
